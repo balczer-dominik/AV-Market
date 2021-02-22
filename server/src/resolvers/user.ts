@@ -11,6 +11,7 @@ import {
   USERNAME_TAKEN,
   USER_NOT_FOUND,
 } from "../resource/strings";
+import { COOKIE_NAME } from "../constants";
 
 @Resolver(User)
 export class UserResolver {
@@ -110,5 +111,20 @@ export class UserResolver {
     return {
       user,
     };
+  }
+
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req, res }: MyContext) {
+    return new Promise((resolve) => {
+      req.session.destroy((err) => {
+        res.clearCookie(COOKIE_NAME);
+        if (err) {
+          resolve(false);
+          console.log(err);
+          return;
+        }
+        resolve(true);
+      });
+    });
   }
 }
