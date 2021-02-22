@@ -5,7 +5,7 @@
 **Back-end**
 - Node.JS
 - Express
-- PostgreSQL DB + Grapql
+- PostgreSQL DB + Graphql
 - TypeORM, type-graphql
 - Apollo
 - Redis
