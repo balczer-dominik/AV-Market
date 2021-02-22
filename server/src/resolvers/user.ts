@@ -6,7 +6,11 @@ import { MyContext } from "../types";
 import { validateRegister } from "../validators/validateRegister";
 import argon2 from "argon2";
 import { getConnection } from "typeorm";
-import { UNKNOWN_ERROR_SERVER, USERNAME_TAKEN } from "../resource/strings";
+import {
+  UNKNOWN_ERROR_SERVER,
+  USERNAME_TAKEN,
+  USER_NOT_FOUND,
+} from "../resource/strings";
 
 @Resolver(User)
 export class UserResolver {
@@ -49,16 +53,62 @@ export class UserResolver {
         };
       }
 
-      return { errors: [
+      return {
+        errors: [
           {
-              field: "username",
-              message: UNKNOWN_ERROR_SERVER
-          }
-      ]}
+            field: "username",
+            message: UNKNOWN_ERROR_SERVER,
+          },
+        ],
+      };
     }
 
     req.session.userId = user.id;
 
-    return { user,}
+    return { user };
+  }
+
+  @Mutation(() => UserResponse)
+  async login(
+    @Arg("usernameOrEmail") usernameOrEmail: string,
+    @Arg("password") password: string,
+    @Ctx() { req }: MyContext
+  ): Promise<UserResponse> {
+    const user = await User.findOne(
+      usernameOrEmail.includes("@")
+        ? { where: { email: usernameOrEmail } }
+        : { where: { username: usernameOrEmail } }
+    );
+
+    //No user
+    if (!user) {
+      return {
+        errors: [
+          {
+            field: "usernameOrEmail",
+            message: USER_NOT_FOUND,
+          },
+        ],
+      };
+    }
+
+    //Password validation
+    const valid = await argon2.verify(user.password, password);
+    if (!valid) {
+      return {
+        errors: [
+          {
+            field: "password",
+            message: "Incorrect password.",
+          },
+        ],
+      };
+    }
+
+    req.session.userId = user.id;
+
+    return {
+      user,
+    };
   }
 }

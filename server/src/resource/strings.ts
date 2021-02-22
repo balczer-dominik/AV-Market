@@ -4,3 +4,4 @@ export const USERNAME_CONTAINS_FORBIDDEN = "A felhasználónévben nem megengede
 export const PASSWORD_TOO_SHORT = "A jelszónak legalább 8 karakterből kell állnia."
 export const USERNAME_TAKEN = "Ez a felhasználónév már foglalt."
 export const UNKNOWN_ERROR_SERVER = "Ismeretlen hiba történt a szerveren."
+export const USER_NOT_FOUND = "Nincsen ilyen felhasználó."
