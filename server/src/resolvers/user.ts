@@ -1,5 +1,5 @@
 import { User } from "../entities/User";
-import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
+import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { UserResponse } from "../entities/util/UserResponse";
 import { UsernamePasswordInput } from "../entities/util/UsernamePasswordInput";
 import { MyContext } from "../types";
@@ -126,5 +126,14 @@ export class UserResolver {
         resolve(true);
       });
     });
+  }
+
+  @Query(() => User, {nullable: true})
+  me(@Ctx() {req}: MyContext){
+      if(!req.session.userId){
+          return null
+      }
+
+      return User.findOne(req.session.userId);
   }
 }
