@@ -6,7 +6,7 @@ import express from "express";
 import session from "express-session";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
-import { __prod__ } from "./constants";
+import { COOKIE_NAME, __prod__ } from "./constants";
 import { User } from "./entities/User";
 import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
@@ -40,9 +40,21 @@ const main = async () => {
   app.use(
     session({
       name: COOKIE_NAME,
-      store: new RedisSto
+      store: new RedisStore({
+        client: redis,
+        disableTouch: true,
+      }),
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+        httpOnly: true,
+        sameSite: "lax",
+        secure: __prod__,
+      },
+      secret: "55555555555fffffffffff",
+      resave: false,
+      saveUninitialized: false,
     })
-  )
+  );
 
   //Apollo
   const apolloServer = new ApolloServer({
@@ -71,4 +83,4 @@ const main = async () => {
   });
 };
 
-main();
+main()
