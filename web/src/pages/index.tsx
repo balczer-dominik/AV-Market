@@ -1,3 +1,4 @@
+import { withUrqlClient } from "next-urql";
 import React from "react";
 import {
   Navbar,
@@ -7,12 +8,14 @@ import {
   Form,
   FormControl,
 } from "react-bootstrap";
+import { Layout } from "../components/Layout";
 import { NavBar } from "../components/navbar/NavBar";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => (
-  <>
-    <NavBar /> <div>Hello World</div>
-  </>
+  <Layout>
+    <div>Hello World</div>
+  </Layout>
 );
 
-export default Index;
+export default withUrqlClient(createUrqlClient, { ssr: true })(Index);

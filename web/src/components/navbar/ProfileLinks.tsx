@@ -1,7 +1,16 @@
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import React from "react";
+import { useMeQuery } from "../../generated/graphql";
+import { FaUserPlus } from "react-icons/fa";
+import { BiLogIn } from "react-icons/bi";
+import NextLink from "next/link";
 
 export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
+  const [{ data, fetching }] = useMeQuery();
+  console.log(data);
+
+  let content = null;
+
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
@@ -16,7 +25,35 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
         justify={["flex-start", "flex-start", "flex-end", "flex-end"]}
         direction={["column", "row", "row", "row"]}
       >
-        <Text>Sample User</Text>
+        {fetching ? (
+          "..."
+        ) : data?.me ? (
+          <Text>{data.me.username}</Text>
+        ) : (
+          <Flex justify="space-between">
+            <NextLink href="/register">
+              <Button
+                mr={5}
+                variant="solid"
+                bgColor="#777672"
+                color="white"
+                colorScheme="green"
+              >
+                <Icon as={FaUserPlus} mr={2} />
+                Regisztráció
+              </Button>
+            </NextLink>
+            <Button
+              variant="solid"
+              bgColor="#777672"
+              color="white"
+              colorScheme="blue"
+            >
+              <Icon as={BiLogIn} mr={2} />
+              Bejelentkezés
+            </Button>
+          </Flex>
+        )}
       </Stack>
     </Box>
   );

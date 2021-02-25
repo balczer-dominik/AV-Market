@@ -25,46 +25,44 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   const category = Categories[categoryName];
 
   return (
-    <>
-      <Box
-        py={{ base: 1, md: 4 }}
-        my={{ base: 2, md: 0 }}
-        onMouseEnter={() => {
-          isMobile || isOpen ? null : onToggle();
-        }}
-        onMouseLeave={() => {
-          isMobile || !isOpen ? null : onToggle();
-        }}
+    <Box
+      py={{ base: 1, md: 4 }}
+      my={{ base: 2, md: 0 }}
+      onMouseEnter={() => {
+        isMobile || isOpen ? null : onToggle();
+      }}
+      onMouseLeave={() => {
+        isMobile || !isOpen ? null : onToggle();
+      }}
+    >
+      <Icon
+        as={category.icon}
+        w={10}
+        h={10}
+        display={{ base: "none", md: "block" }}
+      />
+
+      <Flex
+        align="center"
+        onClick={onToggle}
+        display={{ base: "flex", md: "none" }}
       >
-        <Icon
-          as={category.icon}
-          w={10}
-          h={10}
-          display={{ base: "none", md: "block" }}
-        />
-
-        <Flex
-          align="center"
-          onClick={onToggle}
-          display={{ base: "flex", md: "none" }}
-        >
-          <Flex align="center">
-            <Icon as={category.icon} mr={2} />
-            <Text fontWeight="bold">{category.title}</Text>
-          </Flex>
-
-          <Icon
-            as={IoIosArrowDown}
-            ml={"auto"}
-            transform={isOpen ? null : "rotate(180deg)"}
-            transition={"0.3s"}
-          />
+        <Flex align="center">
+          <Icon as={category.icon} mr={2} />
+          <Text fontWeight="bold">{category.title}</Text>
         </Flex>
 
-        <Collapse in={isOpen}>
-          <CategoryDropDown category={category} />
-        </Collapse>
-      </Box>
-    </>
+        <Icon
+          as={IoIosArrowDown}
+          ml={"auto"}
+          transform={isOpen ? null : "rotate(180deg)"}
+          transition={"0.3s"}
+        />
+      </Flex>
+
+      <Collapse in={isOpen}>
+        <CategoryDropDown category={category} />
+      </Collapse>
+    </Box>
   );
 };
