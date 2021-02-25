@@ -20,7 +20,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   return (
     <>
       <Box
-        py={[0.5, 1, 4]}
+        py={{ base: 1, md: 4 }}
         onMouseEnter={() => {
           isMobile || isOpen ? null : onToggle();
         }}
@@ -28,8 +28,12 @@ export const MenuItem: React.FC<MenuItemProps> = ({
           isMobile || !isOpen ? null : onToggle();
         }}
       >
-        <Icon as={icon} w={10} h={10} display={["none", "block"]} />
-        <Text display={["block", "none"]} fontWeight="bold" onClick={onToggle}>
+        <Icon as={icon} w={10} h={10} display={{ base: "none", md: "block" }} />
+        <Text
+          display={{ base: "block", md: "none" }}
+          fontWeight="bold"
+          onClick={onToggle}
+        >
           {category.title}
         </Text>
         <Collapse in={isOpen}>

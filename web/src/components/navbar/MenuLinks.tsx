@@ -11,13 +11,13 @@ export const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
       flexBasis={{ base: "100%", md: "auto" }}
-      mb={[2, 0]}
+      mb={{ base: 2, md: 0 }}
     >
       <Stack
         spacing={3}
         align="left"
         justify={["flex-start", "flex-start", "flex-end", "flex-end"]}
-        direction={["column", "row", "row", "row"]}
+        direction={{ base: "column", md: "row" }}
       >
         <MenuItem icon={FaTools} category={"OTTHON"} />
         <MenuItem icon={FaDesktop} category={"SZAMTECH"} />

@@ -6,6 +6,9 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
       flexBasis={{ base: "100%", md: "auto" }}
+      mb={{ base: 4, md: 0 }}
+      pt={{ base: 4, md: 0 }}
+      borderTop={{ base: "1px solid", md: "none" }}
     >
       <Stack
         spacing={3}
