@@ -7,27 +7,25 @@ import { CategoryDropDown } from "./CategoryDropDown";
 
 interface MenuItemProps {
   icon: IconType;
-  categoryName: MainCategory;
+  category: MainCategory;
 }
 
 export const MenuItem: React.FC<MenuItemProps> = ({
-  children,
   icon,
-  categoryName,
+  category: categoryName,
 }) => {
   const { isOpen, onToggle } = useDisclosure();
-
-  let category = Categories[categoryName];
+  const category = Categories[categoryName];
 
   return (
     <>
       <Box
-        py={[1, 1, 4]}
+        py={[0.5, 1, 4]}
         onMouseEnter={() => {
-          isMobile ? null : onToggle();
+          isMobile || isOpen ? null : onToggle();
         }}
         onMouseLeave={() => {
-          isMobile ? null : onToggle();
+          isMobile || !isOpen ? null : onToggle();
         }}
       >
         <Icon as={icon} w={10} h={10} display={["none", "block"]} />

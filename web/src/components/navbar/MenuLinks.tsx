@@ -5,13 +5,13 @@ import { FaCar, FaDesktop, FaTools, FaTshirt } from "react-icons/fa";
 import { IoIosTennisball } from "react-icons/io";
 import { MdSmartphone } from "react-icons/md";
 import { MenuItem } from "./MenuItem";
-import { CategoryDropDown } from "./CategoryDropDown";
 
 export const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
       flexBasis={{ base: "100%", md: "auto" }}
+      mb={[2, 0]}
     >
       <Stack
         spacing={3}
@@ -19,13 +19,13 @@ export const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
         justify={["flex-start", "flex-start", "flex-end", "flex-end"]}
         direction={["column", "row", "row", "row"]}
       >
-        <MenuItem icon={FaTools} categoryName={"OTTHON"} />
-        <MenuItem icon={FaDesktop} categoryName={"SZAMTECH"} />
-        <MenuItem icon={MdSmartphone} categoryName={"MUSZAKI"} />
-        <MenuItem icon={FaTshirt} categoryName={"RUHAZAT"} />
-        <MenuItem icon={FaCar} categoryName={"JARMU"} />
-        <MenuItem icon={IoIosTennisball} categoryName={"SZABADIDO"} />
-        <MenuItem icon={BsFillHouseDoorFill} categoryName={"INGATLAN"} />
+        <MenuItem icon={FaTools} category={"OTTHON"} />
+        <MenuItem icon={FaDesktop} category={"SZAMTECH"} />
+        <MenuItem icon={MdSmartphone} category={"MUSZAKI"} />
+        <MenuItem icon={FaTshirt} category={"RUHAZAT"} />
+        <MenuItem icon={FaCar} category={"JARMU"} />
+        <MenuItem icon={IoIosTennisball} category={"SZABADIDO"} />
+        <MenuItem icon={BsFillHouseDoorFill} category={"INGATLAN"} />
       </Stack>
     </Box>
   );
