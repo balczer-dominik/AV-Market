@@ -12,7 +12,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
     <Box
       pos={["relative", "absolute"]}
       zIndex="1"
-      bgColor="#DAD4BE"
+      bg="rgba(218, 212, 190, 0.5)"
       display="block"
       w={230}
       px={3}
@@ -21,7 +21,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
     >
       <NextLink href={category.route}>
         <Link style={{ textDecoration: "none" }}>
-          <Text fontWeight="bold" display={["none", "block"]}>
+          <Text fontWeight="bold" display={["none", "block"]} my={3}>
             {category.title}
           </Text>
         </Link>
@@ -30,7 +30,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
       {category.subcategories.map((sc) => (
         <NextLink href={sc.route}>
           <Link style={{ textDecoration: "none" }}>
-            <Text>{sc.title}</Text>
+            <Text my={1}>{sc.title}</Text>
           </Link>
         </NextLink>
       ))}
