@@ -1,17 +1,24 @@
-import { Box, Collapse, Icon, useDisclosure, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Collapse,
+  Icon,
+  useDisclosure,
+  Text,
+  Flex,
+} from "@chakra-ui/react";
 import React from "react";
 import { isMobile } from "react-device-detect";
 import { IconType } from "react-icons";
 import { Categories, Category, MainCategory } from "./MenuRoutes";
 import { CategoryDropDown } from "./CategoryDropDown";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { CloseIcon } from "@chakra-ui/icons";
 
 interface MenuItemProps {
-  icon: IconType;
   category: MainCategory;
 }
 
 export const MenuItem: React.FC<MenuItemProps> = ({
-  icon,
   category: categoryName,
 }) => {
   const { isOpen, onToggle } = useDisclosure();
@@ -21,6 +28,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
     <>
       <Box
         py={{ base: 1, md: 4 }}
+        my={{ base: 2, md: 0 }}
         onMouseEnter={() => {
           isMobile || isOpen ? null : onToggle();
         }}
@@ -28,14 +36,31 @@ export const MenuItem: React.FC<MenuItemProps> = ({
           isMobile || !isOpen ? null : onToggle();
         }}
       >
-        <Icon as={icon} w={10} h={10} display={{ base: "none", md: "block" }} />
-        <Text
-          display={{ base: "block", md: "none" }}
-          fontWeight="bold"
+        <Icon
+          as={category.icon}
+          w={10}
+          h={10}
+          display={{ base: "none", md: "block" }}
+        />
+
+        <Flex
+          align="center"
           onClick={onToggle}
+          display={{ base: "flex", md: "none" }}
         >
-          {category.title}
-        </Text>
+          <Flex align="center">
+            <Icon as={category.icon} mr={2} />
+            <Text fontWeight="bold">{category.title}</Text>
+          </Flex>
+
+          <Icon
+            as={IoIosArrowDown}
+            ml={"auto"}
+            transform={isOpen ? null : "rotate(180deg)"}
+            transition={"0.3s"}
+          />
+        </Flex>
+
         <Collapse in={isOpen}>
           <CategoryDropDown category={category} />
         </Collapse>

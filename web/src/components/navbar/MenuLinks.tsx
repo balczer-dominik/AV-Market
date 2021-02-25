@@ -5,6 +5,7 @@ import { FaCar, FaDesktop, FaTools, FaTshirt } from "react-icons/fa";
 import { IoIosTennisball } from "react-icons/io";
 import { MdSmartphone } from "react-icons/md";
 import { MenuItem } from "./MenuItem";
+import { Categories } from "./MenuRoutes";
 
 export const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   return (
@@ -14,18 +15,18 @@ export const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
       mb={{ base: 2, md: 0 }}
     >
       <Stack
-        spacing={3}
+        spacing={{ base: 0, md: 4 }}
         align="left"
         justify={["flex-start", "flex-start", "flex-end", "flex-end"]}
         direction={{ base: "column", md: "row" }}
       >
-        <MenuItem icon={FaTools} category={"OTTHON"} />
-        <MenuItem icon={FaDesktop} category={"SZAMTECH"} />
-        <MenuItem icon={MdSmartphone} category={"MUSZAKI"} />
-        <MenuItem icon={FaTshirt} category={"RUHAZAT"} />
-        <MenuItem icon={FaCar} category={"JARMU"} />
-        <MenuItem icon={IoIosTennisball} category={"SZABADIDO"} />
-        <MenuItem icon={BsFillHouseDoorFill} category={"INGATLAN"} />
+        <MenuItem category={"OTTHON"} />
+        <MenuItem category={"SZAMTECH"} />
+        <MenuItem category={"MUSZAKI"} />
+        <MenuItem category={"RUHAZAT"} />
+        <MenuItem category={"JARMU"} />
+        <MenuItem category={"SZABADIDO"} />
+        <MenuItem category={"INGATLAN"} />
       </Stack>
     </Box>
   );
