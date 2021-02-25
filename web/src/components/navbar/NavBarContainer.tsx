@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import useScrollPosition from "@react-hook/window-scroll";
 import React from "react";
-import { Subcategory } from "./Subcategory";
+import { CategoryDropDown } from "./CategoryDropDown";
 
 export const NavBarContainer: React.FC = ({ children, ...props }) => {
   const scrollY = useScrollPosition(60);
