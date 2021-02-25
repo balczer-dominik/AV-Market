@@ -1,6 +1,7 @@
 import { HamburgerIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { Box, Icon, IconButton } from "@chakra-ui/react";
 import React from "react";
+import { REGULAR_BROWN } from "../../utils/colors";
 
 interface MenuToggleProps {
   toggle: () => void;
@@ -14,7 +15,7 @@ export const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => {
         <IconButton
           aria-label="Collapse navbar"
           as={SmallCloseIcon}
-          color="#777672"
+          color={REGULAR_BROWN}
         >
           Collapse
         </IconButton>
@@ -22,7 +23,7 @@ export const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => {
         <IconButton
           aria-label="Expand navbar"
           as={HamburgerIcon}
-          color="#777672"
+          color={REGULAR_BROWN}
         >
           Expand
         </IconButton>

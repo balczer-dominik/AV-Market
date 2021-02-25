@@ -4,6 +4,7 @@ import { useMeQuery } from "../../generated/graphql";
 import { FaUserPlus } from "react-icons/fa";
 import { BiLogIn } from "react-icons/bi";
 import NextLink from "next/link";
+import { REGULAR_BROWN } from "../../utils/colors";
 
 export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   const [{ data, fetching }] = useMeQuery();
@@ -35,7 +36,7 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
               <Button
                 mr={5}
                 variant="solid"
-                bgColor="#777672"
+                bgColor={REGULAR_BROWN}
                 color="white"
                 colorScheme="green"
               >
@@ -45,7 +46,7 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
             </NextLink>
             <Button
               variant="solid"
-              bgColor="#777672"
+              bgColor={REGULAR_BROWN}
               color="white"
               colorScheme="blue"
             >

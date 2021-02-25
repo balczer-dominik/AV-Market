@@ -13,7 +13,7 @@ import { NavBar } from "../components/navbar/NavBar";
 import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => (
-  <Layout>
+  <Layout variant="regular">
     <div>Hello World</div>
   </Layout>
 );
