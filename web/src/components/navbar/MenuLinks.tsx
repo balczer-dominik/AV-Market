@@ -1,4 +1,4 @@
-import { Box, Stack } from "@chakra-ui/react";
+import { Box, SlideFade, Stack } from "@chakra-ui/react";
 import React from "react";
 import { BsFillHouseDoorFill } from "react-icons/bs";
 import { FaCar, FaDesktop, FaTools, FaTshirt } from "react-icons/fa";
@@ -19,6 +19,9 @@ export const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
         align="left"
         justify={["flex-start", "flex-start", "flex-end", "flex-end"]}
         direction={{ base: "column", md: "row" }}
+        // height={{ base: isOpen ? "auto" : "0px", md: "auto" }}
+        // opacity={{ base: isOpen ? null : "0", md: null }}
+        // transition={{ base: "all 0.1s linear", md: "none" }}
       >
         <MenuItem category={"OTTHON"} />
         <MenuItem category={"SZAMTECH"} />
