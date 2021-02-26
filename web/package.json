@@ -24,7 +24,8 @@
     "react-device-detect": "^1.15.0",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
-    "urql": "^2.0.1"
+    "urql": "^2.0.1",
+    "yup": "^0.32.9"
   },
   "license": "MIT",
   "devDependencies": {

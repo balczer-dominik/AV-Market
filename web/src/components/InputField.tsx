@@ -4,15 +4,22 @@ import {
   FormControl,
   FormLabel,
   Input,
-  FormErrorMessage,
   InputGroup,
   InputLeftElement,
   Icon,
   FormHelperText,
   Tooltip,
+  InputRightElement,
+  useDisclosure,
+  IconButton,
 } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { REGULAR_BROWN } from "../utils/colors";
+import {
+  LIGHTER_REGULAR_BROWN,
+  LIGHTEST_REGULAR_BROWN,
+  REGULAR_BROWN,
+} from "../utils/colors";
+import { FaEye } from "react-icons/fa";
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
@@ -20,6 +27,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   textarea?: boolean;
   icon?: IconType;
   hint?: string;
+  password?: boolean;
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -27,9 +35,11 @@ export const InputField: React.FC<InputFieldProps> = ({
   size: _,
   icon,
   hint,
+  password = false,
   ...props
 }) => {
   const [field, { error }] = useField(props);
+  const { isOpen: showPassword, onToggle: togglePassword } = useDisclosure();
   return (
     <FormControl isInvalid={!!error} mt={4}>
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
@@ -42,17 +52,34 @@ export const InputField: React.FC<InputFieldProps> = ({
         placement="top-end"
       >
         <InputGroup>
-          <Input {...field} {...props} id={field.name} />
+          <Input
+            {...field}
+            {...props}
+            type={password && !showPassword ? "password" : "text"}
+            id={field.name}
+          />
           {icon ? (
             <InputLeftElement>
               <Icon as={icon} />
             </InputLeftElement>
           ) : null}
+          {password ? (
+            <InputRightElement>
+              <Icon
+                color={
+                  showPassword ? LIGHTER_REGULAR_BROWN : LIGHTEST_REGULAR_BROWN
+                }
+                aria-label={"Jelszó megjelenítése."}
+                as={FaEye}
+                onClick={togglePassword}
+              />
+            </InputRightElement>
+          ) : null}
         </InputGroup>
       </Tooltip>
 
       {hint ? (
-        <FormHelperText color={REGULAR_BROWN}>{hint}</FormHelperText>
+        <FormHelperText color={LIGHTER_REGULAR_BROWN}>{hint}</FormHelperText>
       ) : null}
     </FormControl>
   );

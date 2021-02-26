@@ -24,6 +24,7 @@ import { InputField } from "../components/InputField";
 import { RiLockPasswordFill, RiLockPasswordLine } from "react-icons/ri";
 import { useRegisterMutation } from "../generated/graphql";
 import { toErrorMap } from "../utils/toErrorMap";
+import { RegisterValidator } from "../utils/validators";
 
 interface registerProps {}
 
@@ -44,6 +45,7 @@ export const register: React.FC<registerProps> = ({}) => {
             password: "",
             passwordConfirm: "",
           }}
+          validationSchema={RegisterValidator}
           onSubmit={async ({ username, email, password }, { setErrors }) => {
             const response = await register({
               options: { username, email, password },
@@ -78,7 +80,7 @@ export const register: React.FC<registerProps> = ({}) => {
                 name="password"
                 placeholder="**********"
                 label="Jelszó"
-                type="password"
+                password
                 icon={RiLockPasswordFill}
                 hint="Olyan jelszavat adjon meg amelyet még nem használ máshol."
               />
