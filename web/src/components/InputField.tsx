@@ -20,6 +20,7 @@ import {
   REGULAR_BROWN,
 } from "../utils/colors";
 import { FaEye } from "react-icons/fa";
+import { HIDE_PASSWORD, SHOW_PASSWORD } from "../utils/strings";
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
@@ -64,16 +65,26 @@ export const InputField: React.FC<InputFieldProps> = ({
             </InputLeftElement>
           ) : null}
           {password ? (
-            <InputRightElement>
-              <Icon
-                color={
-                  showPassword ? LIGHTER_REGULAR_BROWN : LIGHTEST_REGULAR_BROWN
-                }
-                aria-label={"Jelszó megjelenítése."}
-                as={FaEye}
-                onClick={togglePassword}
-              />
-            </InputRightElement>
+            <Tooltip
+              label={showPassword ? HIDE_PASSWORD : SHOW_PASSWORD}
+              placement="bottom-end"
+              closeOnClick={false}
+              color="white"
+              bg={LIGHTER_REGULAR_BROWN}
+            >
+              <InputRightElement>
+                <Icon
+                  color={
+                    showPassword
+                      ? LIGHTER_REGULAR_BROWN
+                      : LIGHTEST_REGULAR_BROWN
+                  }
+                  aria-label={"Jelszó megjelenítése."}
+                  as={FaEye}
+                  onClick={togglePassword}
+                />
+              </InputRightElement>
+            </Tooltip>
           ) : null}
         </InputGroup>
       </Tooltip>

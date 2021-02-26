@@ -3,6 +3,13 @@ import React from "react";
 import { Category } from "./MenuRoutes";
 import NextLink from "next/link";
 import { CloseIcon } from "@chakra-ui/icons";
+import {
+  LIGHTER_REGULAR_BROWN,
+  LIGHTER_REGULAR_LIGHT_BROWN,
+  LIGHTEST_REGULAR_BROWN,
+  REGULAR_BROWN,
+  SEE_THROUGH_REGULAR_LIGHT_BROWN,
+} from "../../utils/colors";
 
 interface SubcategoryProps {
   category: Category;
@@ -12,8 +19,11 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
   return (
     <Box
       pos={{ base: "relative", md: "absolute" }}
-      zIndex="1"
-      bg={{ base: "#e3deca", md: "rgba(218, 212, 190, 0.5)" }}
+      zIndex={3}
+      bg={{
+        base: LIGHTER_REGULAR_LIGHT_BROWN,
+        md: SEE_THROUGH_REGULAR_LIGHT_BROWN,
+      }}
       display="block"
       w={{ base: "100%", md: 230 }}
       px={3}
@@ -33,7 +43,11 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
       </NextLink>
 
       {category.subcategories.map((sc) => (
-        <Flex align="center">
+        <Flex
+          align="center"
+          color={{ base: REGULAR_BROWN, md: LIGHTER_REGULAR_BROWN }}
+          _hover={{ color: REGULAR_BROWN }}
+        >
           <Icon as={sc.icon ?? CloseIcon} mr={2} />
           <NextLink href={sc.route}>
             <Link style={{ textDecoration: "none" }}>

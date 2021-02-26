@@ -1,28 +1,24 @@
+import { Button, Heading, Stack, Text } from "@chakra-ui/react";
+import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
-import React from "react";
-import { Layout } from "../components/Layout";
-import { createUrqlClient } from "../utils/createUrqlClient";
-import {
-  Box,
-  Button,
-  Heading,
-  Icon,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { CheckIcon, PhoneIcon } from "@chakra-ui/icons";
+import React from "react";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { REGULAR_BROWN } from "../utils/colors";
-import { Form, Formik } from "formik";
+import { RiLockPasswordFill } from "react-icons/ri";
 import { InputField } from "../components/InputField";
-import { RiLockPasswordFill, RiLockPasswordLine } from "react-icons/ri";
+import { Layout } from "../components/Layout";
 import { useRegisterMutation } from "../generated/graphql";
+import { LIGHTER_REGULAR_BROWN, REGULAR_BROWN } from "../utils/colors";
+import { createUrqlClient } from "../utils/createUrqlClient";
+import {
+  CONFIRM_PASSWORD_LABEL,
+  EMAIL_LABEL_REQUIRED,
+  PASSWORD_HINT,
+  PASSWORD_LABEL_REQUIRED,
+  REQUIRED_FIELDS_HINT,
+  USERNAME_LABEL_REQUIRED,
+} from "../utils/strings";
 import { toErrorMap } from "../utils/toErrorMap";
 import { RegisterValidator } from "../utils/validators";
 
@@ -34,10 +30,14 @@ export const register: React.FC<registerProps> = ({}) => {
   return (
     <Layout variant="small">
       <Stack spacing={4} px={2}>
-        <Heading fontSize={"5xl"} textAlign="center" verticalAlign="center">
+        <Heading
+          fontSize={"5xl"}
+          textAlign="center"
+          verticalAlign="center"
+          mb={5}
+        >
           Regisztráció
         </Heading>
-
         <Formik
           initialValues={{
             email: "",
@@ -62,32 +62,36 @@ export const register: React.FC<registerProps> = ({}) => {
         >
           {({ isSubmitting }) => (
             <Form>
+              <Text color={LIGHTER_REGULAR_BROWN}>{REQUIRED_FIELDS_HINT}</Text>
+
               <InputField
                 name="username"
                 placeholder="felhasznalonev123"
-                label="Felhasználónév"
+                label={USERNAME_LABEL_REQUIRED}
                 icon={FaUser}
+                hint=""
               />
 
               <InputField
                 name="email"
                 placeholder="pelda@gmail.com"
-                label="E-mail cím"
+                label={EMAIL_LABEL_REQUIRED}
                 icon={MdEmail}
               />
 
               <InputField
                 name="password"
                 placeholder="**********"
-                label="Jelszó"
+                label={PASSWORD_LABEL_REQUIRED}
                 password
                 icon={RiLockPasswordFill}
-                hint="Olyan jelszavat adjon meg amelyet még nem használ máshol."
+                hint={PASSWORD_HINT}
               />
               <InputField
                 name="passwordConfirm"
                 placeholder="**********"
-                label="Jelszó ismét"
+                label={CONFIRM_PASSWORD_LABEL}
+                password
                 type="password"
                 icon={RiLockPasswordFill}
               />
