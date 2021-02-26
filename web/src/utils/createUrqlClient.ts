@@ -1,10 +1,6 @@
-import {
-  cacheExchange,
-  dedupExchange,
-  errorExchange,
-  fetchExchange,
-  ssrExchange,
-} from "urql";
+import { cacheExchange } from "@urql/exchange-graphcache";
+import { dedupExchange, fetchExchange } from "urql";
+import { cacheExchanges } from "./cacheExchanges";
 
 export const createUrqlClient = (ssrExchange: any, ctx: any) => {
   return {
@@ -12,6 +8,11 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
     fetchOptions: {
       credentials: "include" as const,
     },
-    exchanges: [dedupExchange, ssrExchange, fetchExchange],
+    exchanges: [
+      dedupExchange,
+      ssrExchange,
+      fetchExchange,
+      cacheExchange(cacheExchanges),
+    ],
   };
 };

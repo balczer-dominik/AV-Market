@@ -28,3 +28,5 @@ export const PASSWORD_HINT =
   "Olyan jelszavat adjon meg amelyet még nem használ máshol.";
 export const REQUIRED_FIELDS_HINT =
   "* A csillaggal jelölt mezők kitöltése kötelező.";
+export const REGISTER_SUCCESS_LABEL = "Sikeres regisztráció";
+export const REGISTER_SUCCESS_DESC = "Átirányítottuk a főoldalra.";

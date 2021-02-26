@@ -86,6 +86,20 @@ export type RegularUserResponseFragment = (
   )> }
 );
 
+export type LoginMutationVariables = Exact<{
+  usernameOrEmail: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & { login: (
+    { __typename?: 'UserResponse' }
+    & RegularUserResponseFragment
+  ) }
+);
+
 export type RegisterMutationVariables = Exact<{
   options: UsernamePasswordInput;
 }>;
@@ -133,6 +147,17 @@ export const RegularUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
+export const LoginDocument = gql`
+    mutation Login($usernameOrEmail: String!, $password: String!) {
+  login(usernameOrEmail: $usernameOrEmail, password: $password) {
+    ...RegularUserResponse
+  }
+}
+    ${RegularUserResponseFragmentDoc}`;
+
+export function useLoginMutation() {
+  return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+};
 export const RegisterDocument = gql`
     mutation Register($options: UsernamePasswordInput!) {
   register(options: $options) {

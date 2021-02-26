@@ -13,6 +13,7 @@ import { Categories, Category, MainCategory } from "./MenuRoutes";
 import { CategoryDropDown } from "./CategoryDropDown";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { CloseIcon } from "@chakra-ui/icons";
+import { DARKER_REGULAR_BROWN, REGULAR_BROWN } from "../../utils/colors";
 
 interface MenuItemProps {
   category: MainCategory;
@@ -40,6 +41,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         w={10}
         h={10}
         display={{ base: "none", md: "block" }}
+        color={isOpen ? DARKER_REGULAR_BROWN : REGULAR_BROWN}
       />
 
       <Flex

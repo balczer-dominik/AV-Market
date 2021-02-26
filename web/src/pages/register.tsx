@@ -1,4 +1,4 @@
-import { Button, Heading, Stack, Text } from "@chakra-ui/react";
+import { Button, Heading, Stack, Text, useToast } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
@@ -16,6 +16,8 @@ import {
   EMAIL_LABEL_REQUIRED,
   PASSWORD_HINT,
   PASSWORD_LABEL_REQUIRED,
+  REGISTER_SUCCESS_DESC,
+  REGISTER_SUCCESS_LABEL,
   REQUIRED_FIELDS_HINT,
   USERNAME_LABEL_REQUIRED,
 } from "../utils/strings";
@@ -25,6 +27,7 @@ import { RegisterValidator } from "../utils/validators";
 interface registerProps {}
 
 export const register: React.FC<registerProps> = ({}) => {
+  const successToast = useToast();
   const router = useRouter();
   const [, register] = useRegisterMutation();
   return (
@@ -56,6 +59,13 @@ export const register: React.FC<registerProps> = ({}) => {
             }
 
             if (response.data?.register.user) {
+              successToast({
+                title: REGISTER_SUCCESS_LABEL,
+                description: REGISTER_SUCCESS_DESC,
+                status: "success",
+                duration: 3000,
+                position: "bottom-left",
+              });
               router.push("/");
             }
           }}
