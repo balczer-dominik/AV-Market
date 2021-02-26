@@ -4,7 +4,7 @@ import React from "react";
 
 export const Title: React.FC = () => {
   return (
-    <Box w="220px" py={3}>
+    <Box py={3}>
       <Heading fontSize="25px">
         <NextLink href="/">
           <Link style={{ textDecoration: "none" }}>

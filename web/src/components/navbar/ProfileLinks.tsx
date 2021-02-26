@@ -5,9 +5,10 @@ import { FaUserPlus } from "react-icons/fa";
 import { BiLogIn } from "react-icons/bi";
 import NextLink from "next/link";
 import { REGULAR_BROWN } from "../../utils/colors";
+import { isServer } from "../../utils/isServer";
 
 export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
-  const [{ data, fetching }] = useMeQuery();
+  const [{ data, fetching }] = useMeQuery({ pause: isServer() });
   console.log(data);
 
   let content = null;
