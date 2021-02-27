@@ -6,6 +6,7 @@ import {
   PASSWORD_DOESNT_CONTAIN_CAPITAL,
   PASSWORD_TOO_LONG,
   PASSWORD_TOO_SHORT,
+  USERNAME_CONTAINS_FORBIDDEN,
   USERNAME_TOO_LONG,
   USERNAME_TOO_SHORT,
 } from "./strings";
@@ -15,7 +16,8 @@ export const RegisterValidator = Yup.object().shape({
   username: Yup.string()
     .required(FIELD_REQUIRED)
     .min(5, USERNAME_TOO_SHORT)
-    .max(20, USERNAME_TOO_LONG),
+    .max(20, USERNAME_TOO_LONG)
+    .matches(/^[a-zA-Z0-9]{5,20}$/, USERNAME_CONTAINS_FORBIDDEN),
   password: Yup.string()
     .required(FIELD_REQUIRED)
     .min(8, PASSWORD_TOO_SHORT)

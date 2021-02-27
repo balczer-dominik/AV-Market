@@ -30,6 +30,7 @@ import {
   LOGIN_SUCCESS_LABEL,
   PASSWORD_LABEL,
   USERNAME_LABEL,
+  USERNAME_OR_EMAIL_LABEL,
   WELCOME_USER,
 } from "../utils/strings";
 import { toErrorMap } from "../utils/toErrorMap";
@@ -49,7 +50,7 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent bgColor={"white"}>
+      <ModalContent bgColor={"white"} mx={5}>
         <ModalHeader
           bgColor={REGULAR_LIGHT_BROWN}
           color={REGULAR_DARK_BROWN}
@@ -93,7 +94,7 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
               <Form>
                 <InputField
                   name="usernameOrEmail"
-                  label={USERNAME_LABEL}
+                  label={USERNAME_OR_EMAIL_LABEL}
                   icon={FaUser}
                 />
                 <InputField
@@ -103,7 +104,7 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
                   password
                 />
 
-                <Flex mt={4} justify="space-between">
+                <Flex mt={6} justify="space-between">
                   <RegularButton spinner={isSubmitting}>
                     {LOGIN_LABEL}
                   </RegularButton>

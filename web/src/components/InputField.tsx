@@ -1,4 +1,5 @@
 import {
+  Box,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -26,7 +27,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   name: string;
   textarea?: boolean;
   icon?: IconType;
-  hint?: string;
+  hint?: string[];
   password?: boolean;
 };
 
@@ -95,7 +96,13 @@ export const InputField: React.FC<InputFieldProps> = ({
       </Tooltip>
 
       {hint ? (
-        <FormHelperText color={LIGHTER_REGULAR_BROWN}>{hint}</FormHelperText>
+        <Box mt={1}>
+          {hint.map((h) => (
+            <FormHelperText mt={0} color={LIGHTER_REGULAR_BROWN}>
+              {h}
+            </FormHelperText>
+          ))}
+        </Box>
       ) : null}
     </FormControl>
   );

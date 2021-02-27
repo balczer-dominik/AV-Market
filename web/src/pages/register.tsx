@@ -19,7 +19,9 @@ import {
   PASSWORD_LABEL_REQUIRED,
   REDIRECT_MESSAGE,
   REGISTER_BUTTON_LABEL,
+  REGISTER_PASSWORD_HINT,
   REGISTER_SUCCESS_LABEL,
+  REGISTER_USERNAME_HINT,
   REQUIRED_FIELDS_HINT,
   USERNAME_LABEL_REQUIRED,
 } from "../utils/strings";
@@ -81,7 +83,7 @@ export const register: React.FC<registerProps> = ({}) => {
                 placeholder="felhasznalonev123"
                 label={USERNAME_LABEL_REQUIRED}
                 icon={FaUser}
-                hint=""
+                hint={[REGISTER_USERNAME_HINT]}
               />
 
               <InputField
@@ -97,7 +99,7 @@ export const register: React.FC<registerProps> = ({}) => {
                 label={PASSWORD_LABEL_REQUIRED}
                 password
                 icon={RiLockPasswordFill}
-                hint={PASSWORD_HINT}
+                hint={[REGISTER_PASSWORD_HINT, PASSWORD_HINT]}
               />
               <InputField
                 name="passwordConfirm"
