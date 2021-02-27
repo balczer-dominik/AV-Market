@@ -29,4 +29,11 @@ export const PASSWORD_HINT =
 export const REQUIRED_FIELDS_HINT =
   "* A csillaggal jelölt mezők kitöltése kötelező.";
 export const REGISTER_SUCCESS_LABEL = "Sikeres regisztráció";
-export const REGISTER_SUCCESS_DESC = "Átirányítottuk a főoldalra.";
+export const REDIRECT_MESSAGE = "Átirányítottuk a főoldalra.";
+export const LOGIN_LABEL = "Bejelentkezés";
+export const REGISTER_LABEL = "Regisztráció";
+export const LOGIN_SUCCESS_LABEL = "Sikeres bejelentkezés";
+export const WELCOME_USER = "Üdvözöljük, ";
+export const REGISTER_BUTTON_LABEL = "Regisztrálok";
+export const CANCEL_LABEL = "Mégsem";
+export const FORGOTTEN_PASSWORD_LABEL = "Elfelejtett jelszó";

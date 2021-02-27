@@ -3,55 +3,54 @@ import { AiFillTool } from "react-icons/ai";
 import { BsFillHouseDoorFill, BsFillHouseFill, BsLaptop } from "react-icons/bs";
 import { CgEthernet } from "react-icons/cg";
 import {
-    FaBicycle,
-    FaBook,
-    FaCamera,
-    FaCar,
-    FaChild,
-    FaDesktop,
-    FaDog,
-    FaFemale,
-    FaGuitar,
-    FaKey,
-    FaMale,
-    FaMemory,
-    FaMicrosoft,
-    FaMotorcycle,
-    FaRegKeyboard,
-    FaTools,
-    FaTractor,
-    FaTshirt,
-    FaTv
+  FaBicycle,
+  FaBook,
+  FaCamera,
+  FaCar,
+  FaChild,
+  FaDesktop,
+  FaDog,
+  FaFemale,
+  FaGuitar,
+  FaKey,
+  FaMale,
+  FaMemory,
+  FaMicrosoft,
+  FaMotorcycle,
+  FaRegKeyboard,
+  FaTools,
+  FaTractor,
+  FaTshirt,
+  FaTv,
 } from "react-icons/fa";
 import {
-    GiBedLamp,
-    GiBrickWall,
-    GiCarWheel,
-    GiComputerFan,
-    GiConsoleController,
-    GiFarmer,
-    GiHockey,
-    GiKitchenScale,
-    GiPostStamp
+  GiBedLamp,
+  GiBrickWall,
+  GiCarWheel,
+  GiComputerFan,
+  GiConsoleController,
+  GiFarmer,
+  GiHockey,
+  GiKitchenScale,
+  GiPostStamp,
 } from "react-icons/gi";
 import { HiCube } from "react-icons/hi";
 import { ImDisplay, ImPowerCord } from "react-icons/im";
 import { IoIosTennisball } from "react-icons/io";
 import { IoBoat, IoHardwareChip } from "react-icons/io5";
 import {
-    MdAirlineSeatFlat,
-
-    MdDevicesOther,
-    MdSmartphone,
-    MdTabletMac,
-    MdToys
+  MdAirlineSeatFlat,
+  MdDevicesOther,
+  MdSmartphone,
+  MdTabletMac,
+  MdToys,
 } from "react-icons/md";
 import {
-    RiArchiveDrawerFill,
-    RiCpuLine,
-    RiFridgeFill,
-    RiHardDrive2Fill,
-    RiPlantFill
+  RiArchiveDrawerFill,
+  RiCpuLine,
+  RiFridgeFill,
+  RiHardDrive2Fill,
+  RiPlantFill,
 } from "react-icons/ri";
 import { VscCircuitBoard } from "react-icons/vsc";
 

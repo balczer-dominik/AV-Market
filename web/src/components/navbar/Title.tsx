@@ -1,4 +1,4 @@
-import { Box, Heading, Link, Text, Image } from "@chakra-ui/react";
+import { Box, Heading, Image, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
 

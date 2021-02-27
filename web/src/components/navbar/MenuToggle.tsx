@@ -1,5 +1,5 @@
 import { HamburgerIcon, SmallCloseIcon } from "@chakra-ui/icons";
-import { Box, Icon, IconButton } from "@chakra-ui/react";
+import { Box, IconButton } from "@chakra-ui/react";
 import React from "react";
 import { REGULAR_BROWN } from "../../utils/colors";
 

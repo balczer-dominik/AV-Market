@@ -1,17 +1,29 @@
-import { Box, Button, Flex, Icon, Stack, Text } from "@chakra-ui/react";
-import React from "react";
-import { useMeQuery } from "../../generated/graphql";
-import { FaUserPlus } from "react-icons/fa";
-import { BiLogIn } from "react-icons/bi";
+import {
+  Box,
+  Button,
+  Flex,
+  Icon,
+  Stack,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
+import React from "react";
+import { BiLogIn } from "react-icons/bi";
+import { FaUserPlus } from "react-icons/fa";
+import { useMeQuery } from "../../generated/graphql";
 import { REGULAR_BROWN } from "../../utils/colors";
 import { isServer } from "../../utils/isServer";
+import { LOGIN_LABEL, REGISTER_LABEL } from "../../utils/strings";
+import { Login } from "../Login";
 
 export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   const [{ data, fetching }] = useMeQuery({ pause: isServer() });
-  console.log(data);
-
-  let content = null;
+  const {
+    isOpen: loginOpen,
+    onOpen: openLogin,
+    onClose: closeLogin,
+  } = useDisclosure();
 
   return (
     <Box
@@ -42,7 +54,7 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
                 colorScheme="green"
               >
                 <Icon as={FaUserPlus} mr={2} />
-                Regisztráció
+                {REGISTER_LABEL}
               </Button>
             </NextLink>
             <Button
@@ -50,13 +62,15 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
               bgColor={REGULAR_BROWN}
               color="white"
               colorScheme="blue"
+              onClick={openLogin}
             >
               <Icon as={BiLogIn} mr={2} />
-              Bejelentkezés
+              {LOGIN_LABEL}
             </Button>
           </Flex>
         )}
       </Stack>
+      <Login onClose={closeLogin} isOpen={loginOpen} />
     </Box>
   );
 };

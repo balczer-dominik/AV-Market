@@ -1,11 +1,6 @@
-import { Box, SlideFade, Stack } from "@chakra-ui/react";
+import { Box, Stack } from "@chakra-ui/react";
 import React from "react";
-import { BsFillHouseDoorFill } from "react-icons/bs";
-import { FaCar, FaDesktop, FaTools, FaTshirt } from "react-icons/fa";
-import { IoIosTennisball } from "react-icons/io";
-import { MdSmartphone } from "react-icons/md";
 import { MenuItem } from "./MenuItem";
-import { Categories } from "./MenuRoutes";
 
 export const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   return (

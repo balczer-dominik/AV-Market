@@ -1,4 +1,4 @@
-import { Button, Heading, Stack, Text, useToast } from "@chakra-ui/react";
+import { Heading, Stack, Text, useToast } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
@@ -8,15 +8,17 @@ import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
+import { RegularButton } from "../components/RegularButton";
 import { useRegisterMutation } from "../generated/graphql";
-import { LIGHTER_REGULAR_BROWN, REGULAR_BROWN } from "../utils/colors";
+import { LIGHTER_REGULAR_BROWN } from "../utils/colors";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import {
   CONFIRM_PASSWORD_LABEL,
   EMAIL_LABEL_REQUIRED,
   PASSWORD_HINT,
   PASSWORD_LABEL_REQUIRED,
-  REGISTER_SUCCESS_DESC,
+  REDIRECT_MESSAGE,
+  REGISTER_BUTTON_LABEL,
   REGISTER_SUCCESS_LABEL,
   REQUIRED_FIELDS_HINT,
   USERNAME_LABEL_REQUIRED,
@@ -61,9 +63,9 @@ export const register: React.FC<registerProps> = ({}) => {
             if (response.data?.register.user) {
               successToast({
                 title: REGISTER_SUCCESS_LABEL,
-                description: REGISTER_SUCCESS_DESC,
+                description: REDIRECT_MESSAGE,
                 status: "success",
-                duration: 3000,
+                duration: 5000,
                 position: "bottom-left",
               });
               router.push("/");
@@ -102,20 +104,12 @@ export const register: React.FC<registerProps> = ({}) => {
                 placeholder="**********"
                 label={CONFIRM_PASSWORD_LABEL}
                 password
-                type="password"
                 icon={RiLockPasswordFill}
               />
 
-              <Button
-                mt={4}
-                type="submit"
-                isLoading={isSubmitting}
-                background={REGULAR_BROWN}
-                colorScheme="green"
-                color="white"
-              >
-                Regisztrálok
-              </Button>
+              <RegularButton mt={4} spinner={isSubmitting}>
+                {REGISTER_BUTTON_LABEL}
+              </RegularButton>
             </Form>
           )}
         </Formik>

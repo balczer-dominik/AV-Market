@@ -1,25 +1,24 @@
-import React, { InputHTMLAttributes } from "react";
-import { useField } from "formik";
 import {
   FormControl,
+  FormHelperText,
   FormLabel,
+  Icon,
   Input,
   InputGroup,
   InputLeftElement,
-  Icon,
-  FormHelperText,
-  Tooltip,
   InputRightElement,
+  Tooltip,
   useDisclosure,
-  IconButton,
 } from "@chakra-ui/react";
+import { useField } from "formik";
+import React, { InputHTMLAttributes } from "react";
 import { IconType } from "react-icons";
+import { FaEye } from "react-icons/fa";
 import {
   LIGHTER_REGULAR_BROWN,
   LIGHTEST_REGULAR_BROWN,
-  REGULAR_BROWN,
+  REGULAR_DARK_BROWN,
 } from "../utils/colors";
-import { FaEye } from "react-icons/fa";
 import { HIDE_PASSWORD, SHOW_PASSWORD } from "../utils/strings";
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -43,7 +42,9 @@ export const InputField: React.FC<InputFieldProps> = ({
   const { isOpen: showPassword, onToggle: togglePassword } = useDisclosure();
   return (
     <FormControl isInvalid={!!error} mt={4}>
-      <FormLabel htmlFor={field.name}>{label}</FormLabel>
+      <FormLabel htmlFor={field.name} color={REGULAR_DARK_BROWN}>
+        {label}
+      </FormLabel>
       <Tooltip
         label={error}
         background="#e86471"
@@ -51,6 +52,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         isDisabled={!error}
         defaultIsOpen={!!error}
         placement="top-end"
+        isOpen={!!error}
       >
         <InputGroup>
           <Input
@@ -58,10 +60,13 @@ export const InputField: React.FC<InputFieldProps> = ({
             {...props}
             type={password && !showPassword ? "password" : "text"}
             id={field.name}
+            borderColor={LIGHTER_REGULAR_BROWN}
+            borderWidth={"0.15rem"}
+            _hover={{ borderColor: LIGHTEST_REGULAR_BROWN }}
           />
           {icon ? (
             <InputLeftElement>
-              <Icon as={icon} />
+              <Icon as={icon} color={LIGHTER_REGULAR_BROWN} />
             </InputLeftElement>
           ) : null}
           {password ? (

@@ -1,5 +1,5 @@
-import { Box, Flex, SlideFade, useDisclosure } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useDisclosure } from "@chakra-ui/react";
+import React from "react";
 import { MenuLinks } from "./MenuLinks";
 import { MenuToggle } from "./MenuToggle";
 import { NavBarContainer } from "./NavBarContainer";

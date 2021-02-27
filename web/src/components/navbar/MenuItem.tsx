@@ -1,19 +1,17 @@
 import {
   Box,
   Collapse,
-  Icon,
-  useDisclosure,
-  Text,
   Flex,
+  Icon,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
 import { isMobile } from "react-device-detect";
-import { IconType } from "react-icons";
-import { Categories, Category, MainCategory } from "./MenuRoutes";
-import { CategoryDropDown } from "./CategoryDropDown";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { CloseIcon } from "@chakra-ui/icons";
+import { IoIosArrowDown } from "react-icons/io";
 import { DARKER_REGULAR_BROWN, REGULAR_BROWN } from "../../utils/colors";
+import { CategoryDropDown } from "./CategoryDropDown";
+import { Categories, MainCategory } from "./MenuRoutes";
 
 interface MenuItemProps {
   category: MainCategory;

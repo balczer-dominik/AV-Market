@@ -1,15 +1,14 @@
-import { Box, Flex, Icon, Link, Text } from "@chakra-ui/react";
-import React from "react";
-import { Category } from "./MenuRoutes";
-import NextLink from "next/link";
 import { CloseIcon } from "@chakra-ui/icons";
+import { Box, Flex, Icon, Link, Text } from "@chakra-ui/react";
+import NextLink from "next/link";
+import React from "react";
 import {
   LIGHTER_REGULAR_BROWN,
   LIGHTER_REGULAR_LIGHT_BROWN,
-  LIGHTEST_REGULAR_BROWN,
   REGULAR_BROWN,
   SEE_THROUGH_REGULAR_LIGHT_BROWN,
 } from "../../utils/colors";
+import { Category } from "./MenuRoutes";
 
 interface SubcategoryProps {
   category: Category;
