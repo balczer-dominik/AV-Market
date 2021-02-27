@@ -1,7 +1,7 @@
 import { User } from "../entities/User";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { UserResponse } from "../entities/util/UserResponse";
-import { UsernamePasswordInput } from "../entities/util/UsernamePasswordInput";
+import { UserResponse } from "../util/UserResponse";
+import { UsernamePasswordInput } from "../util/UsernamePasswordInput";
 import { MyContext } from "../types";
 import { validateRegister } from "../validators/validateRegister";
 import argon2 from "argon2";
@@ -12,7 +12,11 @@ import {
   USERNAME_TAKEN,
   USER_NOT_FOUND,
 } from "../resource/strings";
-import { COOKIE_NAME } from "../constants";
+import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from "../constants";
+import { v4 } from "uuid";
+import { sendEmail } from "../util/sendMail";
+import { changePasswordEmail } from "../util/changePasswordEmail";
+import { FieldError } from "../util/FieldError";
 
 @Resolver(User)
 export class UserResolver {
@@ -112,6 +116,29 @@ export class UserResolver {
     return {
       user,
     };
+  }
+
+  @Mutation(() => FieldError, { nullable: true })
+  async forgotPassword(
+    @Arg("username") username: string,
+    @Ctx() { redis }: MyContext
+  ): Promise<FieldError | null> {
+    const user = await User.findOne({ where: { username } });
+
+    if (!user) return { field: "username", message: USER_NOT_FOUND };
+
+    const token = v4();
+
+    await redis.set(
+      FORGOT_PASSWORD_PREFIX + token,
+      user.id,
+      "ex",
+      1000 * 60 * 60 // 1 óra
+    );
+
+    await sendEmail(user.email, changePasswordEmail(token));
+
+    return null;
   }
 
   @Mutation(() => Boolean)

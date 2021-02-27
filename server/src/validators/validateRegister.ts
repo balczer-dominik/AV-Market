@@ -4,7 +4,7 @@ import {
   USERNAME_CONTAINS_FORBIDDEN,
   USERNAME_TOO_SHORT,
 } from "../resource/strings";
-import { UsernamePasswordInput } from "../entities/util/UsernamePasswordInput";
+import { UsernamePasswordInput } from "../util/UsernamePasswordInput";
 
 export const validateRegister = (options: UsernamePasswordInput) => {
   const errors = [];
