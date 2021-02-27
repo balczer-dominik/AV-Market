@@ -40,3 +40,4 @@ export const FORGOTTEN_PASSWORD_LABEL = "Elfelejtett jelszó";
 export const USERNAME_OR_EMAIL_LABEL = "Felhasználónév vagy e-mail";
 export const REGISTER_USERNAME_HINT = "5-20 karakter";
 export const REGISTER_PASSWORD_HINT = "8-32 karakter, legalább 1 nagy betű.";
+export const LOGOUT_LABEL = "Kijelentkezés";

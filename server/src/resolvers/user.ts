@@ -7,6 +7,7 @@ import { validateRegister } from "../validators/validateRegister";
 import argon2 from "argon2";
 import { getConnection } from "typeorm";
 import {
+  INCORRECT_PASSWORD,
   UNKNOWN_ERROR_SERVER,
   USERNAME_TAKEN,
   USER_NOT_FOUND,
@@ -100,7 +101,7 @@ export class UserResolver {
         errors: [
           {
             field: "password",
-            message: "Incorrect password.",
+            message: INCORRECT_PASSWORD,
           },
         ],
       };
@@ -128,12 +129,12 @@ export class UserResolver {
     });
   }
 
-  @Query(() => User, {nullable: true})
-  me(@Ctx() {req}: MyContext){
-      if(!req.session.userId){
-          return null
-      }
+  @Query(() => User, { nullable: true })
+  me(@Ctx() { req }: MyContext) {
+    if (!req.session.userId) {
+      return null;
+    }
 
-      return User.findOne(req.session.userId);
+    return User.findOne(req.session.userId);
   }
 }

@@ -3,18 +3,19 @@ import {
   Button,
   Flex,
   Icon,
+  IconButton,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
-import { BiLogIn } from "react-icons/bi";
+import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { FaUserPlus } from "react-icons/fa";
-import { useMeQuery } from "../../generated/graphql";
+import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 import { REGULAR_BROWN } from "../../utils/colors";
 import { isServer } from "../../utils/isServer";
-import { LOGIN_LABEL, REGISTER_LABEL } from "../../utils/strings";
+import { LOGIN_LABEL, LOGOUT_LABEL, REGISTER_LABEL } from "../../utils/strings";
 import { Login } from "../Login";
 
 export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
@@ -24,6 +25,7 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
     onOpen: openLogin,
     onClose: closeLogin,
   } = useDisclosure();
+  const [, logout] = useLogoutMutation();
 
   return (
     <Box
@@ -42,7 +44,17 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
         {fetching ? (
           "..."
         ) : data?.me ? (
-          <Text>{data.me.username}</Text>
+          <Flex align="center" justify="space-between">
+            <Text mr={4}>{data.me.username}</Text>
+            <Button
+              bgColor={REGULAR_BROWN}
+              onClick={() => {
+                logout();
+              }}
+            >
+              <Icon as={BiLogOut} color="white" />
+            </Button>
+          </Flex>
         ) : (
           <Flex justify="space-between">
             <NextLink href="/register">
