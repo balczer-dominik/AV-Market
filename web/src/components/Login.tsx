@@ -1,5 +1,4 @@
 import {
-  Button,
   Flex,
   Modal,
   ModalBody,
@@ -8,28 +7,19 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast,
-  Text,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useRef } from "react";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useLoginMutation } from "../generated/graphql";
+import { REGULAR_DARK_BROWN, REGULAR_LIGHT_BROWN } from "../utils/colors";
 import {
-  DARKER_REGULAR_BROWN,
-  LIGHTER_REGULAR_LIGHT_BROWN,
-  REGULAR_BROWN,
-  REGULAR_DARK_BROWN,
-  REGULAR_LIGHT_BROWN,
-} from "../utils/colors";
-import {
-  CANCEL_LABEL,
   FORGOTTEN_PASSWORD_LABEL,
   LOGIN_LABEL,
   LOGIN_SUCCESS_LABEL,
   PASSWORD_LABEL,
-  USERNAME_LABEL,
   USERNAME_OR_EMAIL_LABEL,
   WELCOME_USER,
 } from "../utils/strings";
@@ -46,9 +36,10 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
   const [, login] = useLoginMutation();
   const successToast = useToast();
   const router = useRouter();
+  const initialRef = useRef();
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef}>
       <ModalOverlay />
       <ModalContent bgColor={"white"} mx={5}>
         <ModalHeader
@@ -84,10 +75,10 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
                   duration: 5000,
                   position: "bottom-left",
                 });
-              }
 
-              onClose();
-              router.reload();
+                onClose();
+                router.reload();
+              }
             }}
           >
             {({ isSubmitting }) => (
@@ -96,6 +87,7 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
                   name="usernameOrEmail"
                   label={USERNAME_OR_EMAIL_LABEL}
                   icon={FaUser}
+                  ref={initialRef}
                 />
                 <InputField
                   name="password"

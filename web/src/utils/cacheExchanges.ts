@@ -1,6 +1,7 @@
 import { CacheExchangeOpts } from "@urql/exchange-graphcache/dist/types/cacheExchange";
 import {
   LoginMutation,
+  LogoutMutation,
   MeDocument,
   MeQuery,
   RegisterMutation,
@@ -10,7 +11,7 @@ import { betterUpdateQuery } from "./betterUpdateQuery";
 export const cacheExchanges: CacheExchangeOpts = {
   updates: {
     Mutation: {
-      register: (_result, args, cache, info) => {
+      register: (_result, _args, cache, _info) => {
         betterUpdateQuery<RegisterMutation, MeQuery>(
           cache,
           { query: MeDocument },
@@ -26,7 +27,7 @@ export const cacheExchanges: CacheExchangeOpts = {
           }
         );
       },
-      login: (_result, args, cache, info) => {
+      login: (_result, _args, cache, _info) => {
         betterUpdateQuery<LoginMutation, MeQuery>(
           cache,
           { query: MeDocument },
@@ -40,6 +41,14 @@ export const cacheExchanges: CacheExchangeOpts = {
               };
             }
           }
+        );
+      },
+      logout: (_result, _args, cache, _info) => {
+        betterUpdateQuery<LogoutMutation, MeQuery>(
+          cache,
+          { query: MeDocument },
+          _result,
+          () => ({ me: null })
         );
       },
     },

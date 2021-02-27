@@ -29,6 +29,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   icon?: IconType;
   hint?: string[];
   password?: boolean;
+  ref?: React.MutableRefObject<undefined>;
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -37,6 +38,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   icon,
   hint,
   password = false,
+  ref,
   ...props
 }) => {
   const [field, { error }] = useField(props);
@@ -57,13 +59,14 @@ export const InputField: React.FC<InputFieldProps> = ({
       >
         <InputGroup>
           <Input
-            {...field}
-            {...props}
+            ref={ref}
             type={password && !showPassword ? "password" : "text"}
             id={field.name}
             borderColor={LIGHTER_REGULAR_BROWN}
             borderWidth={"0.15rem"}
             _hover={{ borderColor: LIGHTEST_REGULAR_BROWN }}
+            {...field}
+            {...props}
           />
           {icon ? (
             <InputLeftElement>

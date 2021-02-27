@@ -9,23 +9,25 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { FaUserPlus } from "react-icons/fa";
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
-import { REGULAR_BROWN } from "../../utils/colors";
+import { LIGHTER_REGULAR_BROWN, REGULAR_BROWN } from "../../utils/colors";
 import { isServer } from "../../utils/isServer";
 import { LOGIN_LABEL, LOGOUT_LABEL, REGISTER_LABEL } from "../../utils/strings";
 import { Login } from "../Login";
 
 export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
-  const [{ data, fetching }] = useMeQuery({ pause: isServer() });
+  const [{ data, fetching: meFetching }] = useMeQuery({ pause: isServer() });
   const {
     isOpen: loginOpen,
     onOpen: openLogin,
     onClose: closeLogin,
   } = useDisclosure();
-  const [, logout] = useLogoutMutation();
+  const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
+  const router = useRouter();
 
   return (
     <Box
@@ -41,16 +43,19 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
         justify={["flex-start", "flex-start", "flex-end", "flex-end"]}
         direction={["column", "row", "row", "row"]}
       >
-        {fetching ? (
+        {meFetching ? (
           "..."
         ) : data?.me ? (
           <Flex align="center" justify="space-between">
             <Text mr={4}>{data.me.username}</Text>
             <Button
               bgColor={REGULAR_BROWN}
-              onClick={() => {
-                logout();
+              _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
+              onClick={async () => {
+                await logout();
+                router.reload();
               }}
+              isLoading={logoutFetching}
             >
               <Icon as={BiLogOut} color="white" />
             </Button>
@@ -63,7 +68,7 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
                 variant="solid"
                 bgColor={REGULAR_BROWN}
                 color="white"
-                colorScheme="green"
+                _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
               >
                 <Icon as={FaUserPlus} mr={2} />
                 {REGISTER_LABEL}
@@ -73,7 +78,7 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
               variant="solid"
               bgColor={REGULAR_BROWN}
               color="white"
-              colorScheme="blue"
+              _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
               onClick={openLogin}
             >
               <Icon as={BiLogIn} mr={2} />
