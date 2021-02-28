@@ -21,6 +21,10 @@ import {
   useGetUsersQuery,
   useUnbanUserMutation,
 } from "../../generated/graphql";
+import {
+  LIGHTER_REGULAR_BROWN,
+  LIGHTEST_REGULAR_BROWN,
+} from "../../utils/colors";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { isServer } from "../../utils/isServer";
 import { useIsAdmin } from "../../utils/useIsAdmin";
@@ -56,24 +60,32 @@ const Users: React.FC<UsersProps> = ({}) => {
             </Tbody>
           </Table>
           <Flex justify="space-between" my={10} align="center">
-            <Box>
+            <Flex w={"40%"} justify="flex-start">
               <Button
+                color={"white"}
+                bgColor={LIGHTER_REGULAR_BROWN}
+                _hover={{ bgColor: LIGHTEST_REGULAR_BROWN }}
                 display={page !== 0 ? "block" : "none"}
                 onClick={() => setPage(page - 1)}
               >
                 Previous page
               </Button>
+            </Flex>
+            <Box w={"20%"} textAlign="center">
+              <Text>Page {page + 1}</Text>
             </Box>
 
-            <Text>Page {page + 1}</Text>
-            <Box>
+            <Flex w={"40%"} justify="flex-end">
               <Button
+                bgColor={LIGHTER_REGULAR_BROWN}
+                _hover={{ bgColor: LIGHTEST_REGULAR_BROWN }}
+                color={"white"}
                 display={data?.getUsers.hasMore ? "block" : "none"}
                 onClick={() => setPage(page + 1)}
               >
                 Next page
               </Button>
-            </Box>
+            </Flex>
           </Flex>
         </Box>
       ) : null}

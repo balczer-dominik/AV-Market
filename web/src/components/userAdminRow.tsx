@@ -1,4 +1,4 @@
-import { Button, Icon, Td, Tr } from "@chakra-ui/react";
+import { Button, Icon, Td, Tr, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FaCheck, FaHammer } from "react-icons/fa";
 import { User } from "../generated/graphql";
@@ -7,6 +7,7 @@ import {
   useGetUsersQuery,
   useUnbanUserMutation,
 } from "../generated/graphql";
+import { USER_BANNED, USER_UNBANNED } from "../utils/strings";
 
 interface UserAdminRowProps {
   user: {
@@ -19,6 +20,7 @@ export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
   const [, unbanUser] = useUnbanUserMutation();
   const { id, username, email, banned } = user;
   const [isBanned, setBanned] = useState(banned);
+  const toast = useToast();
   return (
     <Tr>
       <Td>{id}</Td>
@@ -36,10 +38,22 @@ export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
             console.log(isBanned);
             if (isBanned) {
               await unbanUser({ id });
+              toast({
+                title: username + USER_UNBANNED,
+                status: "success",
+                duration: 5000,
+                position: "bottom-left",
+              });
               setBanned(false);
               return;
             }
             await banUser({ id });
+            toast({
+              title: username + USER_BANNED,
+              status: "success",
+              duration: 5000,
+              position: "bottom-left",
+            });
             setBanned(true);
           }}
         >

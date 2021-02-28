@@ -36,6 +36,7 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
       mb={{ base: 4, md: 0 }}
       pt={{ base: 4, md: 0 }}
       borderTop={{ base: "1px solid", md: "none" }}
+      w={{ base: null, md: "25%" }}
     >
       <Stack
         spacing={3}
@@ -63,27 +64,27 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
         ) : (
           <Flex justify="space-between">
             <NextLink href="/register">
-              <Button
-                mr={5}
+              <IconButton
+                mr={3}
+                p={2}
                 variant="solid"
                 bgColor={REGULAR_BROWN}
                 color="white"
                 _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
-              >
-                <Icon as={FaUserPlus} mr={2} />
-                {REGISTER_LABEL}
-              </Button>
+                as={FaUserPlus}
+                aria-label={REGISTER_LABEL}
+              />
             </NextLink>
-            <Button
+            <IconButton
               variant="solid"
               bgColor={REGULAR_BROWN}
               color="white"
               _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
               onClick={openLogin}
-            >
-              <Icon as={BiLogIn} mr={2} />
-              {LOGIN_LABEL}
-            </Button>
+              aria-label={LOGIN_LABEL}
+              as={BiLogIn}
+              p={2}
+            />
           </Flex>
         )}
       </Stack>

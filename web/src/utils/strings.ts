@@ -46,3 +46,6 @@ export const ACCESS_DENIED = "Hozzáférés megtagadva.";
 export const ERROR_GENERIC = "Hiba";
 export const ERROR_NOT_AUTHORIZED =
   "Ennek az oldalnak a megtekintéséhez lépjen be.";
+
+export const USER_BANNED = " nevű felhasználó ki lett tiltva.";
+export const USER_UNBANNED = " nevű felhasználó tiltása feloldásra került.";

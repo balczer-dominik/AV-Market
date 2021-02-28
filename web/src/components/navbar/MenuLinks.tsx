@@ -8,6 +8,8 @@ export const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
       display={{ base: isOpen ? "block" : "none", md: "block" }}
       flexBasis={{ base: "100%", md: "auto" }}
       mb={{ base: 2, md: 0 }}
+      ml="auto"
+      mr="auto"
     >
       <Stack
         spacing={{ base: 0, md: 4 }}

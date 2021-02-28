@@ -10,7 +10,11 @@ interface MenuToggleProps {
 
 export const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => {
   return (
-    <Box display={{ base: "block", md: "none" }} onClick={toggle}>
+    <Box
+      w={{ base: null, md: "0%" }}
+      display={{ base: "block", md: "none" }}
+      onClick={toggle}
+    >
       {isOpen ? (
         <IconButton
           aria-label="Collapse navbar"
