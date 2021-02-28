@@ -23,18 +23,16 @@ export async function sendEmail(to: string, html: string) {
     port: 587,
     secure: false,
     auth: {
-      user: "toni.west@ethereal.email",
-      pass: "wzfanC61ZcjktxdMH2",
+      user: "a5hmlkbb2s5qihen@ethereal.email", // generated ethereal user
+      pass: "m5vKjxt4GfPvnu5754", // generated ethereal password
     },
+    logger: true,
   });
 
   // send mail with defined transport object
   const result = await transporter.sendMail({
-    from: '"AV Market" <avmarket@noreply.com>', // sender address
     to: to, // list of receivers
     subject: "Elfelejtett jelszó", // Subject line
     html,
   });
-
-  console.log(result);
 }

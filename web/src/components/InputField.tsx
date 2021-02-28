@@ -14,7 +14,7 @@ import {
 import { useField } from "formik";
 import React, { InputHTMLAttributes } from "react";
 import { IconType } from "react-icons";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {
   LIGHTER_REGULAR_BROWN,
   LIGHTEST_REGULAR_BROWN,
@@ -83,13 +83,9 @@ export const InputField: React.FC<InputFieldProps> = ({
             >
               <InputRightElement>
                 <Icon
-                  color={
-                    showPassword
-                      ? LIGHTER_REGULAR_BROWN
-                      : LIGHTEST_REGULAR_BROWN
-                  }
+                  color={LIGHTER_REGULAR_BROWN}
                   aria-label={"Jelszó megjelenítése."}
-                  as={FaEye}
+                  as={showPassword ? FaEyeSlash : FaEye}
                   onClick={togglePassword}
                 />
               </InputRightElement>
