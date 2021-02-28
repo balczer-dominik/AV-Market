@@ -18,6 +18,13 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   me?: Maybe<User>;
+  getUsers: PaginatedUsers;
+};
+
+
+export type QueryGetUsersArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
 };
 
 export type User = {
@@ -25,15 +32,25 @@ export type User = {
   id: Scalars['Float'];
   username: Scalars['String'];
   email: Scalars['String'];
+  banned: Scalars['Boolean'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+};
+
+export type PaginatedUsers = {
+  __typename?: 'PaginatedUsers';
+  users: Array<User>;
+  hasMore: Scalars['Boolean'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   register: UserResponse;
   login: UserResponse;
+  forgotPassword?: Maybe<FieldError>;
   logout: Scalars['Boolean'];
+  banUser: Scalars['Boolean'];
+  unbanUser: Scalars['Boolean'];
 };
 
 
@@ -45,6 +62,21 @@ export type MutationRegisterArgs = {
 export type MutationLoginArgs = {
   password: Scalars['String'];
   usernameOrEmail: Scalars['String'];
+};
+
+
+export type MutationForgotPasswordArgs = {
+  username: Scalars['String'];
+};
+
+
+export type MutationBanUserArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationUnbanUserArgs = {
+  id: Scalars['Int'];
 };
 
 export type UserResponse = {
@@ -86,6 +118,16 @@ export type RegularUserResponseFragment = (
   )> }
 );
 
+export type BanUserMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type BanUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'banUser'>
+);
+
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
   password: Scalars['String'];
@@ -121,6 +163,16 @@ export type RegisterMutation = (
   ) }
 );
 
+export type UnbanUserMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type UnbanUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'unbanUser'>
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -130,6 +182,24 @@ export type MeQuery = (
     { __typename?: 'User' }
     & RegularUserFragment
   )> }
+);
+
+export type GetUsersQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type GetUsersQuery = (
+  { __typename?: 'Query' }
+  & { getUsers: (
+    { __typename?: 'PaginatedUsers' }
+    & Pick<PaginatedUsers, 'hasMore'>
+    & { users: Array<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'username' | 'email' | 'banned'>
+    )> }
+  ) }
 );
 
 export const RegularErrorFragmentDoc = gql`
@@ -155,6 +225,15 @@ export const RegularUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
+export const BanUserDocument = gql`
+    mutation banUser($id: Int!) {
+  banUser(id: $id)
+}
+    `;
+
+export function useBanUserMutation() {
+  return Urql.useMutation<BanUserMutation, BanUserMutationVariables>(BanUserDocument);
+};
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(usernameOrEmail: $usernameOrEmail, password: $password) {
@@ -186,6 +265,15 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
+export const UnbanUserDocument = gql`
+    mutation unbanUser($id: Int!) {
+  unbanUser(id: $id)
+}
+    `;
+
+export function useUnbanUserMutation() {
+  return Urql.useMutation<UnbanUserMutation, UnbanUserMutationVariables>(UnbanUserDocument);
+};
 export const MeDocument = gql`
     query Me {
   me {
@@ -196,4 +284,21 @@ export const MeDocument = gql`
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const GetUsersDocument = gql`
+    query getUsers($limit: Int, $offset: Int) {
+  getUsers(limit: $limit, offset: $offset) {
+    users {
+      id
+      username
+      email
+      banned
+    }
+    hasMore
+  }
+}
+    `;
+
+export function useGetUsersQuery(options: Omit<Urql.UseQueryArgs<GetUsersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetUsersQuery>({ query: GetUsersDocument, ...options });
 };

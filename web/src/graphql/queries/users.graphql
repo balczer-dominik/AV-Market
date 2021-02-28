@@ -1,0 +1,11 @@
+query getUsers($limit: Int, $offset: Int) {
+  getUsers(limit: $limit, offset: $offset) {
+    users {
+      id
+      username
+      email
+      banned
+    }
+    hasMore
+  }
+}

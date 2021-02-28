@@ -42,3 +42,7 @@ export const REGISTER_USERNAME_HINT = "5-20 karakter";
 export const REGISTER_PASSWORD_HINT = "8-32 karakter, legalább 1 nagy betű.";
 export const LOGOUT_LABEL = "Kijelentkezés";
 export const PASSWORD_PLACEHOLDER = "Jelszó12345.";
+export const ACCESS_DENIED = "Hozzáférés megtagadva.";
+export const ERROR_GENERIC = "Hiba";
+export const ERROR_NOT_AUTHORIZED =
+  "Ennek az oldalnak a megtekintéséhez lépjen be.";
