@@ -17,7 +17,7 @@ import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 import { LIGHTER_REGULAR_BROWN, REGULAR_BROWN } from "../../utils/colors";
 import { isServer } from "../../utils/isServer";
 import { LOGIN_LABEL, LOGOUT_LABEL, REGISTER_LABEL } from "../../utils/strings";
-import { Login } from "../Login";
+import { LoginDialogue } from "../LoginDialogue";
 
 export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   const [{ data, fetching: meFetching }] = useMeQuery({ pause: isServer() });
@@ -87,7 +87,7 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
           </Flex>
         )}
       </Stack>
-      <Login onClose={closeLogin} isOpen={loginOpen} />
+      <LoginDialogue onClose={closeLogin} isOpen={loginOpen} />
     </Box>
   );
 };

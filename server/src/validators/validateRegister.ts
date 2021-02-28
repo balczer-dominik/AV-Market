@@ -4,7 +4,7 @@ import {
   USERNAME_CONTAINS_FORBIDDEN,
   USERNAME_TOO_SHORT,
 } from "../resource/strings";
-import { UsernamePasswordInput } from "../util/UsernamePasswordInput";
+import { UsernamePasswordInput } from "../util/type-graphql/UsernamePasswordInput";
 
 export const validateRegister = (options: UsernamePasswordInput) => {
   const errors = [];

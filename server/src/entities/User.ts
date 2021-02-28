@@ -1,5 +1,12 @@
 import { Field, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
 @ObjectType()
 @Entity()
@@ -18,6 +25,10 @@ export class User extends BaseEntity {
 
   @Column()
   password!: string;
+
+  @Field(() => Boolean)
+  @Column({ default: false })
+  banned: boolean;
 
   @Field(() => String)
   @CreateDateColumn()

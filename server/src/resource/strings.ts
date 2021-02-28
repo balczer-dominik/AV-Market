@@ -9,3 +9,4 @@ export const USERNAME_TAKEN = "Ez a felhasználónév már foglalt.";
 export const UNKNOWN_ERROR_SERVER = "Ismeretlen hiba történt a szerveren.";
 export const USER_NOT_FOUND = "Nincsen ilyen felhasználó.";
 export const INCORRECT_PASSWORD = "Helytelen jelszó.";
+export const USER_BANNED = "Ez a felhasználó le van tiltva.";

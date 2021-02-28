@@ -20,6 +20,7 @@ import {
   LOGIN_LABEL,
   LOGIN_SUCCESS_LABEL,
   PASSWORD_LABEL,
+  PASSWORD_PLACEHOLDER,
   USERNAME_OR_EMAIL_LABEL,
   WELCOME_USER,
 } from "../utils/strings";
@@ -27,12 +28,15 @@ import { toErrorMap } from "../utils/toErrorMap";
 import { InputField } from "./InputField";
 import { RegularButton } from "./RegularButton";
 
-interface LoginProps {
+interface LoginDialogueProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
+export const LoginDialogue: React.FC<LoginDialogueProps> = ({
+  isOpen,
+  onClose,
+}) => {
   const [, login] = useLoginMutation();
   const successToast = useToast();
   const router = useRouter();
@@ -88,11 +92,13 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
                   label={USERNAME_OR_EMAIL_LABEL}
                   icon={FaUser}
                   ref={initialRef}
+                  placeholder={USERNAME_OR_EMAIL_LABEL}
                 />
                 <InputField
                   name="password"
                   label={PASSWORD_LABEL}
                   icon={RiLockPasswordFill}
+                  placeholder={PASSWORD_PLACEHOLDER}
                   password
                 />
 

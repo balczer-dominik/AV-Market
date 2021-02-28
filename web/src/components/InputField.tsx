@@ -65,8 +65,10 @@ export const InputField: React.FC<InputFieldProps> = ({
             borderColor={LIGHTER_REGULAR_BROWN}
             borderWidth={"0.15rem"}
             _hover={{ borderColor: LIGHTEST_REGULAR_BROWN }}
+            placeholder={
+              password && !showPassword ? "************" : props.placeholder
+            }
             {...field}
-            {...props}
           />
           {icon ? (
             <InputLeftElement>
@@ -81,12 +83,11 @@ export const InputField: React.FC<InputFieldProps> = ({
               color="white"
               bg={LIGHTER_REGULAR_BROWN}
             >
-              <InputRightElement>
+              <InputRightElement onClick={togglePassword}>
                 <Icon
                   color={LIGHTER_REGULAR_BROWN}
                   aria-label={"Jelszó megjelenítése."}
                   as={showPassword ? FaEyeSlash : FaEye}
-                  onClick={togglePassword}
                 />
               </InputRightElement>
             </Tooltip>

@@ -1,7 +1,7 @@
 import { User } from "../entities/User";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { UserResponse } from "../util/UserResponse";
-import { UsernamePasswordInput } from "../util/UsernamePasswordInput";
+import { UserResponse } from "../util/type-graphql/UserResponse";
+import { UsernamePasswordInput } from "../util/type-graphql/UsernamePasswordInput";
 import { MyContext } from "../types";
 import { validateRegister } from "../validators/validateRegister";
 import argon2 from "argon2";
@@ -10,13 +10,14 @@ import {
   INCORRECT_PASSWORD,
   UNKNOWN_ERROR_SERVER,
   USERNAME_TAKEN,
+  USER_BANNED,
   USER_NOT_FOUND,
 } from "../resource/strings";
 import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from "../constants";
 import { v4 } from "uuid";
 import { sendEmail } from "../util/sendMail";
 import { changePasswordEmail } from "../util/changePasswordEmail";
-import { FieldError } from "../util/FieldError";
+import { FieldError } from "../util/type-graphql/FieldError";
 
 @Resolver(User)
 export class UserResolver {
@@ -106,6 +107,17 @@ export class UserResolver {
           {
             field: "password",
             message: INCORRECT_PASSWORD,
+          },
+        ],
+      };
+    }
+
+    if (user.banned) {
+      return {
+        errors: [
+          {
+            field: "usernameOrEmail",
+            message: USER_BANNED,
           },
         ],
       };

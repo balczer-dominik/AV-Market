@@ -10,6 +10,7 @@ import { COOKIE_NAME, __prod__ } from "./constants";
 import { User } from "./entities/User";
 import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
+import { UserAdministrationResolver } from "./resolvers/userAdministration";
 
 const main = async () => {
   //TypeORM
@@ -59,7 +60,7 @@ const main = async () => {
   //Apollo
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, UserResolver],
+      resolvers: [HelloResolver, UserResolver, UserAdministrationResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({
