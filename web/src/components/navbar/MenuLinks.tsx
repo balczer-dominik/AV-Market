@@ -14,7 +14,7 @@ export const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
       <Stack
         spacing={{ base: 0, md: 4 }}
         align="left"
-        justify={["flex-start", "flex-start", "flex-end", "flex-end"]}
+        justify={{ base: "flex-start", md: "flex-end" }}
         direction={{ base: "column", md: "row" }}
         // height={{ base: isOpen ? "auto" : "0px", md: "auto" }}
         // opacity={{ base: isOpen ? null : "0", md: null }}

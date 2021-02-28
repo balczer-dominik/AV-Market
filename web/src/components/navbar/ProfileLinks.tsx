@@ -41,25 +41,26 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
       <Stack
         spacing={3}
         align="left"
-        justify={["flex-start", "flex-start", "flex-end", "flex-end"]}
-        direction={["column", "row", "row", "row"]}
+        justify={{ base: "flex-start", md: "flex-end" }}
+        direction={{ base: "column", md: "row" }}
       >
         {meFetching ? (
           "..."
         ) : data?.me ? (
           <Flex align="center" justify="space-between">
             <Text mr={4}>{data.me.username}</Text>
-            <Button
+            <IconButton
               bgColor={REGULAR_BROWN}
+              color="white"
               _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
               onClick={async () => {
                 await logout();
                 router.reload();
               }}
-              isLoading={logoutFetching}
-            >
-              <Icon as={BiLogOut} color="white" />
-            </Button>
+              aria-label={LOGOUT_LABEL}
+              as={BiLogOut}
+              p={2}
+            />
           </Flex>
         ) : (
           <Flex justify="space-between">
@@ -67,7 +68,6 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
               <IconButton
                 mr={3}
                 p={2}
-                variant="solid"
                 bgColor={REGULAR_BROWN}
                 color="white"
                 _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
@@ -76,7 +76,6 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
               />
             </NextLink>
             <IconButton
-              variant="solid"
               bgColor={REGULAR_BROWN}
               color="white"
               _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
