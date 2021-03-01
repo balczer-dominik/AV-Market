@@ -11,9 +11,9 @@ import {
   USERNAME_TOO_SHORT,
 } from "./strings";
 
-const emailValidation = Yup.string()
-  .required(FIELD_REQUIRED)
-  .email(INCORRECT_EMAIL_FORMAT);
+const emailValidation = Yup.string().email(INCORRECT_EMAIL_FORMAT);
+
+const emailValidationRequired = emailValidation.required(FIELD_REQUIRED);
 
 const usernameValidation = Yup.string()
   .required(FIELD_REQUIRED)
@@ -34,7 +34,7 @@ const passwrodConfirmValidation = Yup.string()
   .matches(/\w*[A-Z]\w*/, PASSWORD_DOESNT_CONTAIN_CAPITAL);
 
 export const RegisterValidator = Yup.object().shape({
-  email: emailValidation,
+  email: emailValidationRequired,
   username: usernameValidation,
   password: passwordValidation,
   passwordConfirm: passwrodConfirmValidation,
