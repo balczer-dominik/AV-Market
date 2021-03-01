@@ -27,6 +27,10 @@ import { changePasswordEmail } from "../util/changePasswordEmail";
 import { FieldError } from "../util/type-graphql/FieldError";
 import { isAuth } from "../middleware/authMiddleware";
 import { validateEmail } from "../validators/validateEmail";
+import { Upload } from "../util/type-graphql/Upload";
+import { GraphQLUpload } from "apollo-server-express";
+import { GraphQLScalarType } from "graphql";
+import { createWriteStream } from "fs";
 
 @Resolver(User)
 export class UserResolver {
@@ -184,6 +188,34 @@ export class UserResolver {
     }
 
     return User.findOne(req.session.userId);
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => Boolean)
+  async uploadAvatar(
+    @Arg("avatar", () => GraphQLUpload as GraphQLScalarType)
+    file: Upload,
+    @Ctx() { req }: MyContext
+  ): Promise<boolean> {
+    const { createReadStream, filename } = await file;
+
+    return new Promise(
+      async (resolve, reject) =>
+        await createReadStream()
+          .pipe(
+            createWriteStream(
+              __dirname + `/../../../web/public/avatar/${filename}`
+            )
+          )
+          .on("finish", () => {
+            User.update(req.session!.userId!, { avatar: filename });
+            resolve(true);
+          })
+          .on("error", (err) => {
+            console.log(err);
+            reject(false);
+          })
+    );
   }
 
   @UseMiddleware(isAuth)

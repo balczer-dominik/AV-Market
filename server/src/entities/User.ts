@@ -26,6 +26,10 @@ export class User extends BaseEntity {
   @Column()
   password!: string;
 
+  @Field()
+  @Column({ default: null, nullable: true })
+  avatar: string;
+
   @Field(() => Boolean)
   @Column({ default: false })
   banned: boolean;

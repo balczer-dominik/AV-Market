@@ -19,6 +19,7 @@ import { RegularButton } from "../../components/RegularButton";
 import {
   useChangeEmailMutation,
   useMeFullQuery,
+  useUploadAvatarMutation,
 } from "../../generated/graphql";
 import {
   LIGHTER_REGULAR_BROWN,
@@ -28,11 +29,13 @@ import {
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import {
   AVATAR_PREVIEW_LABEL,
+  CHANGE_AVATAR_SUCCESS,
   CHANGE_EMAIL_SUCCESS,
   CONFIRM_CHANGE_LABEL,
   CURRENT_AVATAR_LABEL,
   CURRENT_EMAIL_LABEL,
   EDIT_PROFILE_LABEL,
+  ERROR_GENERIC,
   NEW_AVATAR_LABEL,
   NEW_EMAIL_LABEL,
 } from "../../utils/strings";
@@ -79,7 +82,8 @@ const Edit: React.FC<EditProps> = ({}) => {
   useIsAuth();
   const [{ data: meData, fetching: meFetching }, me] = useMeFullQuery();
   const [, changeEmail] = useChangeEmailMutation();
-  const successToast = useToast();
+  const [, uploadAvatar] = useUploadAvatarMutation();
+  const toast = useToast();
   return (
     <Layout variant="small">
       {meFetching ? null : (
@@ -106,7 +110,7 @@ const Edit: React.FC<EditProps> = ({}) => {
 
               me();
 
-              successToast({
+              toast({
                 title: CHANGE_EMAIL_SUCCESS,
                 status: "success",
                 duration: 5000,
@@ -138,7 +142,24 @@ const Edit: React.FC<EditProps> = ({}) => {
             initialValues={{
               newAvatar: null,
             }}
-            onSubmit={async (values) => {}}
+            onSubmit={async ({ newAvatar }, { setErrors }) => {
+              const result = await uploadAvatar({ avatar: newAvatar });
+              if (result.data.uploadAvatar) {
+                toast({
+                  title: CHANGE_AVATAR_SUCCESS,
+                  status: "success",
+                  duration: 5000,
+                  position: "bottom-left",
+                });
+                return;
+              }
+              toast({
+                title: ERROR_GENERIC,
+                status: "error",
+                duration: 5000,
+                position: "bottom-left",
+              });
+            }}
           >
             {({ values, setFieldValue, isSubmitting }) => (
               <Form>
@@ -149,9 +170,10 @@ const Edit: React.FC<EditProps> = ({}) => {
 
                   <input
                     type={"file"}
+                    accept={"image/*"}
                     id={"newAvatar"}
-                    onChange={(event) => {
-                      setFieldValue("newAvatar", event.currentTarget.files[0]);
+                    onChange={({ target: { files } }) => {
+                      setFieldValue("newAvatar", files[0]);
                     }}
                   />
                   {values.newAvatar ? (

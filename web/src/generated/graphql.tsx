@@ -12,6 +12,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type Query = {
@@ -32,6 +34,7 @@ export type User = {
   id: Scalars['Float'];
   username: Scalars['String'];
   email: Scalars['String'];
+  avatar: Scalars['String'];
   banned: Scalars['Boolean'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -49,6 +52,7 @@ export type Mutation = {
   login: UserResponse;
   forgotPassword?: Maybe<FieldError>;
   logout: Scalars['Boolean'];
+  uploadAvatar: Scalars['Boolean'];
   changeEmail: UserResponse;
   banUser: Scalars['Boolean'];
   unbanUser: Scalars['Boolean'];
@@ -68,6 +72,11 @@ export type MutationLoginArgs = {
 
 export type MutationForgotPasswordArgs = {
   username: Scalars['String'];
+};
+
+
+export type MutationUploadAvatarArgs = {
+  avatar: Scalars['Upload'];
 };
 
 
@@ -102,6 +111,7 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
   password: Scalars['String'];
 };
+
 
 export type RegularErrorFragment = (
   { __typename?: 'FieldError' }
@@ -196,6 +206,16 @@ export type UnbanUserMutationVariables = Exact<{
 export type UnbanUserMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'unbanUser'>
+);
+
+export type UploadAvatarMutationVariables = Exact<{
+  avatar: Scalars['Upload'];
+}>;
+
+
+export type UploadAvatarMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'uploadAvatar'>
 );
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -329,6 +349,15 @@ export const UnbanUserDocument = gql`
 
 export function useUnbanUserMutation() {
   return Urql.useMutation<UnbanUserMutation, UnbanUserMutationVariables>(UnbanUserDocument);
+};
+export const UploadAvatarDocument = gql`
+    mutation UploadAvatar($avatar: Upload!) {
+  uploadAvatar(avatar: $avatar)
+}
+    `;
+
+export function useUploadAvatarMutation() {
+  return Urql.useMutation<UploadAvatarMutation, UploadAvatarMutationVariables>(UploadAvatarDocument);
 };
 export const MeDocument = gql`
     query Me {

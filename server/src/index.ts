@@ -1,4 +1,4 @@
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, gql } from "apollo-server-express";
 import connectRedis from "connect-redis";
 import cors from "cors";
 import Redis from "ioredis";
@@ -14,7 +14,7 @@ import { UserAdministrationResolver } from "./resolvers/userAdministration";
 
 const main = async () => {
   //TypeORM
-  const conn = await createConnection({
+  await createConnection({
     type: "postgres",
     database: "avmarket",
     username: "postgres",

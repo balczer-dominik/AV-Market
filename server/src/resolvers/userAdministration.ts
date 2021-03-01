@@ -1,9 +1,7 @@
 import { User } from "../entities/User";
-import { MyContext } from "../types";
 import { PaginatedUsers } from "../util/type-graphql/PaginatedUsers";
 import {
   Arg,
-  Ctx,
   Int,
   Mutation,
   Query,

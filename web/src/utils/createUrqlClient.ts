@@ -1,4 +1,5 @@
 import { cacheExchange } from "@urql/exchange-graphcache";
+import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 import { dedupExchange, fetchExchange } from "urql";
 import { cacheExchanges } from "./cacheExchanges";
 
@@ -11,7 +12,7 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
     exchanges: [
       dedupExchange,
       ssrExchange,
-      fetchExchange,
+      multipartFetchExchange,
       cacheExchange(cacheExchanges),
     ],
   };
