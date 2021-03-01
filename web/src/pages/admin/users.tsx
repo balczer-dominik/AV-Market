@@ -1,26 +1,19 @@
 import {
+  Box,
   Button,
   Flex,
-  Icon,
   Table,
   Tbody,
-  Td,
+  Text,
   Th,
   Thead,
   Tr,
-  Text,
-  Box,
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
-import { FaCheck, FaHammer } from "react-icons/fa";
 import { Layout } from "../../components/Layout";
-import { UserAdminRow } from "../../components/userAdminRow";
-import {
-  useBanUserMutation,
-  useGetUsersQuery,
-  useUnbanUserMutation,
-} from "../../generated/graphql";
+import { UserAdminRow } from "../../components/UserAdminRow";
+import { useGetUsersQuery } from "../../generated/graphql";
 import {
   LIGHTER_REGULAR_BROWN,
   LIGHTEST_REGULAR_BROWN,

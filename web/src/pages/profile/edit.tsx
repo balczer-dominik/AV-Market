@@ -11,8 +11,10 @@ import {
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import React, { useEffect, useState } from "react";
+import { GiConsoleController } from "react-icons/gi";
 import { ImFilePicture } from "react-icons/im";
 import { MdEmail } from "react-icons/md";
+import { FileUploader } from "../../components/FileUploader";
 import { InputField } from "../../components/InputField";
 import { Layout } from "../../components/Layout";
 import { RegularButton } from "../../components/RegularButton";
@@ -44,42 +46,7 @@ import { toErrorMap } from "../../utils/toErrorMap";
 import { useIsAuth } from "../../utils/useIsAuth";
 import { ChangeEmailValidator } from "../../utils/validators";
 
-interface ThumbProps {
-  file;
-}
-
-interface EditProps {}
-
-const Thumb: React.FC<ThumbProps> = ({ file }) => {
-  const [state, setState] = useState({ loading: false, thumb: undefined });
-  useEffect(() => {
-    componentWillReceiveProps();
-  }, [file]);
-
-  const componentWillReceiveProps = () => {
-    if (!file) {
-      return;
-    }
-    setState({ loading: true, ...state });
-    let reader = new FileReader();
-    reader.onloadend = () => {
-      setState({ loading: false, thumb: reader.result });
-    };
-    reader.readAsDataURL(file);
-  };
-
-  return (
-    <>
-      {state.loading ? (
-        <Box>loading...</Box>
-      ) : (
-        <Image src={state.thumb} height={200} width={200} />
-      )}
-    </>
-  );
-};
-
-const Edit: React.FC<EditProps> = ({}) => {
+const Edit: React.FC<{}> = ({}) => {
   useIsAuth();
   const [{ data: meData, fetching: meFetching }, me] = useMeFullQuery();
   const [, changeEmail] = useChangeEmailMutation();
@@ -165,38 +132,11 @@ const Edit: React.FC<EditProps> = ({}) => {
           >
             {({ values, setFieldValue, isSubmitting }) => (
               <Form>
-                <FormControl mt={4}>
-                  <FormLabel htmlFor={"newAvatar"} color={REGULAR_DARK_BROWN}>
-                    {NEW_AVATAR_LABEL}
-                  </FormLabel>
-
-                  <input
-                    type={"file"}
-                    accept={"image/*"}
-                    id={"newAvatar"}
-                    onChange={({ target: { files } }) => {
-                      const file = files[0];
-                      if (
-                        ["image/png", "image/jpeg", "image/gif"].indexOf(
-                          file.type
-                        ) === -1
-                      ) {
-                        setInvalid(true);
-                        return;
-                      }
-                      setInvalid(false);
-                      setFieldValue("newAvatar", file);
-                    }}
-                  />
-                  {values.newAvatar ? (
-                    <Box>
-                      <Text mt={2} color={REGULAR_DARK_BROWN}>
-                        {AVATAR_PREVIEW_LABEL}
-                      </Text>
-                      <Thumb file={values.newAvatar} />
-                    </Box>
-                  ) : null}
-                </FormControl>
+                <FileUploader
+                  image={values.newAvatar}
+                  setter={setFieldValue}
+                  fieldName={"newAvatar"}
+                />
                 <RegularButton mt={4} spinner={isSubmitting}>
                   {CONFIRM_CHANGE_LABEL}
                 </RegularButton>
