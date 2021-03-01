@@ -36,12 +36,13 @@ import {
   CURRENT_EMAIL_LABEL,
   EDIT_PROFILE_LABEL,
   ERROR_GENERIC,
+  INVALID_IMAGE_FORMAT,
   NEW_AVATAR_LABEL,
   NEW_EMAIL_LABEL,
 } from "../../utils/strings";
 import { toErrorMap } from "../../utils/toErrorMap";
 import { useIsAuth } from "../../utils/useIsAuth";
-import { EmailValidator } from "../../utils/validators";
+import { ChangeEmailValidator } from "../../utils/validators";
 
 interface ThumbProps {
   file;
@@ -83,10 +84,11 @@ const Edit: React.FC<EditProps> = ({}) => {
   const [{ data: meData, fetching: meFetching }, me] = useMeFullQuery();
   const [, changeEmail] = useChangeEmailMutation();
   const [, uploadAvatar] = useUploadAvatarMutation();
+  const [invalid, setInvalid] = useState(false);
   const toast = useToast();
   return (
     <Layout variant="small">
-      {meFetching ? null : (
+      {meFetching || !meData.me ? null : (
         <Stack spacing={4} px={2}>
           <Heading
             fontSize={"4xl"}
@@ -100,7 +102,7 @@ const Edit: React.FC<EditProps> = ({}) => {
             initialValues={{
               newEmail: "",
             }}
-            validationSchema={EmailValidator}
+            validationSchema={ChangeEmailValidator}
             onSubmit={async ({ newEmail }, { setErrors }) => {
               const response = await changeEmail({ newEmail });
               if (response.data.changeEmail.errors) {
@@ -173,7 +175,17 @@ const Edit: React.FC<EditProps> = ({}) => {
                     accept={"image/*"}
                     id={"newAvatar"}
                     onChange={({ target: { files } }) => {
-                      setFieldValue("newAvatar", files[0]);
+                      const file = files[0];
+                      if (
+                        ["image/png", "image/jpeg", "image/gif"].indexOf(
+                          file.type
+                        ) === -1
+                      ) {
+                        setInvalid(true);
+                        return;
+                      }
+                      setInvalid(false);
+                      setFieldValue("newAvatar", file);
                     }}
                   />
                   {values.newAvatar ? (

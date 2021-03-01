@@ -11,23 +11,35 @@ import {
   USERNAME_TOO_SHORT,
 } from "./strings";
 
+const emailValidation = Yup.string()
+  .required(FIELD_REQUIRED)
+  .email(INCORRECT_EMAIL_FORMAT);
+
+const usernameValidation = Yup.string()
+  .required(FIELD_REQUIRED)
+  .min(5, USERNAME_TOO_SHORT)
+  .max(20, USERNAME_TOO_LONG)
+  .matches(/^[a-zA-Z0-9]{5,20}$/, USERNAME_CONTAINS_FORBIDDEN);
+
+const passwordValidation = Yup.string()
+  .required(FIELD_REQUIRED)
+  .min(8, PASSWORD_TOO_SHORT)
+  .max(32, PASSWORD_TOO_LONG)
+  .matches(/\w*[A-Z]\w*/, PASSWORD_DOESNT_CONTAIN_CAPITAL);
+
+const passwrodConfirmValidation = Yup.string()
+  .required(FIELD_REQUIRED)
+  .min(8, PASSWORD_TOO_SHORT)
+  .max(32, PASSWORD_TOO_LONG)
+  .matches(/\w*[A-Z]\w*/, PASSWORD_DOESNT_CONTAIN_CAPITAL);
+
 export const RegisterValidator = Yup.object().shape({
-  email: Yup.string().required(FIELD_REQUIRED).email(INCORRECT_EMAIL_FORMAT),
-  username: Yup.string()
-    .required(FIELD_REQUIRED)
-    .min(5, USERNAME_TOO_SHORT)
-    .max(20, USERNAME_TOO_LONG)
-    .matches(/^[a-zA-Z0-9]{5,20}$/, USERNAME_CONTAINS_FORBIDDEN),
-  password: Yup.string()
-    .required(FIELD_REQUIRED)
-    .min(8, PASSWORD_TOO_SHORT)
-    .max(32, PASSWORD_TOO_LONG)
-    .matches(/\w*[A-Z]\w*/, PASSWORD_DOESNT_CONTAIN_CAPITAL),
-  passwordConfirm: Yup.string()
-    .required(FIELD_REQUIRED)
-    .oneOf([Yup.ref("password"), null], PASSWORDS_MUST_MATCH),
+  email: emailValidation,
+  username: usernameValidation,
+  password: passwordValidation,
+  passwordConfirm: passwrodConfirmValidation,
 });
 
-export const EmailValidator = Yup.object().shape({
-  newEmail: Yup.string().required(FIELD_REQUIRED).email(INCORRECT_EMAIL_FORMAT),
+export const ChangeEmailValidator = Yup.object().shape({
+  newEmail: emailValidation,
 });

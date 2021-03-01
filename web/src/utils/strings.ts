@@ -57,5 +57,6 @@ export const NEW_EMAIL_LABEL = "Új e-mail cím";
 export const CONFIRM_CHANGE_LABEL = "Megváltoztat";
 export const NEW_AVATAR_LABEL = "Új avatar";
 export const CURRENT_AVATAR_LABEL = "Jelenlegi avatar:";
-export const CHANGE_AVATAR_SUCCESS = "Sikeresek megváltoztattad az avatarod.";
+export const CHANGE_AVATAR_SUCCESS = "Sikeresen megváltoztattad az avatarod.";
 export const AVATAR_PREVIEW_LABEL = "Előnézet";
+export const INVALID_IMAGE_FORMAT = "Helytelen formátum";
