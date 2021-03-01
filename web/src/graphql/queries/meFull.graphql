@@ -1,0 +1,8 @@
+query MeFull {
+  me {
+    ...RegularUser
+    email
+    createdAt
+    updatedAt
+  }
+}

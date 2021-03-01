@@ -4,6 +4,7 @@ import {
   Flex,
   Icon,
   IconButton,
+  Link,
   Stack,
   Text,
   useDisclosure,
@@ -48,7 +49,9 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
           "..."
         ) : data?.me ? (
           <Flex align="center" justify="space-between">
-            <Text mr={4}>{data.me.username}</Text>
+            <NextLink href="/profile/edit">
+              <Link mr={4}>{data.me.username}</Link>
+            </NextLink>
             <IconButton
               bgColor={REGULAR_BROWN}
               color="white"

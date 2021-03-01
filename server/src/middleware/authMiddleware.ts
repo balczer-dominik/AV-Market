@@ -7,13 +7,11 @@ export const isAuth: MiddlewareFn<MyContext> = ({ context }, next) => {
     throw new Error("Not authenticated.");
   }
 
-  const banned = User.findOne(context.req.session.userId).then(
-    (user) => user?.banned
-  );
-
-  if (banned) {
-    throw new Error("Account terminated.");
-  }
+  User.findOne(context.req.session.userId).then((user) => {
+    if (user?.banned) {
+      throw new Error("Account terminated.");
+    }
+  });
 
   return next();
 };

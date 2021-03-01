@@ -37,7 +37,5 @@ export const validateRegister = (options: UsernamePasswordInput) => {
     });
   }
 
-  if (errors.length == 0) return null;
-
-  return errors;
+  return errors.length === 0 ? null : errors;
 };

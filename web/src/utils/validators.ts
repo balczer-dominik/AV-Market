@@ -27,3 +27,7 @@ export const RegisterValidator = Yup.object().shape({
     .required(FIELD_REQUIRED)
     .oneOf([Yup.ref("password"), null], PASSWORDS_MUST_MATCH),
 });
+
+export const EmailValidator = Yup.object().shape({
+  newEmail: Yup.string().required(FIELD_REQUIRED).email(INCORRECT_EMAIL_FORMAT),
+});

@@ -49,3 +49,13 @@ export const ERROR_NOT_AUTHORIZED =
 
 export const USER_BANNED = " nevű felhasználó ki lett tiltva.";
 export const USER_UNBANNED = " nevű felhasználó tiltása feloldásra került.";
+export const EDIT_PROFILE_LABEL = "Profil szerkesztése";
+export const CURRENT_EMAIL_LABEL = "Jelenlegi e-mail: ";
+export const CHANGE_EMAIL_SUCCESS =
+  "Sikeresen megváltoztattad az e-mail címed.";
+export const NEW_EMAIL_LABEL = "Új e-mail cím";
+export const CONFIRM_CHANGE_LABEL = "Megváltoztat";
+export const NEW_AVATAR_LABEL = "Új avatar";
+export const CURRENT_AVATAR_LABEL = "Jelenlegi avatar:";
+export const CHANGE_AVATAR_SUCCESS = "Sikeresek megváltoztattad az avatarod.";
+export const AVATAR_PREVIEW_LABEL = "Előnézet";

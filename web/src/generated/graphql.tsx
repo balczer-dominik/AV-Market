@@ -49,6 +49,7 @@ export type Mutation = {
   login: UserResponse;
   forgotPassword?: Maybe<FieldError>;
   logout: Scalars['Boolean'];
+  changeEmail: UserResponse;
   banUser: Scalars['Boolean'];
   unbanUser: Scalars['Boolean'];
 };
@@ -67,6 +68,11 @@ export type MutationLoginArgs = {
 
 export type MutationForgotPasswordArgs = {
   username: Scalars['String'];
+};
+
+
+export type MutationChangeEmailArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -128,6 +134,25 @@ export type BanUserMutation = (
   & Pick<Mutation, 'banUser'>
 );
 
+export type ChangeEmailMutationVariables = Exact<{
+  newEmail: Scalars['String'];
+}>;
+
+
+export type ChangeEmailMutation = (
+  { __typename?: 'Mutation' }
+  & { changeEmail: (
+    { __typename?: 'UserResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>>, user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'username' | 'email'>
+    )> }
+  ) }
+);
+
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
   password: Scalars['String'];
@@ -184,6 +209,18 @@ export type MeQuery = (
   )> }
 );
 
+export type MeFullQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeFullQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'email' | 'createdAt' | 'updatedAt'>
+    & RegularUserFragment
+  )> }
+);
+
 export type GetUsersQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -233,6 +270,25 @@ export const BanUserDocument = gql`
 
 export function useBanUserMutation() {
   return Urql.useMutation<BanUserMutation, BanUserMutationVariables>(BanUserDocument);
+};
+export const ChangeEmailDocument = gql`
+    mutation ChangeEmail($newEmail: String!) {
+  changeEmail(email: $newEmail) {
+    errors {
+      field
+      message
+    }
+    user {
+      id
+      username
+      email
+    }
+  }
+}
+    `;
+
+export function useChangeEmailMutation() {
+  return Urql.useMutation<ChangeEmailMutation, ChangeEmailMutationVariables>(ChangeEmailDocument);
 };
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
@@ -284,6 +340,20 @@ export const MeDocument = gql`
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const MeFullDocument = gql`
+    query MeFull {
+  me {
+    ...RegularUser
+    email
+    createdAt
+    updatedAt
+  }
+}
+    ${RegularUserFragmentDoc}`;
+
+export function useMeFullQuery(options: Omit<Urql.UseQueryArgs<MeFullQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MeFullQuery>({ query: MeFullDocument, ...options });
 };
 export const GetUsersDocument = gql`
     query getUsers($limit: Int, $offset: Int) {

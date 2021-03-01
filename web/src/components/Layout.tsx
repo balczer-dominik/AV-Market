@@ -6,10 +6,13 @@ import { NavBar } from "./navbar/NavBar";
 export type LayoutVariant = "small" | "regular";
 
 interface LayoutProps {
-  variant: LayoutVariant;
+  variant?: LayoutVariant;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, variant }) => {
+export const Layout: React.FC<LayoutProps> = ({
+  children,
+  variant = "regular",
+}) => {
   return (
     <>
       <NavBar />

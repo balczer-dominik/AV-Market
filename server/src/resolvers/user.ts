@@ -1,5 +1,12 @@
 import { User } from "../entities/User";
-import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Ctx,
+  Mutation,
+  Query,
+  Resolver,
+  UseMiddleware,
+} from "type-graphql";
 import { UserResponse } from "../util/type-graphql/UserResponse";
 import { UsernamePasswordInput } from "../util/type-graphql/UsernamePasswordInput";
 import { MyContext } from "../types";
@@ -18,6 +25,8 @@ import { v4 } from "uuid";
 import { sendEmail } from "../util/sendMail";
 import { changePasswordEmail } from "../util/changePasswordEmail";
 import { FieldError } from "../util/type-graphql/FieldError";
+import { isAuth } from "../middleware/authMiddleware";
+import { validateEmail } from "../validators/validateEmail";
 
 @Resolver(User)
 export class UserResolver {
@@ -169,11 +178,33 @@ export class UserResolver {
   }
 
   @Query(() => User, { nullable: true })
-  me(@Ctx() { req }: MyContext) {
+  me(@Ctx() { req }: MyContext): Promise<User | undefined> | null {
     if (!req.session.userId) {
       return null;
     }
 
     return User.findOne(req.session.userId);
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => UserResponse)
+  async changeEmail(
+    @Arg("email") newEmail: string,
+    @Ctx() { req }: MyContext
+  ): Promise<UserResponse> {
+    const errors = validateEmail(newEmail);
+
+    if (errors) {
+      return { errors };
+    }
+
+    await User.update(req.session.userId as number, { email: newEmail });
+
+    let user;
+    await User.findOne(req.session.userId).then((u) => {
+      user = u;
+    });
+
+    return { user };
   }
 }
