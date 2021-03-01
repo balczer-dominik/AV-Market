@@ -1,4 +1,4 @@
 node_modules/
 dist/
 av_logo_brown.png
-web/public/avatar/**
+web/public/avatar/
