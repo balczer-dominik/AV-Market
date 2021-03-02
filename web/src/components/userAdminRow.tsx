@@ -1,16 +1,12 @@
-import { Button, Icon, Td, Tr, useToast, Image, Flex } from "@chakra-ui/react";
+import { Button, Flex, Icon, Image, Td, Tr, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { FaCheck, FaHammer, FaUser } from "react-icons/fa";
-import { User } from "../generated/graphql";
+import { FaCheck, FaHammer } from "react-icons/fa";
 import {
   useBanUserMutation,
-  useGetUsersQuery,
+  User,
   useUnbanUserMutation,
 } from "../generated/graphql";
-import {
-  LIGHTER_REGULAR_BROWN,
-  LIGHTER_REGULAR_LIGHT_BROWN,
-} from "../utils/colors";
+import { LIGHTER_REGULAR_BROWN } from "../utils/colors";
 import { USER_BANNED, USER_UNBANNED } from "../utils/strings";
 
 interface UserAdminRowProps {

@@ -1,7 +1,7 @@
 import { Heading, Stack, useToast } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { FileUploader } from "../../components/FileUploader";
 import { InputField } from "../../components/InputField";
@@ -31,7 +31,6 @@ const Edit: React.FC<{}> = ({}) => {
   const [{ data: meData, fetching: meFetching }, me] = useMeFullQuery();
   const [, changeEmail] = useChangeEmailMutation();
   const [, uploadAvatar] = useUploadAvatarMutation();
-  const [invalid, setInvalid] = useState(false);
   const toast = useToast();
   return (
     <Layout variant="small">

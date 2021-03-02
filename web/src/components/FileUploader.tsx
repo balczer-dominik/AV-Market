@@ -1,9 +1,7 @@
-import { Box, FormControl, FormLabel, Text, Image } from "@chakra-ui/react";
-import { resolve } from "path";
-import React, { useEffect, useState } from "react";
-import { GiConsoleController } from "react-icons/gi";
+import { FormControl, FormLabel } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { REGULAR_DARK_BROWN } from "../utils/colors";
-import { NEW_AVATAR_LABEL, AVATAR_PREVIEW_LABEL } from "../utils/strings";
+import { NEW_AVATAR_LABEL } from "../utils/strings";
 
 interface FileUploaderProps {
   image;

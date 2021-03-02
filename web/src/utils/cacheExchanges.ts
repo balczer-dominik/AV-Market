@@ -1,11 +1,8 @@
 import { CacheExchangeOpts } from "@urql/exchange-graphcache/dist/types/cacheExchange";
 import {
-  ChangeEmailMutation,
   LoginMutation,
   LogoutMutation,
   MeDocument,
-  MeFullDocument,
-  MeFullQuery,
   MeQuery,
   RegisterMutation,
   UploadAvatarMutation,

@@ -1,14 +1,13 @@
 import {
   Box,
-  Button,
   Flex,
-  Image,
+  Icon,
   IconButton,
+  Image,
   Link,
   Stack,
   Text,
   useDisclosure,
-  Icon,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
