@@ -5,6 +5,7 @@ query getUsers($limit: Int, $offset: Int) {
       username
       email
       banned
+      avatar
     }
     hasMore
   }

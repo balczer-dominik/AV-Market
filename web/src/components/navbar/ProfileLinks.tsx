@@ -2,20 +2,25 @@ import {
   Box,
   Button,
   Flex,
-  Icon,
+  Image,
   IconButton,
   Link,
   Stack,
   Text,
   useDisclosure,
+  Icon,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
-import { FaUserPlus } from "react-icons/fa";
+import { FaUser, FaUserPlus } from "react-icons/fa";
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
-import { LIGHTER_REGULAR_BROWN, REGULAR_BROWN } from "../../utils/colors";
+import {
+  LIGHTER_REGULAR_BROWN,
+  LIGHTER_REGULAR_LIGHT_BROWN,
+  REGULAR_BROWN,
+} from "../../utils/colors";
 import { isServer } from "../../utils/isServer";
 import { LOGIN_LABEL, LOGOUT_LABEL, REGISTER_LABEL } from "../../utils/strings";
 import { LoginDialogue } from "../LoginDialogue";
@@ -50,7 +55,36 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
         ) : data?.me ? (
           <Flex align="center" justify="space-between">
             <NextLink href="/profile/edit">
-              <Link mr={4}>{data.me.username}</Link>
+              <Link>
+                <Flex
+                  mr={2}
+                  align={"center"}
+                  flexDir={{ base: "row", md: "row-reverse" }}
+                >
+                  <Image
+                    mr={2}
+                    borderRadius={"5px"}
+                    border={`3px ${LIGHTER_REGULAR_BROWN} solid`}
+                    h={10}
+                    w={10}
+                    src={`/avatar/${data.me.avatar}.png`}
+                    fallback={
+                      <Flex
+                        align={"center"}
+                        justify={"center"}
+                        bgColor={LIGHTER_REGULAR_LIGHT_BROWN}
+                        h={10}
+                        w={10}
+                        borderRadius={"5px"}
+                        border={`3px ${LIGHTER_REGULAR_BROWN} solid`}
+                      >
+                        <Icon as={FaUser} h={6} w={6} />
+                      </Flex>
+                    }
+                  />
+                  <Text mr={2}>{data.me.username}</Text>
+                </Flex>
+              </Link>
             </NextLink>
             <IconButton
               bgColor={REGULAR_BROWN}

@@ -1,18 +1,7 @@
-import {
-  Box,
-  FormControl,
-  FormLabel,
-  Heading,
-  Text,
-  Stack,
-  Image,
-  useToast,
-} from "@chakra-ui/react";
+import { Heading, Stack, useToast } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import React, { useEffect, useState } from "react";
-import { GiConsoleController } from "react-icons/gi";
-import { ImFilePicture } from "react-icons/im";
 import { MdEmail } from "react-icons/md";
 import { FileUploader } from "../../components/FileUploader";
 import { InputField } from "../../components/InputField";
@@ -23,23 +12,14 @@ import {
   useMeFullQuery,
   useUploadAvatarMutation,
 } from "../../generated/graphql";
-import {
-  LIGHTER_REGULAR_BROWN,
-  LIGHTEST_REGULAR_BROWN,
-  REGULAR_DARK_BROWN,
-} from "../../utils/colors";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import {
-  AVATAR_PREVIEW_LABEL,
   CHANGE_AVATAR_SUCCESS,
   CHANGE_EMAIL_SUCCESS,
   CONFIRM_CHANGE_LABEL,
-  CURRENT_AVATAR_LABEL,
   CURRENT_EMAIL_LABEL,
   EDIT_PROFILE_LABEL,
   ERROR_GENERIC,
-  INVALID_IMAGE_FORMAT,
-  NEW_AVATAR_LABEL,
   NEW_EMAIL_LABEL,
 } from "../../utils/strings";
 import { toErrorMap } from "../../utils/toErrorMap";

@@ -8,6 +8,7 @@ import {
   MeFullQuery,
   MeQuery,
   RegisterMutation,
+  UploadAvatarMutation,
 } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 
@@ -48,6 +49,14 @@ export const cacheExchanges: CacheExchangeOpts = {
       },
       logout: (_result, _args, cache, _info) => {
         betterUpdateQuery<LogoutMutation, MeQuery>(
+          cache,
+          { query: MeDocument },
+          _result,
+          () => ({ me: null })
+        );
+      },
+      uploadAvatar: (_result, _args, cache, _info) => {
+        betterUpdateQuery<UploadAvatarMutation, MeQuery>(
           cache,
           { query: MeDocument },
           _result,

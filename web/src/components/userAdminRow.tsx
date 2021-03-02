@@ -1,12 +1,16 @@
-import { Button, Icon, Td, Tr, useToast } from "@chakra-ui/react";
+import { Button, Icon, Td, Tr, useToast, Image, Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { FaCheck, FaHammer } from "react-icons/fa";
+import { FaCheck, FaHammer, FaUser } from "react-icons/fa";
 import { User } from "../generated/graphql";
 import {
   useBanUserMutation,
   useGetUsersQuery,
   useUnbanUserMutation,
 } from "../generated/graphql";
+import {
+  LIGHTER_REGULAR_BROWN,
+  LIGHTER_REGULAR_LIGHT_BROWN,
+} from "../utils/colors";
 import { USER_BANNED, USER_UNBANNED } from "../utils/strings";
 
 interface UserAdminRowProps {
@@ -18,12 +22,32 @@ interface UserAdminRowProps {
 export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
   const [, banUser] = useBanUserMutation();
   const [, unbanUser] = useUnbanUserMutation();
-  const { id, username, email, banned } = user;
+  const { id, avatar, username, email, banned } = user;
   const [isBanned, setBanned] = useState(banned);
   const toast = useToast();
   return (
     <Tr>
       <Td>{id}</Td>
+      <Td>
+        <Image
+          mr={2}
+          borderRadius={"5px"}
+          border={`3px ${LIGHTER_REGULAR_BROWN} solid`}
+          h={10}
+          w={10}
+          src={`/avatar/${avatar}.png`}
+          fallback={
+            <Flex
+              align={"center"}
+              justify={"center"}
+              h={10}
+              w={10}
+              borderRadius={"5px"}
+              border={`3px ${LIGHTER_REGULAR_BROWN} solid`}
+            ></Flex>
+          }
+        />
+      </Td>
       <Td>{username}</Td>
       <Td>{email}</Td>
       <Td>{isBanned ? "Banned" : ""}</Td>

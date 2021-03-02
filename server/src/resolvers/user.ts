@@ -31,6 +31,7 @@ import { Upload } from "../util/type-graphql/Upload";
 import { GraphQLUpload } from "apollo-server-express";
 import { GraphQLScalarType } from "graphql";
 import { createWriteStream } from "fs";
+import randomstring from "randomstring";
 
 @Resolver(User)
 export class UserResolver {
@@ -197,14 +198,16 @@ export class UserResolver {
     file: Upload,
     @Ctx() { req }: MyContext
   ): Promise<boolean> {
-    const { createReadStream, filename } = await file;
+    const { createReadStream, filename: originalName } = await file;
+
+    const filename = randomstring.generate(30);
 
     return new Promise(
       async (resolve, reject) =>
         await createReadStream()
           .pipe(
             createWriteStream(
-              __dirname + `/../../../web/public/avatar/${filename}`
+              __dirname + `/../../../web/public/avatar/${filename}.png`
             )
           )
           .on("finish", () => {

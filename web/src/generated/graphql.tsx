@@ -34,7 +34,7 @@ export type User = {
   id: Scalars['Float'];
   username: Scalars['String'];
   email: Scalars['String'];
-  avatar: Scalars['String'];
+  avatar?: Maybe<Scalars['String']>;
   banned: Scalars['Boolean'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -120,7 +120,7 @@ export type RegularErrorFragment = (
 
 export type RegularUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'username'>
+  & Pick<User, 'id' | 'username' | 'avatar'>
 );
 
 export type RegularUserResponseFragment = (
@@ -254,7 +254,7 @@ export type GetUsersQuery = (
     & Pick<PaginatedUsers, 'hasMore'>
     & { users: Array<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'username' | 'email' | 'banned'>
+      & Pick<User, 'id' | 'username' | 'email' | 'banned' | 'avatar'>
     )> }
   ) }
 );
@@ -269,6 +269,7 @@ export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
   username
+  avatar
 }
     `;
 export const RegularUserResponseFragmentDoc = gql`
@@ -392,6 +393,7 @@ export const GetUsersDocument = gql`
       username
       email
       banned
+      avatar
     }
     hasMore
   }

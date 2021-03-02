@@ -40,6 +40,7 @@ const Users: React.FC<UsersProps> = ({}) => {
             <Thead>
               <Tr>
                 <Th>ID</Th>
+                <Th>Avatar</Th>
                 <Th>Username</Th>
                 <Th>E-mail</Th>
                 <Th>Banned</Th>
