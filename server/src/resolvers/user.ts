@@ -33,6 +33,7 @@ import { GraphQLScalarType } from "graphql";
 import { createWriteStream } from "fs";
 import randomstring from "randomstring";
 import { validatePassword } from "../validators/validatePassword";
+import { errorResponse } from "../util/errorResponse";
 
 @Resolver(User)
 export class UserResolver {
@@ -65,24 +66,10 @@ export class UserResolver {
       user = result.raw[0];
     } catch (err) {
       if (err.detail.includes("already exists")) {
-        return {
-          errors: [
-            {
-              field: "username",
-              message: USERNAME_TAKEN,
-            },
-          ],
-        };
+        return errorResponse("username", USERNAME_TAKEN);
       }
 
-      return {
-        errors: [
-          {
-            field: "username",
-            message: UNKNOWN_ERROR_SERVER,
-          },
-        ],
-      };
+      return errorResponse("username", UNKNOWN_ERROR_SERVER);
     }
 
     req.session.userId = user.id;
@@ -104,40 +91,19 @@ export class UserResolver {
 
     //No user
     if (!user) {
-      return {
-        errors: [
-          {
-            field: "usernameOrEmail",
-            message: USER_NOT_FOUND,
-          },
-        ],
-      };
+      return errorResponse("usernameOrEmail", USER_NOT_FOUND);
     }
 
     //Password validation
     const valid = await argon2.verify(user.password, password);
     if (!valid) {
-      return {
-        errors: [
-          {
-            field: "password",
-            message: INCORRECT_PASSWORD,
-          },
-        ],
-      };
+      return errorResponse("password", INCORRECT_PASSWORD);
     }
 
     console.log(user);
 
     if (user.banned) {
-      return {
-        errors: [
-          {
-            field: "usernameOrEmail",
-            message: USER_BANNED,
-          },
-        ],
-      };
+      return errorResponse("usernameOrEmail", USER_BANNED);
     }
 
     req.session.userId = user.id;
@@ -236,7 +202,7 @@ export class UserResolver {
       return { errors };
     }
 
-    await User.update(req.session.userId as number, { email: newEmail });
+    await User.update(req.session.userId!, { email: newEmail });
 
     const user = await User.findOne(req.session.userId);
     user!.email = newEmail;
@@ -254,21 +220,14 @@ export class UserResolver {
   ): Promise<UserResponse> {
     const user = await User.findOne(req.session.userId);
 
+    //Authorization
     const authorized = await argon2.verify(user!.password, oldPassword);
-
     if (!authorized) {
-      return {
-        errors: [
-          {
-            field: "oldPassword",
-            message: INCORRECT_PASSWORD,
-          },
-        ],
-      };
+      return errorResponse("oldPassword", INCORRECT_PASSWORD);
     }
 
+    //Validation
     const validationErrors = validatePassword(newPassword);
-
     if (validationErrors) {
       return { errors: validationErrors };
     }
