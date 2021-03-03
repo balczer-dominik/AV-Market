@@ -13,6 +13,7 @@ import { isAdmin } from "../middleware/authMiddleware";
 
 @Resolver(User)
 export class UserAdministrationResolver {
+  //Felhasználók lekérése (pagination)
   @UseMiddleware(isAdmin)
   @Query(() => PaginatedUsers)
   async getUsers(
@@ -35,6 +36,7 @@ export class UserAdministrationResolver {
     };
   }
 
+  //Felhasználó tiltása
   @UseMiddleware(isAdmin)
   @Mutation(() => Boolean)
   async banUser(@Arg("id", () => Int) id: number) {
@@ -42,6 +44,7 @@ export class UserAdministrationResolver {
     return true;
   }
 
+  //Tiltás feloldása
   @UseMiddleware(isAdmin)
   @Mutation(() => Boolean)
   async unbanUser(@Arg("id", () => Int) id: number) {

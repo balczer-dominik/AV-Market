@@ -1,5 +1,15 @@
 import { AdResponse } from "../util/type-graphql/AdResponse";
-import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
+import {
+  Arg,
+  Ctx,
+  FieldResolver,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+  Root,
+  UseMiddleware,
+} from "type-graphql";
 import { isAuth } from "../middleware/authMiddleware";
 import { PostInput } from "../util/type-graphql/PostInput";
 import { MyContext } from "../types";
@@ -8,9 +18,17 @@ import { Ad } from "../entities/Ad";
 import { MainCategory, Wear } from "../resource/strings";
 import { User } from "../entities/User";
 import { getConnection } from "typeorm";
+import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
 
 @Resolver(Ad)
 export class AdResolver {
+  //Tulajdonos
+  @FieldResolver(() => User)
+  async owner(@Root() ad: Ad) {
+    return await User.findOne(ad.ownerId);
+  }
+
+  //Hirdetés feladás
   @UseMiddleware(isAuth)
   @Mutation(() => AdResponse)
   async post(
@@ -23,8 +41,6 @@ export class AdResolver {
       return { errors };
     }
 
-    const owner = await User.findOne(req.session.userId);
-
     const partialAd: Partial<Ad> = {
       category: category as MainCategory,
       location: "Budapest",
@@ -32,7 +48,7 @@ export class AdResolver {
       title: title,
       price: price,
       wear: wear as Wear,
-      owner: owner!,
+      ownerId: req.session.userId,
     };
 
     const ad: Ad = (
@@ -45,11 +61,28 @@ export class AdResolver {
         .execute()
     ).raw[0];
 
+    return { ad };
+  }
+
+  //Hirdetések lekérdezése (pagination)
+  @Query(() => PaginatedAds)
+  async ads(
+    @Arg("limit", () => Int, { defaultValue: 50 }) limit: number,
+    @Arg("offset", () => Int, { defaultValue: 0 }) offset: number
+  ): Promise<PaginatedAds> {
+    const limitPlusOne = limit + 1;
+
+    const ads = await getConnection()
+      .getRepository(Ad)
+      .createQueryBuilder()
+      .orderBy('"createdAt"')
+      .skip(offset)
+      .take(limitPlusOne)
+      .getMany();
+
     return {
-      ad: {
-        owner: owner as User,
-        ...(ad as Omit<Ad, "owner">),
-      },
+      ads: ads.slice(0, limit),
+      hasMore: ads.length === limitPlusOne,
     };
   }
 }

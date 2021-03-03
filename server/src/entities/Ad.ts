@@ -48,6 +48,10 @@ export class Ad extends BaseEntity {
   @ManyToOne(() => User, (user) => user.ads)
   owner!: User;
 
+  @Field()
+  @Column()
+  ownerId!: number;
+
   @OneToMany(() => AdImage, (adImage) => adImage.ad)
   images: AdImage[];
 

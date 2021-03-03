@@ -25,6 +25,10 @@ export class AdImage extends BaseEntity {
   @ManyToOne(() => Ad, (ad) => ad.images)
   ad!: Ad;
 
+  @Field()
+  @Column()
+  adId!: number;
+
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;
