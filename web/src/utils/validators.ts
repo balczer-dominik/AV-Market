@@ -27,17 +27,23 @@ const passwordValidation = Yup.string()
   .max(32, PASSWORD_TOO_LONG)
   .matches(/\w*[A-Z]\w*/, PASSWORD_DOESNT_CONTAIN_CAPITAL);
 
-const passwordConfirmValidation = Yup.string()
-  .required(FIELD_REQUIRED)
-  .oneOf([Yup.ref("password"), null], PASSWORDS_MUST_MATCH);
+const passwordConfirmValidation = (ref: string) =>
+  Yup.string()
+    .required(FIELD_REQUIRED)
+    .oneOf([Yup.ref(ref), null], PASSWORDS_MUST_MATCH);
 
 export const RegisterValidator = Yup.object().shape({
   email: emailValidationRequired,
   username: usernameValidation,
   password: passwordValidation,
-  passwordConfirm: passwordConfirmValidation,
+  passwordConfirm: passwordConfirmValidation("password"),
 });
 
 export const ChangeEmailValidator = Yup.object().shape({
   newEmail: emailValidation,
+});
+
+export const ChangePasswordValidator = Yup.object().shape({
+  newPassword: passwordValidation,
+  newPasswordConfirm: passwordConfirmValidation("newPassword"),
 });

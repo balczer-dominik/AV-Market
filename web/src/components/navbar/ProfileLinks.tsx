@@ -91,7 +91,7 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
               _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
               onClick={async () => {
                 await logout();
-                router.reload();
+                router.replace("/");
               }}
               aria-label={LOGOUT_LABEL}
               as={BiLogOut}

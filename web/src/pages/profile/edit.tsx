@@ -9,6 +9,7 @@ import { Layout } from "../../components/Layout";
 import { RegularButton } from "../../components/RegularButton";
 import {
   useChangeEmailMutation,
+  useChangePasswordMutation,
   useMeFullQuery,
   useUploadAvatarMutation,
 } from "../../generated/graphql";
@@ -16,22 +17,30 @@ import { createUrqlClient } from "../../utils/createUrqlClient";
 import {
   CHANGE_AVATAR_SUCCESS,
   CHANGE_EMAIL_SUCCESS,
+  CHANGE_PASSWORD_SUCCESS,
   CONFIRM_CHANGE_LABEL,
+  CONFIRM_PASSWORD_LABEL,
   CURRENT_EMAIL_LABEL,
+  CURRENT_PASSWORD_LABEL,
   EDIT_PROFILE_LABEL,
   ERROR_GENERIC,
   NEW_EMAIL_LABEL,
+  NEW_PASSWORD_LABEL,
 } from "../../utils/strings";
 import { toErrorMap } from "../../utils/toErrorMap";
 import { useIsAuth } from "../../utils/useIsAuth";
 import { useBetterToast } from "../../utils/useSuccessToast";
-import { ChangeEmailValidator } from "../../utils/validators";
+import {
+  ChangeEmailValidator,
+  ChangePasswordValidator,
+} from "../../utils/validators";
 
 const Edit: React.FC<{}> = ({}) => {
   useIsAuth();
   const [{ data: meData, fetching: meFetching }, me] = useMeFullQuery();
   const [, changeEmail] = useChangeEmailMutation();
   const [, uploadAvatar] = useUploadAvatarMutation();
+  const [, changePassword] = useChangePasswordMutation();
   const toast = useBetterToast();
   return (
     <Layout variant="small">
@@ -51,9 +60,10 @@ const Edit: React.FC<{}> = ({}) => {
             }}
             validationSchema={ChangeEmailValidator}
             onSubmit={async ({ newEmail }, { setErrors }) => {
-              const response = await changeEmail({ newEmail });
-              if (response.data.changeEmail.errors) {
-                setErrors(toErrorMap(response.data.changeEmail.errors));
+              const errors = (await changeEmail({ newEmail })).data.changeEmail
+                .errors;
+              if (errors) {
+                setErrors(toErrorMap(errors));
                 return;
               }
               me();
@@ -73,6 +83,51 @@ const Edit: React.FC<{}> = ({}) => {
                   name="newEmail"
                   label={NEW_EMAIL_LABEL}
                   icon={MdEmail}
+                />
+                <RegularButton mt={4} spinner={isSubmitting}>
+                  {CONFIRM_CHANGE_LABEL}
+                </RegularButton>
+              </Form>
+            )}
+          </Formik>
+          <Formik
+            initialValues={{
+              oldPassword: "",
+              newPassword: "",
+              newPasswordConfirm: "",
+            }}
+            validationSchema={ChangePasswordValidator}
+            onSubmit={async ({ oldPassword, newPassword }, { setErrors }) => {
+              const errors = (
+                await changePassword({ oldPassword, newPassword })
+              ).data.changePassword.errors;
+              if (errors) {
+                setErrors(toErrorMap(errors));
+                return;
+              }
+              me();
+              toast("success", CHANGE_PASSWORD_SUCCESS);
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <InputField
+                  name="oldPassword"
+                  label={CURRENT_PASSWORD_LABEL}
+                  icon={MdEmail}
+                  password
+                />
+                <InputField
+                  name="newPassword"
+                  label={NEW_PASSWORD_LABEL}
+                  icon={MdEmail}
+                  password
+                />
+                <InputField
+                  name="newPasswordConfirm"
+                  label={CONFIRM_PASSWORD_LABEL}
+                  icon={MdEmail}
+                  password
                 />
                 <RegularButton mt={4} spinner={isSubmitting}>
                   {CONFIRM_CHANGE_LABEL}

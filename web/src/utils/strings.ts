@@ -60,3 +60,7 @@ export const CURRENT_AVATAR_LABEL = "Jelenlegi avatar:";
 export const CHANGE_AVATAR_SUCCESS = "Sikeresen megváltoztattad az avatarod.";
 export const AVATAR_PREVIEW_LABEL = "Előnézet";
 export const INVALID_IMAGE_FORMAT = "Helytelen formátum";
+export const CHANGE_PASSWORD_LABEL = "Jelszó megváltoztatása";
+export const NEW_PASSWORD_LABEL = "Új jelszó";
+export const CURRENT_PASSWORD_LABEL = "Jelenlegi jelszó";
+export const CHANGE_PASSWORD_SUCCESS = "Sikeresen megváltoztattad a jelszavad.";
