@@ -109,13 +109,9 @@ const Edit: React.FC<{}> = ({}) => {
               });
             }}
           >
-            {({ values, setFieldValue, isSubmitting }) => (
+            {({ setFieldValue, isSubmitting }) => (
               <Form>
-                <FileUploader
-                  image={values.newAvatar}
-                  setter={setFieldValue}
-                  fieldName={"newAvatar"}
-                />
+                <FileUploader setter={setFieldValue} fieldName={"newAvatar"} />
                 <RegularButton mt={4} spinner={isSubmitting}>
                   {CONFIRM_CHANGE_LABEL}
                 </RegularButton>

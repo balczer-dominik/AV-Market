@@ -1,5 +1,5 @@
 import { Button, Flex, Icon, Image, Td, Tr, useToast } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCheck, FaHammer } from "react-icons/fa";
 import {
   useBanUserMutation,
@@ -19,8 +19,12 @@ export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
   const [, banUser] = useBanUserMutation();
   const [, unbanUser] = useUnbanUserMutation();
   const { id, avatar, username, email, banned } = user;
+  console.log(user);
   const [isBanned, setBanned] = useState(banned);
   const toast = useToast();
+  useEffect(() => {
+    setBanned(banned);
+  }, [user]);
   return (
     <Tr>
       <Td>{id}</Td>
@@ -55,7 +59,7 @@ export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
             bgColor: isBanned ? "green.200" : "red.200",
           }}
           onClick={async () => {
-            console.log(isBanned);
+            //Already banned -> Unban
             if (isBanned) {
               await unbanUser({ id });
               toast({
@@ -67,6 +71,7 @@ export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
               setBanned(false);
               return;
             }
+            //Not banned yet -> Ban
             await banUser({ id });
             toast({
               title: username + USER_BANNED,

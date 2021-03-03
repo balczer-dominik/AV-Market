@@ -1,5 +1,6 @@
 "use strict";
 import nodemailer from "nodemailer";
+import { mailerPass, mailerUser } from "./env";
 
 // async..await is not allowed in global scope, must use a wrapper
 export async function sendEmail(to: string, html: string) {
@@ -19,18 +20,17 @@ export async function sendEmail(to: string, html: string) {
   //   });
 
   const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false,
+    service: "gmail",
     auth: {
-      user: "a5hmlkbb2s5qihen@ethereal.email", // generated ethereal user
-      pass: "m5vKjxt4GfPvnu5754", // generated ethereal password
+      user: mailerUser, // generated ethereal user
+      pass: mailerPass, // generated ethereal password
     },
     logger: true,
   });
 
   // send mail with defined transport object
   await transporter.sendMail({
+    from: "noreply@avmarket.hu",
     to: to, // list of receivers
     subject: "Elfelejtett jelszó", // Subject line
     html,

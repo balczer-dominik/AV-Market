@@ -32,6 +32,7 @@ import { GraphQLUpload } from "apollo-server-express";
 import { GraphQLScalarType } from "graphql";
 import { createWriteStream } from "fs";
 import randomstring from "randomstring";
+import { validatePassword } from "../validators/validatePassword";
 
 @Resolver(User)
 export class UserResolver {
@@ -126,6 +127,8 @@ export class UserResolver {
       };
     }
 
+    console.log(user);
+
     if (user.banned) {
       return {
         errors: [
@@ -198,7 +201,7 @@ export class UserResolver {
     file: Upload,
     @Ctx() { req }: MyContext
   ): Promise<boolean> {
-    const { createReadStream, filename: originalName } = await file;
+    const { createReadStream } = await file;
 
     const filename = randomstring.generate(30);
 
@@ -235,10 +238,43 @@ export class UserResolver {
 
     await User.update(req.session.userId as number, { email: newEmail });
 
-    let user;
-    await User.findOne(req.session.userId).then((u) => {
-      user = u;
-    });
+    const user = await User.findOne(req.session.userId);
+    user!.email = newEmail;
+    user!.save();
+
+    return { user };
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => UserResponse)
+  async changePassword(
+    @Arg("oldPassword") oldPassword: string,
+    @Arg("newPassword") newPassword: string,
+    @Ctx() { req }: MyContext
+  ): Promise<UserResponse> {
+    const user = await User.findOne(req.session.userId);
+
+    const authorized = await argon2.verify(user!.password, oldPassword);
+
+    if (!authorized) {
+      return {
+        errors: [
+          {
+            field: "oldPassword",
+            message: INCORRECT_PASSWORD,
+          },
+        ],
+      };
+    }
+
+    const validationErrors = validatePassword(newPassword);
+
+    if (validationErrors) {
+      return { errors: validationErrors };
+    }
+
+    user!.password = await argon2.hash(newPassword);
+    user!.save();
 
     return { user };
   }

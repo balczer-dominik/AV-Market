@@ -4,13 +4,11 @@ import { REGULAR_DARK_BROWN } from "../utils/colors";
 import { NEW_AVATAR_LABEL } from "../utils/strings";
 
 interface FileUploaderProps {
-  image;
   fieldName: string;
   setter: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 
 export const FileUploader: React.FC<FileUploaderProps> = ({
-  image,
   fieldName,
   setter: setFieldValue,
 }) => {
