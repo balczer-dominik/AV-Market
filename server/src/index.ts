@@ -7,7 +7,10 @@ import Redis from "ioredis";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import { COOKIE_NAME, __prod__ } from "./constants";
+import { Ad } from "./entities/Ad";
+import { AdImage } from "./entities/AdImage";
 import { User } from "./entities/User";
+import { AdResolver } from "./resolvers/ad";
 import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
 import { UserAdministrationResolver } from "./resolvers/userAdministration";
@@ -21,7 +24,7 @@ const main = async () => {
     password: "postgres",
     logging: true,
     synchronize: !__prod__,
-    entities: [User],
+    entities: [User, Ad, AdImage],
   });
 
   //Express
@@ -60,7 +63,12 @@ const main = async () => {
   //Apollo
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, UserResolver, UserAdministrationResolver],
+      resolvers: [
+        HelloResolver,
+        UserResolver,
+        UserAdministrationResolver,
+        AdResolver,
+      ],
       validate: false,
     }),
     context: ({ req, res }) => ({

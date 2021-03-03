@@ -1,10 +1,10 @@
 import { Field, ObjectType } from "type-graphql";
 import {
+  Entity,
   BaseEntity,
   Column,
   CreateDateColumn,
-  Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -12,32 +12,18 @@ import { Ad } from "./Ad";
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class AdImage extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Field()
-  @Column({ unique: true })
-  username!: string;
-
-  @Field()
-  @Column({ unique: true })
-  email!: string;
-
   @Column()
-  password!: string;
+  src!: string;
 
-  @Field({ nullable: true })
-  @Column({ default: null, nullable: true })
-  avatar: string;
-
-  @Field(() => Boolean)
-  @Column({ default: false })
-  banned: boolean;
-
-  @OneToMany(() => Ad, (ad) => ad.owner)
-  ads: Ad[];
+  @Field(() => Ad)
+  @ManyToOne(() => Ad, (ad) => ad.images)
+  ad!: Ad;
 
   @Field(() => String)
   @CreateDateColumn()
