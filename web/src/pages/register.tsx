@@ -27,7 +27,7 @@ import {
   USERNAME_LABEL_REQUIRED,
 } from "../utils/strings";
 import { toErrorMap } from "../utils/toErrorMap";
-import { useBetterToast } from "../utils/useSuccessToast";
+import { useBetterToast } from "../utils/useBetterToast";
 import { RegisterValidator } from "../utils/validators";
 
 interface registerProps {}

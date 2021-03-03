@@ -29,7 +29,7 @@ import {
 } from "../../utils/strings";
 import { toErrorMap } from "../../utils/toErrorMap";
 import { useIsAuth } from "../../utils/useIsAuth";
-import { useBetterToast } from "../../utils/useSuccessToast";
+import { useBetterToast } from "../../utils/useBetterToast";
 import {
   ChangeEmailValidator,
   ChangePasswordValidator,

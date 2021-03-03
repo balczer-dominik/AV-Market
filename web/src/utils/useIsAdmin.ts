@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useMeQuery } from "../generated/graphql";
 import { ACCESS_DENIED, ERROR_GENERIC, ERROR_NOT_AUTHORIZED } from "./strings";
-import { useBetterToast } from "./useSuccessToast";
+import { useBetterToast } from "./useBetterToast";
 
 export const useIsAdmin = () => {
   const [{ data, fetching }] = useMeQuery();

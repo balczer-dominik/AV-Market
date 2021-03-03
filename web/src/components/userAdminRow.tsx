@@ -8,7 +8,7 @@ import {
 } from "../generated/graphql";
 import { LIGHTER_REGULAR_BROWN } from "../utils/colors";
 import { USER_BANNED, USER_UNBANNED } from "../utils/strings";
-import { useBetterToast } from "../utils/useSuccessToast";
+import { useBetterToast } from "../utils/useBetterToast";
 
 interface UserAdminRowProps {
   user: {

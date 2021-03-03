@@ -24,7 +24,7 @@ import {
   WELCOME_USER,
 } from "../utils/strings";
 import { toErrorMap } from "../utils/toErrorMap";
-import { useBetterToast } from "../utils/useSuccessToast";
+import { useBetterToast } from "../utils/useBetterToast";
 import { InputField } from "./InputField";
 import { RegularButton } from "./RegularButton";
 
