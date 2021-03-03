@@ -1,4 +1,4 @@
-import { Button, Flex, Icon, Image, Td, Tr, useToast } from "@chakra-ui/react";
+import { Button, Flex, Icon, Image, Td, Tr } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FaCheck, FaHammer } from "react-icons/fa";
 import {
@@ -8,6 +8,7 @@ import {
 } from "../generated/graphql";
 import { LIGHTER_REGULAR_BROWN } from "../utils/colors";
 import { USER_BANNED, USER_UNBANNED } from "../utils/strings";
+import { useBetterToast } from "../utils/useSuccessToast";
 
 interface UserAdminRowProps {
   user: {
@@ -21,7 +22,7 @@ export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
   const { id, avatar, username, email, banned } = user;
   console.log(user);
   const [isBanned, setBanned] = useState(banned);
-  const toast = useToast();
+  const toast = useBetterToast();
   useEffect(() => {
     setBanned(banned);
   }, [user]);
@@ -62,23 +63,13 @@ export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
             //Already banned -> Unban
             if (isBanned) {
               await unbanUser({ id });
-              toast({
-                title: username + USER_UNBANNED,
-                status: "success",
-                duration: 5000,
-                position: "bottom-left",
-              });
+              toast("success", username + USER_UNBANNED);
               setBanned(false);
               return;
             }
             //Not banned yet -> Ban
             await banUser({ id });
-            toast({
-              title: username + USER_BANNED,
-              status: "success",
-              duration: 5000,
-              position: "bottom-left",
-            });
+            toast("success", username + USER_BANNED);
             setBanned(true);
           }}
         >

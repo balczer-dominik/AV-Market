@@ -1,7 +1,7 @@
-import { Heading, Stack, useToast } from "@chakra-ui/react";
+import { Heading, Stack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
-import React, { useState } from "react";
+import React from "react";
 import { MdEmail } from "react-icons/md";
 import { FileUploader } from "../../components/FileUploader";
 import { InputField } from "../../components/InputField";
@@ -24,6 +24,7 @@ import {
 } from "../../utils/strings";
 import { toErrorMap } from "../../utils/toErrorMap";
 import { useIsAuth } from "../../utils/useIsAuth";
+import { useBetterToast } from "../../utils/useSuccessToast";
 import { ChangeEmailValidator } from "../../utils/validators";
 
 const Edit: React.FC<{}> = ({}) => {
@@ -31,7 +32,7 @@ const Edit: React.FC<{}> = ({}) => {
   const [{ data: meData, fetching: meFetching }, me] = useMeFullQuery();
   const [, changeEmail] = useChangeEmailMutation();
   const [, uploadAvatar] = useUploadAvatarMutation();
-  const toast = useToast();
+  const toast = useBetterToast();
   return (
     <Layout variant="small">
       {meFetching || !meData.me ? null : (
@@ -55,15 +56,8 @@ const Edit: React.FC<{}> = ({}) => {
                 setErrors(toErrorMap(response.data.changeEmail.errors));
                 return;
               }
-
               me();
-
-              toast({
-                title: CHANGE_EMAIL_SUCCESS,
-                status: "success",
-                duration: 5000,
-                position: "bottom-left",
-              });
+              toast("success", CHANGE_EMAIL_SUCCESS);
             }}
           >
             {({ isSubmitting }) => (
@@ -93,20 +87,10 @@ const Edit: React.FC<{}> = ({}) => {
             onSubmit={async ({ newAvatar }, { setErrors }) => {
               const result = await uploadAvatar({ avatar: newAvatar });
               if (result.data.uploadAvatar) {
-                toast({
-                  title: CHANGE_AVATAR_SUCCESS,
-                  status: "success",
-                  duration: 5000,
-                  position: "bottom-left",
-                });
+                toast("success", CHANGE_AVATAR_SUCCESS);
                 return;
               }
-              toast({
-                title: ERROR_GENERIC,
-                status: "error",
-                duration: 5000,
-                position: "bottom-left",
-              });
+              toast("error", ERROR_GENERIC);
             }}
           >
             {({ setFieldValue, isSubmitting }) => (

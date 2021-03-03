@@ -6,7 +6,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
@@ -25,6 +24,7 @@ import {
   WELCOME_USER,
 } from "../utils/strings";
 import { toErrorMap } from "../utils/toErrorMap";
+import { useBetterToast } from "../utils/useSuccessToast";
 import { InputField } from "./InputField";
 import { RegularButton } from "./RegularButton";
 
@@ -38,7 +38,7 @@ export const LoginDialogue: React.FC<LoginDialogueProps> = ({
   onClose,
 }) => {
   const [, login] = useLoginMutation();
-  const successToast = useToast();
+  const toast = useBetterToast();
   const router = useRouter();
   const initialRef = useRef();
 
@@ -61,24 +61,24 @@ export const LoginDialogue: React.FC<LoginDialogueProps> = ({
               password: "",
             }}
             onSubmit={async ({ usernameOrEmail, password }, { setErrors }) => {
-              const response = await login({
-                usernameOrEmail,
-                password,
-              });
+              const { user, errors } = (
+                await login({
+                  usernameOrEmail,
+                  password,
+                })
+              ).data.login;
 
-              if (response.data?.login.errors) {
-                setErrors(toErrorMap(response.data.login.errors));
+              if (errors) {
+                setErrors(toErrorMap(errors));
                 return;
               }
 
-              if (response.data?.login.user) {
-                successToast({
-                  title: LOGIN_SUCCESS_LABEL,
-                  description: WELCOME_USER + response.data.login.user.username,
-                  status: "success",
-                  duration: 5000,
-                  position: "bottom-left",
-                });
+              if (user) {
+                toast(
+                  "success",
+                  LOGIN_SUCCESS_LABEL,
+                  WELCOME_USER + user.username
+                );
 
                 onClose();
                 router.reload();

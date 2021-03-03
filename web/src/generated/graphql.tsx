@@ -54,6 +54,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   uploadAvatar: Scalars['Boolean'];
   changeEmail: UserResponse;
+  changePassword: UserResponse;
   banUser: Scalars['Boolean'];
   unbanUser: Scalars['Boolean'];
 };
@@ -82,6 +83,12 @@ export type MutationUploadAvatarArgs = {
 
 export type MutationChangeEmailArgs = {
   email: Scalars['String'];
+};
+
+
+export type MutationChangePasswordArgs = {
+  newPassword: Scalars['String'];
+  oldPassword: Scalars['String'];
 };
 
 
@@ -160,6 +167,23 @@ export type ChangeEmailMutation = (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'username' | 'email'>
     )> }
+  ) }
+);
+
+export type ChangePasswordMutationVariables = Exact<{
+  oldPassword: Scalars['String'];
+  newPassword: Scalars['String'];
+}>;
+
+
+export type ChangePasswordMutation = (
+  { __typename?: 'Mutation' }
+  & { changePassword: (
+    { __typename?: 'UserResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>> }
   ) }
 );
 
@@ -310,6 +334,20 @@ export const ChangeEmailDocument = gql`
 
 export function useChangeEmailMutation() {
   return Urql.useMutation<ChangeEmailMutation, ChangeEmailMutationVariables>(ChangeEmailDocument);
+};
+export const ChangePasswordDocument = gql`
+    mutation ChangePassword($oldPassword: String!, $newPassword: String!) {
+  changePassword(oldPassword: $oldPassword, newPassword: $newPassword) {
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
+
+export function useChangePasswordMutation() {
+  return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
 };
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {

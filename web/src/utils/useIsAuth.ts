@@ -1,24 +1,18 @@
-import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useMeQuery } from "../generated/graphql";
 import { ERROR_GENERIC, ERROR_NOT_AUTHORIZED } from "./strings";
+import { useBetterToast } from "./useSuccessToast";
 
 export const useIsAuth = () => {
   const [{ data, fetching }] = useMeQuery();
-  const toast = useToast();
+  const toast = useBetterToast();
   const router = useRouter();
 
   useEffect(() => {
     if (!fetching && !data?.me) {
       router.replace("/");
-      toast({
-        title: ERROR_GENERIC,
-        description: ERROR_NOT_AUTHORIZED,
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
+      toast("error", ERROR_GENERIC);
     }
   }, [fetching, data, router]);
 };

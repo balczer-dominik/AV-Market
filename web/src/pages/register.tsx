@@ -1,4 +1,4 @@
-import { Heading, Stack, Text, useToast } from "@chakra-ui/react";
+import { Heading, Stack, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
@@ -27,12 +27,13 @@ import {
   USERNAME_LABEL_REQUIRED,
 } from "../utils/strings";
 import { toErrorMap } from "../utils/toErrorMap";
+import { useBetterToast } from "../utils/useSuccessToast";
 import { RegisterValidator } from "../utils/validators";
 
 interface registerProps {}
 
 export const register: React.FC<registerProps> = ({}) => {
-  const successToast = useToast();
+  const toast = useBetterToast();
   const router = useRouter();
   const [, register] = useRegisterMutation();
   return (
@@ -64,13 +65,7 @@ export const register: React.FC<registerProps> = ({}) => {
             }
 
             if (response.data?.register.user) {
-              successToast({
-                title: REGISTER_SUCCESS_LABEL,
-                description: REDIRECT_MESSAGE,
-                status: "success",
-                duration: 5000,
-                position: "bottom-left",
-              });
+              toast("success", REGISTER_SUCCESS_LABEL, REDIRECT_MESSAGE);
               router.push("/");
             }
           }}
