@@ -30,7 +30,15 @@ export class User extends BaseEntity {
 
   @Field({ nullable: true })
   @Column({ default: null, nullable: true })
-  avatar: string;
+  avatar?: string;
+
+  @Field({ nullable: true })
+  @Column({ default: null, nullable: true })
+  county?: string;
+
+  @Field({ nullable: true })
+  @Column({ default: null, nullable: true })
+  city?: string;
 
   @Field(() => Boolean)
   @Column({ default: false })

@@ -36,3 +36,6 @@ export const PRICE_TOO_LOW = "Az ár túl alacsony.";
 export const PRICE_TOO_HIGH = "Az ár túl magas.";
 export const TITLE_TOO_SHORT = "A címnek legalább 5 karakterből kell állnia.";
 export const TITLE_TOO_LONG = "A cím legfeljebb 40 karakterből állhat.";
+
+//Ad misc.
+export const AD_NOT_FOUND = "Hirdetés nem található.";

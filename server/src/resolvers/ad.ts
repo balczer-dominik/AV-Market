@@ -15,10 +15,11 @@ import { PostInput } from "../util/type-graphql/PostInput";
 import { MyContext } from "../types";
 import { validatePost } from "../validators/validatePost";
 import { Ad } from "../entities/Ad";
-import { MainCategory, Wear } from "../resource/strings";
+import { AD_NOT_FOUND, MainCategory, Wear } from "../resource/strings";
 import { User } from "../entities/User";
 import { getConnection } from "typeorm";
 import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
+import { errorResponse } from "../util/errorResponse";
 
 @Resolver(Ad)
 export class AdResolver {
@@ -84,5 +85,16 @@ export class AdResolver {
       ads: ads.slice(0, limit),
       hasMore: ads.length === limitPlusOne,
     };
+  }
+
+  @Query(() => AdResponse)
+  async ad(@Arg("id", () => Int) id: number): Promise<AdResponse> {
+    const ad = await Ad.findOne(id);
+
+    if (!ad) {
+      return errorResponse("id", AD_NOT_FOUND);
+    }
+
+    return { ad };
   }
 }

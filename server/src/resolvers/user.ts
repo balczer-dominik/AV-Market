@@ -34,6 +34,7 @@ import { createWriteStream } from "fs";
 import randomstring from "randomstring";
 import { validatePassword } from "../validators/validatePassword";
 import { errorResponse } from "../util/errorResponse";
+import { isAscii } from "class-validator";
 
 @Resolver(User)
 export class UserResolver {
@@ -151,13 +152,11 @@ export class UserResolver {
     });
   }
 
+  @UseMiddleware(isAuth)
   @Query(() => User, { nullable: true })
-  me(@Ctx() { req }: MyContext): Promise<User | undefined> | null {
-    if (!req.session.userId) {
-      return null;
-    }
-
-    return User.findOne(req.session.userId);
+  async me(@Ctx() { req }: MyContext): Promise<User> {
+    const user = await User.findOne(req.session.userId);
+    return user as User;
   }
 
   @UseMiddleware(isAuth)
@@ -207,6 +206,25 @@ export class UserResolver {
     const user = await User.findOne(req.session.userId);
     user!.email = newEmail;
     user!.save();
+
+    return { user };
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => UserResponse)
+  async changeLocation(
+    @Ctx() { req }: MyContext,
+    @Arg("county", { nullable: true }) newCounty?: string,
+    @Arg("city", { nullable: true }) newCity?: string
+  ): Promise<UserResponse> {
+    if (newCounty) {
+      await User.update(req.session.userId!, { county: newCounty });
+    }
+    if (newCity) {
+      await User.update(req.session.userId!, { city: newCity });
+    }
+
+    const user = await User.findOne(req.session.userId);
 
     return { user };
   }

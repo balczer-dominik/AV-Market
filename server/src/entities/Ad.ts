@@ -1,4 +1,3 @@
-import { MainCategory, Wear } from "../resource/strings";
 import { ObjectType, Field } from "type-graphql";
 import {
   Entity,

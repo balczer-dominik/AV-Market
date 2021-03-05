@@ -7,7 +7,8 @@ type Field =
   | "usernameOrEmail"
   | "avatar"
   | "oldPassword"
-  | "newPassword";
+  | "newPassword"
+  | "id";
 
 export const errorResponse = (field: Field, message: string): UserResponse => {
   return {

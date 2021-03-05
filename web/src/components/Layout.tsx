@@ -23,6 +23,7 @@ export const Layout: React.FC<LayoutProps> = ({
         mt={8}
         color={REGULAR_BROWN}
         alignContent="center"
+        pb={20}
       >
         {children}
       </Box>

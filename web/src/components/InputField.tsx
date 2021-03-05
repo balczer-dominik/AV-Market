@@ -8,10 +8,12 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Select,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useField } from "formik";
+import { SelectControl } from "formik-chakra-ui";
 import React, { InputHTMLAttributes } from "react";
 import { IconType } from "react-icons";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -30,6 +32,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   hint?: string[];
   password?: boolean;
   ref?: React.MutableRefObject<undefined>;
+  select?: string[];
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -39,6 +42,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   hint,
   password = false,
   ref,
+  select,
   ...props
 }) => {
   const [field, { error }] = useField(props);
@@ -58,18 +62,32 @@ export const InputField: React.FC<InputFieldProps> = ({
         isOpen={!!error}
       >
         <InputGroup>
-          <Input
-            ref={ref}
-            type={password && !showPassword ? "password" : "text"}
-            id={field.name}
-            borderColor={LIGHTER_REGULAR_BROWN}
-            borderWidth={"0.15rem"}
-            _hover={{ borderColor: LIGHTEST_REGULAR_BROWN }}
-            placeholder={
-              password && !showPassword ? "************" : props.placeholder
-            }
-            {...field}
-          />
+          {!select ? (
+            <Input
+              ref={ref}
+              type={password && !showPassword ? "password" : "text"}
+              id={field.name}
+              borderColor={LIGHTER_REGULAR_BROWN}
+              borderWidth={"0.15rem"}
+              _hover={{ borderColor: LIGHTEST_REGULAR_BROWN }}
+              placeholder={
+                password && !showPassword ? "************" : props.placeholder
+              }
+              {...field}
+            />
+          ) : (
+            <SelectControl
+              id={field.name}
+              name={field.name}
+              placeholder={props.placeholder}
+            >
+              {select.map((option) => (
+                <option value={option} key={option}>
+                  {option}
+                </option>
+              ))}
+            </SelectControl>
+          )}
           {icon ? (
             <InputLeftElement>
               <Icon as={icon} color={LIGHTER_REGULAR_BROWN} />

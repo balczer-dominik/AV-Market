@@ -1,0 +1,14 @@
+mutation ChangeLocation($county: String, $city: String) {
+  changeLocation(county: $county, city: $city) {
+    errors {
+      field
+      message
+    }
+    user {
+      id
+      username
+      county
+      city
+    }
+  }
+}

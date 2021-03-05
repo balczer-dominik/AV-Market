@@ -9,6 +9,8 @@ export const useIsAdmin = () => {
   const toast = useBetterToast();
   const router = useRouter();
 
+  let render: Boolean = false;
+
   useEffect(() => {
     if (!fetching && !data?.me) {
       router.replace("/");
