@@ -1,7 +1,9 @@
 import { toast } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import React from "react";
+import { CgPassword } from "react-icons/cg";
 import { MdEmail } from "react-icons/md";
+import { RiLockPasswordFill } from "react-icons/ri";
 import { useChangePasswordMutation } from "../../generated/graphql";
 import {
   CHANGE_PASSWORD_SUCCESS,
@@ -45,19 +47,19 @@ export const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({}) => {
           <InputField
             name="oldPassword"
             label={CURRENT_PASSWORD_LABEL}
-            icon={MdEmail}
+            icon={RiLockPasswordFill}
             password
           />
           <InputField
             name="newPassword"
             label={NEW_PASSWORD_LABEL}
-            icon={MdEmail}
+            icon={RiLockPasswordFill}
             password
           />
           <InputField
             name="newPasswordConfirm"
             label={CONFIRM_PASSWORD_LABEL}
-            icon={MdEmail}
+            icon={RiLockPasswordFill}
             password
           />
           <RegularButton mt={4} spinner={isSubmitting}>

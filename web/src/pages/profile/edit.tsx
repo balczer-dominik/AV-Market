@@ -52,20 +52,20 @@ const Edit: React.FC<{}> = ({}) => {
             {EDIT_PROFILE_LABEL}
           </Heading>
           <SimpleGrid spacing="40px" minChildWidth="300px">
-            <ProfileSection title={CHANGE_EMAIL_LABEL} icon={FaMailBulk}>
-              <ChangeEmailForm />
-            </ProfileSection>
             <ProfileSection title={CHANGE_PASSWORD_LABEL} icon={FaKey}>
               <ChangePasswordForm />
-            </ProfileSection>
-            <ProfileSection title={CHANGE_AVATAR_LABEL} icon={FaRegUserCircle}>
-              <ChangeAvatarForm />
             </ProfileSection>
             <ProfileSection
               title={CHANGE_LOCATION_LABEL}
               icon={FaLocationArrow}
             >
               <ChangeLocationForm />
+            </ProfileSection>
+            <ProfileSection title={CHANGE_AVATAR_LABEL} icon={FaRegUserCircle}>
+              <ChangeAvatarForm />
+            </ProfileSection>
+            <ProfileSection title={CHANGE_EMAIL_LABEL} icon={FaMailBulk}>
+              <ChangeEmailForm />
             </ProfileSection>
           </SimpleGrid>
         </Stack>

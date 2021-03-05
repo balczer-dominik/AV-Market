@@ -336,6 +336,17 @@ export type MeQuery = (
   )> }
 );
 
+export type MeAvatarQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeAvatarQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'avatar'>
+  )> }
+);
+
 export type MeEmailQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -533,6 +544,17 @@ export const MeDocument = gql`
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const MeAvatarDocument = gql`
+    query MeAvatar {
+  me {
+    avatar
+  }
+}
+    `;
+
+export function useMeAvatarQuery(options: Omit<Urql.UseQueryArgs<MeAvatarQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MeAvatarQuery>({ query: MeAvatarDocument, ...options });
 };
 export const MeEmailDocument = gql`
     query MeEmail {

@@ -20,6 +20,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
       borderRadius="10px"
       p={3}
       boxShadow="md"
+      h="min-content"
     >
       <Flex
         justify="space-between"

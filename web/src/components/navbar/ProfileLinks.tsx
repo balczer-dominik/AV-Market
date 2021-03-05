@@ -63,7 +63,9 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
                   <Image
                     mr={2}
                     borderRadius={"5px"}
-                    border={`3px ${LIGHTER_REGULAR_BROWN} solid`}
+                    borderColor={LIGHTER_REGULAR_BROWN}
+                    borderWidth={3}
+                    borderStyle="solid"
                     h={10}
                     w={10}
                     src={`/avatar/${data.me.avatar}.png`}
