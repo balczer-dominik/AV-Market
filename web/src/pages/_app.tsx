@@ -10,11 +10,7 @@ import Fonts from "../utils/fonts";
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider resetCSS theme={theme}>
-      <ColorModeProvider
-        options={{
-          useSystemColorMode: true,
-        }}
-      >
+      <ColorModeProvider options={{ initialColorMode: "light" }}>
         <Component {...pageProps} />
       </ColorModeProvider>
     </ChakraProvider>

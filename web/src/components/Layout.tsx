@@ -24,6 +24,7 @@ export const Layout: React.FC<LayoutProps> = ({
         color={REGULAR_BROWN}
         alignContent="center"
         pb={20}
+        bgColor="white"
       >
         {children}
       </Box>
