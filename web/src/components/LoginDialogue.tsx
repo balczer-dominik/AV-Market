@@ -99,7 +99,7 @@ export const LoginDialogue: React.FC<LoginDialogueProps> = ({
                   label={PASSWORD_LABEL}
                   icon={RiLockPasswordFill}
                   placeholder={PASSWORD_PLACEHOLDER}
-                  password
+                  type="password"
                 />
 
                 <Flex mt={6} justify="space-between">

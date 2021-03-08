@@ -45,7 +45,7 @@ const titleValidation = Yup.string()
 const priceValidation = Yup.number()
   .required(FIELD_REQUIRED)
   .typeError(PRICE_CONTAINS_FORBIDDEN)
-  .min(0, PRICE_TOO_LOW)
+  .min(50, PRICE_TOO_LOW)
   .max(999999999, PRICE_TOO_HIGH);
 
 export const RegisterValidator = Yup.object().shape({

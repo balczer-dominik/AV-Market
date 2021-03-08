@@ -48,19 +48,19 @@ export const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({}) => {
             name="oldPassword"
             label={CURRENT_PASSWORD_LABEL}
             icon={RiLockPasswordFill}
-            password
+            type="password"
           />
           <InputField
             name="newPassword"
             label={NEW_PASSWORD_LABEL}
             icon={RiLockPasswordFill}
-            password
+            type="password"
           />
           <InputField
             name="newPasswordConfirm"
             label={CONFIRM_PASSWORD_LABEL}
             icon={RiLockPasswordFill}
-            password
+            type="password"
           />
           <RegularButton mt={4} spinner={isSubmitting}>
             {CONFIRM_CHANGE_LABEL}

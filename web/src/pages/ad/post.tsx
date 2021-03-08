@@ -32,16 +32,7 @@ const step = (
   [active, setActive]: [number, React.Dispatch<React.SetStateAction<number>>]
 ) => {
   return {
-    title: (
-      <Link
-        textDecor={"none"}
-        onClick={() => {
-          /* if (step <= active)*/ setActive(step);
-        }}
-      >
-        {label}
-      </Link>
-    ),
+    title: <Box>{label}</Box>,
   };
 };
 
