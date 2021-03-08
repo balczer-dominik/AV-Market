@@ -1,10 +1,8 @@
 import Icon from "@chakra-ui/icon";
-import { Box } from "@chakra-ui/layout";
 import { Flex, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons";
 import { REGULAR_BROWN } from "../../utils/colors";
-import { MainCategory } from "../navbar/MenuRoutes";
 
 interface CategoryTileProps {
   name: string;

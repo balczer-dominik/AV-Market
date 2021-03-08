@@ -1,11 +1,10 @@
-import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { Flex, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons";
 import {
-  REGULAR_LIGHT_BROWN,
-  REGULAR_BROWN,
-  LIGHTER_REGULAR_BROWN,
   DARKER_REGULAR_BROWN,
+  LIGHTER_REGULAR_BROWN,
+  REGULAR_LIGHT_BROWN,
 } from "../../utils/colors";
 
 interface WearTileProps {

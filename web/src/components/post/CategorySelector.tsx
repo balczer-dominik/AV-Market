@@ -1,9 +1,6 @@
-import { Flex, SimpleGrid } from "@chakra-ui/layout";
-import { Box } from "@chakra-ui/react";
-import { propNames } from "@chakra-ui/styled-system";
+import { SimpleGrid } from "@chakra-ui/layout";
 import React from "react";
-import { FaGhost } from "react-icons/fa";
-import { Categories, MainCategories, MainCategory } from "../navbar/MenuRoutes";
+import { Categories, MainCategories } from "../navbar/MenuRoutes";
 import { CategoryTile } from "./CategoryTile";
 
 interface CategorySelectorProps {

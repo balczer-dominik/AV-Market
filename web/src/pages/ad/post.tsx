@@ -1,17 +1,15 @@
 import { Box, Flex, Heading, Link } from "@chakra-ui/react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Stepper from "react-stepper-horizontal";
 import { Layout } from "../../components/Layout";
-import { MainCategory } from "../../components/navbar/MenuRoutes";
 import { CategorySelector } from "../../components/post/CategorySelector";
 import { PostDetailsForm } from "../../components/post/PostDetailsForm";
 import { RegularButton } from "../../components/RegularButton";
 import {
   DARKER_REGULAR_BROWN,
   LIGHTER_REGULAR_BROWN,
-  REGULAR_BROWN,
 } from "../../utils/colors";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import {

@@ -1,18 +1,11 @@
-import { Box, Flex, FormLabel, Heading, NumberInput } from "@chakra-ui/react";
-import { NumberInputControl } from "formik-chakra-ui";
+import { Box, Flex, FormLabel, Heading } from "@chakra-ui/react";
 import React from "react";
 import { BiText } from "react-icons/bi";
 import { FaMoneyBillWave } from "react-icons/fa";
-import { MdDescription } from "react-icons/md";
-import {
-  REGULAR_BROWN,
-  REGULAR_DARK_BROWN,
-  REGULAR_LIGHT_BROWN,
-} from "../../utils/colors";
+import { REGULAR_DARK_BROWN } from "../../utils/colors";
 import {
   BASIC_DETAILS_LABEL,
   DESC_LABEL,
-  POST_LABEL,
   PRICE_LABEL,
   TITLE_LABEL,
   WearValues,
