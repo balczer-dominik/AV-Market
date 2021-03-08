@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { FaUser, FaUserPlus } from "react-icons/fa";
+import { IoCreateOutline } from "react-icons/io5";
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 import {
   LIGHTER_REGULAR_BROWN,
@@ -21,7 +22,12 @@ import {
   REGULAR_BROWN,
 } from "../../utils/colors";
 import { isServer } from "../../utils/isServer";
-import { LOGIN_LABEL, LOGOUT_LABEL, REGISTER_LABEL } from "../../utils/strings";
+import {
+  LOGIN_LABEL,
+  LOGOUT_LABEL,
+  POST_LABEL,
+  REGISTER_LABEL,
+} from "../../utils/strings";
 import { LoginDialogue } from "../LoginDialogue";
 
 export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
@@ -31,7 +37,7 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
     onOpen: openLogin,
     onClose: closeLogin,
   } = useDisclosure();
-  const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
+  const [, logout] = useLogoutMutation();
   const router = useRouter();
 
   return (
@@ -53,52 +59,70 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
           "..."
         ) : data?.me ? (
           <Flex align="center" justify="space-between">
-            <NextLink href="/profile/edit">
-              <Link>
-                <Flex
-                  mr={2}
-                  align={"center"}
-                  flexDir={{ base: "row", md: "row-reverse" }}
-                >
-                  <Image
+            {/* Profilkép */}
+            <Flex mr={2}>
+              <NextLink href="/profile/edit">
+                <Link>
+                  <Flex
                     mr={2}
-                    borderRadius={"5px"}
-                    borderColor={LIGHTER_REGULAR_BROWN}
-                    borderWidth={3}
-                    borderStyle="solid"
-                    h={10}
-                    w={10}
-                    src={`/avatar/${data.me.avatar}.png`}
-                    fallback={
-                      <Flex
-                        align={"center"}
-                        justify={"center"}
-                        bgColor={LIGHTER_REGULAR_LIGHT_BROWN}
-                        h={10}
-                        w={10}
-                        borderRadius={"5px"}
-                        border={`3px ${LIGHTER_REGULAR_BROWN} solid`}
-                      >
-                        <Icon as={FaUser} h={6} w={6} />
-                      </Flex>
-                    }
+                    align={"center"}
+                    flexDir={{ base: "row", md: "row-reverse" }}
+                  >
+                    <Image
+                      borderRadius={"5px"}
+                      borderColor={LIGHTER_REGULAR_BROWN}
+                      borderWidth={3}
+                      borderStyle="solid"
+                      h={10}
+                      w={10}
+                      src={`/avatar/${data.me.avatar}.png`}
+                      fallback={
+                        <Flex
+                          align={"center"}
+                          justify={"center"}
+                          bgColor={LIGHTER_REGULAR_LIGHT_BROWN}
+                          h={10}
+                          w={10}
+                          borderRadius={"5px"}
+                          border={`3px ${LIGHTER_REGULAR_BROWN} solid`}
+                        >
+                          <Icon as={FaUser} h={6} w={6} />
+                        </Flex>
+                      }
+                    />
+                    <Text mr={2}>{data.me.username}</Text>
+                  </Flex>
+                </Link>
+              </NextLink>
+              {/* Hirdetés feladása */}
+              <NextLink href="/ad/post">
+                <Link>
+                  <IconButton
+                    bgColor={REGULAR_BROWN}
+                    color="white"
+                    _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
+                    aria-label={POST_LABEL}
+                    as={IoCreateOutline}
+                    p={2}
                   />
-                  <Text mr={2}>{data.me.username}</Text>
-                </Flex>
-              </Link>
-            </NextLink>
-            <IconButton
-              bgColor={REGULAR_BROWN}
-              color="white"
-              _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
-              onClick={async () => {
-                await logout();
-                router.replace("/");
-              }}
-              aria-label={LOGOUT_LABEL}
-              as={BiLogOut}
-              p={2}
-            />
+                </Link>
+              </NextLink>
+            </Flex>
+            {/* Kilépés */}
+            <Link>
+              <IconButton
+                bgColor={REGULAR_BROWN}
+                color="white"
+                _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
+                onClick={async () => {
+                  await logout();
+                  router.replace("/");
+                }}
+                aria-label={LOGOUT_LABEL}
+                as={BiLogOut}
+                p={2}
+              />
+            </Link>
           </Flex>
         ) : (
           <Flex justify="space-between">

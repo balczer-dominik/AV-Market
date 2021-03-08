@@ -20,10 +20,11 @@ export const Layout: React.FC<LayoutProps> = ({
         maxWidth={variant === "regular" ? "800px" : "400px"}
         width="100%"
         mx="auto"
+        px="4"
         mt={8}
         color={REGULAR_BROWN}
         alignContent="center"
-        pb={20}
+        pb={{ base: 4, md: 20 }}
         bgColor="white"
       >
         {children}

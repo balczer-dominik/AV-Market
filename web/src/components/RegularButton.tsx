@@ -19,6 +19,8 @@ interface SubmitButtonProps {
   spinner?: boolean;
   variant?: ButtonVariant;
   mt?: number;
+  onClick?: () => void;
+  disabled?: Boolean;
 }
 
 export const RegularButton: React.FC<SubmitButtonProps> = ({
@@ -26,12 +28,16 @@ export const RegularButton: React.FC<SubmitButtonProps> = ({
   children,
   variant = "solid",
   mt,
+  onClick,
+  disabled = false,
 }) => {
   return (
     <Button
+      disabled={disabled.valueOf()}
       mt={mt}
-      type="submit"
+      type={onClick ? "button" : "submit"}
       isLoading={spinner}
+      onClick={onClick}
       borderWidth={variant === "solid" ? null : "0.15rem"}
       borderColor={variant === "solid" ? null : DARKER_REGULAR_BROWN}
       bgColor={variant === "solid" ? REGULAR_BROWN : null}

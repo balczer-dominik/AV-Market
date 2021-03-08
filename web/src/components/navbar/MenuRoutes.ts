@@ -20,6 +20,7 @@ import {
   FaRegKeyboard,
   FaTools,
   FaTractor,
+  FaTransgender,
   FaTshirt,
   FaTv,
 } from "react-icons/fa";
@@ -69,6 +70,16 @@ export type MainCategory =
   | "JARMU"
   | "SZABADIDO"
   | "INGATLAN";
+
+export const MainCategories = [
+  "OTTHON",
+  "SZAMTECH",
+  "MUSZAKI",
+  "RUHAZAT",
+  "JARMU",
+  "SZABADIDO",
+  "INGATLAN",
+];
 
 export const Categories: Record<MainCategory, Category> = {
   OTTHON: {
@@ -235,6 +246,11 @@ export const Categories: Record<MainCategory, Category> = {
       {
         title: "Női",
         icon: FaFemale,
+        route: "/",
+      },
+      {
+        title: "Uniszex",
+        icon: FaTransgender,
         route: "/",
       },
       {

@@ -84,7 +84,7 @@ export type Wear =
   | "Megkímélt"
   | "Újszerű"
   | "Új";
-export type MainCategory =
+export type MainCategoryValue =
   | "OTTHON"
   | "SZAMTECH"
   | "MUSZAKI"
@@ -101,6 +101,19 @@ export const TITLE_TOO_LONG = "A cím legfeljebb 40 karakterből állhat.";
 
 //Ad misc.
 export const AD_NOT_FOUND = "Hirdetés nem található.";
+
+//UI
+export const POST_AD_TITLE = "Hirdetés feladása";
+export const POST_LABEL = "Hirdetés feladása";
+export const CONTINUE_BUTTON = "Tovább";
+export const BACK_BUTTON = "Vissza";
+
+//Post ad
+export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";
+export const CHOOSE_SUBCATEGORY_LABEL = "Alkategória kiválasztása";
+export const BASIC_DETAILS_LABEL = "Alap adatok megadása";
+export const UPLOAD_IMAGE_LABEL = "Képek feltöltése";
+export const FINALIZE_LABEL = "Véglegesítés";
 
 //Misc.
 export const counties: string[] = [
