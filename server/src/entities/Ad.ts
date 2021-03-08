@@ -25,10 +25,6 @@ export class Ad extends BaseEntity {
 
   @Field()
   @Column()
-  location!: string;
-
-  @Field()
-  @Column()
   price!: number;
 
   @Field()

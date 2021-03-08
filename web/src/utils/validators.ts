@@ -6,6 +6,11 @@ import {
   PASSWORD_DOESNT_CONTAIN_CAPITAL,
   PASSWORD_TOO_LONG,
   PASSWORD_TOO_SHORT,
+  PRICE_CONTAINS_FORBIDDEN,
+  PRICE_TOO_HIGH,
+  PRICE_TOO_LOW,
+  TITLE_TOO_LONG,
+  TITLE_TOO_SHORT,
   USERNAME_CONTAINS_FORBIDDEN,
   USERNAME_TOO_LONG,
   USERNAME_TOO_SHORT,
@@ -32,6 +37,17 @@ const passwordConfirmValidation = (ref: string) =>
     .required(FIELD_REQUIRED)
     .oneOf([Yup.ref(ref), null], PASSWORDS_MUST_MATCH);
 
+const titleValidation = Yup.string()
+  .required(FIELD_REQUIRED)
+  .min(5, TITLE_TOO_SHORT)
+  .max(40, TITLE_TOO_LONG);
+
+const priceValidation = Yup.number()
+  .required(FIELD_REQUIRED)
+  .typeError(PRICE_CONTAINS_FORBIDDEN)
+  .min(0, PRICE_TOO_LOW)
+  .max(999999999, PRICE_TOO_HIGH);
+
 export const RegisterValidator = Yup.object().shape({
   email: emailValidationRequired,
   username: usernameValidation,
@@ -46,4 +62,9 @@ export const ChangeEmailValidator = Yup.object().shape({
 export const ChangePasswordValidator = Yup.object().shape({
   newPassword: passwordValidation,
   newPasswordConfirm: passwordConfirmValidation("newPassword"),
+});
+
+export const PostValidator = Yup.object().shape({
+  title: titleValidation,
+  price: priceValidation,
 });

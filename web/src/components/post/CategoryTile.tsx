@@ -8,15 +8,13 @@ import { MainCategory } from "../navbar/MenuRoutes";
 
 interface CategoryTileProps {
   name: string;
-  value?: MainCategory;
   icon: IconType;
   disabled: boolean;
-  select: (value: React.SetStateAction<String>) => void;
+  select: () => void;
 }
 
 export const CategoryTile: React.FC<CategoryTileProps> = ({
   name,
-  value = name,
   icon,
   disabled,
   select,
@@ -26,7 +24,7 @@ export const CategoryTile: React.FC<CategoryTileProps> = ({
       style={{ textDecoration: "none" }}
       ml={"auto"}
       mr={"auto"}
-      onClick={() => select(value)}
+      onClick={() => select()}
     >
       <Flex
         textAlign="center"

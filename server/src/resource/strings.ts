@@ -17,7 +17,7 @@ export const USER_BANNED = "Ez a felhasználó le van tiltva.";
 
 //Ad types
 export type Wear =
-  | "Törött/Elromlott"
+  | "Erősen használt"
   | "Használt"
   | "Megkímélt"
   | "Újszerű"

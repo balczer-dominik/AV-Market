@@ -78,7 +78,7 @@ export const PASSWORD_DOESNT_CONTAIN_CAPITAL =
 export const PASSWORDS_MUST_MATCH = "A jelszavaknak meg kell egyezniük.";
 
 //Ad types
-export type Wear =
+export type WearValue =
   | "Törött/Elromlott"
   | "Használt"
   | "Megkímélt"
@@ -114,6 +114,21 @@ export const CHOOSE_SUBCATEGORY_LABEL = "Alkategória kiválasztása";
 export const BASIC_DETAILS_LABEL = "Alap adatok megadása";
 export const UPLOAD_IMAGE_LABEL = "Képek feltöltése";
 export const FINALIZE_LABEL = "Véglegesítés";
+export const TITLE_LABEL = "Cím";
+export const TITLE_PLACEHOLDER = "Az apróhirdetés címe...";
+export const PRICE_LABEL = "Ár";
+export const PRICE_PLACEHOLDER = "9.999 Ft";
+export const WEAR_LABEL = "Állapot";
+export const WearValues = [
+  "Erősen használt",
+  "Használt",
+  "Megkímélt",
+  "Újszerű",
+  "Új",
+];
+export const PRICE_CONTAINS_FORBIDDEN =
+  "Az ár nem megengedett karaktereket tartalmaz.";
+export const DESC_LABEL = "Leírás";
 
 //Misc.
 export const counties: string[] = [

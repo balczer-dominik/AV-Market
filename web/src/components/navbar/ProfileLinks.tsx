@@ -127,25 +127,29 @@ export const ProfileLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
         ) : (
           <Flex justify="space-between">
             <NextLink href="/register">
+              <Link>
+                <IconButton
+                  mr={3}
+                  p={2}
+                  bgColor={REGULAR_BROWN}
+                  color="white"
+                  _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
+                  as={FaUserPlus}
+                  aria-label={REGISTER_LABEL}
+                />
+              </Link>
+            </NextLink>
+            <Link>
               <IconButton
-                mr={3}
-                p={2}
                 bgColor={REGULAR_BROWN}
                 color="white"
                 _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
-                as={FaUserPlus}
-                aria-label={REGISTER_LABEL}
+                onClick={openLogin}
+                aria-label={LOGIN_LABEL}
+                as={BiLogIn}
+                p={2}
               />
-            </NextLink>
-            <IconButton
-              bgColor={REGULAR_BROWN}
-              color="white"
-              _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
-              onClick={openLogin}
-              aria-label={LOGIN_LABEL}
-              as={BiLogIn}
-              p={2}
-            />
+            </Link>
           </Flex>
         )}
       </Stack>

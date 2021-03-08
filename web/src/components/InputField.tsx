@@ -9,6 +9,7 @@ import {
   InputLeftElement,
   InputRightElement,
   Select,
+  Textarea,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -24,13 +25,14 @@ import {
 } from "../utils/colors";
 import { HIDE_PASSWORD, SHOW_PASSWORD } from "../utils/strings";
 
+type FieldType = "regular" | "password" | "number" | "textarea" | "select";
+
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name: string;
-  textarea?: boolean;
+  type?: FieldType;
   icon?: IconType;
   hint?: string[];
-  password?: boolean;
   ref?: React.MutableRefObject<undefined>;
   select?: string[];
 };
@@ -40,7 +42,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   size: _,
   icon,
   hint,
-  password = false,
+  type = "regular",
   ref,
   select,
   ...props
@@ -48,7 +50,14 @@ export const InputField: React.FC<InputFieldProps> = ({
   const [field, { error }] = useField(props);
   const { isOpen: showPassword, onToggle: togglePassword } = useDisclosure();
   return (
-    <FormControl isInvalid={!!error} mt={4}>
+    <FormControl
+      isInvalid={!!error}
+      mt={4}
+      maxW={{
+        base: type === "number" ? "60%" : "100%",
+        md: type === "number" ? "40%" : "100%",
+      }}
+    >
       <FormLabel htmlFor={field.name} color={REGULAR_DARK_BROWN}>
         {label}
       </FormLabel>
@@ -62,20 +71,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         isOpen={!!error}
       >
         <InputGroup>
-          {!select ? (
-            <Input
-              ref={ref}
-              type={password && !showPassword ? "password" : "text"}
-              id={field.name}
-              borderColor={LIGHTER_REGULAR_BROWN}
-              borderWidth={"0.15rem"}
-              _hover={{ borderColor: LIGHTEST_REGULAR_BROWN }}
-              placeholder={
-                password && !showPassword ? "************" : props.placeholder
-              }
-              {...field}
-            />
-          ) : (
+          {type === "select" ? (
             <SelectControl
               id={field.name}
               name={field.name}
@@ -87,13 +83,38 @@ export const InputField: React.FC<InputFieldProps> = ({
                 </option>
               ))}
             </SelectControl>
+          ) : type === "textarea" ? (
+            <Textarea
+              ref={ref}
+              id={field.name}
+              borderColor={LIGHTER_REGULAR_BROWN}
+              borderWidth={"0.15rem"}
+              _hover={{ borderColor: LIGHTEST_REGULAR_BROWN }}
+              {...field}
+            />
+          ) : (
+            <Input
+              textAlign={type === "number" ? "right" : "left"}
+              ref={ref}
+              type={type === "password" && !showPassword ? "password" : "text"}
+              id={field.name}
+              borderColor={LIGHTER_REGULAR_BROWN}
+              borderWidth={"0.15rem"}
+              _hover={{ borderColor: LIGHTEST_REGULAR_BROWN }}
+              placeholder={
+                type === "password" && !showPassword
+                  ? "************"
+                  : props.placeholder
+              }
+              {...field}
+            />
           )}
           {icon ? (
             <InputLeftElement>
               <Icon as={icon} color={LIGHTER_REGULAR_BROWN} />
             </InputLeftElement>
           ) : null}
-          {password ? (
+          {type === "password" ? (
             <Tooltip
               label={showPassword ? HIDE_PASSWORD : SHOW_PASSWORD}
               placement="bottom-end"
@@ -110,6 +131,7 @@ export const InputField: React.FC<InputFieldProps> = ({
               </InputRightElement>
             </Tooltip>
           ) : null}
+          {type === "number" ? <InputRightElement>Ft</InputRightElement> : null}
         </InputGroup>
       </Tooltip>
 

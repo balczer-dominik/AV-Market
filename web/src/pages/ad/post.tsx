@@ -1,7 +1,18 @@
-import { Box, Button, Divider, Flex, Heading, Link } from "@chakra-ui/react";
+import { Box, Flex, Heading, Link } from "@chakra-ui/react";
+import { Formik, Form } from "formik";
 import { withUrqlClient } from "next-urql";
 import React, { useEffect, useState } from "react";
+import Stepper from "react-stepper-horizontal";
 import { Layout } from "../../components/Layout";
+import { MainCategory } from "../../components/navbar/MenuRoutes";
+import { CategorySelector } from "../../components/post/CategorySelector";
+import { PostDetailsForm } from "../../components/post/PostDetailsForm";
+import { RegularButton } from "../../components/RegularButton";
+import {
+  DARKER_REGULAR_BROWN,
+  LIGHTER_REGULAR_BROWN,
+  REGULAR_BROWN,
+} from "../../utils/colors";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import {
   BACK_BUTTON,
@@ -13,14 +24,7 @@ import {
   POST_AD_TITLE,
   UPLOAD_IMAGE_LABEL,
 } from "../../utils/strings";
-import Stepper from "react-stepper-horizontal";
-import { LIGHTER_REGULAR_BROWN, REGULAR_BROWN } from "../../utils/colors";
-import { Categories, MainCategory } from "../../components/navbar/MenuRoutes";
-import { CategoryTile } from "../../components/post/CategoryTile";
-import { FaGhost } from "react-icons/fa";
-import { CategorySelector } from "../../components/post/CategorySelector";
-import { Form, Formik } from "formik";
-import { RegularButton } from "../../components/RegularButton";
+import { PostValidator } from "../../utils/validators";
 interface PostAdProps {}
 
 //Stepper wrapper
@@ -46,19 +50,19 @@ const step = (
 const PostAd: React.FC<PostAdProps> = ({}) => {
   const activeState = useState(0);
   const [activeStep, setStep] = activeState;
-  const [selectedMain, selectMain] = useState("");
-  const [selectedSub, selectSub] = useState("");
+  const [category, setCategory] = useState({ main: "", sub: "", wear: "" });
+  const [valid, setValid] = useState(false);
 
-  const continueDisabled = (): boolean => {
+  const canContinue = (): Boolean => {
     switch (activeStep) {
       case 0:
-        return selectedSub === "";
+        return category.sub !== "";
+      case 1:
+        return valid && category.wear !== "";
       default:
-        return true;
+        return false;
     }
   };
-
-  useEffect(() => selectSub(""), [selectedMain]);
 
   const steps = [
     step(0, CHOOSE_CATEGORY_LABEL, activeState),
@@ -73,7 +77,7 @@ const PostAd: React.FC<PostAdProps> = ({}) => {
       <Stepper
         steps={steps}
         activeStep={activeStep}
-        activeColor={REGULAR_BROWN}
+        activeColor={DARKER_REGULAR_BROWN}
         completeColor={LIGHTER_REGULAR_BROWN}
         circleFontSize={10}
       />
@@ -82,36 +86,46 @@ const PostAd: React.FC<PostAdProps> = ({}) => {
           <Heading my={4} size="md">
             {CHOOSE_CATEGORY_LABEL}
           </Heading>
-          <CategorySelector selected={selectedMain} select={selectMain} />
+          <CategorySelector category={category} setCategory={setCategory} />
         </Box>
-        {selectedMain !== "" ? (
+        {category.main !== "" ? (
           <Box>
             <Heading my={4} size="md">
               {CHOOSE_SUBCATEGORY_LABEL}
             </Heading>
             <CategorySelector
-              selected={selectedSub}
-              select={selectSub}
-              main={selectedMain as MainCategory}
+              category={category}
+              setCategory={setCategory}
+              sub
             />
           </Box>
         ) : null}
       </Box>
-      {/* <Formik
-          initialValues={{
-            title: "",
-            price: "",
-            condition: "",
-          }}
-          validationSchema={}
-          onSubmit={}
-        >
-          {({ isSubmitting }) => (
+      <Formik
+        initialValues={{
+          title: "",
+          price: "",
+          desc: "",
+        }}
+        validationSchema={PostValidator}
+        onSubmit={() => {}}
+      >
+        {({ isSubmitting, isValid, dirty }) => {
+          setValid(isValid && dirty);
+          return (
             <Form>
-              
+              <Box>
+                <PostDetailsForm
+                  display={activeStep === 1}
+                  category={category}
+                  setCategory={setCategory}
+                />
+              </Box>
+              {/* <PostImagesForm/> */}
             </Form>
-          )}
-        </Formik> */}
+          );
+        }}
+      </Formik>
       <Flex mt={6} justify="space-between" align="center">
         <RegularButton
           disabled={activeStep === 0}
@@ -122,7 +136,7 @@ const PostAd: React.FC<PostAdProps> = ({}) => {
           {BACK_BUTTON}
         </RegularButton>
         <RegularButton
-          disabled={continueDisabled()}
+          disabled={!canContinue()}
           onClick={() => {
             setStep(activeStep + 1);
           }}

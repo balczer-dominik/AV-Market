@@ -17,14 +17,14 @@ export const Layout: React.FC<LayoutProps> = ({
     <>
       <NavBar />
       <Box
-        maxWidth={variant === "regular" ? "800px" : "400px"}
-        width="100%"
+        maxWidth={variant === "regular" ? "850px" : "400px"}
+        w="100%"
         mx="auto"
-        px="4"
+        px={4}
         mt={8}
         color={REGULAR_BROWN}
         alignContent="center"
-        pb={{ base: 4, md: 20 }}
+        pb={4}
         bgColor="white"
       >
         {children}

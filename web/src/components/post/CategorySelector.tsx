@@ -7,34 +7,47 @@ import { Categories, MainCategories, MainCategory } from "../navbar/MenuRoutes";
 import { CategoryTile } from "./CategoryTile";
 
 interface CategorySelectorProps {
-  selected: String;
-  select: (value: React.SetStateAction<string>) => void;
-  main?: MainCategory;
+  category: { main: string; sub: string; wear: string };
+  setCategory: (
+    value: React.SetStateAction<{
+      main: string;
+      sub: string;
+      wear: string;
+    }>
+  ) => void;
+  sub?: Boolean;
 }
 
 export const CategorySelector: React.FC<CategorySelectorProps> = ({
-  selected,
-  select,
-  main,
+  category,
+  setCategory: setCategory,
+  sub = false,
 }) => {
   return (
     <SimpleGrid minChildWidth="150px" spacing="20px" mt={4}>
-      {main
-        ? Categories[main].subcategories.map((sc) => (
+      {sub
+        ? Categories[category.main].subcategories.map((sc) => (
             <CategoryTile
               name={sc.title}
               icon={sc.icon}
-              disabled={selected !== sc.title}
-              select={select}
+              disabled={category.sub !== sc.title}
+              select={() =>
+                setCategory({
+                  main: category.main,
+                  sub: sc.title,
+                  wear: category.wear,
+                })
+              }
             />
           ))
         : MainCategories.map((mc) => (
             <CategoryTile
               name={Categories[mc].title}
-              value={mc as MainCategory}
               icon={Categories[mc].icon}
-              disabled={selected !== mc}
-              select={select}
+              disabled={category.main !== mc}
+              select={() =>
+                setCategory({ main: mc, sub: "", wear: category.wear })
+              }
             />
           ))}
     </SimpleGrid>
