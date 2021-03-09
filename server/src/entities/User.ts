@@ -40,6 +40,14 @@ export class User extends BaseEntity {
   @Column({ default: null, nullable: true })
   city?: string;
 
+  @Field({ nullable: true })
+  @Column({ default: null, nullable: true })
+  messenger?: string;
+
+  @Field({ nullable: true })
+  @Column({ default: null, nullable: true })
+  phone?: string;
+
   @Field(() => Boolean)
   @Column({ default: false })
   banned: boolean;

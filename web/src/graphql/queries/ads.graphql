@@ -1,0 +1,8 @@
+query Ads($limit: Int, $offset: Int) {
+  ads(limit: $limit, offset: $offset) {
+    ads {
+      ...AdSnippet
+    }
+    hasMore
+  }
+}

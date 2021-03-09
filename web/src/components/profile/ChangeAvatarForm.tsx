@@ -36,9 +36,13 @@ export const ChangeAvatarForm: React.FC<ChangeAvatarFormProps> = ({}) => {
         toast("error", ERROR_GENERIC);
       }}
     >
-      {({ setFieldValue, isSubmitting }) => (
+      {({ setFieldValue, isSubmitting, values: { newAvatar } }) => (
         <Form>
-          <FileUploader setter={setFieldValue} fieldName={"newAvatar"} />
+          <FileUploader
+            setter={setFieldValue}
+            fieldName={"newAvatar"}
+            file={newAvatar}
+          />
           {data ? (
             <Box my={3}>
               <Text mb={1}>{CURRENT_AVATAR_LABEL}</Text>

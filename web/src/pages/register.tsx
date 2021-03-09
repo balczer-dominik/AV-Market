@@ -92,7 +92,7 @@ export const register: React.FC<registerProps> = ({}) => {
                 name="password"
                 placeholder={PASSWORD_PLACEHOLDER}
                 label={PASSWORD_LABEL_REQUIRED}
-                password
+                type="password"
                 icon={RiLockPasswordFill}
                 hint={[REGISTER_PASSWORD_HINT, PASSWORD_HINT]}
               />
@@ -100,7 +100,7 @@ export const register: React.FC<registerProps> = ({}) => {
                 name="passwordConfirm"
                 placeholder={PASSWORD_PLACEHOLDER}
                 label={CONFIRM_PASSWORD_LABEL}
-                password
+                type="password"
                 icon={RiLockPasswordFill}
               />
 

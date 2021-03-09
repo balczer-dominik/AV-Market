@@ -34,10 +34,15 @@ export const CURRENT_PASSWORD_LABEL = "Jelenlegi jelszó";
 export const NEW_COUNTY_LABEL = "Új megye";
 export const NEW_CITY_LABEL = "Új város";
 export const CHANGE_LOCATION_LABEL = "Helység megváltoztatása";
-export const CHANGE_EMAIL_LABEL = "E-mail cím megváltoztatása";
+export const CHANGE_CONTACTS_LABEL = "Elérhetőségek megváltoztatása";
 export const CHANGE_AVATAR_LABEL = "Avatar megváltoztatása";
 export const CURRENT_LOCATION_LABEL = "Jelenlegi helység: ";
 export const COUNTY_PLACEHOLDER = "Válasszon megyét...";
+export const CURRENT_MESSENGER_LABEL = "Jelenlegi messenger: ";
+export const CURRENT_PHONE_LABEL = "Jelenlegi telefonszám: ";
+export const DATA_NOT_SUPPLIED = "Nincs megadva.";
+export const NEW_MESSENGER_LABEL = "Új messenger";
+export const NEW_PHONE_LABEL = "Új telefonszám";
 
 //Toast
 export const REGISTER_SUCCESS_LABEL = "Sikeres regisztráció";
@@ -50,6 +55,8 @@ export const EDIT_PROFILE_LABEL = "Profil szerkesztése";
 export const CURRENT_EMAIL_LABEL = "Jelenlegi e-mail: ";
 export const CHANGE_EMAIL_SUCCESS =
   "Sikeresen megváltoztattad az e-mail címed.";
+export const CHANGE_CONTACTS_SUCCESS =
+  "Sikeresen megváltoztattad az elérhetőségeidet.";
 export const CHANGE_PASSWORD_SUCCESS = "Sikeresen megváltoztattad a jelszavad.";
 export const CHANGE_AVATAR_SUCCESS = "Sikeresen megváltoztattad az avatarod.";
 export const CHANGE_LOCATION_SUCCESS =
@@ -97,16 +104,18 @@ export type MainCategoryValue =
 export const PRICE_TOO_LOW = "Az ár túl alacsony.";
 export const PRICE_TOO_HIGH = "Az ár túl magas.";
 export const TITLE_TOO_SHORT = "A címnek legalább 5 karakterből kell állnia.";
-export const TITLE_TOO_LONG = "A cím legfeljebb 40 karakterből állhat.";
+export const TITLE_TOO_LONG = "A cím legfeljebb 60 karakterből állhat.";
 
 //Ad misc.
 export const AD_NOT_FOUND = "Hirdetés nem található.";
+export const PHOTOS_LABEL = "Fényképek feltöltése";
 
 //UI
 export const POST_AD_TITLE = "Hirdetés feladása";
 export const POST_LABEL = "Hirdetés feladása";
 export const CONTINUE_BUTTON = "Tovább";
 export const BACK_BUTTON = "Vissza";
+export const DROPZONE_TEXT = "Húzza ide a fájlokat vagy kattintson ide...";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";
@@ -129,6 +138,7 @@ export const WearValues = [
 export const PRICE_CONTAINS_FORBIDDEN =
   "Az ár nem megengedett karaktereket tartalmaz.";
 export const DESC_LABEL = "Leírás";
+export const SUBMIT_BUTTON = "Elküld";
 
 //Misc.
 export const counties: string[] = [
@@ -153,3 +163,6 @@ export const counties: string[] = [
   "Veszprém",
   "Zala",
 ];
+
+export const LAST_UPDATE_AT = "Utoljára frissítve";
+export const SENT_IN_BY = "Beküldte";

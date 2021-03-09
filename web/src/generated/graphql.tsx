@@ -52,8 +52,8 @@ export type Ad = {
   __typename?: 'Ad';
   id: Scalars['Float'];
   title: Scalars['String'];
-  location: Scalars['String'];
   price: Scalars['Float'];
+  desc: Scalars['String'];
   wear: Scalars['String'];
   category: Scalars['String'];
   subCategory: Scalars['String'];
@@ -61,6 +61,8 @@ export type Ad = {
   ownerId: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  images: Array<Scalars['String']>;
+  thumbnail: Scalars['String'];
 };
 
 export type User = {
@@ -71,6 +73,8 @@ export type User = {
   avatar?: Maybe<Scalars['String']>;
   county?: Maybe<Scalars['String']>;
   city?: Maybe<Scalars['String']>;
+  messenger?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
   banned: Scalars['Boolean'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -102,7 +106,7 @@ export type Mutation = {
   forgotPassword?: Maybe<FieldError>;
   logout: Scalars['Boolean'];
   uploadAvatar: Scalars['Boolean'];
-  changeEmail: UserResponse;
+  changeContacts: UserResponse;
   changeLocation: UserResponse;
   changePassword: UserResponse;
   banUser: Scalars['Boolean'];
@@ -136,8 +140,8 @@ export type MutationUploadAvatarArgs = {
 };
 
 
-export type MutationChangeEmailArgs = {
-  email: Scalars['String'];
+export type MutationChangeContactsArgs = {
+  contacts: ContactsInput;
 };
 
 
@@ -167,8 +171,11 @@ export type PostInput = {
   subCategory: Scalars['String'];
   title: Scalars['String'];
   price: Scalars['Int'];
+  desc?: Maybe<Scalars['String']>;
   wear: Scalars['String'];
+  images?: Maybe<Array<Scalars['Upload']>>;
 };
+
 
 export type UserResponse = {
   __typename?: 'UserResponse';
@@ -182,6 +189,20 @@ export type UsernamePasswordInput = {
   password: Scalars['String'];
 };
 
+export type ContactsInput = {
+  email?: Maybe<Scalars['String']>;
+  messenger?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+};
+
+export type AdSnippetFragment = (
+  { __typename?: 'Ad' }
+  & Pick<Ad, 'id' | 'thumbnail' | 'title' | 'price' | 'wear' | 'createdAt' | 'updatedAt'>
+  & { owner: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'username' | 'email' | 'messenger' | 'phone' | 'county' | 'city'>
+  ) }
+);
 
 export type RegularErrorFragment = (
   { __typename?: 'FieldError' }
@@ -214,22 +235,19 @@ export type BanUserMutation = (
   & Pick<Mutation, 'banUser'>
 );
 
-export type ChangeEmailMutationVariables = Exact<{
-  newEmail: Scalars['String'];
+export type ChangeContactsMutationVariables = Exact<{
+  contacts: ContactsInput;
 }>;
 
 
-export type ChangeEmailMutation = (
+export type ChangeContactsMutation = (
   { __typename?: 'Mutation' }
-  & { changeEmail: (
+  & { changeContacts: (
     { __typename?: 'UserResponse' }
     & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
       & Pick<FieldError, 'field' | 'message'>
-    )>>, user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'username' | 'email'>
-    )> }
+    )>> }
   ) }
 );
 
@@ -292,6 +310,28 @@ export type LogoutMutation = (
   & Pick<Mutation, 'logout'>
 );
 
+export type PostMutationVariables = Exact<{
+  category: Scalars['String'];
+  subCategory: Scalars['String'];
+  title: Scalars['String'];
+  price: Scalars['Int'];
+  desc?: Maybe<Scalars['String']>;
+  wear: Scalars['String'];
+  images?: Maybe<Array<Scalars['Upload']> | Scalars['Upload']>;
+}>;
+
+
+export type PostMutation = (
+  { __typename?: 'Mutation' }
+  & { post: (
+    { __typename?: 'AdResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>> }
+  ) }
+);
+
 export type RegisterMutationVariables = Exact<{
   options: UsernamePasswordInput;
 }>;
@@ -325,6 +365,24 @@ export type UploadAvatarMutation = (
   & Pick<Mutation, 'uploadAvatar'>
 );
 
+export type AdsQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type AdsQuery = (
+  { __typename?: 'Query' }
+  & { ads: (
+    { __typename?: 'PaginatedAds' }
+    & Pick<PaginatedAds, 'hasMore'>
+    & { ads: Array<(
+      { __typename?: 'Ad' }
+      & AdSnippetFragment
+    )> }
+  ) }
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -344,6 +402,17 @@ export type MeAvatarQuery = (
   & { me?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'avatar'>
+  )> }
+);
+
+export type MeContactsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeContactsQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'email' | 'messenger' | 'phone'>
   )> }
 );
 
@@ -381,6 +450,17 @@ export type MeLocationQuery = (
   )> }
 );
 
+export type MePreviewQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MePreviewQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'username' | 'email' | 'county' | 'city' | 'messenger' | 'phone'>
+  )> }
+);
+
 export type GetUsersQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -399,6 +479,26 @@ export type GetUsersQuery = (
   ) }
 );
 
+export const AdSnippetFragmentDoc = gql`
+    fragment AdSnippet on Ad {
+  id
+  thumbnail
+  title
+  price
+  wear
+  owner {
+    id
+    username
+    email
+    messenger
+    phone
+    county
+    city
+  }
+  createdAt
+  updatedAt
+}
+    `;
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
   field
@@ -432,24 +532,19 @@ export const BanUserDocument = gql`
 export function useBanUserMutation() {
   return Urql.useMutation<BanUserMutation, BanUserMutationVariables>(BanUserDocument);
 };
-export const ChangeEmailDocument = gql`
-    mutation ChangeEmail($newEmail: String!) {
-  changeEmail(email: $newEmail) {
+export const ChangeContactsDocument = gql`
+    mutation ChangeContacts($contacts: ContactsInput!) {
+  changeContacts(contacts: $contacts) {
     errors {
       field
       message
-    }
-    user {
-      id
-      username
-      email
     }
   }
 }
     `;
 
-export function useChangeEmailMutation() {
-  return Urql.useMutation<ChangeEmailMutation, ChangeEmailMutationVariables>(ChangeEmailDocument);
+export function useChangeContactsMutation() {
+  return Urql.useMutation<ChangeContactsMutation, ChangeContactsMutationVariables>(ChangeContactsDocument);
 };
 export const ChangeLocationDocument = gql`
     mutation ChangeLocation($county: String, $city: String) {
@@ -505,6 +600,22 @@ export const LogoutDocument = gql`
 export function useLogoutMutation() {
   return Urql.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument);
 };
+export const PostDocument = gql`
+    mutation Post($category: String!, $subCategory: String!, $title: String!, $price: Int!, $desc: String, $wear: String!, $images: [Upload!]) {
+  post(
+    options: {category: $category, subCategory: $subCategory, title: $title, price: $price, wear: $wear, desc: $desc, images: $images}
+  ) {
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
+
+export function usePostMutation() {
+  return Urql.useMutation<PostMutation, PostMutationVariables>(PostDocument);
+};
 export const RegisterDocument = gql`
     mutation Register($options: UsernamePasswordInput!) {
   register(options: $options) {
@@ -534,6 +645,20 @@ export const UploadAvatarDocument = gql`
 export function useUploadAvatarMutation() {
   return Urql.useMutation<UploadAvatarMutation, UploadAvatarMutationVariables>(UploadAvatarDocument);
 };
+export const AdsDocument = gql`
+    query Ads($limit: Int, $offset: Int) {
+  ads(limit: $limit, offset: $offset) {
+    ads {
+      ...AdSnippet
+    }
+    hasMore
+  }
+}
+    ${AdSnippetFragmentDoc}`;
+
+export function useAdsQuery(options: Omit<Urql.UseQueryArgs<AdsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AdsQuery>({ query: AdsDocument, ...options });
+};
 export const MeDocument = gql`
     query Me {
   me {
@@ -555,6 +680,19 @@ export const MeAvatarDocument = gql`
 
 export function useMeAvatarQuery(options: Omit<Urql.UseQueryArgs<MeAvatarQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeAvatarQuery>({ query: MeAvatarDocument, ...options });
+};
+export const MeContactsDocument = gql`
+    query MeContacts {
+  me {
+    email
+    messenger
+    phone
+  }
+}
+    `;
+
+export function useMeContactsQuery(options: Omit<Urql.UseQueryArgs<MeContactsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MeContactsQuery>({ query: MeContactsDocument, ...options });
 };
 export const MeEmailDocument = gql`
     query MeEmail {
@@ -592,6 +730,24 @@ export const MeLocationDocument = gql`
 
 export function useMeLocationQuery(options: Omit<Urql.UseQueryArgs<MeLocationQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeLocationQuery>({ query: MeLocationDocument, ...options });
+};
+export const MePreviewDocument = gql`
+    query MePreview {
+  me {
+    id
+    username
+    email
+    county
+    city
+    messenger
+    email
+    phone
+  }
+}
+    `;
+
+export function useMePreviewQuery(options: Omit<Urql.UseQueryArgs<MePreviewQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MePreviewQuery>({ query: MePreviewDocument, ...options });
 };
 export const GetUsersDocument = gql`
     query getUsers($limit: Int, $offset: Int) {

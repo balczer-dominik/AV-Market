@@ -15,6 +15,10 @@ export const USER_NOT_FOUND = "Nincsen ilyen felhasználó.";
 export const INCORRECT_PASSWORD = "Helytelen jelszó.";
 export const USER_BANNED = "Ez a felhasználó le van tiltva.";
 
+//Contact validation
+export const INCORRECT_PHONE_FORMAT = "Helytelen telefonszám formátum.";
+export const INCORRECT_PHONE_LENGTH = "Helytelen telefonszám hossz.";
+
 //Ad types
 export type Wear =
   | "Erősen használt"
@@ -35,7 +39,7 @@ export type MainCategory =
 export const PRICE_TOO_LOW = "Az ár túl alacsony.";
 export const PRICE_TOO_HIGH = "Az ár túl magas.";
 export const TITLE_TOO_SHORT = "A címnek legalább 5 karakterből kell állnia.";
-export const TITLE_TOO_LONG = "A cím legfeljebb 40 karakterből állhat.";
+export const TITLE_TOO_LONG = "A cím legfeljebb 60 karakterből állhat.";
 
 //Ad misc.
 export const AD_NOT_FOUND = "Hirdetés nem található.";

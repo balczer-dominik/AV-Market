@@ -1,15 +1,27 @@
-import { Box, Flex, Heading, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Icon,
+  StatHelpText,
+  Tooltip,
+} from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
+import { MdMail } from "react-icons/md";
 import Stepper from "react-stepper-horizontal";
 import { Layout } from "../../components/Layout";
 import { CategorySelector } from "../../components/post/CategorySelector";
+import { DropzoneUploader } from "../../components/post/DropzoneUploader";
 import { PostDetailsForm } from "../../components/post/PostDetailsForm";
+import { PostPreview } from "../../components/post/PostPreview";
 import { RegularButton } from "../../components/RegularButton";
+import { usePostMutation } from "../../generated/graphql";
 import {
   DARKER_REGULAR_BROWN,
   LIGHTER_REGULAR_BROWN,
+  REGULAR_BROWN,
 } from "../../utils/colors";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import {
@@ -19,11 +31,13 @@ import {
   CHOOSE_SUBCATEGORY_LABEL,
   CONTINUE_BUTTON,
   FINALIZE_LABEL,
+  PHOTOS_LABEL,
   POST_AD_TITLE,
+  SUBMIT_BUTTON,
   UPLOAD_IMAGE_LABEL,
 } from "../../utils/strings";
+import { toErrorMap } from "../../utils/toErrorMap";
 import { PostValidator } from "../../utils/validators";
-interface PostAdProps {}
 
 //Stepper wrapper
 const step = (
@@ -36,20 +50,21 @@ const step = (
   };
 };
 
-const PostAd: React.FC<PostAdProps> = ({}) => {
+const PostAd: React.FC<{}> = ({}) => {
   const activeState = useState(0);
   const [activeStep, setStep] = activeState;
-  const [category, setCategory] = useState({ main: "", sub: "", wear: "" });
+  const [details, setDetails] = useState({ main: "", sub: "", wear: "" });
   const [valid, setValid] = useState(false);
+  const [, post] = usePostMutation();
 
   const canContinue = (): Boolean => {
     switch (activeStep) {
       case 0:
-        return category.sub !== "";
+        return details.sub !== "";
       case 1:
-        return valid && category.wear !== "";
+        return valid && details.wear !== "";
       default:
-        return false;
+        return true;
     }
   };
 
@@ -65,7 +80,7 @@ const PostAd: React.FC<PostAdProps> = ({}) => {
       <Heading>{POST_AD_TITLE}</Heading>
       <Stepper
         steps={steps}
-        activeStep={activeStep}
+        activeStep={activeStep < 4 ? activeStep : 3}
         activeColor={DARKER_REGULAR_BROWN}
         completeColor={LIGHTER_REGULAR_BROWN}
         circleFontSize={10}
@@ -75,18 +90,14 @@ const PostAd: React.FC<PostAdProps> = ({}) => {
           <Heading my={4} size="md">
             {CHOOSE_CATEGORY_LABEL}
           </Heading>
-          <CategorySelector category={category} setCategory={setCategory} />
+          <CategorySelector category={details} setCategory={setDetails} />
         </Box>
-        {category.main !== "" ? (
+        {details.main !== "" ? (
           <Box>
             <Heading my={4} size="md">
               {CHOOSE_SUBCATEGORY_LABEL}
             </Heading>
-            <CategorySelector
-              category={category}
-              setCategory={setCategory}
-              sub
-            />
+            <CategorySelector category={details} setCategory={setDetails} sub />
           </Box>
         ) : null}
       </Box>
@@ -95,44 +106,75 @@ const PostAd: React.FC<PostAdProps> = ({}) => {
           title: "",
           price: "",
           desc: "",
+          images: [],
         }}
         validationSchema={PostValidator}
-        onSubmit={() => {}}
+        onSubmit={async ({ title, price, desc, images }, { setErrors }) => {
+          const errors = (
+            await post({
+              category: details.main,
+              subCategory: details.sub,
+              title: title,
+              price: parseInt(price),
+              desc: desc,
+              wear: details.wear,
+              images: images,
+            })
+          ).data?.post.errors;
+          if (errors) {
+            setErrors(toErrorMap(errors));
+            return;
+          }
+        }}
       >
-        {({ isSubmitting, isValid, dirty }) => {
+        {({ isSubmitting, isValid, dirty, setFieldValue, values }) => {
           setValid(isValid && dirty);
           return (
             <Form>
-              <Box>
-                <PostDetailsForm
-                  display={activeStep === 1}
-                  category={category}
-                  setCategory={setCategory}
+              <PostDetailsForm
+                display={activeStep === 1}
+                category={details}
+                setCategory={setDetails}
+              />
+
+              <Box display={activeStep === 2 ? "block" : "none"}>
+                <Heading my={4} size="md">
+                  {PHOTOS_LABEL}
+                </Heading>
+                <DropzoneUploader
+                  fieldName="images"
+                  setter={setFieldValue}
+                  images={values.images}
                 />
               </Box>
-              {/* <PostImagesForm/> */}
+
+              <Box display={activeStep >= 3 ? "block" : "none"}>
+                <PostPreview values={values} details={details} />
+              </Box>
+
+              <Flex mt={6} justify="space-between" align="center">
+                <RegularButton
+                  disabled={activeStep === 0}
+                  onClick={() => {
+                    setStep(activeStep - 1);
+                  }}
+                >
+                  {BACK_BUTTON}
+                </RegularButton>
+                <RegularButton
+                  spinner={isSubmitting}
+                  disabled={!canContinue()}
+                  onClick={
+                    activeStep > 3 ? null : () => setStep(activeStep + 1)
+                  }
+                >
+                  {activeStep >= 3 ? SUBMIT_BUTTON : CONTINUE_BUTTON}
+                </RegularButton>
+              </Flex>
             </Form>
           );
         }}
       </Formik>
-      <Flex mt={6} justify="space-between" align="center">
-        <RegularButton
-          disabled={activeStep === 0}
-          onClick={() => {
-            setStep(activeStep - 1);
-          }}
-        >
-          {BACK_BUTTON}
-        </RegularButton>
-        <RegularButton
-          disabled={!canContinue()}
-          onClick={() => {
-            setStep(activeStep + 1);
-          }}
-        >
-          {CONTINUE_BUTTON}
-        </RegularButton>
-      </Flex>
     </Layout>
   );
 };

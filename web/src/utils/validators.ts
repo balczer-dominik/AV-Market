@@ -40,7 +40,7 @@ const passwordConfirmValidation = (ref: string) =>
 const titleValidation = Yup.string()
   .required(FIELD_REQUIRED)
   .min(5, TITLE_TOO_SHORT)
-  .max(40, TITLE_TOO_LONG);
+  .max(60, TITLE_TOO_LONG);
 
 const priceValidation = Yup.number()
   .required(FIELD_REQUIRED)

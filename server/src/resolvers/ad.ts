@@ -20,6 +20,9 @@ import { User } from "../entities/User";
 import { getConnection } from "typeorm";
 import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
 import { errorResponse } from "../util/errorResponse";
+import randomstring from "randomstring";
+import { createWriteStream } from "fs";
+import { AdImage } from "../entities/AdImage";
 
 @Resolver(Ad)
 export class AdResolver {
@@ -29,11 +32,22 @@ export class AdResolver {
     return await User.findOne(ad.ownerId);
   }
 
+  @FieldResolver(() => [String])
+  async images(@Root() ad: Ad) {
+    return (await AdImage.find({ where: { adId: ad.id } })).map((ai) => ai.src);
+  }
+
+  @FieldResolver(() => String)
+  async thumbnail(@Root() ad: Ad) {
+    return (await AdImage.find({ where: { adId: ad.id } }))[0];
+  }
+
   //Hirdetés feladás
   @UseMiddleware(isAuth)
   @Mutation(() => AdResponse)
   async post(
-    @Arg("options") { category, subCategory, title, price, wear }: PostInput,
+    @Arg("options")
+    { category, subCategory, title, price, wear, images, desc }: PostInput,
     @Ctx() { req }: MyContext
   ): Promise<AdResponse> {
     const errors = validatePost(title, price);
@@ -44,10 +58,10 @@ export class AdResolver {
 
     const partialAd: Partial<Ad> = {
       category: category as MainCategory,
-      location: "Budapest",
       subCategory: subCategory,
       title: title,
       price: price,
+      desc: desc,
       wear: wear as Wear,
       ownerId: req.session.userId,
     };
@@ -61,6 +75,30 @@ export class AdResolver {
         .returning("*")
         .execute()
     ).raw[0];
+
+    if (images) {
+      images.forEach(async (image) => {
+        const { createReadStream } = await image;
+        const filename = randomstring.generate(30);
+        new Promise(
+          async (resolve, reject) =>
+            await createReadStream()
+              .pipe(
+                createWriteStream(
+                  __dirname + `/../../../web/public/ad/${filename}.png`
+                )
+              )
+              .on("finish", () => {
+                AdImage.insert({ ad: ad, adId: ad.id, src: filename });
+                resolve(true);
+              })
+              .on("error", (err) => {
+                console.log(err);
+                reject(false);
+              })
+        );
+      });
+    }
 
     return { ad };
   }

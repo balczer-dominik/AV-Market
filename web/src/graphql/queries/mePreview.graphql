@@ -1,0 +1,12 @@
+query MePreview {
+  me {
+    id
+    username
+    email
+    county
+    city
+    messenger
+    email
+    phone
+  }
+}

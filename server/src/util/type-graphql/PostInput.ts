@@ -1,4 +1,6 @@
+import { GraphQLUpload } from "apollo-server-express";
 import { InputType, Field, Int } from "type-graphql";
+import { Upload } from "./Upload";
 
 @InputType()
 export class PostInput {
@@ -10,6 +12,10 @@ export class PostInput {
   title: string;
   @Field(() => Int)
   price: number;
+  @Field({ nullable: true })
+  desc?: string;
   @Field()
   wear: string;
+  @Field(() => [GraphQLUpload], { nullable: true })
+  images?: [Upload];
 }

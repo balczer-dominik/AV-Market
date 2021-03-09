@@ -1,0 +1,26 @@
+mutation Post(
+  $category: String!
+  $subCategory: String!
+  $title: String!
+  $price: Int!
+  $desc: String
+  $wear: String!
+  $images: [Upload!]
+) {
+  post(
+    options: {
+      category: $category
+      subCategory: $subCategory
+      title: $title
+      price: $price
+      wear: $wear
+      desc: $desc
+      images: $images
+    }
+  ) {
+    errors {
+      field
+      message
+    }
+  }
+}

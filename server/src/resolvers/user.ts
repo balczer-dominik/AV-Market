@@ -26,7 +26,6 @@ import { sendEmail } from "../util/sendMail";
 import { changePasswordEmail } from "../util/changePasswordEmail";
 import { FieldError } from "../util/type-graphql/FieldError";
 import { isAuth } from "../middleware/authMiddleware";
-import { validateEmail } from "../validators/validateEmail";
 import { Upload } from "../util/type-graphql/Upload";
 import { GraphQLUpload } from "apollo-server-express";
 import { GraphQLScalarType } from "graphql";
@@ -34,7 +33,8 @@ import { createWriteStream } from "fs";
 import randomstring from "randomstring";
 import { validatePassword } from "../validators/validatePassword";
 import { errorResponse } from "../util/errorResponse";
-import { isAscii } from "class-validator";
+import { ContactsInput } from "../util/type-graphql/ContactsInput";
+import { validateContacts } from "../validators/validateContacts";
 
 @Resolver(User)
 export class UserResolver {
@@ -191,20 +191,23 @@ export class UserResolver {
 
   @UseMiddleware(isAuth)
   @Mutation(() => UserResponse)
-  async changeEmail(
-    @Arg("email") newEmail: string,
+  async changeContacts(
+    @Arg("contacts") contacts: ContactsInput,
     @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-    const errors = validateEmail(newEmail);
+    const errors = validateContacts(contacts);
 
     if (errors) {
       return { errors };
     }
 
-    await User.update(req.session.userId!, { email: newEmail });
-
     const user = await User.findOne(req.session.userId);
-    user!.email = newEmail;
+
+    user!.email = contacts.email !== "" ? contacts.email! : user!.email;
+    user!.phone = contacts.phone !== "" ? contacts.phone! : user!.phone;
+    user!.messenger =
+      contacts.messenger !== "" ? contacts.messenger! : user!.messenger;
+
     user!.save();
 
     return { user };

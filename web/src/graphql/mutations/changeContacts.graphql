@@ -1,0 +1,8 @@
+mutation ChangeContacts($contacts: ContactsInput!) {
+  changeContacts(contacts: $contacts) {
+    errors {
+      field
+      message
+    }
+  }
+}

@@ -29,7 +29,7 @@ export const validatePost = (title: string, price: number) => {
     });
   }
 
-  if (title.length > 40) {
+  if (title.length > 60) {
     errors.push({
       field: "title",
       message: TITLE_TOO_LONG,
