@@ -27,7 +27,7 @@ export class Ad extends BaseEntity {
   @Column()
   price!: number;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ nullable: true })
   desc: string;
 

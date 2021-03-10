@@ -56,10 +56,8 @@ export const AdListing: React.FC<AdListingProps> = ({
         <Flex flexDir="column" justify="space-between" h="100%">
           <Box>
             <NextLink href={`ad/view/${id}`}>
-              <Link>
-                <Heading style={{ textDecoration: "none" }} size="md">
-                  {title}
-                </Heading>
+              <Link style={{ textDecoration: "none" }}>
+                <Heading size="md">{title}</Heading>
               </Link>
             </NextLink>
             <Text fontSize="sm">{`${county ? county + ", " : ""}${

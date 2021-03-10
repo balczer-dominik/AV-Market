@@ -37,6 +37,7 @@ import {
   UPLOAD_IMAGE_LABEL,
 } from "../../utils/strings";
 import { toErrorMap } from "../../utils/toErrorMap";
+import { useIsAuth } from "../../utils/useIsAuth";
 import { PostValidator } from "../../utils/validators";
 
 //Stepper wrapper
@@ -51,6 +52,7 @@ const step = (
 };
 
 const PostAd: React.FC<{}> = ({}) => {
+  useIsAuth();
   const activeState = useState(0);
   const [activeStep, setStep] = activeState;
   const [details, setDetails] = useState({ main: "", sub: "", wear: "" });

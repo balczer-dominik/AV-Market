@@ -365,6 +365,26 @@ export type UploadAvatarMutation = (
   & Pick<Mutation, 'uploadAvatar'>
 );
 
+export type AdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type AdQuery = (
+  { __typename?: 'Query' }
+  & { ad: (
+    { __typename?: 'AdResponse' }
+    & { ad?: Maybe<(
+      { __typename?: 'Ad' }
+      & Pick<Ad, 'id' | 'title' | 'category' | 'subCategory' | 'price' | 'wear' | 'desc' | 'images' | 'createdAt' | 'updatedAt'>
+      & { owner: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'username' | 'email' | 'avatar' | 'county' | 'city' | 'messenger' | 'phone'>
+      ) }
+    )> }
+  ) }
+);
+
 export type AdsQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -644,6 +664,39 @@ export const UploadAvatarDocument = gql`
 
 export function useUploadAvatarMutation() {
   return Urql.useMutation<UploadAvatarMutation, UploadAvatarMutationVariables>(UploadAvatarDocument);
+};
+export const AdDocument = gql`
+    query Ad($id: Int!) {
+  ad(id: $id) {
+    ad {
+      id
+      title
+      category
+      subCategory
+      price
+      wear
+      desc
+      images
+      owner {
+        id
+        username
+        username
+        email
+        avatar
+        county
+        city
+        messenger
+        phone
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `;
+
+export function useAdQuery(options: Omit<Urql.UseQueryArgs<AdQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AdQuery>({ query: AdDocument, ...options });
 };
 export const AdsDocument = gql`
     query Ads($limit: Int, $offset: Int) {

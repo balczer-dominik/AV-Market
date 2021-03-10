@@ -100,6 +100,26 @@ export type MainCategoryValue =
   | "SZABADIDO"
   | "INGATLAN";
 
+export const MainCategoryRoutes = {
+  OTTHON: "otthon",
+  SZAMTECH: "szamtech",
+  MUSZAKI: "muszaki",
+  RUHAZAT: "ruhazat",
+  JARMU: "jarmu",
+  SZABADIDO: "szabadido",
+  INGATLAN: "ingatlan",
+};
+
+export const SubCategoryRoutes = {
+  OTTHON: "otthon",
+  SZAMTECH: "szamtech",
+  MUSZAKI: "muszaki",
+  RUHAZAT: "ruhazat",
+  JARMU: "jarmu",
+  SZABADIDO: "szabadido",
+  INGATLAN: "ingatlan",
+};
+
 //Ad validation
 export const PRICE_TOO_LOW = "Az ár túl alacsony.";
 export const PRICE_TOO_HIGH = "Az ár túl magas.";
@@ -166,3 +186,4 @@ export const counties: string[] = [
 
 export const LAST_UPDATE_AT = "Utoljára frissítve";
 export const SENT_IN_BY = "Beküldte";
+export const HOME_PAGE = "Főoldal";

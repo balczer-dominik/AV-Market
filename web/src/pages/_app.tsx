@@ -1,11 +1,7 @@
-import {
-  ChakraProvider,
-  ColorModeProvider,
-  extendTheme,
-} from "@chakra-ui/react";
+import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react";
+import "../utils/gallery-style.css";
 
 import theme from "../theme";
-import Fonts from "../utils/fonts";
 
 function MyApp({ Component, pageProps }) {
   return (
