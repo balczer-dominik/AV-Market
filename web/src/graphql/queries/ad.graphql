@@ -1,27 +1,11 @@
 query Ad($id: Int!) {
   ad(id: $id) {
     ad {
-      id
-      title
-      category
-      subCategory
-      price
-      wear
-      desc
+      ...AdDetails
+      ...AdOwner
+      ...AdRecent
       images
-      owner {
-        id
-        username
-        username
-        email
-        avatar
-        county
-        city
-        messenger
-        phone
-      }
-      createdAt
-      updatedAt
+      desc
     }
   }
 }

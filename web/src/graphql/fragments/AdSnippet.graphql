@@ -1,18 +1,5 @@
 fragment AdSnippet on Ad {
-  id
+  ...AdDetails
+  ...AdOwner
   thumbnail
-  title
-  price
-  wear
-  owner {
-    id
-    username
-    email
-    messenger
-    phone
-    county
-    city
-  }
-  createdAt
-  updatedAt
 }

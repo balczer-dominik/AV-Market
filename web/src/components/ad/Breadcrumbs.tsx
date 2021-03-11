@@ -26,7 +26,11 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
         items.map(({ href, label }, i) => (
           <BreadcrumbItem isCurrentPage={i === items.length - 1}>
             <NextLink href={href}>
-              <BreadcrumbLink as={Link} style={{ textDecoration: "none" }}>
+              <BreadcrumbLink
+                as={Link}
+                fontWeight="bold"
+                style={{ textDecoration: "none" }}
+              >
                 {label}
               </BreadcrumbLink>
             </NextLink>

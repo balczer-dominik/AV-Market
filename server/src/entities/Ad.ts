@@ -54,6 +54,10 @@ export class Ad extends BaseEntity {
   @OneToMany(() => AdImage, (adImage) => adImage.ad)
   images: AdImage[];
 
+  @Field()
+  @Column({ default: false })
+  featured: boolean;
+
   @Field(() => String)
   @CreateDateColumn()
   createdAt: Date;

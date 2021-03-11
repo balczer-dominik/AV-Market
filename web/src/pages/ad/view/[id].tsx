@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 import ReactImageGallery from "react-image-gallery";
@@ -7,9 +7,19 @@ import { Layout } from "../../../components/Layout";
 import { Categories } from "../../../components/navbar/MenuRoutes";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { formatImageGallery } from "../../../utils/formatImageGallery";
-import { HOME_PAGE } from "../../../utils/strings";
+import { HOME_PAGE, SENT_IN_BY } from "../../../utils/strings";
 import { useGetAdFromUrl } from "../../../utils/useGetAdFromUrl";
 import "react-image-gallery/styles/css/image-gallery.css";
+import { AdDetail } from "../../../components/ad/AdDetail";
+import { FaLocationArrow, FaUsb, FaUser } from "react-icons/fa";
+import { GiPriceTag, GiShinyEntrance } from "react-icons/gi";
+import { formatPrice } from "../../../utils/formatPrice";
+import { formatLocation } from "../../../utils/formatLocation";
+import { ImLocation, ImPriceTag } from "react-icons/im";
+import { BiDetail } from "react-icons/bi";
+import { formatDate } from "../../../utils/formatDate";
+import { AdRecent } from "../../../components/ad/AdRecent";
+import { leftNav } from "../../../components/gallery/leftNav";
 
 interface ViewAdProps {}
 
@@ -45,12 +55,35 @@ const ViewAd: React.FC<ViewAdProps> = ({}) => {
       {ad ? (
         <Box>
           <Breadcrumbs items={breadItems()} />
-          <Box w="300px">
-            <ReactImageGallery
-              items={formatImageGallery(ad.images)}
-              autoPlay={false}
-            />
-          </Box>
+          <Flex mt={4} flexDir={{ base: "column-reverse", md: "row" }}>
+            <Box w="400px" alignSelf="center">
+              <ReactImageGallery
+                items={formatImageGallery(ad.images)}
+                autoPlay
+                showNav={false}
+                showPlayButton={false}
+                showBullets
+                infinite
+              />
+            </Box>
+            <Box w="auto" ml={4}>
+              <Heading size="md">{ad.title}</Heading>
+              <Text>{formatDate(ad.createdAt)}</Text>
+              <AdDetail icon={FaUser} text={ad.owner.username} />
+              <AdDetail icon={GiShinyEntrance} text={ad.wear} />
+              <AdDetail
+                icon={ImLocation}
+                text={formatLocation(ad.owner.county, ad.owner.city)}
+              />
+              <AdDetail icon={ImPriceTag} text={formatPrice(ad.price)} />
+              <AdDetail icon={BiDetail} text={ad.desc} />
+            </Box>
+          </Flex>
+          <AdRecent
+            owner={ad.owner.username}
+            recent={ad.recent}
+            ownerId={ad.owner.id}
+          />
         </Box>
       ) : null}
     </Layout>

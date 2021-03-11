@@ -1,0 +1,9 @@
+fragment AdDetails on Ad {
+  id
+  title
+  price
+  wear
+  ...Categories
+  createdAt
+  updatedAt
+}

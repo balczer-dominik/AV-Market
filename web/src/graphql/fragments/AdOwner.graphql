@@ -1,0 +1,13 @@
+fragment AdOwner on Ad {
+  owner {
+    id
+    username
+    username
+    email
+    avatar
+    county
+    city
+    messenger
+    phone
+  }
+}

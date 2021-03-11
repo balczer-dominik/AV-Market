@@ -1,0 +1,4 @@
+fragment Categories on Ad {
+  category
+  subCategory
+}

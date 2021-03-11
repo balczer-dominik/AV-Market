@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { MdMail } from "react-icons/md";
 import Stepper from "react-stepper-horizontal";
@@ -58,6 +59,7 @@ const PostAd: React.FC<{}> = ({}) => {
   const [details, setDetails] = useState({ main: "", sub: "", wear: "" });
   const [valid, setValid] = useState(false);
   const [, post] = usePostMutation();
+  const router = useRouter();
 
   const canContinue = (): Boolean => {
     switch (activeStep) {
@@ -112,7 +114,10 @@ const PostAd: React.FC<{}> = ({}) => {
         }}
         validationSchema={PostValidator}
         onSubmit={async ({ title, price, desc, images }, { setErrors }) => {
-          const errors = (
+          const {
+            errors,
+            ad: { id },
+          } = (
             await post({
               category: details.main,
               subCategory: details.sub,
@@ -122,11 +127,12 @@ const PostAd: React.FC<{}> = ({}) => {
               wear: details.wear,
               images: images,
             })
-          ).data?.post.errors;
+          ).data?.post;
           if (errors) {
             setErrors(toErrorMap(errors));
             return;
           }
+          router.replace(`/ad/view/${id}`);
         }}
       >
         {({ isSubmitting, isValid, dirty, setFieldValue, values }) => {

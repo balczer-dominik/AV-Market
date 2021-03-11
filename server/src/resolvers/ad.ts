@@ -17,7 +17,7 @@ import { validatePost } from "../validators/validatePost";
 import { Ad } from "../entities/Ad";
 import { AD_NOT_FOUND, MainCategory, Wear } from "../resource/strings";
 import { User } from "../entities/User";
-import { getConnection } from "typeorm";
+import { getConnection, Not } from "typeorm";
 import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
 import { errorResponse } from "../util/errorResponse";
 import randomstring from "randomstring";
@@ -39,7 +39,23 @@ export class AdResolver {
 
   @FieldResolver(() => String)
   async thumbnail(@Root() ad: Ad) {
-    return (await AdImage.find({ where: { adId: ad.id } }))[0];
+    return (await AdImage.findOne({ where: { adId: ad.id } }))?.src;
+  }
+
+  @FieldResolver(() => [Ad])
+  async recent(@Root() ad: Ad) {
+    const ads = await Ad.find({
+      where: {
+        ownerId: ad.ownerId,
+        id: Not(ad.id),
+      },
+      order: {
+        featured: "DESC",
+        updatedAt: "DESC",
+      },
+      take: 5,
+    });
+    return ads;
   }
 
   //Hirdetés feladás

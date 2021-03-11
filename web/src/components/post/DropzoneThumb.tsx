@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image } from "@chakra-ui/react";
+import { Flex, Image } from "@chakra-ui/react";
 
 interface DropzoneThumbProps {
   file: File;
@@ -8,7 +8,7 @@ interface DropzoneThumbProps {
 
 export const DropzoneThumb: React.FC<DropzoneThumbProps> = ({
   file,
-  dropzone = true,
+  dropzone = false,
 }) => {
   const [thumb, setThumb] = useState(undefined);
 
@@ -29,14 +29,18 @@ export const DropzoneThumb: React.FC<DropzoneThumbProps> = ({
   }, [file]);
 
   return (
-    <Image
-      src={thumb}
-      h="100%"
-      w="auto"
-      maxH="300px"
-      maxW="150px"
-      objectFit="cover"
-      mr={4}
-    />
+    <Flex
+      justify={"space-around"}
+      align={"center"}
+      h={dropzone ? "200px" : "100%"}
+      mr={dropzone ? 0 : 4}
+    >
+      <Image
+        src={thumb}
+        maxH={"100%"}
+        h={dropzone ? "200px" : "100%"}
+        objectFit="cover"
+      />
+    </Flex>
   );
 };

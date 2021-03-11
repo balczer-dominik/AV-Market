@@ -2,9 +2,11 @@ import { User } from "../entities/User";
 import {
   Arg,
   Ctx,
+  FieldResolver,
   Mutation,
   Query,
   Resolver,
+  Root,
   UseMiddleware,
 } from "type-graphql";
 import { UserResponse } from "../util/type-graphql/UserResponse";
@@ -35,9 +37,25 @@ import { validatePassword } from "../validators/validatePassword";
 import { errorResponse } from "../util/errorResponse";
 import { ContactsInput } from "../util/type-graphql/ContactsInput";
 import { validateContacts } from "../validators/validateContacts";
+import { Ad } from "../entities/Ad";
 
 @Resolver(User)
 export class UserResolver {
+  @FieldResolver(() => [Ad])
+  async recent(@Root() user: User) {
+    const ads = await Ad.find({
+      where: {
+        ownerId: user.id,
+      },
+      order: {
+        featured: "DESC",
+        updatedAt: "DESC",
+      },
+      take: 5,
+    });
+    return ads;
+  }
+
   @Mutation(() => UserResponse)
   async register(
     @Arg("options") options: UsernamePasswordInput,

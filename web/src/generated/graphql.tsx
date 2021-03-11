@@ -53,16 +53,18 @@ export type Ad = {
   id: Scalars['Float'];
   title: Scalars['String'];
   price: Scalars['Float'];
-  desc: Scalars['String'];
+  desc?: Maybe<Scalars['String']>;
   wear: Scalars['String'];
   category: Scalars['String'];
   subCategory: Scalars['String'];
   owner: User;
   ownerId: Scalars['Float'];
+  featured: Scalars['Boolean'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   images: Array<Scalars['String']>;
   thumbnail: Scalars['String'];
+  recent: Array<Ad>;
 };
 
 export type User = {
@@ -78,6 +80,7 @@ export type User = {
   banned: Scalars['Boolean'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  recent: Array<Ad>;
 };
 
 export type AdResponse = {
@@ -195,13 +198,38 @@ export type ContactsInput = {
   phone?: Maybe<Scalars['String']>;
 };
 
-export type AdSnippetFragment = (
+export type AdDetailsFragment = (
   { __typename?: 'Ad' }
-  & Pick<Ad, 'id' | 'thumbnail' | 'title' | 'price' | 'wear' | 'createdAt' | 'updatedAt'>
+  & Pick<Ad, 'id' | 'title' | 'price' | 'wear' | 'createdAt' | 'updatedAt'>
+  & CategoriesFragment
+);
+
+export type AdOwnerFragment = (
+  { __typename?: 'Ad' }
   & { owner: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'username' | 'email' | 'messenger' | 'phone' | 'county' | 'city'>
+    & Pick<User, 'id' | 'username' | 'email' | 'avatar' | 'county' | 'city' | 'messenger' | 'phone'>
   ) }
+);
+
+export type AdRecentFragment = (
+  { __typename?: 'Ad' }
+  & { recent: Array<(
+    { __typename?: 'Ad' }
+    & Pick<Ad, 'id' | 'title' | 'price' | 'thumbnail'>
+  )> }
+);
+
+export type AdSnippetFragment = (
+  { __typename?: 'Ad' }
+  & Pick<Ad, 'thumbnail'>
+  & AdDetailsFragment
+  & AdOwnerFragment
+);
+
+export type CategoriesFragment = (
+  { __typename?: 'Ad' }
+  & Pick<Ad, 'category' | 'subCategory'>
 );
 
 export type RegularErrorFragment = (
@@ -328,7 +356,10 @@ export type PostMutation = (
     & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
       & Pick<FieldError, 'field' | 'message'>
-    )>> }
+    )>>, ad?: Maybe<(
+      { __typename?: 'Ad' }
+      & Pick<Ad, 'id'>
+    )> }
   ) }
 );
 
@@ -376,11 +407,10 @@ export type AdQuery = (
     { __typename?: 'AdResponse' }
     & { ad?: Maybe<(
       { __typename?: 'Ad' }
-      & Pick<Ad, 'id' | 'title' | 'category' | 'subCategory' | 'price' | 'wear' | 'desc' | 'images' | 'createdAt' | 'updatedAt'>
-      & { owner: (
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'username' | 'email' | 'avatar' | 'county' | 'city' | 'messenger' | 'phone'>
-      ) }
+      & Pick<Ad, 'images' | 'desc'>
+      & AdDetailsFragment
+      & AdOwnerFragment
+      & AdRecentFragment
     )> }
   ) }
 );
@@ -499,26 +529,56 @@ export type GetUsersQuery = (
   ) }
 );
 
-export const AdSnippetFragmentDoc = gql`
-    fragment AdSnippet on Ad {
+export const AdRecentFragmentDoc = gql`
+    fragment AdRecent on Ad {
+  recent {
+    id
+    title
+    price
+    thumbnail
+  }
+}
+    `;
+export const CategoriesFragmentDoc = gql`
+    fragment Categories on Ad {
+  category
+  subCategory
+}
+    `;
+export const AdDetailsFragmentDoc = gql`
+    fragment AdDetails on Ad {
   id
-  thumbnail
   title
   price
   wear
-  owner {
-    id
-    username
-    email
-    messenger
-    phone
-    county
-    city
-  }
+  ...Categories
   createdAt
   updatedAt
 }
+    ${CategoriesFragmentDoc}`;
+export const AdOwnerFragmentDoc = gql`
+    fragment AdOwner on Ad {
+  owner {
+    id
+    username
+    username
+    email
+    avatar
+    county
+    city
+    messenger
+    phone
+  }
+}
     `;
+export const AdSnippetFragmentDoc = gql`
+    fragment AdSnippet on Ad {
+  ...AdDetails
+  ...AdOwner
+  thumbnail
+}
+    ${AdDetailsFragmentDoc}
+${AdOwnerFragmentDoc}`;
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
   field
@@ -629,6 +689,9 @@ export const PostDocument = gql`
       field
       message
     }
+    ad {
+      id
+    }
   }
 }
     `;
@@ -669,31 +732,17 @@ export const AdDocument = gql`
     query Ad($id: Int!) {
   ad(id: $id) {
     ad {
-      id
-      title
-      category
-      subCategory
-      price
-      wear
-      desc
+      ...AdDetails
+      ...AdOwner
+      ...AdRecent
       images
-      owner {
-        id
-        username
-        username
-        email
-        avatar
-        county
-        city
-        messenger
-        phone
-      }
-      createdAt
-      updatedAt
+      desc
     }
   }
 }
-    `;
+    ${AdDetailsFragmentDoc}
+${AdOwnerFragmentDoc}
+${AdRecentFragmentDoc}`;
 
 export function useAdQuery(options: Omit<Urql.UseQueryArgs<AdQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AdQuery>({ query: AdDocument, ...options });

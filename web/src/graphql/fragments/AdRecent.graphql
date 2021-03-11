@@ -1,0 +1,8 @@
+fragment AdRecent on Ad {
+  recent {
+    id
+    title
+    price
+    thumbnail
+  }
+}

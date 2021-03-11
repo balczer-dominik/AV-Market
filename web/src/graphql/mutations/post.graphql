@@ -22,5 +22,8 @@ mutation Post(
       field
       message
     }
+    ad {
+      id
+    }
   }
 }

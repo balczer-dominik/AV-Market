@@ -42,9 +42,14 @@ export const DropzoneUploader: React.FC<DropzoneUploaderProps> = ({
         )}
       </Dropzone>
       {images ? (
-        <SimpleGrid minChildWidth={50}>
+        <SimpleGrid
+          minChildWidth={"200px"}
+          spacing={4}
+          alignItems={"center"}
+          mt={4}
+        >
           {images.map((image) => (
-            <DropzoneThumb file={image} />
+            <DropzoneThumb file={image} dropzone />
           ))}
         </SimpleGrid>
       ) : null}

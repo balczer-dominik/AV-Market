@@ -20,6 +20,7 @@ import NextLink from "next/link";
 import { RiPhoneFill } from "react-icons/ri";
 import { formatPhone } from "../../utils/formatPhoneNumber";
 import { DropzoneThumb } from "../post/DropzoneThumb";
+import { formatLocation } from "../../utils/formatLocation";
 
 interface AdListingProps {
   ad: Partial<AdSnippetFragment>;
@@ -60,9 +61,7 @@ export const AdListing: React.FC<AdListingProps> = ({
                 <Heading size="md">{title}</Heading>
               </Link>
             </NextLink>
-            <Text fontSize="sm">{`${county ? county + ", " : ""}${
-              city ?? ""
-            }`}</Text>
+            <Text fontSize="sm">{formatLocation(county, city)}</Text>
             <Tooltip
               label={`${LAST_UPDATE_AT}: ${updatedAt}`}
               aria-label={LAST_UPDATE_AT}
@@ -81,7 +80,7 @@ export const AdListing: React.FC<AdListingProps> = ({
             <Heading size="sm">{`${PRICE_LABEL}: ${formatPrice(
               price
             )}`}</Heading>
-            <Box>
+            <Box display={{ base: "none", md: "block" }}>
               <Tooltip label={email}>
                 <span>
                   <Icon as={MdMail} color={REGULAR_BROWN} ml={2} h={8} w={8} />
