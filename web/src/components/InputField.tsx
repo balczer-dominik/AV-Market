@@ -8,11 +8,13 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Select,
+  SelectField,
   Textarea,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useField } from "formik";
+import { Field, useField } from "formik";
 import { SelectControl } from "formik-chakra-ui";
 import React, { InputHTMLAttributes } from "react";
 import { IconType } from "react-icons";
@@ -70,18 +72,18 @@ export const InputField: React.FC<InputFieldProps> = ({
         isOpen={!!error}
       >
         <InputGroup>
-          {type === "select" ? (
-            <SelectControl
-              id={field.name}
-              name={field.name}
-              placeholder={props.placeholder}
+          {select ? (
+            <Field
+              as={Select}
+              {...props}
+              borderColor={LIGHTER_REGULAR_BROWN}
+              borderWidth={"0.15rem"}
+              _hover={{ borderColor: LIGHTEST_REGULAR_BROWN }}
             >
-              {select.map((option) => (
-                <option value={option} key={option}>
-                  {option}
-                </option>
+              {select.map((v) => (
+                <option value={v}>{v}</option>
               ))}
-            </SelectControl>
+            </Field>
           ) : type === "textarea" ? (
             <Textarea
               ref={ref}
