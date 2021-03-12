@@ -37,7 +37,7 @@ export class AdResolver {
     return (await AdImage.find({ where: { adId: ad.id } })).map((ai) => ai.src);
   }
 
-  @FieldResolver(() => String)
+  @FieldResolver(() => String, { nullable: true })
   async thumbnail(@Root() ad: Ad) {
     return (await AdImage.findOne({ where: { adId: ad.id } }))?.src;
   }

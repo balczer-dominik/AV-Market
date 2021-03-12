@@ -1,5 +1,4 @@
 import { FormControl, Select, SelectProps } from "@chakra-ui/react";
-import { BaseProps } from "formik-chakra-ui/dist/base-props";
 import React from "react";
 import { NEW_COUNTY_LABEL, counties } from "../../utils/strings";
 

@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, Image } from "@chakra-ui/react";
+import { FormControl, FormLabel } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { REGULAR_DARK_BROWN } from "../utils/colors";
 import { NEW_AVATAR_LABEL } from "../utils/strings";

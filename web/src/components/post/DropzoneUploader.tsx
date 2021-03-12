@@ -1,6 +1,6 @@
 import { Box, SimpleGrid, Text } from "@chakra-ui/layout";
-import { Flex, Image } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
+import { Flex } from "@chakra-ui/react";
+import React, { useCallback } from "react";
 import Dropzone from "react-dropzone";
 import { REGULAR_BROWN } from "../../utils/colors";
 import { DROPZONE_TEXT } from "../../utils/strings";

@@ -1,16 +1,13 @@
-import { toast } from "@chakra-ui/react";
-import { Formik, Form } from "formik";
+import { Form, Formik } from "formik";
 import React from "react";
-import { CgPassword } from "react-icons/cg";
-import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useChangePasswordMutation } from "../../generated/graphql";
 import {
   CHANGE_PASSWORD_SUCCESS,
+  CONFIRM_CHANGE_LABEL,
+  CONFIRM_PASSWORD_LABEL,
   CURRENT_PASSWORD_LABEL,
   NEW_PASSWORD_LABEL,
-  CONFIRM_PASSWORD_LABEL,
-  CONFIRM_CHANGE_LABEL,
 } from "../../utils/strings";
 import { toErrorMap } from "../../utils/toErrorMap";
 import { useBetterToast } from "../../utils/useBetterToast";

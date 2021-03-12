@@ -21,6 +21,7 @@ export type Query = {
   ads: PaginatedAds;
   ad: AdResponse;
   hello: Scalars['String'];
+  userAds: PaginatedAds;
   me?: Maybe<User>;
   getUsers: PaginatedUsers;
 };
@@ -34,6 +35,13 @@ export type QueryAdsArgs = {
 
 export type QueryAdArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryUserAdsArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  userId: Scalars['Int'];
 };
 
 
@@ -511,6 +519,25 @@ export type MePreviewQuery = (
   )> }
 );
 
+export type UserAdsQueryVariables = Exact<{
+  userId: Scalars['Int'];
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type UserAdsQuery = (
+  { __typename?: 'Query' }
+  & { userAds: (
+    { __typename?: 'PaginatedAds' }
+    & Pick<PaginatedAds, 'hasMore'>
+    & { ads: Array<(
+      { __typename?: 'Ad' }
+      & AdSnippetFragment
+    )> }
+  ) }
+);
+
 export type GetUsersQueryVariables = Exact<{
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -850,6 +877,20 @@ export const MePreviewDocument = gql`
 
 export function useMePreviewQuery(options: Omit<Urql.UseQueryArgs<MePreviewQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MePreviewQuery>({ query: MePreviewDocument, ...options });
+};
+export const UserAdsDocument = gql`
+    query UserAds($userId: Int!, $limit: Int, $offset: Int) {
+  userAds(userId: $userId, limit: $limit, offset: $offset) {
+    ads {
+      ...AdSnippet
+    }
+    hasMore
+  }
+}
+    ${AdSnippetFragmentDoc}`;
+
+export function useUserAdsQuery(options: Omit<Urql.UseQueryArgs<UserAdsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<UserAdsQuery>({ query: UserAdsDocument, ...options });
 };
 export const GetUsersDocument = gql`
     query getUsers($limit: Int, $offset: Int) {

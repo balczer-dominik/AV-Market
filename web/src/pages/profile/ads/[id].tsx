@@ -1,56 +1,33 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Table,
-  Tbody,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
-import { Layout } from "../../components/Layout";
-import { UserAdminRow } from "../../components/UserAdminRow";
-import { useGetUsersQuery } from "../../generated/graphql";
+import { AdListing } from "../../../components/ad/AdListing";
+import { Layout } from "../../../components/Layout";
+import { useUserAdsQuery } from "../../../generated/graphql";
 import {
   LIGHTER_REGULAR_BROWN,
   LIGHTEST_REGULAR_BROWN,
-} from "../../utils/colors";
-import { createUrqlClient } from "../../utils/createUrqlClient";
-import { isServer } from "../../utils/isServer";
-import { useIsAdmin } from "../../utils/useIsAdmin";
+} from "../../../utils/colors";
+import { createUrqlClient } from "../../../utils/createUrqlClient";
+import { isServer } from "../../../utils/isServer";
+import { useGetIdFromUrl } from "../../../utils/useGetIdFromUrl";
 
-const Users: React.FC<{}> = () => {
-  useIsAdmin();
+const UserAds: React.FC<{}> = () => {
   const [page, setPage] = useState(0);
-  const [{ data }] = useGetUsersQuery({
-    variables: { limit: 5, offset: 5 * page },
-    pause: isServer(),
+  const intId = useGetIdFromUrl();
+  const [{ data }] = useUserAdsQuery({
+    variables: { userId: intId, limit: 10, offset: 10 * page },
+    pause: isServer() || intId === -1,
   });
 
   return (
     <Layout variant="regular">
       {data ? (
         <Box>
-          <Table mb={10} size={"sm"}>
-            <Thead>
-              <Tr>
-                <Th>ID</Th>
-                <Th>Avatar</Th>
-                <Th>Username</Th>
-                <Th>E-mail</Th>
-                <Th>Banned</Th>
-                <Th textAlign="right">Actions</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data.getUsers.users.map((user) => (
-                <UserAdminRow user={user} />
-              ))}
-            </Tbody>
-          </Table>
+          {data.userAds.ads.map((ad) => (
+            <AdListing ad={ad} />
+          ))}
+
           <Flex justify="space-between" my={10} align="center">
             <Flex w={"40%"} justify="flex-start">
               <Button
@@ -72,7 +49,7 @@ const Users: React.FC<{}> = () => {
                 bgColor={LIGHTER_REGULAR_BROWN}
                 _hover={{ bgColor: LIGHTEST_REGULAR_BROWN }}
                 color={"white"}
-                display={data?.getUsers.hasMore ? "block" : "none"}
+                display={data?.userAds.hasMore ? "block" : "none"}
                 onClick={() => setPage(page + 1)}
               >
                 Next page
@@ -85,4 +62,4 @@ const Users: React.FC<{}> = () => {
   );
 };
 
-export default withUrqlClient(createUrqlClient)(Users);
+export default withUrqlClient(createUrqlClient)(UserAds);

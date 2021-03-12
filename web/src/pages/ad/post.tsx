@@ -42,11 +42,7 @@ import { useIsAuth } from "../../utils/useIsAuth";
 import { PostValidator } from "../../utils/validators";
 
 //Stepper wrapper
-const step = (
-  step: number,
-  label: string,
-  [active, setActive]: [number, React.Dispatch<React.SetStateAction<number>>]
-) => {
+const step = (label: string) => {
   return {
     title: <Box>{label}</Box>,
   };
@@ -73,10 +69,10 @@ const PostAd: React.FC<{}> = ({}) => {
   };
 
   const steps = [
-    step(0, CHOOSE_CATEGORY_LABEL, activeState),
-    step(1, BASIC_DETAILS_LABEL, activeState),
-    step(2, UPLOAD_IMAGE_LABEL, activeState),
-    step(3, FINALIZE_LABEL, activeState),
+    step(CHOOSE_CATEGORY_LABEL),
+    step(BASIC_DETAILS_LABEL),
+    step(UPLOAD_IMAGE_LABEL),
+    step(FINALIZE_LABEL),
   ];
 
   return (

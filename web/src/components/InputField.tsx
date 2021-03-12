@@ -8,7 +8,6 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Select,
   Textarea,
   Tooltip,
   useDisclosure,

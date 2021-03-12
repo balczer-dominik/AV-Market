@@ -18,7 +18,6 @@ interface WearTileProps {
 
 export const WearTile: React.FC<WearTileProps> = ({
   name,
-  icon,
   disabled,
   leftmost = false,
   rightmost = false,

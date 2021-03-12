@@ -21,6 +21,7 @@ import { RiPhoneFill } from "react-icons/ri";
 import { formatPhone } from "../../utils/formatPhoneNumber";
 import { DropzoneThumb } from "../post/DropzoneThumb";
 import { formatLocation } from "../../utils/formatLocation";
+import { formatAdLink, formatAdSrc } from "../../utils/formatLinks";
 
 interface AdListingProps {
   ad: Partial<AdSnippetFragment>;
@@ -51,12 +52,12 @@ export const AdListing: React.FC<AdListingProps> = ({
       {thumbPreview ? (
         <DropzoneThumb file={thumbPreview} />
       ) : (
-        <Image src={`/ad/${thumbnail}`} m={1} mr={4} />
+        <Image src={formatAdSrc(thumbnail)} m={1} mr={4} />
       )}
       <Box w="100%">
         <Flex flexDir="column" justify="space-between" h="100%">
           <Box>
-            <NextLink href={`ad/view/${id}`}>
+            <NextLink href={formatAdLink(id)}>
               <Link style={{ textDecoration: "none" }}>
                 <Heading size="md">{title}</Heading>
               </Link>

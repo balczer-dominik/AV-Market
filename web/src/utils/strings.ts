@@ -137,6 +137,8 @@ export const CONTINUE_BUTTON = "Tovább";
 export const BACK_BUTTON = "Vissza";
 export const DROPZONE_TEXT = "Húzza ide a fájlokat vagy kattintson ide...";
 export const OWNER_OTHER_ADS = "további apróhirdetési";
+export const PROFILE_VIEW_LABEL = "Profil";
+export const MY_AD_LABEL = "Apróhirdetéseim";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";

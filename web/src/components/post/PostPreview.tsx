@@ -1,13 +1,7 @@
-import { Box, Flex, Heading, Icon, Text, Tooltip } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import React from "react";
-import { MdMail } from "react-icons/md";
-import {
-  useMeFullQuery,
-  useMePreviewQuery,
-  useMeQuery,
-} from "../../generated/graphql";
-import { REGULAR_BROWN } from "../../utils/colors";
-import { FINALIZE_LABEL, PRICE_LABEL } from "../../utils/strings";
+import { useMePreviewQuery } from "../../generated/graphql";
+import { FINALIZE_LABEL } from "../../utils/strings";
 import { AdListing } from "../ad/AdListing";
 
 interface PostPreviewProps {

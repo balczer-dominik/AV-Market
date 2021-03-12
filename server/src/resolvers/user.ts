@@ -3,6 +3,7 @@ import {
   Arg,
   Ctx,
   FieldResolver,
+  Int,
   Mutation,
   Query,
   Resolver,
@@ -38,6 +39,7 @@ import { errorResponse } from "../util/errorResponse";
 import { ContactsInput } from "../util/type-graphql/ContactsInput";
 import { validateContacts } from "../validators/validateContacts";
 import { Ad } from "../entities/Ad";
+import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
 
 @Resolver(User)
 export class UserResolver {
@@ -54,6 +56,29 @@ export class UserResolver {
       take: 5,
     });
     return ads;
+  }
+
+  @Query(() => PaginatedAds)
+  async userAds(
+    @Arg("userId", () => Int) userId: number,
+    @Arg("limit", () => Int, { nullable: true, defaultValue: 50 })
+    limit: number,
+    @Arg("offset", () => Int, { nullable: true, defaultValue: 0 })
+    offset: number
+  ): Promise<PaginatedAds> {
+    const limitPlusOne = limit + 1;
+
+    const ads = await Ad.find({
+      where: { ownerId: userId },
+      order: { createdAt: "DESC" },
+      take: limitPlusOne,
+      skip: offset,
+    });
+
+    return {
+      ads: ads.slice(0, limit),
+      hasMore: ads.length === limitPlusOne,
+    };
   }
 
   @Mutation(() => UserResponse)
