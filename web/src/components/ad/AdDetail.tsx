@@ -37,10 +37,18 @@ export const AdDetail: React.FC<AdDetailProps> = ({
           borderRadius="3px"
         />
       ) : (
-        <Icon as={icon} w={8} h={8} mr={2} />
+        <Icon
+          as={icon}
+          w={8}
+          h={8}
+          mr={2}
+          alignSelf={text.length > 40 ? "start" : "unset"}
+        />
       )}
 
-      <Text fontSize={text.length > 40 ? 15 : 20}>{text}</Text>
+      <Text fontSize={text.length > 40 ? 15 : 20} whiteSpace="pre-line">
+        {text}
+      </Text>
     </Flex>
   );
 };

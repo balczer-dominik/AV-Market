@@ -1,4 +1,13 @@
-import { Box, Flex, Heading, Image, Link, Tag, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Image,
+  Link,
+  SimpleGrid,
+  Tag,
+  Text,
+} from "@chakra-ui/react";
 import React from "react";
 import { Ad } from "../../generated/graphql";
 import {
@@ -36,16 +45,17 @@ export const AdRecent: React.FC<AdRecentProps> = ({
         </NextLink>{" "}
         {OWNER_OTHER_ADS}
       </Heading>
-      <Flex justify="space-around" align="center">
+      <SimpleGrid justify="space-around" minChildWidth="150px" spacing="5px">
         {recent.map((ad) => (
           <Flex
-            maxW="20%"
+            w="150px"
             justify="space-between"
             flexDir="column"
             p={2}
             as={Link}
             href={formatAdLink(ad.id)}
             style={{ textDecoration: "none" }}
+            justifySelf="center"
           >
             <Image
               src={formatAdSrc(ad.thumbnail)}
@@ -61,7 +71,7 @@ export const AdRecent: React.FC<AdRecentProps> = ({
             </Tag>
           </Flex>
         ))}
-      </Flex>
+      </SimpleGrid>
     </Box>
   );
 };

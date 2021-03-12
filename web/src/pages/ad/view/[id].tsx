@@ -56,7 +56,7 @@ const ViewAd: React.FC<ViewAdProps> = ({}) => {
         <Box>
           <Breadcrumbs items={breadItems()} />
           <Flex mt={4} flexDir={{ base: "column-reverse", md: "row" }}>
-            <Box w="400px" alignSelf="center">
+            <Box w="400px" alignSelf="start">
               <ReactImageGallery
                 items={formatImageGallery(ad.images)}
                 autoPlay
