@@ -1,0 +1,5 @@
+fragment UserContacts on User {
+  email
+  messenger
+  phone
+}

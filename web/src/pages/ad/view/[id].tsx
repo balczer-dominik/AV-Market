@@ -18,7 +18,7 @@ import { formatImageGallery } from "../../../utils/formatImageGallery";
 import { formatProfileLink } from "../../../utils/formatLinks";
 import { formatLocation } from "../../../utils/formatLocation";
 import { formatPrice } from "../../../utils/formatPrice";
-import { HOME_PAGE } from "../../../utils/strings";
+import { HOME_PAGE, OTHER_ADS_LABEL } from "../../../utils/strings";
 import { useGetAdFromUrl } from "../../../utils/useGetAdFromUrl";
 
 interface ViewAdProps {}
@@ -86,6 +86,7 @@ const ViewAd: React.FC<ViewAdProps> = ({}) => {
           </Flex>
           <AdRecent
             owner={ad.owner.username}
+            label={OTHER_ADS_LABEL}
             recent={ad.recent}
             ownerId={ad.owner.id}
           />

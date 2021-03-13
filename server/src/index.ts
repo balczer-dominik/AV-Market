@@ -14,10 +14,11 @@ import { AdResolver } from "./resolvers/ad";
 import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
 import { UserAdministrationResolver } from "./resolvers/userAdministration";
+import argon2 from "argon2";
 
 const main = async () => {
   //TypeORM
-  await createConnection({
+  const conn = await createConnection({
     type: "postgres",
     database: "avmarket",
     username: "postgres",

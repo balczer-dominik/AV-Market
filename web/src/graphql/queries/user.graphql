@@ -1,0 +1,11 @@
+query User($id: Int!) {
+  user(id: $id) {
+    ...RegularUser
+    ...UserContacts
+    ...UserLocation
+    adCount
+    recent {
+      ...UserRecent
+    }
+  }
+}

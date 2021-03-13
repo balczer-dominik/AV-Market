@@ -1,7 +1,5 @@
 query MeContacts {
   me {
-    email
-    messenger
-    phone
+    ...UserContacts
   }
 }

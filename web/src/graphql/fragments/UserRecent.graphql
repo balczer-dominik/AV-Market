@@ -1,0 +1,5 @@
+fragment UserRecent on Ad {
+  title
+  price
+  thumbnail
+}

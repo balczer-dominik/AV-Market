@@ -68,7 +68,7 @@ export const AdListing: React.FC<AdListingProps> = ({
               aria-label={LAST_UPDATE_AT}
             >
               <NextLink href={`profile/view/${ownerId}`}>
-                <Link>
+                <Link style={{ textDecoration: "none" }}>
                   <Text
                     style={{ textDecoration: "none" }}
                     fontSize="sm"

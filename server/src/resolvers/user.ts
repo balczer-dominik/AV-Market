@@ -43,6 +43,11 @@ import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
 
 @Resolver(User)
 export class UserResolver {
+  @FieldResolver(() => Int)
+  async adCount(@Root() user: User): Promise<number> {
+    return (await Ad.find({ where: { ownerId: user.id } })).length;
+  }
+
   @FieldResolver(() => [Ad])
   async recent(@Root() user: User) {
     const ads = await Ad.find({
@@ -68,6 +73,8 @@ export class UserResolver {
   ): Promise<PaginatedAds> {
     const limitPlusOne = limit + 1;
 
+    const user = await User.findOne(userId);
+
     const ads = await Ad.find({
       where: { ownerId: userId },
       order: { createdAt: "DESC" },
@@ -76,6 +83,7 @@ export class UserResolver {
     });
 
     return {
+      owner: user,
       ads: ads.slice(0, limit),
       hasMore: ads.length === limitPlusOne,
     };
@@ -300,5 +308,12 @@ export class UserResolver {
     user!.save();
 
     return { user };
+  }
+
+  @Query(() => User)
+  async user(
+    @Arg("id", () => Int, { nullable: true }) id: number
+  ): Promise<User | undefined> {
+    return await User.findOne(id);
   }
 }

@@ -8,6 +8,7 @@ import {
   Tag,
   Text,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React from "react";
 import { Ad } from "../../generated/graphql";
 import {
@@ -21,17 +22,17 @@ import {
   formatProfileLink,
 } from "../../utils/formatLinks";
 import { formatPrice } from "../../utils/formatPrice";
-import { OWNER_OTHER_ADS } from "../../utils/strings";
-import NextLink from "next/link";
 
 interface AdRecentProps {
   owner: string;
   ownerId: number;
+  label: string;
   recent: Partial<Ad>[];
 }
 
 export const AdRecent: React.FC<AdRecentProps> = ({
   owner,
+  label,
   recent,
   ownerId,
 }) => {
@@ -43,7 +44,7 @@ export const AdRecent: React.FC<AdRecentProps> = ({
             <b>{owner}</b>
           </Link>
         </NextLink>{" "}
-        {OWNER_OTHER_ADS}
+        {label}
       </Heading>
       <SimpleGrid justify="space-around" minChildWidth="150px" spacing="5px">
         {recent.map((ad) => (

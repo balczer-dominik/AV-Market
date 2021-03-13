@@ -1,7 +1,8 @@
 query MeFull {
   me {
     ...RegularUser
-    email
+    ...UserContacts
+    ...UserLocation
     createdAt
     updatedAt
   }

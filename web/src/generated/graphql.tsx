@@ -23,6 +23,7 @@ export type Query = {
   hello: Scalars['String'];
   userAds: PaginatedAds;
   me?: Maybe<User>;
+  user: User;
   getUsers: PaginatedUsers;
 };
 
@@ -45,6 +46,11 @@ export type QueryUserAdsArgs = {
 };
 
 
+export type QueryUserArgs = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+
 export type QueryGetUsersArgs = {
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
@@ -52,8 +58,26 @@ export type QueryGetUsersArgs = {
 
 export type PaginatedAds = {
   __typename?: 'PaginatedAds';
+  owner?: Maybe<User>;
   ads: Array<Ad>;
   hasMore: Scalars['Boolean'];
+};
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['Float'];
+  username: Scalars['String'];
+  email: Scalars['String'];
+  avatar?: Maybe<Scalars['String']>;
+  county?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  messenger?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  banned: Scalars['Boolean'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+  adCount: Scalars['Int'];
+  recent: Array<Ad>;
 };
 
 export type Ad = {
@@ -71,23 +95,7 @@ export type Ad = {
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   images: Array<Scalars['String']>;
-  thumbnail: Scalars['String'];
-  recent: Array<Ad>;
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['Float'];
-  username: Scalars['String'];
-  email: Scalars['String'];
-  avatar?: Maybe<Scalars['String']>;
-  county?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  messenger?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  banned: Scalars['Boolean'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
+  thumbnail?: Maybe<Scalars['String']>;
   recent: Array<Ad>;
 };
 
@@ -216,7 +224,9 @@ export type AdOwnerFragment = (
   { __typename?: 'Ad' }
   & { owner: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'username' | 'email' | 'avatar' | 'county' | 'city' | 'messenger' | 'phone'>
+    & RegularUserFragment
+    & UserContactsFragment
+    & UserLocationFragment
   ) }
 );
 
@@ -259,6 +269,21 @@ export type RegularUserResponseFragment = (
     { __typename?: 'User' }
     & RegularUserFragment
   )> }
+);
+
+export type UserContactsFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'email' | 'messenger' | 'phone'>
+);
+
+export type UserLocationFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'county' | 'city'>
+);
+
+export type UserRecentFragment = (
+  { __typename?: 'Ad' }
+  & Pick<Ad, 'title' | 'price' | 'thumbnail'>
 );
 
 export type BanUserMutationVariables = Exact<{
@@ -470,7 +495,7 @@ export type MeContactsQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'email' | 'messenger' | 'phone'>
+    & UserContactsFragment
   )> }
 );
 
@@ -492,8 +517,10 @@ export type MeFullQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'email' | 'createdAt' | 'updatedAt'>
+    & Pick<User, 'createdAt' | 'updatedAt'>
     & RegularUserFragment
+    & UserContactsFragment
+    & UserLocationFragment
   )> }
 );
 
@@ -504,7 +531,7 @@ export type MeLocationQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'city' | 'county'>
+    & UserLocationFragment
   )> }
 );
 
@@ -515,8 +542,30 @@ export type MePreviewQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'username' | 'email' | 'county' | 'city' | 'messenger' | 'phone'>
+    & Pick<User, 'id' | 'username'>
+    & UserContactsFragment
+    & UserLocationFragment
   )> }
+);
+
+export type UserQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type UserQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'User' }
+    & Pick<User, 'adCount'>
+    & { recent: Array<(
+      { __typename?: 'Ad' }
+      & UserRecentFragment
+    )> }
+    & RegularUserFragment
+    & UserContactsFragment
+    & UserLocationFragment
+  ) }
 );
 
 export type UserAdsQueryVariables = Exact<{
@@ -531,7 +580,10 @@ export type UserAdsQuery = (
   & { userAds: (
     { __typename?: 'PaginatedAds' }
     & Pick<PaginatedAds, 'hasMore'>
-    & { ads: Array<(
+    & { owner?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'username'>
+    )>, ads: Array<(
       { __typename?: 'Ad' }
       & AdSnippetFragment
     )> }
@@ -583,21 +635,37 @@ export const AdDetailsFragmentDoc = gql`
   updatedAt
 }
     ${CategoriesFragmentDoc}`;
+export const RegularUserFragmentDoc = gql`
+    fragment RegularUser on User {
+  id
+  username
+  avatar
+}
+    `;
+export const UserContactsFragmentDoc = gql`
+    fragment UserContacts on User {
+  email
+  messenger
+  phone
+}
+    `;
+export const UserLocationFragmentDoc = gql`
+    fragment UserLocation on User {
+  county
+  city
+}
+    `;
 export const AdOwnerFragmentDoc = gql`
     fragment AdOwner on Ad {
   owner {
-    id
-    username
-    username
-    email
-    avatar
-    county
-    city
-    messenger
-    phone
+    ...RegularUser
+    ...UserContacts
+    ...UserLocation
   }
 }
-    `;
+    ${RegularUserFragmentDoc}
+${UserContactsFragmentDoc}
+${UserLocationFragmentDoc}`;
 export const AdSnippetFragmentDoc = gql`
     fragment AdSnippet on Ad {
   ...AdDetails
@@ -612,13 +680,6 @@ export const RegularErrorFragmentDoc = gql`
   message
 }
     `;
-export const RegularUserFragmentDoc = gql`
-    fragment RegularUser on User {
-  id
-  username
-  avatar
-}
-    `;
 export const RegularUserResponseFragmentDoc = gql`
     fragment RegularUserResponse on UserResponse {
   errors {
@@ -630,6 +691,13 @@ export const RegularUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
+export const UserRecentFragmentDoc = gql`
+    fragment UserRecent on Ad {
+  title
+  price
+  thumbnail
+}
+    `;
 export const BanUserDocument = gql`
     mutation banUser($id: Int!) {
   banUser(id: $id)
@@ -813,12 +881,10 @@ export function useMeAvatarQuery(options: Omit<Urql.UseQueryArgs<MeAvatarQueryVa
 export const MeContactsDocument = gql`
     query MeContacts {
   me {
-    email
-    messenger
-    phone
+    ...UserContacts
   }
 }
-    `;
+    ${UserContactsFragmentDoc}`;
 
 export function useMeContactsQuery(options: Omit<Urql.UseQueryArgs<MeContactsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeContactsQuery>({ query: MeContactsDocument, ...options });
@@ -838,12 +904,15 @@ export const MeFullDocument = gql`
     query MeFull {
   me {
     ...RegularUser
-    email
+    ...UserContacts
+    ...UserLocation
     createdAt
     updatedAt
   }
 }
-    ${RegularUserFragmentDoc}`;
+    ${RegularUserFragmentDoc}
+${UserContactsFragmentDoc}
+${UserLocationFragmentDoc}`;
 
 export function useMeFullQuery(options: Omit<Urql.UseQueryArgs<MeFullQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeFullQuery>({ query: MeFullDocument, ...options });
@@ -851,11 +920,10 @@ export function useMeFullQuery(options: Omit<Urql.UseQueryArgs<MeFullQueryVariab
 export const MeLocationDocument = gql`
     query MeLocation {
   me {
-    city
-    county
+    ...UserLocation
   }
 }
-    `;
+    ${UserLocationFragmentDoc}`;
 
 export function useMeLocationQuery(options: Omit<Urql.UseQueryArgs<MeLocationQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeLocationQuery>({ query: MeLocationDocument, ...options });
@@ -865,22 +933,42 @@ export const MePreviewDocument = gql`
   me {
     id
     username
-    email
-    county
-    city
-    messenger
-    email
-    phone
+    ...UserContacts
+    ...UserLocation
   }
 }
-    `;
+    ${UserContactsFragmentDoc}
+${UserLocationFragmentDoc}`;
 
 export function useMePreviewQuery(options: Omit<Urql.UseQueryArgs<MePreviewQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MePreviewQuery>({ query: MePreviewDocument, ...options });
 };
+export const UserDocument = gql`
+    query User($id: Int!) {
+  user(id: $id) {
+    ...RegularUser
+    ...UserContacts
+    ...UserLocation
+    adCount
+    recent {
+      ...UserRecent
+    }
+  }
+}
+    ${RegularUserFragmentDoc}
+${UserContactsFragmentDoc}
+${UserLocationFragmentDoc}
+${UserRecentFragmentDoc}`;
+
+export function useUserQuery(options: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
+};
 export const UserAdsDocument = gql`
     query UserAds($userId: Int!, $limit: Int, $offset: Int) {
   userAds(userId: $userId, limit: $limit, offset: $offset) {
+    owner {
+      username
+    }
     ads {
       ...AdSnippet
     }

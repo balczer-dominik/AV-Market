@@ -136,9 +136,12 @@ export const POST_LABEL = "Hirdetés feladása";
 export const CONTINUE_BUTTON = "Tovább";
 export const BACK_BUTTON = "Vissza";
 export const DROPZONE_TEXT = "Húzza ide a fájlokat vagy kattintson ide...";
-export const OWNER_OTHER_ADS = "további apróhirdetési";
+export const OTHER_ADS_LABEL = "további apróhirdetési";
+export const USERS_ADS_LABEL = "apróhirdetési";
 export const PROFILE_VIEW_LABEL = "Profil";
 export const MY_AD_LABEL = "Apróhirdetéseim";
+export const SEND_MESSAGE_LABEL = "Üzenet küldése";
+export const LEAVE_FEEDBACK_LABEL = "Értékelés hagyása";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";

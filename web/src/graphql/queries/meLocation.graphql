@@ -1,6 +1,5 @@
 query MeLocation {
   me {
-    city
-    county
+    ...UserLocation
   }
 }
