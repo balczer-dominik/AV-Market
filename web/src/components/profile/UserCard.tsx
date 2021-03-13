@@ -6,31 +6,21 @@ import {
   Icon,
   Image,
   Link,
-  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React from "react";
-import { FaFacebookMessenger, FaHeart, FaTruck, FaUser } from "react-icons/fa";
+import { FaHeart, FaTruck, FaUser } from "react-icons/fa";
 import { ImPriceTags } from "react-icons/im";
+import { RiChat3Fill } from "react-icons/ri";
 import {
-  LIGHTER_REGULAR_LIGHT_BROWN,
   LIGHTEST_REGULAR_BROWN,
   LIGHTEST_REGULAR_LIGHT_BROWN,
-  REGULAR_BROWN,
-  REGULAR_LIGHT_BROWN,
 } from "../../utils/colors";
 import { formatAdsLink, formatAvatarLink } from "../../utils/formatLinks";
-import NextLink from "next/link";
-import { RegularButton } from "../RegularButton";
-import { BiMessage } from "react-icons/bi";
-import {
-  RiChat3Fill,
-  RiMessage2Fill,
-  RiMessage3Fill,
-  RiMessageFill,
-} from "react-icons/ri";
 import { LEAVE_FEEDBACK_LABEL, SEND_MESSAGE_LABEL } from "../../utils/strings";
+import { RegularButton } from "../RegularButton";
 
 interface UserCardProps {
   userId: number;
@@ -68,7 +58,7 @@ export const UserCard: React.FC<UserCardProps> = ({
   deliveryCount,
 }) => {
   return (
-    <Box width={{ base: "full", md: "35%" }}>
+    <Box width={{ base: "full", md: "30%" }}>
       <VStack
         align="start"
         justify="space-between"

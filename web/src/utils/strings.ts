@@ -142,6 +142,10 @@ export const PROFILE_VIEW_LABEL = "Profil";
 export const MY_AD_LABEL = "Apróhirdetéseim";
 export const SEND_MESSAGE_LABEL = "Üzenet küldése";
 export const LEAVE_FEEDBACK_LABEL = "Értékelés hagyása";
+export const CONTACTS_LABEL = "Elérhetőségek";
+export const PHONE_LABEL = "Telefonszám";
+export const MESSENGER_LABEL = "Messenger";
+export const LOCATION_LABEL = "Tartózkodási hely";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";

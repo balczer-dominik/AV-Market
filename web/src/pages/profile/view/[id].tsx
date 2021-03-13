@@ -3,6 +3,7 @@ import { withUrqlClient } from "next-urql";
 import React from "react";
 import { Layout } from "../../../components/Layout";
 import { UserCard } from "../../../components/profile/UserCard";
+import { UserDetails } from "../../../components/profile/UserDetails";
 import { User } from "../../../generated/graphql";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { useGetUserFromId } from "../../../utils/useGetUserFromId";
@@ -15,7 +16,12 @@ const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
   return (
     <Layout>
       {user ? (
-        <Flex align="flex-start" flexDir={{ base: "column", md: "row" }} mx={5}>
+        <Flex
+          align="flex-start"
+          flexDir={{ base: "column", md: "row" }}
+          mx={5}
+          justify="space-between"
+        >
           <UserCard
             userId={user.id}
             username={user.username}
@@ -25,9 +31,15 @@ const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
             adCount={user.adCount}
             deliveryCount={5}
           />
-          <HStack>
-            {/* <UserDetails />
-          <AdRecent />
+          <HStack w={{ base: "full", md: "68%" }}>
+            <UserDetails
+              email={user.email}
+              phone={user.phone}
+              messenger={user.messenger}
+              city={user.city}
+              county={user.county}
+            />
+            {/* <AdRecent />
           <UserRatings /> */}
           </HStack>
         </Flex>

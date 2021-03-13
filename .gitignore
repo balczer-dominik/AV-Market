@@ -3,3 +3,4 @@ dist/
 av_logo_brown.png
 web/public/**/
 server/src/util/env.ts
+wb/src/util/env.ts
