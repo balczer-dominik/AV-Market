@@ -1,12 +1,4 @@
-import {
-  Box,
-  VStack,
-  Heading,
-  HStack,
-  Icon,
-  Flex,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Heading, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 import { MdMail, MdPhone } from "react-icons/md";
 import { RiMessengerFill } from "react-icons/ri";
@@ -21,9 +13,9 @@ import {
   EMAIL_LABEL,
   LOCATION_LABEL,
   MESSENGER_LABEL,
-  NEW_PHONE_LABEL,
   PHONE_LABEL,
 } from "../../utils/strings";
+import { LocationMap } from "./LocationMap";
 
 interface UserDetailsProps {
   county?: string;
@@ -31,6 +23,7 @@ interface UserDetailsProps {
   phone?: string;
   messenger?: string;
   email: string;
+  coords?: [number, number];
 }
 
 export const UserDetails: React.FC<UserDetailsProps> = ({
@@ -39,6 +32,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
   phone,
   messenger,
   email,
+  coords,
 }) => {
   return (
     <Box w="full">
@@ -108,7 +102,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
           </HStack>
         ) : null}
       </VStack>
-      {city || county ? (
+      {coords ? (
         <VStack align="start" p={3} w="full" mt={2}>
           <Heading
             size="lg"
@@ -119,6 +113,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
           >
             {LOCATION_LABEL}
           </Heading>
+          <LocationMap coordinates={coords} />
         </VStack>
       ) : null}
     </Box>

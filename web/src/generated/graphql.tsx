@@ -78,6 +78,7 @@ export type User = {
   updatedAt: Scalars['String'];
   adCount: Scalars['Int'];
   recent: Array<Ad>;
+  coords: Array<Scalars['Float']>;
 };
 
 export type Ad = {
@@ -278,7 +279,7 @@ export type UserContactsFragment = (
 
 export type UserLocationFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'county' | 'city'>
+  & Pick<User, 'county' | 'city' | 'coords'>
 );
 
 export type UserRecentFragment = (
@@ -524,6 +525,17 @@ export type MeFullQuery = (
   )> }
 );
 
+export type MeIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeIdQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
+  )> }
+);
+
 export type MeLocationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -653,6 +665,7 @@ export const UserLocationFragmentDoc = gql`
     fragment UserLocation on User {
   county
   city
+  coords
 }
     `;
 export const AdOwnerFragmentDoc = gql`
@@ -916,6 +929,17 @@ ${UserLocationFragmentDoc}`;
 
 export function useMeFullQuery(options: Omit<Urql.UseQueryArgs<MeFullQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeFullQuery>({ query: MeFullDocument, ...options });
+};
+export const MeIdDocument = gql`
+    query MeId {
+  me {
+    id
+  }
+}
+    `;
+
+export function useMeIdQuery(options: Omit<Urql.UseQueryArgs<MeIdQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MeIdQuery>({ query: MeIdDocument, ...options });
 };
 export const MeLocationDocument = gql`
     query MeLocation {

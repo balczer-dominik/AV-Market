@@ -1,10 +1,9 @@
-import { Box, Flex, Heading, HStack, Image } from "@chakra-ui/react";
+import { Box, Flex, HStack } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 import { Layout } from "../../../components/Layout";
 import { UserCard } from "../../../components/profile/UserCard";
 import { UserDetails } from "../../../components/profile/UserDetails";
-import { User } from "../../../generated/graphql";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { useGetUserFromId } from "../../../utils/useGetUserFromId";
 
@@ -38,12 +37,15 @@ const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
               messenger={user.messenger}
               city={user.city}
               county={user.county}
+              coords={user.coords}
             />
             {/* <AdRecent />
           <UserRatings /> */}
           </HStack>
         </Flex>
-      ) : null}
+      ) : (
+        <Box>{user ? user.username : null}</Box>
+      )}
     </Layout>
   );
 };

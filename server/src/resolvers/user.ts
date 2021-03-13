@@ -3,6 +3,7 @@ import {
   Arg,
   Ctx,
   FieldResolver,
+  Float,
   Int,
   Mutation,
   Query,
@@ -40,6 +41,7 @@ import { ContactsInput } from "../util/type-graphql/ContactsInput";
 import { validateContacts } from "../validators/validateContacts";
 import { Ad } from "../entities/Ad";
 import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
+import node_geocoder from "node-geocoder";
 
 @Resolver(User)
 export class UserResolver {
@@ -87,6 +89,21 @@ export class UserResolver {
       ads: ads.slice(0, limit),
       hasMore: ads.length === limitPlusOne,
     };
+  }
+
+  @FieldResolver(() => [Float, Float], { nullable: true })
+  async coords(@Root() user: User) {
+    if (!user.city && !user.county) {
+      return;
+    }
+
+    const test = node_geocoder({ provider: "openstreetmap" });
+
+    const res = (
+      await test.geocode(`${user.county ?? ""}, ${user.city ?? ""}`)
+    )[0];
+
+    return [res.longitude, res.latitude];
   }
 
   @Mutation(() => UserResponse)

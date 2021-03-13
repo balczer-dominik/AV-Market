@@ -14,3 +14,12 @@
 .chakra-select {
   padding-left: 2.3rem !important;
 }
+
+.mapboxgl-map {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.mapboxgl-ctrl {
+  display: none !important;
+}

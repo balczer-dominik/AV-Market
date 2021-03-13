@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
-import { FaHeart, FaTruck, FaUser } from "react-icons/fa";
+import { FaEdit, FaHeart, FaTruck, FaUser } from "react-icons/fa";
 import { ImPriceTags } from "react-icons/im";
 import { RiChat3Fill } from "react-icons/ri";
 import {
@@ -19,8 +19,13 @@ import {
   LIGHTEST_REGULAR_LIGHT_BROWN,
 } from "../../utils/colors";
 import { formatAdsLink, formatAvatarLink } from "../../utils/formatLinks";
-import { LEAVE_FEEDBACK_LABEL, SEND_MESSAGE_LABEL } from "../../utils/strings";
+import {
+  LEAVE_FEEDBACK_LABEL,
+  PROFILE_EDIT_LABEL,
+  SEND_MESSAGE_LABEL,
+} from "../../utils/strings";
 import { RegularButton } from "../RegularButton";
+import { useMeIdQuery } from "../../generated/graphql";
 
 interface UserCardProps {
   userId: number;
@@ -57,6 +62,7 @@ export const UserCard: React.FC<UserCardProps> = ({
   adCount,
   deliveryCount,
 }) => {
+  const [{ data }] = useMeIdQuery();
   return (
     <Box width={{ base: "full", md: "30%" }}>
       <VStack
@@ -74,7 +80,7 @@ export const UserCard: React.FC<UserCardProps> = ({
         />
         <VStack w="full">
           <Heading
-            size="lg"
+            size="md"
             my={2}
             mt={1}
             pb={2}
@@ -110,19 +116,32 @@ export const UserCard: React.FC<UserCardProps> = ({
             <Icon as={FaTruck} h={8} w={8} />
             <Text fontSize="xl">{deliveryCount}</Text>
           </HStack>
-
-          <RegularButton w="full">
-            <HStack justify="space-between" w="full">
-              <Icon as={RiChat3Fill} w={6} h={6} />
-              <Text>{SEND_MESSAGE_LABEL}</Text>
-            </HStack>
-          </RegularButton>
-          <RegularButton w="full">
-            <HStack justify="space-between" w="full">
-              <Icon as={FaHeart} w={6} h={6} />
-              <Text>{LEAVE_FEEDBACK_LABEL}</Text>
-            </HStack>
-          </RegularButton>
+          {data?.me?.id !== userId ? (
+            <RegularButton w="full">
+              <HStack justify="space-between" w="full">
+                <Icon as={RiChat3Fill} w={6} h={6} />
+                <Text>{SEND_MESSAGE_LABEL}</Text>
+              </HStack>
+            </RegularButton>
+          ) : null}
+          {data?.me?.id !== userId ? (
+            <RegularButton w="full">
+              <HStack justify="space-between" w="full">
+                <Icon as={FaHeart} w={6} h={6} />
+                <Text>{LEAVE_FEEDBACK_LABEL}</Text>
+              </HStack>
+            </RegularButton>
+          ) : null}
+          {data?.me?.id === userId ? (
+            <NextLink href="/profile/edit">
+              <RegularButton w="full">
+                <HStack justify="space-between" w="full">
+                  <Icon as={FaEdit} w={6} h={6} />
+                  <Text>{PROFILE_EDIT_LABEL}</Text>
+                </HStack>
+              </RegularButton>
+            </NextLink>
+          ) : null}
         </VStack>
       </VStack>
     </Box>

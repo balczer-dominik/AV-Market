@@ -146,6 +146,7 @@ export const CONTACTS_LABEL = "Elérhetőségek";
 export const PHONE_LABEL = "Telefonszám";
 export const MESSENGER_LABEL = "Messenger";
 export const LOCATION_LABEL = "Tartózkodási hely";
+export const PROFILE_EDIT_LABEL = "Profil szerkesztése";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";
