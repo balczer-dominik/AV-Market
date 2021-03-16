@@ -18,7 +18,11 @@ import { formatImageGallery } from "../../../utils/formatImageGallery";
 import { formatProfileLink } from "../../../utils/formatLinks";
 import { formatLocation } from "../../../utils/formatLocation";
 import { formatPrice } from "../../../utils/formatPrice";
-import { HOME_PAGE, OTHER_ADS_LABEL } from "../../../utils/strings";
+import {
+  HOME_PAGE,
+  LOADING_TITLE,
+  OTHER_ADS_LABEL,
+} from "../../../utils/strings";
 import { useGetAdFromUrl } from "../../../utils/useGetAdFromUrl";
 
 interface ViewAdProps {}
@@ -51,7 +55,7 @@ const ViewAd: React.FC<ViewAdProps> = ({}) => {
   ];
 
   return (
-    <Layout>
+    <Layout title={ad ? ad.title : LOADING_TITLE}>
       {ad ? (
         <Box>
           <Breadcrumbs items={breadItems()} />

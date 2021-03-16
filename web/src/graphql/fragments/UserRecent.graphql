@@ -1,4 +1,5 @@
 fragment UserRecent on Ad {
+  id
   title
   price
   thumbnail

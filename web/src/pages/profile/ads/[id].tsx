@@ -21,7 +21,7 @@ import {
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { formatProfileLink } from "../../../utils/formatLinks";
 import { isServer } from "../../../utils/isServer";
-import { USERS_ADS_LABEL } from "../../../utils/strings";
+import { LOADING_TITLE, USERS_ADS_LABEL } from "../../../utils/strings";
 import { useGetIdFromUrl } from "../../../utils/useGetIdFromUrl";
 
 const UserAds: React.FC<{}> = () => {
@@ -33,7 +33,14 @@ const UserAds: React.FC<{}> = () => {
   });
 
   return (
-    <Layout variant="regular">
+    <Layout
+      title={
+        data && data.userAds.owner
+          ? `${data.userAds.owner.username} ${USERS_ADS_LABEL}`
+          : LOADING_TITLE
+      }
+      variant="regular"
+    >
       {data ? (
         <Box>
           <HStack>

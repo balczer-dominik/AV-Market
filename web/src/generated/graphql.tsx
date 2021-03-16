@@ -78,7 +78,7 @@ export type User = {
   updatedAt: Scalars['String'];
   adCount: Scalars['Int'];
   recent: Array<Ad>;
-  coords: Array<Scalars['Float']>;
+  coords?: Maybe<Array<Scalars['Float']>>;
 };
 
 export type Ad = {
@@ -95,8 +95,8 @@ export type Ad = {
   featured: Scalars['Boolean'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
-  images: Array<Scalars['String']>;
   thumbnail?: Maybe<Scalars['String']>;
+  images?: Maybe<Array<Scalars['String']>>;
   recent: Array<Ad>;
 };
 
@@ -284,7 +284,7 @@ export type UserLocationFragment = (
 
 export type UserRecentFragment = (
   { __typename?: 'Ad' }
-  & Pick<Ad, 'title' | 'price' | 'thumbnail'>
+  & Pick<Ad, 'id' | 'title' | 'price' | 'thumbnail'>
 );
 
 export type BanUserMutationVariables = Exact<{
@@ -706,6 +706,7 @@ export const RegularUserResponseFragmentDoc = gql`
 ${RegularUserFragmentDoc}`;
 export const UserRecentFragmentDoc = gql`
     fragment UserRecent on Ad {
+  id
   title
   price
   thumbnail

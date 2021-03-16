@@ -1,10 +1,13 @@
-import { Box, Flex, HStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, VStack } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import React from "react";
+import { AdRecent } from "../../../components/ad/AdRecent";
 import { Layout } from "../../../components/Layout";
+import { LocationMap } from "../../../components/profile/LocationMap";
 import { UserCard } from "../../../components/profile/UserCard";
 import { UserDetails } from "../../../components/profile/UserDetails";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
+import { LOADING_TITLE, USERS_RECENT_ADS_LABEL } from "../../../utils/strings";
 import { useGetUserFromId } from "../../../utils/useGetUserFromId";
 
 interface ViewProfileProps {}
@@ -13,7 +16,7 @@ const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
   const [{ data }] = useGetUserFromId();
   const user = data ? data.user : null;
   return (
-    <Layout>
+    <Layout title={user ? `${user.username} profilja` : LOADING_TITLE}>
       {user ? (
         <Flex
           align="flex-start"
@@ -30,18 +33,23 @@ const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
             adCount={user.adCount}
             deliveryCount={5}
           />
-          <HStack w={{ base: "full", md: "68%" }}>
+          <VStack w={{ base: "full", md: "68%" }}>
             <UserDetails
               email={user.email}
               phone={user.phone}
               messenger={user.messenger}
               city={user.city}
               county={user.county}
-              coords={user.coords}
             />
-            {/* <AdRecent />
-          <UserRatings /> */}
-          </HStack>
+            <LocationMap coordinates={[user.coords[0], user.coords[1]]} />
+            <AdRecent
+              owner={user.username}
+              ownerId={user.id}
+              label={USERS_RECENT_ADS_LABEL}
+              recent={user.recent}
+            />
+            {/* <UserRatings /> */}
+          </VStack>
         </Flex>
       ) : (
         <Box>{user ? user.username : null}</Box>
@@ -50,4 +58,4 @@ const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
   );
 };
 
-export default withUrqlClient(createUrqlClient)(ViewProfile);
+export default withUrqlClient(createUrqlClient, { ssr: true })(ViewProfile);

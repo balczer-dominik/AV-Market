@@ -11,11 +11,9 @@ import { formatPhone } from "../../utils/formatPhoneNumber";
 import {
   CONTACTS_LABEL,
   EMAIL_LABEL,
-  LOCATION_LABEL,
   MESSENGER_LABEL,
   PHONE_LABEL,
 } from "../../utils/strings";
-import { LocationMap } from "./LocationMap";
 
 interface UserDetailsProps {
   county?: string;
@@ -27,12 +25,9 @@ interface UserDetailsProps {
 }
 
 export const UserDetails: React.FC<UserDetailsProps> = ({
-  county,
-  city,
   phone,
   messenger,
   email,
-  coords,
 }) => {
   return (
     <Box w="full">
@@ -102,20 +97,6 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
           </HStack>
         ) : null}
       </VStack>
-      {coords ? (
-        <VStack align="start" p={3} w="full" mt={2}>
-          <Heading
-            size="lg"
-            mb={2}
-            pb={2}
-            w="full"
-            borderBottom={`2px solid ${LIGHTEST_REGULAR_BROWN}`}
-          >
-            {LOCATION_LABEL}
-          </Heading>
-          <LocationMap coordinates={coords} />
-        </VStack>
-      ) : null}
     </Box>
   );
 };

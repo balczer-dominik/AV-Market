@@ -29,7 +29,7 @@ const Edit: React.FC<{}> = ({}) => {
   const [{ data, fetching }] = useMeQuery();
 
   return (
-    <Layout variant="regular">
+    <Layout title={EDIT_PROFILE_LABEL} variant="regular">
       {!fetching && data.me ? (
         <Stack spacing={4} px={2}>
           <Heading

@@ -147,6 +147,9 @@ export const PHONE_LABEL = "Telefonszám";
 export const MESSENGER_LABEL = "Messenger";
 export const LOCATION_LABEL = "Tartózkodási hely";
 export const PROFILE_EDIT_LABEL = "Profil szerkesztése";
+export const USERS_RECENT_ADS_LABEL = "legutóbbi apróhirdetési";
+export const OTHERS_LABEL = "Továbbiak...";
+export const LOADING_TITLE = "Betöltés...";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";

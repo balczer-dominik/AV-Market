@@ -30,6 +30,7 @@
     "react-device-detect": "^1.15.0",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.3.1",
+    "react-helmet": "^6.1.0",
     "react-icons": "^4.2.0",
     "react-image-gallery": "^1.0.9",
     "react-mapbox-gl": "^5.1.1",
@@ -49,6 +50,7 @@
     "@types/node-geocoder": "^3.24.1",
     "@types/react": "^17.0.2",
     "@types/react-dropzone": "^5.1.0",
+    "@types/react-helmet": "^6.1.0",
     "@types/react-image-gallery": "^1.0.2",
     "graphql-tag": "^2.11.0",
     "typescript": "^4.2.2"

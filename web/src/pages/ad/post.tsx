@@ -76,7 +76,7 @@ const PostAd: React.FC<{}> = ({}) => {
   ];
 
   return (
-    <Layout>
+    <Layout title={POST_AD_TITLE}>
       <Heading>{POST_AD_TITLE}</Heading>
       <Stepper
         steps={steps}

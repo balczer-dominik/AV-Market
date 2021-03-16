@@ -20,6 +20,7 @@ import {
   PASSWORD_PLACEHOLDER,
   REDIRECT_MESSAGE,
   REGISTER_BUTTON_LABEL,
+  REGISTER_LABEL,
   REGISTER_PASSWORD_HINT,
   REGISTER_SUCCESS_LABEL,
   REGISTER_USERNAME_HINT,
@@ -37,7 +38,7 @@ export const register: React.FC<registerProps> = ({}) => {
   const router = useRouter();
   const [, register] = useRegisterMutation();
   return (
-    <Layout variant="small">
+    <Layout title={REGISTER_LABEL} variant="small">
       <Stack spacing={4} px={2}>
         <Heading
           fontSize={"5xl"}

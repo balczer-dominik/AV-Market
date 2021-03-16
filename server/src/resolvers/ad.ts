@@ -32,14 +32,16 @@ export class AdResolver {
     return await User.findOne(ad.ownerId);
   }
 
-  @FieldResolver(() => [String])
-  async images(@Root() ad: Ad) {
-    return (await AdImage.find({ where: { adId: ad.id } })).map((ai) => ai.src);
-  }
-
   @FieldResolver(() => String, { nullable: true })
   async thumbnail(@Root() ad: Ad) {
-    return (await AdImage.findOne({ where: { adId: ad.id } }))?.src;
+    return (await AdImage.find({ where: { adId: ad.id } }))[0]?.src;
+  }
+
+  @FieldResolver(() => [String], { nullable: true })
+  async images(@Root() ad: Ad) {
+    return (await AdImage.find({ where: { adId: ad.id } }))?.map(
+      (ai) => ai.src
+    );
   }
 
   @FieldResolver(() => [Ad])

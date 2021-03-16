@@ -14,14 +14,17 @@ import { Ad } from "../../generated/graphql";
 import {
   DARKER_REGULAR_BROWN,
   LIGHTER_REGULAR_BROWN,
+  LIGHTEST_REGULAR_BROWN,
   REGULAR_BROWN,
 } from "../../utils/colors";
 import {
   formatAdLink,
+  formatAdsLink,
   formatAdSrc,
   formatProfileLink,
 } from "../../utils/formatLinks";
 import { formatPrice } from "../../utils/formatPrice";
+import { OTHERS_LABEL } from "../../utils/strings";
 
 interface AdRecentProps {
   owner: string;
@@ -37,15 +40,29 @@ export const AdRecent: React.FC<AdRecentProps> = ({
   ownerId,
 }) => {
   return (
-    <Box mt={4}>
-      <Heading fontSize="xl" color={LIGHTER_REGULAR_BROWN}>
-        <NextLink href={formatProfileLink(ownerId)}>
-          <Link style={{ textDecoration: "none" }} color={DARKER_REGULAR_BROWN}>
-            <b>{owner}</b>
+    <Box mt={4} w="full">
+      <Flex justify="space-between" mb={2}>
+        <Heading fontSize="xl" color={LIGHTER_REGULAR_BROWN}>
+          <NextLink href={formatProfileLink(ownerId)}>
+            <Link
+              style={{ textDecoration: "none" }}
+              color={DARKER_REGULAR_BROWN}
+            >
+              <b>{owner}</b>
+            </Link>
+          </NextLink>{" "}
+          {label}
+        </Heading>
+        <NextLink href={formatAdsLink(ownerId)}>
+          <Link
+            style={{ textDecoration: "none" }}
+            color={LIGHTEST_REGULAR_BROWN}
+          >
+            {OTHERS_LABEL}
           </Link>
-        </NextLink>{" "}
-        {label}
-      </Heading>
+        </NextLink>
+      </Flex>
+
       <SimpleGrid justify="space-around" minChildWidth="150px" spacing="5px">
         {recent.map((ad) => (
           <Flex

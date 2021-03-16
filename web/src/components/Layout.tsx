@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
+import Head from "next/head";
 import { REGULAR_BROWN } from "../utils/colors";
 import { NavBar } from "./navbar/NavBar";
 
@@ -7,11 +8,13 @@ export type LayoutVariant = "small" | "regular";
 
 interface LayoutProps {
   variant?: LayoutVariant;
+  title: string;
 }
 
 export const Layout: React.FC<LayoutProps> = ({
   children,
   variant = "regular",
+  title,
 }) => {
   return (
     <>
@@ -27,6 +30,13 @@ export const Layout: React.FC<LayoutProps> = ({
         pb={4}
         bgColor="white"
       >
+        <Head>
+          <title>{title}</title>
+          <link
+            rel="shortcut icon"
+            href="http://localhost:3000/av_logo_favico.ico"
+          />
+        </Head>
         {children}
       </Box>
     </>

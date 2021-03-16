@@ -31,7 +31,7 @@ const Users: React.FC<{}> = () => {
   });
 
   return (
-    <Layout variant="regular">
+    <Layout title="Felhasználók kezelése" variant="regular">
       {data ? (
         <Box>
           <Table mb={10} size={"sm"}>
