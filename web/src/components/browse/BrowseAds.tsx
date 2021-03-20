@@ -4,8 +4,8 @@ import {
   Flex,
   HStack,
   Stack,
-  VStack,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
@@ -30,7 +30,6 @@ import {
 import { AdListing } from "../ad/AdListing";
 import { Breadcrumbs } from "../ad/Breadcrumbs";
 import { Categories, MainCategory } from "../navbar/MenuRoutes";
-import { RegularButton } from "../RegularButton";
 import { Repeat } from "../Repeat";
 import { Spinner } from "../Spinner";
 import { AdSearchbox } from "./AdSearchbox";
@@ -132,7 +131,7 @@ export const BrowseAds: React.FC<BrowseAdsProps> = ({
           ) : ads ? (
             ads.map((ad) => <AdListing ad={ad} />)
           ) : null}
-          <Stack justify="space-between" align="center" w="full" my="30px">
+          <HStack justify="space-between" align="center" w="full" my="30px">
             <Flex w={"40%"} justify="flex-start">
               <Button
                 color={"white"}
@@ -173,7 +172,7 @@ export const BrowseAds: React.FC<BrowseAdsProps> = ({
                 {NEXT_PAGE_LABEL}
               </Button>
             </Flex>
-          </Stack>
+          </HStack>
         </VStack>
       </Stack>
     </>
