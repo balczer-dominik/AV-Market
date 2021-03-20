@@ -194,9 +194,6 @@ export class AdResolver {
       } :dateCursor`;
     }
 
-    console.log(filterString);
-    console.log(dateCursor ? new Date(dateCursor) : null);
-
     const ads = await getConnection()
       .getRepository(Ad)
       .createQueryBuilder()
