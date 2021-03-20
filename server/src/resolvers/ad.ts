@@ -19,13 +19,13 @@ import { isAuth } from "../middleware/authMiddleware";
 import { AD_NOT_FOUND, MainCategory, Wear } from "../resource/strings";
 import { MyContext } from "../types";
 import { errorResponse } from "../util/errorResponse";
+import { formatDateCursor } from "../util/formatCursor";
 import { AdResponse } from "../util/type-graphql/AdResponse";
 import { AdSearch } from "../util/type-graphql/AdSearch";
+import { AdSortingOptions } from "../util/type-graphql/AdSortingOptions";
 import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
 import { PostInput } from "../util/type-graphql/PostInput";
 import { validatePost } from "../validators/validatePost";
-import { AdSortingOptions } from "../util/type-graphql/AdSortingOptions";
-import { formatCursor } from "../util/formatCursor";
 
 @Resolver(Ad)
 export class AdResolver {
@@ -141,76 +141,67 @@ export class AdResolver {
     }: AdSearch,
     @Arg("sortBy", () => AdSortingOptions)
     { sortBy, order }: AdSortingOptions,
-    @Arg("cursor", () => String, { nullable: true }) cursor: string | null
+    @Arg("dateCursor", () => String, { nullable: true })
+    dateCursor: string | null,
+    @Arg("priceCursor", () => String, { nullable: true })
+    priceCursor: string | null
   ): Promise<PaginatedAds> {
     const limitPlusOne = first + 1;
 
-    let filters: String = "";
+    //Filters
+    const filters = [
+      { value: title, filter: '"Ad"."title" LIKE :title' },
+      { value: wear, filter: '"Ad"."wear" = :wear' },
+      { value: category, filter: '"Ad"."category" = :category' },
+      { value: subcategory, filter: '"Ad"."subCategory" = :subcategory' },
+      { value: priceLower, filter: '"Ad"."price" >= :priceLower' },
+      { value: priceUpper, filter: '"Ad"."price" <= :priceUpper' },
+      { value: county, filter: "county = :county" },
+      { value: city, filter: "city LIKE :city" },
+    ];
 
-    //Title
-    filters += title ? '"Ad"."title" LIKE :title' : "";
+    let filterString = "";
 
-    //Wear
-    filters +=
-      wear && filters.length !== 0 && !filters.endsWith("AND ") ? " AND " : "";
-    filters += wear ? '"Ad"."wear" = :wear' : "";
+    //Building filter string
+    filters.forEach(({ value, filter }) => {
+      if (value) {
+        filterString +=
+          filterString.length !== 0 && !filterString.endsWith("AND ")
+            ? " AND "
+            : "";
+        filterString += filter;
+      }
+    });
 
-    //Category
-    filters +=
-      category && filters.length !== 0 && !filters.endsWith("AND ")
-        ? " AND "
-        : "";
-    filters += category ? '"Ad"."category" = :category' : "";
+    //Adding cursors
+    if (priceCursor) {
+      filterString +=
+        filterString.length !== 0 && !filterString.endsWith("AND ")
+          ? " AND "
+          : "";
+      filterString += `"Ad"."price" ${
+        order === "ASC" ? ">" : "<"
+      } :priceCursor OR ("Ad"."price" = :priceCursor AND "Ad"."createdAt" ${
+        order === "ASC" ? ">" : "<"
+      } :dateCursor)`;
+    } else if (dateCursor) {
+      filterString +=
+        filterString.length !== 0 && !filterString.endsWith("AND ")
+          ? " AND "
+          : "";
+      filterString += `"Ad"."createdAt" ${
+        order === "ASC" ? ">" : "<"
+      } :dateCursor`;
+    }
 
-    //Subcategory
-    filters +=
-      subcategory && filters.length !== 0 && !filters.endsWith("AND ")
-        ? " AND "
-        : "";
-    filters += subcategory ? '"Ad"."subCategory" = :subcategory' : "";
-
-    //Price (lower)
-    filters +=
-      priceLower && filters.length !== 0 && !filters.endsWith("AND ")
-        ? " AND "
-        : "";
-    filters += priceLower ? '"Ad"."price" >= :priceLower' : "";
-
-    //Price (upper)
-    filters +=
-      priceUpper && filters.length !== 0 && !filters.endsWith("AND ")
-        ? " AND "
-        : "";
-    filters += priceUpper ? '"Ad"."price" <= :priceUpper' : "";
-
-    //County
-    filters +=
-      county && filters.length !== 0 && !filters.endsWith("AND ")
-        ? " AND "
-        : "";
-    filters += county ? "county = :county" : "";
-
-    //City
-    filters +=
-      city && filters.length !== 0 && !filters.endsWith("AND ") ? " AND " : "";
-    filters += city ? "city LIKE :city" : "";
-
-    //Cursor
-    filters +=
-      cursor && filters.length !== 0 && !filters.endsWith("AND ")
-        ? " AND "
-        : "";
-    filters += cursor
-      ? `"Ad"."${sortBy}" ${order === "ASC" ? ">" : "<"} :cursor`
-      : "";
-
-    console.log(filters);
+    console.log(filterString);
+    console.log(dateCursor ? new Date(dateCursor) : null);
 
     const ads = await getConnection()
       .getRepository(Ad)
       .createQueryBuilder()
       .innerJoin(`Ad.owner`, "owner")
-      .where(filters, {
+      .where(filterString, {
         title: `%${title}%`,
         wear: wear,
         category: category,
@@ -219,11 +210,12 @@ export class AdResolver {
         priceUpper: priceUpper,
         county: county,
         city: `%${city}%`,
-        cursor: formatCursor(cursor, sortBy),
+        dateCursor: dateCursor ? new Date(parseInt(dateCursor)) : null,
+        priceCursor: parseInt(priceCursor ?? "0"),
       })
       .limit(limitPlusOne)
-      .orderBy('"Ad_featured"', "DESC")
       .addOrderBy(`"Ad_${sortBy.valueOf()}"`, order)
+      .addOrderBy('"Ad_createdAt"', order)
       .getMany();
 
     return {
