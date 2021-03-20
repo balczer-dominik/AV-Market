@@ -29,8 +29,10 @@ export type Query = {
 
 
 export type QueryAdsArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<Scalars['String']>;
+  sortBy: AdSortingOptions;
+  search: AdSearch;
+  first?: Maybe<Scalars['Int']>;
 };
 
 
@@ -98,6 +100,34 @@ export type Ad = {
   thumbnail?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Scalars['String']>>;
   recent: Array<Ad>;
+};
+
+export type AdSortingOptions = {
+  sortBy?: Maybe<SortByOption>;
+  order?: Maybe<OrderOption>;
+};
+
+/** Options for sorting ads */
+export enum SortByOption {
+  CreatedAt = 'createdAt',
+  Price = 'price',
+  UpdatedAt = 'updatedAt'
+}
+
+export enum OrderOption {
+  Desc = 'DESC',
+  Asc = 'ASC'
+}
+
+export type AdSearch = {
+  title?: Maybe<Scalars['String']>;
+  wear?: Maybe<Scalars['String']>;
+  category?: Maybe<Scalars['String']>;
+  subcategory?: Maybe<Scalars['String']>;
+  priceLower?: Maybe<Scalars['Int']>;
+  priceUpper?: Maybe<Scalars['Int']>;
+  county?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
 };
 
 export type AdResponse = {
@@ -450,8 +480,10 @@ export type AdQuery = (
 );
 
 export type AdsQueryVariables = Exact<{
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<Scalars['String']>;
+  search: AdSearch;
+  sortBy: AdSortingOptions;
 }>;
 
 
@@ -857,8 +889,8 @@ export function useAdQuery(options: Omit<Urql.UseQueryArgs<AdQueryVariables>, 'q
   return Urql.useQuery<AdQuery>({ query: AdDocument, ...options });
 };
 export const AdsDocument = gql`
-    query Ads($limit: Int, $offset: Int) {
-  ads(limit: $limit, offset: $offset) {
+    query Ads($first: Int, $cursor: String, $search: AdSearch!, $sortBy: AdSortingOptions!) {
+  ads(first: $first, cursor: $cursor, search: $search, sortBy: $sortBy) {
     ads {
       ...AdSnippet
     }

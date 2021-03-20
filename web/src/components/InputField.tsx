@@ -36,6 +36,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   hint?: string[];
   ref?: React.MutableRefObject<undefined>;
   select?: string[];
+  bgColor?: string;
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -46,6 +47,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   type = "regular",
   ref,
   select,
+  bgColor,
   ...props
 }) => {
   const [field, { error }] = useField(props);
@@ -74,6 +76,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         <InputGroup>
           {select ? (
             <Field
+              bgColor={bgColor ?? "white"}
               as={Select}
               {...props}
               borderColor={LIGHTER_REGULAR_BROWN}
@@ -86,6 +89,7 @@ export const InputField: React.FC<InputFieldProps> = ({
             </Field>
           ) : type === "textarea" ? (
             <Textarea
+              bgColor={bgColor ?? "white"}
               ref={ref}
               id={field.name}
               borderColor={LIGHTER_REGULAR_BROWN}
@@ -95,6 +99,7 @@ export const InputField: React.FC<InputFieldProps> = ({
             />
           ) : (
             <Input
+              bgColor={bgColor ?? "white"}
               textAlign={type === "number" ? "right" : "left"}
               ref={ref}
               type={type === "password" && !showPassword ? "password" : "text"}

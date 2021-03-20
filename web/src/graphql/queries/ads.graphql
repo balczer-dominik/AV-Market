@@ -1,5 +1,10 @@
-query Ads($limit: Int, $offset: Int) {
-  ads(limit: $limit, offset: $offset) {
+query Ads(
+  $first: Int
+  $cursor: String
+  $search: AdSearch!
+  $sortBy: AdSortingOptions!
+) {
+  ads(first: $first, cursor: $cursor, search: $search, sortBy: $sortBy) {
     ads {
       ...AdSnippet
     }

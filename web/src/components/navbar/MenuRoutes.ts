@@ -57,6 +57,7 @@ import { VscCircuitBoard } from "react-icons/vsc";
 
 export interface Category {
   title: string;
+  key?: MainCategory;
   icon?: IconType;
   route: string;
   subcategories?: Category[];
@@ -83,6 +84,7 @@ export const MainCategories = [
 
 export const Categories: Record<MainCategory, Category> = {
   OTTHON: {
+    key: "OTTHON",
     title: "Otthon, bútor",
     icon: FaTools,
     route: "otthon",
@@ -125,6 +127,7 @@ export const Categories: Record<MainCategory, Category> = {
     ],
   },
   SZAMTECH: {
+    key: "SZAMTECH",
     title: "Számítástechnika",
     icon: FaDesktop,
     route: "szamtech",
@@ -190,13 +193,14 @@ export const Categories: Record<MainCategory, Category> = {
         route: "periferia",
       },
       {
-        title: "Szotfver",
+        title: "Szoftver",
         icon: FaMicrosoft,
         route: "szoftver",
       },
     ],
   },
   MUSZAKI: {
+    key: "MUSZAKI",
     title: "Műszaki cikk",
     icon: MdSmartphone,
     route: "muszaki-cikk",
@@ -234,6 +238,7 @@ export const Categories: Record<MainCategory, Category> = {
     ],
   },
   RUHAZAT: {
+    key: "RUHAZAT",
     title: "Ruházat",
     icon: FaTshirt,
     route: "ruhazat",
@@ -261,6 +266,7 @@ export const Categories: Record<MainCategory, Category> = {
     ],
   },
   JARMU: {
+    key: "JARMU",
     title: "Jármű",
     icon: FaCar,
     route: "jarmu",
@@ -293,6 +299,7 @@ export const Categories: Record<MainCategory, Category> = {
     ],
   },
   SZABADIDO: {
+    key: "SZABADIDO",
     title: "Sport és szabadidő",
     icon: IoIosTennisball,
     route: "sport-es-szabadido",
@@ -335,6 +342,7 @@ export const Categories: Record<MainCategory, Category> = {
     ],
   },
   INGATLAN: {
+    key: "INGATLAN",
     title: "Ingatlan",
     icon: BsFillHouseDoorFill,
     route: "ingatlan",

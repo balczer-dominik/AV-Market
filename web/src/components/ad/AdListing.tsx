@@ -22,6 +22,7 @@ import { formatPhone } from "../../utils/formatPhoneNumber";
 import { DropzoneThumb } from "../post/DropzoneThumb";
 import { formatLocation } from "../../utils/formatLocation";
 import { formatAdLink, formatAdSrc } from "../../utils/formatLinks";
+import { formatDate } from "../../utils/formatDate";
 
 interface AdListingProps {
   ad: Partial<AdSnippetFragment>;
@@ -48,6 +49,7 @@ export const AdListing: React.FC<AdListingProps> = ({
       borderstyle="solid"
       borderRadius="5px"
       p={2}
+      w="full"
     >
       {thumbPreview ? (
         <DropzoneThumb file={thumbPreview} />
@@ -72,7 +74,9 @@ export const AdListing: React.FC<AdListingProps> = ({
                   <Text
                     style={{ textDecoration: "none" }}
                     fontSize="sm"
-                  >{`${SENT_IN_BY}: ${username}, ${createdAt}`}</Text>
+                  >{`${SENT_IN_BY}: ${username}, ${formatDate(
+                    createdAt
+                  )}`}</Text>
                 </Link>
               </NextLink>
             </Tooltip>

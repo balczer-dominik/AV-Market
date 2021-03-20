@@ -169,8 +169,6 @@ export class UserResolver {
       return errorResponse("password", INCORRECT_PASSWORD);
     }
 
-    console.log(user);
-
     if (user.banned) {
       return errorResponse("usernameOrEmail", USER_BANNED);
     }

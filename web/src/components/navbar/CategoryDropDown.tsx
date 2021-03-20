@@ -8,7 +8,11 @@ import {
   REGULAR_BROWN,
   SEE_THROUGH_REGULAR_LIGHT_BROWN,
 } from "../../utils/colors";
-import { Category } from "./MenuRoutes";
+import {
+  formatBrowseCategory,
+  formatBrowseSubCategory,
+} from "../../utils/formatLinks";
+import { Categories, Category, MainCategory } from "./MenuRoutes";
 
 interface SubcategoryProps {
   category: Category;
@@ -29,7 +33,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
       py={2}
       mt={2}
     >
-      <NextLink href={category.route}>
+      <NextLink href={formatBrowseCategory(category.key)}>
         <Link style={{ textDecoration: "none" }}>
           <Text
             fontWeight="bold"
@@ -48,7 +52,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
           _hover={{ color: REGULAR_BROWN }}
         >
           <Icon as={sc.icon ?? CloseIcon} mr={2} />
-          <NextLink href={sc.route}>
+          <NextLink href={`/ad/${category.route}/${sc.route}`}>
             <Link style={{ textDecoration: "none" }}>
               <Text my={1}>{sc.title}</Text>
             </Link>

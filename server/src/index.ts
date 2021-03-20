@@ -14,10 +14,11 @@ import { AdResolver } from "./resolvers/ad";
 import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
 import { UserAdministrationResolver } from "./resolvers/userAdministration";
+import { registerAdSortingEnums } from "./util/type-graphql/AdSortingOptions";
 
 const main = async () => {
   //TypeORM
-  const conn = await createConnection({
+  await createConnection({
     type: "postgres",
     database: "avmarket",
     username: "postgres",
@@ -59,6 +60,9 @@ const main = async () => {
       saveUninitialized: false,
     })
   );
+
+  //ENUMs
+  registerAdSortingEnums();
 
   //Apollo
   const apolloServer = new ApolloServer({

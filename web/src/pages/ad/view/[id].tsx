@@ -11,11 +11,18 @@ import { AdDetail } from "../../../components/ad/AdDetail";
 import { AdRecent } from "../../../components/ad/AdRecent";
 import { Breadcrumbs } from "../../../components/ad/Breadcrumbs";
 import { Layout } from "../../../components/Layout";
-import { Categories } from "../../../components/navbar/MenuRoutes";
+import {
+  Categories,
+  MainCategory,
+} from "../../../components/navbar/MenuRoutes";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { formatDate } from "../../../utils/formatDate";
 import { formatImageGallery } from "../../../utils/formatImageGallery";
-import { formatProfileLink } from "../../../utils/formatLinks";
+import {
+  formatBrowseCategory,
+  formatBrowseSubCategory,
+  formatProfileLink,
+} from "../../../utils/formatLinks";
 import { formatLocation } from "../../../utils/formatLocation";
 import { formatPrice } from "../../../utils/formatPrice";
 import {
@@ -37,15 +44,14 @@ const ViewAd: React.FC<ViewAdProps> = ({}) => {
       label: HOME_PAGE,
     },
     {
-      href: "/" + Categories[ad.category].route,
+      href: formatBrowseCategory(ad.category as MainCategory),
       label: Categories[ad.category].title,
     },
     {
-      href: `/${Categories[ad.category].route}/${
-        Categories[ad.category].subcategories.find(
-          (sc) => sc.title === ad.subCategory
-        ).route
-      }`,
+      href: formatBrowseSubCategory(
+        ad.category as MainCategory,
+        ad.subCategory
+      ),
       label: ad.subCategory,
     },
     {

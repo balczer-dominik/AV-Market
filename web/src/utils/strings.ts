@@ -150,6 +150,21 @@ export const PROFILE_EDIT_LABEL = "Profil szerkesztése";
 export const USERS_RECENT_ADS_LABEL = "legutóbbi apróhirdetési";
 export const OTHERS_LABEL = "Továbbiak...";
 export const LOADING_TITLE = "Betöltés...";
+export const RESULTS_LABEL = "Találatok";
+export const SORT_BY_UPLOAD_LABEL = "Rendezés feltöltési idő alapján";
+export const SORT_BY_PRICE_LABEL = "Rendezés ár alapján";
+export const ORDER_ASCENDING_LABEL = "Rendezés növekvő sorrendben";
+export const ORDER_DESCENDING_LABEL = "Rendezés csökkenő sorrendben";
+export const FILTERS_LABEL = "Szűrők";
+export const PRICE_UPPER_LABEL = "Ár maximum";
+export const PRICE_LOWER_LABEL = "Ár minimum";
+export const COUNTY_LABEL = "Megye";
+export const CITY_LABEL = "Város";
+export const FILTER_LABEL = "Szűrés";
+export const CLEAR_FILTER_LABEL = "Szűrők törlése";
+export const PREVIOUS_PAGE_LABEL = "Előző oldal";
+export const NEXT_PAGE_LABEL = "Következő oldal";
+export const PAGE_LABEL = "oldal";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";
@@ -174,8 +189,18 @@ export const PRICE_CONTAINS_FORBIDDEN =
 export const DESC_LABEL = "Leírás";
 export const SUBMIT_BUTTON = "Elküld";
 
+export const WearValuesSearch = [
+  "",
+  "Erősen használt",
+  "Használt",
+  "Megkímélt",
+  "Újszerű",
+  "Új",
+];
+
 //Misc.
 export const counties: string[] = [
+  "",
   "Bács-Kiskun",
   "Baranya",
   "Békés",

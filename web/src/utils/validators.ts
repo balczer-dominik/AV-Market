@@ -43,10 +43,11 @@ const titleValidation = Yup.string()
   .max(60, TITLE_TOO_LONG);
 
 const priceValidation = Yup.number()
-  .required(FIELD_REQUIRED)
   .typeError(PRICE_CONTAINS_FORBIDDEN)
   .min(50, PRICE_TOO_LOW)
   .max(999999999, PRICE_TOO_HIGH);
+
+const priceValidationRequired = priceValidation.required();
 
 export const RegisterValidator = Yup.object().shape({
   email: emailValidationRequired,
@@ -66,5 +67,10 @@ export const ChangePasswordValidator = Yup.object().shape({
 
 export const PostValidator = Yup.object().shape({
   title: titleValidation,
-  price: priceValidation,
+  price: priceValidationRequired,
+});
+
+export const SearchAdValidation = Yup.object().shape({
+  priceLower: priceValidation,
+  priceUpper: priceValidation,
 });

@@ -1,4 +1,5 @@
-import { AdResponse } from "../util/type-graphql/AdResponse";
+import { createWriteStream } from "fs";
+import randomstring from "randomstring";
 import {
   Arg,
   Ctx,
@@ -10,19 +11,21 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { isAuth } from "../middleware/authMiddleware";
-import { PostInput } from "../util/type-graphql/PostInput";
-import { MyContext } from "../types";
-import { validatePost } from "../validators/validatePost";
-import { Ad } from "../entities/Ad";
-import { AD_NOT_FOUND, MainCategory, Wear } from "../resource/strings";
-import { User } from "../entities/User";
 import { getConnection, Not } from "typeorm";
-import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
-import { errorResponse } from "../util/errorResponse";
-import randomstring from "randomstring";
-import { createWriteStream } from "fs";
+import { Ad } from "../entities/Ad";
 import { AdImage } from "../entities/AdImage";
+import { User } from "../entities/User";
+import { isAuth } from "../middleware/authMiddleware";
+import { AD_NOT_FOUND, MainCategory, Wear } from "../resource/strings";
+import { MyContext } from "../types";
+import { errorResponse } from "../util/errorResponse";
+import { AdResponse } from "../util/type-graphql/AdResponse";
+import { AdSearch } from "../util/type-graphql/AdSearch";
+import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
+import { PostInput } from "../util/type-graphql/PostInput";
+import { validatePost } from "../validators/validatePost";
+import { AdSortingOptions } from "../util/type-graphql/AdSortingOptions";
+import { formatCursor } from "../util/formatCursor";
 
 @Resolver(Ad)
 export class AdResolver {
@@ -124,21 +127,107 @@ export class AdResolver {
   //Hirdetések lekérdezése (pagination)
   @Query(() => PaginatedAds)
   async ads(
-    @Arg("limit", () => Int, { defaultValue: 50 }) limit: number,
-    @Arg("offset", () => Int, { defaultValue: 0 }) offset: number
+    @Arg("first", () => Int, { defaultValue: 50 }) first: number,
+    @Arg("search", () => AdSearch)
+    {
+      title,
+      wear,
+      priceLower,
+      priceUpper,
+      county,
+      city,
+      category,
+      subcategory,
+    }: AdSearch,
+    @Arg("sortBy", () => AdSortingOptions)
+    { sortBy, order }: AdSortingOptions,
+    @Arg("cursor", () => String, { nullable: true }) cursor: string | null
   ): Promise<PaginatedAds> {
-    const limitPlusOne = limit + 1;
+    const limitPlusOne = first + 1;
+
+    let filters: String = "";
+
+    //Title
+    filters += title ? '"Ad"."title" LIKE :title' : "";
+
+    //Wear
+    filters +=
+      wear && filters.length !== 0 && !filters.endsWith("AND ") ? " AND " : "";
+    filters += wear ? '"Ad"."wear" = :wear' : "";
+
+    //Category
+    filters +=
+      category && filters.length !== 0 && !filters.endsWith("AND ")
+        ? " AND "
+        : "";
+    filters += category ? '"Ad"."category" = :category' : "";
+
+    //Subcategory
+    filters +=
+      subcategory && filters.length !== 0 && !filters.endsWith("AND ")
+        ? " AND "
+        : "";
+    filters += subcategory ? '"Ad"."subCategory" = :subcategory' : "";
+
+    //Price (lower)
+    filters +=
+      priceLower && filters.length !== 0 && !filters.endsWith("AND ")
+        ? " AND "
+        : "";
+    filters += priceLower ? '"Ad"."price" >= :priceLower' : "";
+
+    //Price (upper)
+    filters +=
+      priceUpper && filters.length !== 0 && !filters.endsWith("AND ")
+        ? " AND "
+        : "";
+    filters += priceUpper ? '"Ad"."price" <= :priceUpper' : "";
+
+    //County
+    filters +=
+      county && filters.length !== 0 && !filters.endsWith("AND ")
+        ? " AND "
+        : "";
+    filters += county ? "county = :county" : "";
+
+    //City
+    filters +=
+      city && filters.length !== 0 && !filters.endsWith("AND ") ? " AND " : "";
+    filters += city ? "city LIKE :city" : "";
+
+    //Cursor
+    filters +=
+      cursor && filters.length !== 0 && !filters.endsWith("AND ")
+        ? " AND "
+        : "";
+    filters += cursor
+      ? `"Ad"."${sortBy}" ${order === "ASC" ? ">" : "<"} :cursor`
+      : "";
+
+    console.log(filters);
 
     const ads = await getConnection()
       .getRepository(Ad)
       .createQueryBuilder()
-      .orderBy('"createdAt"')
-      .skip(offset)
-      .take(limitPlusOne)
+      .innerJoin(`Ad.owner`, "owner")
+      .where(filters, {
+        title: `%${title}%`,
+        wear: wear,
+        category: category,
+        subcategory: subcategory,
+        priceLower: priceLower,
+        priceUpper: priceUpper,
+        county: county,
+        city: `%${city}%`,
+        cursor: formatCursor(cursor, sortBy),
+      })
+      .limit(limitPlusOne)
+      .orderBy('"Ad_featured"', "DESC")
+      .addOrderBy(`"Ad_${sortBy.valueOf()}"`, order)
       .getMany();
 
     return {
-      ads: ads.slice(0, limit),
+      ads: ads.slice(0, first),
       hasMore: ads.length === limitPlusOne,
     };
   }
