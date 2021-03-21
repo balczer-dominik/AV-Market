@@ -23,3 +23,8 @@
 .mapboxgl-ctrl {
   display: none !important;
 }
+
+html,
+body {
+  height: 100%;
+}

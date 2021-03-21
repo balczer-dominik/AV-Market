@@ -95,7 +95,7 @@ export const PaginatedAds: React.FC<PaginatedAdsProps> = ({
         ads.map((ad, i) => (
           <>
             <AdListing ad={ad} noOutline mt={0} />
-            {i === 9 && hasMore && isLastPage ? (
+            {i === ads.length - 1 && isLastPage ? (
               <Flex
                 justify="center"
                 w="full"
@@ -104,9 +104,11 @@ export const PaginatedAds: React.FC<PaginatedAdsProps> = ({
                 borderTopWidth="1px"
                 borderstyle="solid"
               >
-                <RegularButton onClick={handleLoadMore}>
-                  {LOAD_MORE_BUTTON}
-                </RegularButton>
+                {hasMore ? (
+                  <RegularButton onClick={handleLoadMore}>
+                    {LOAD_MORE_BUTTON}
+                  </RegularButton>
+                ) : null}
               </Flex>
             ) : null}
           </>

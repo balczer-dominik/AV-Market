@@ -17,7 +17,7 @@ export const Layout: React.FC<LayoutProps> = ({
   title,
 }) => {
   return (
-    <>
+    <Box w="full" bgColor={BG_COLOR} color={FRONT_COLOR} h="full">
       <NavBar />
       <Box
         maxWidth={variant === "regular" ? "850px" : "400px"}
@@ -25,10 +25,8 @@ export const Layout: React.FC<LayoutProps> = ({
         mx="auto"
         px={4}
         mt={8}
-        color={FRONT_COLOR}
         alignContent="center"
         pb={4}
-        bgColor={BG_COLOR}
       >
         <Head>
           <title>{title} - AV Market</title>
@@ -39,6 +37,6 @@ export const Layout: React.FC<LayoutProps> = ({
         </Head>
         {children}
       </Box>
-    </>
+    </Box>
   );
 };
