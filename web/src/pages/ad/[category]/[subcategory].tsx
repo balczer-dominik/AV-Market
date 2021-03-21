@@ -19,4 +19,4 @@ const SubCategoryPage: React.FC<{}> = ({}) => {
   );
 };
 
-export default withUrqlClient(createUrqlClient)(SubCategoryPage);
+export default withUrqlClient(createUrqlClient, { ssr: true })(SubCategoryPage);

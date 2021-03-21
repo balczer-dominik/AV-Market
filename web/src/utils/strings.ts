@@ -165,6 +165,7 @@ export const CLEAR_FILTER_LABEL = "Szűrők törlése";
 export const PREVIOUS_PAGE_LABEL = "Előző oldal";
 export const NEXT_PAGE_LABEL = "Következő oldal";
 export const PAGE_LABEL = "oldal";
+export const LOAD_MORE_BUTTON = "Több betöltése...";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";

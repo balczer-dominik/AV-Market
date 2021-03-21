@@ -23,6 +23,7 @@ import {
 } from "../../utils/formatLinks";
 import {
   HOME_PAGE,
+  LOAD_MORE_BUTTON,
   NEXT_PAGE_LABEL,
   PAGE_LABEL,
   PREVIOUS_PAGE_LABEL,
@@ -30,10 +31,12 @@ import {
 import { AdListing } from "../ad/AdListing";
 import { Breadcrumbs } from "../ad/Breadcrumbs";
 import { Categories, MainCategory } from "../navbar/MenuRoutes";
+import { RegularButton } from "../RegularButton";
 import { Repeat } from "../Repeat";
 import { Spinner } from "../Spinner";
 import { AdSearchbox } from "./AdSearchbox";
 import { AdSortingButtons } from "./AdSortingButtons";
+import { PaginatedAds } from "./PaginatedAds";
 
 interface BrowseAdsProps {
   category?: MainCategory;
@@ -44,8 +47,8 @@ export const BrowseAds: React.FC<BrowseAdsProps> = ({
   category,
   subcategory,
 }) => {
-  //State
-  const [state, setState] = useState({
+  //Search state
+  const [searchVariables, setSearchVariables] = useState({
     sortBy: SortByOption.CreatedAt,
     order: OrderOption.Desc,
     title: "",
@@ -56,39 +59,17 @@ export const BrowseAds: React.FC<BrowseAdsProps> = ({
     city: null,
   });
 
-  useEffect(() => {
-    setPage({ cursor: null, page: 1, previous: [null] });
-  }, [state]);
-
   //Pagination state
-  const [{ cursor, page, previous }, setPage] = useState({
-    cursor: null,
-    page: 1,
-    previous: [null],
-  });
-
-  //Query
-  const [{ data, fetching }, getAds] = useAdsQuery({
-    variables: {
-      search: {
-        category: category,
-        subcategory: subcategory,
-        title: state.title,
-        wear: state.wear,
-        priceLower: state.priceLower,
-        priceUpper: state.priceUpper,
-        county: state.county,
-        city: state.city,
-      },
-      sortBy: { sortBy: state.sortBy, order: state.order },
-      cursor: cursor,
-      first: 10,
+  const [pageVariables, setPageVariables] = useState([
+    {
+      dateCursor: null,
+      priceCursor: null,
     },
-    pause: category === undefined || subcategory === undefined,
-  });
+  ]);
 
-  const ads = data ? data.ads.ads : null;
-  const hasMore = data ? data.ads.hasMore : null;
+  useEffect(() => {
+    setPageVariables([{ dateCursor: null, priceCursor: null }]);
+  }, [searchVariables]);
 
   const breadItems = [
     {
@@ -121,58 +102,28 @@ export const BrowseAds: React.FC<BrowseAdsProps> = ({
         h="full"
         justify={{ base: "unset", md: "space-between" }}
       >
-        <AdSearchbox state={state} setter={setState} />
+        <AdSearchbox state={searchVariables} setter={setSearchVariables} />
         <VStack w={{ base: "full", md: "65%" }}>
-          <AdSortingButtons setter={setState} state={state} />
-          {fetching ? (
-            <Repeat n={4}>
-              <Spinner height="150px" />
-            </Repeat>
-          ) : ads ? (
-            ads.map((ad) => <AdListing ad={ad} />)
-          ) : null}
-          <HStack justify="space-between" align="center" w="full" my="30px">
-            <Flex w={"40%"} justify="flex-start">
-              <Button
-                color={"white"}
-                bgColor={LIGHTER_REGULAR_BROWN}
-                _hover={{ bgColor: LIGHTEST_REGULAR_BROWN }}
-                display={page !== 1 ? "block" : "none"}
-                onClick={() => {
-                  setPage({
-                    cursor: previous[previous.length - 1],
-                    previous: previous.splice(previous.length - 1, 1),
-                    page: page - 1,
-                  });
-                }}
-              >
-                {PREVIOUS_PAGE_LABEL}
-              </Button>
-            </Flex>
-            <Box w={"20%"} textAlign="center">
-              <Text>
-                {PAGE_LABEL} {page}
-              </Text>
-            </Box>
-
-            <Flex w={"40%"} justify="flex-end">
-              <Button
-                bgColor={LIGHTER_REGULAR_BROWN}
-                _hover={{ bgColor: LIGHTEST_REGULAR_BROWN }}
-                color={"white"}
-                display={hasMore ? "block" : "none"}
-                onClick={() => {
-                  setPage({
-                    previous: previous.splice(previous.length, 0, cursor),
-                    cursor: ads[ads.length - 1][state.sortBy],
-                    page: page + 1,
-                  });
-                }}
-              >
-                {NEXT_PAGE_LABEL}
-              </Button>
-            </Flex>
-          </HStack>
+          <AdSortingButtons
+            setter={setSearchVariables}
+            state={searchVariables}
+          />
+          {pageVariables.map((variables, i) => (
+            <PaginatedAds
+              key={"" + variables.dateCursor}
+              pageVariables={variables}
+              searchVariables={searchVariables}
+              category={category}
+              subcategory={subcategory}
+              isLastPage={i === pageVariables.length - 1}
+              onLoadMore={({ dateCursor, priceCursor }) =>
+                setPageVariables([
+                  ...pageVariables,
+                  { dateCursor, priceCursor },
+                ])
+              }
+            />
+          ))}
         </VStack>
       </Stack>
     </>

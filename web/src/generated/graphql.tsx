@@ -29,7 +29,8 @@ export type Query = {
 
 
 export type QueryAdsArgs = {
-  cursor?: Maybe<Scalars['String']>;
+  priceCursor?: Maybe<Scalars['String']>;
+  dateCursor?: Maybe<Scalars['String']>;
   sortBy: AdSortingOptions;
   search: AdSearch;
   first?: Maybe<Scalars['Int']>;
@@ -481,7 +482,8 @@ export type AdQuery = (
 
 export type AdsQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
-  cursor?: Maybe<Scalars['String']>;
+  dateCursor?: Maybe<Scalars['String']>;
+  priceCursor?: Maybe<Scalars['String']>;
   search: AdSearch;
   sortBy: AdSortingOptions;
 }>;
@@ -889,8 +891,14 @@ export function useAdQuery(options: Omit<Urql.UseQueryArgs<AdQueryVariables>, 'q
   return Urql.useQuery<AdQuery>({ query: AdDocument, ...options });
 };
 export const AdsDocument = gql`
-    query Ads($first: Int, $cursor: String, $search: AdSearch!, $sortBy: AdSortingOptions!) {
-  ads(first: $first, cursor: $cursor, search: $search, sortBy: $sortBy) {
+    query Ads($first: Int, $dateCursor: String, $priceCursor: String, $search: AdSearch!, $sortBy: AdSortingOptions!) {
+  ads(
+    first: $first
+    dateCursor: $dateCursor
+    priceCursor: $priceCursor
+    search: $search
+    sortBy: $sortBy
+  ) {
     ads {
       ...AdSnippet
     }

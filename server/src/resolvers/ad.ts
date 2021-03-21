@@ -19,7 +19,6 @@ import { isAuth } from "../middleware/authMiddleware";
 import { AD_NOT_FOUND, MainCategory, Wear } from "../resource/strings";
 import { MyContext } from "../types";
 import { errorResponse } from "../util/errorResponse";
-import { formatDateCursor } from "../util/formatCursor";
 import { AdResponse } from "../util/type-graphql/AdResponse";
 import { AdSearch } from "../util/type-graphql/AdSearch";
 import { AdSortingOptions } from "../util/type-graphql/AdSortingOptions";

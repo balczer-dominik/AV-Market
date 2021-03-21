@@ -1,10 +1,17 @@
 query Ads(
   $first: Int
-  $cursor: String
+  $dateCursor: String
+  $priceCursor: String
   $search: AdSearch!
   $sortBy: AdSortingOptions!
 ) {
-  ads(first: $first, cursor: $cursor, search: $search, sortBy: $sortBy) {
+  ads(
+    first: $first
+    dateCursor: $dateCursor
+    priceCursor: $priceCursor
+    search: $search
+    sortBy: $sortBy
+  ) {
     ads {
       ...AdSnippet
     }
