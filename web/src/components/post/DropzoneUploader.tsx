@@ -2,7 +2,7 @@ import { Box, SimpleGrid, Text } from "@chakra-ui/layout";
 import { Flex } from "@chakra-ui/react";
 import React, { useCallback } from "react";
 import Dropzone from "react-dropzone";
-import { REGULAR_BROWN } from "../../utils/colors";
+import { FRONT_COLOR } from "../../utils/colors";
 import { DROPZONE_TEXT } from "../../utils/strings";
 import { DropzoneThumb } from "./DropzoneThumb";
 
@@ -30,7 +30,7 @@ export const DropzoneUploader: React.FC<DropzoneUploaderProps> = ({
             align="center"
             p={4}
             h={100}
-            borderColor={REGULAR_BROWN}
+            borderColor={FRONT_COLOR}
             borderStyle={"dashed"}
             borderWidth={2}
             borderRadius={"10px"}

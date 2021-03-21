@@ -14,10 +14,7 @@ import React from "react";
 import { FaEdit, FaHeart, FaTruck, FaUser } from "react-icons/fa";
 import { ImPriceTags } from "react-icons/im";
 import { RiChat3Fill } from "react-icons/ri";
-import {
-  LIGHTEST_REGULAR_BROWN,
-  LIGHTEST_REGULAR_LIGHT_BROWN,
-} from "../../utils/colors";
+import { FRONT_COLOR_LIGHTEST, BACK_COLOR_LIGHTEST } from "../../utils/colors";
 import { formatAdsLink, formatAvatarLink } from "../../utils/formatLinks";
 import {
   LEAVE_FEEDBACK_LABEL,
@@ -68,7 +65,7 @@ export const UserCard: React.FC<UserCardProps> = ({
       <VStack
         align="start"
         justify="space-between"
-        bgColor={LIGHTEST_REGULAR_LIGHT_BROWN}
+        bgColor={BACK_COLOR_LIGHTEST}
         borderRadius="10px"
         p={3}
       >
@@ -85,7 +82,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             mt={1}
             pb={2}
             w="full"
-            borderBottom={`2px solid ${LIGHTEST_REGULAR_BROWN}`}
+            borderBottom={`2px solid ${FRONT_COLOR_LIGHTEST}`}
           >
             {username}
           </Heading>
@@ -109,7 +106,7 @@ export const UserCard: React.FC<UserCardProps> = ({
           <HStack
             justify="space-between"
             w="100%"
-            borderBottom={`2px solid ${LIGHTEST_REGULAR_BROWN}`}
+            borderBottom={`2px solid ${FRONT_COLOR_LIGHTEST}`}
             pb={2}
             mb={2}
           >

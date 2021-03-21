@@ -2,7 +2,7 @@ import Icon from "@chakra-ui/icon";
 import { Flex, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons";
-import { REGULAR_BROWN } from "../../utils/colors";
+import { FRONT_COLOR, WHITE } from "../../utils/colors";
 
 interface CategoryTileProps {
   name: string;
@@ -30,8 +30,8 @@ export const CategoryTile: React.FC<CategoryTileProps> = ({
         flexDir={"column"}
         justify={"space-evenly"}
         align="center"
-        bgColor={disabled ? "gray.200" : REGULAR_BROWN}
-        color={disabled ? "gray.400" : "white"}
+        bgColor={disabled ? "gray.200" : FRONT_COLOR}
+        color={disabled ? "gray.400" : WHITE}
         transition="ease-out 65ms"
         h={24}
         w={40}

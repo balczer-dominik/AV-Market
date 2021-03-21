@@ -2,7 +2,7 @@ import { TriangleUpIcon } from "@chakra-ui/icons";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import React from "react";
 import { MeQuery } from "../../generated/graphql";
-import { SEE_THROUGH_REGULAR_LIGHT_BROWN } from "../../utils/colors";
+import { BACK_COLOR_SEE_THROUGH } from "../../utils/colors";
 import { ProfileItems } from "./ProfileItems";
 
 interface ProfileDropDownProps {
@@ -24,7 +24,7 @@ export const ProfileDropDown: React.FC<ProfileDropDownProps> = ({
       <Flex flexDir="row-reverse" mx={2}>
         <Icon
           as={TriangleUpIcon}
-          color={SEE_THROUGH_REGULAR_LIGHT_BROWN}
+          color={BACK_COLOR_SEE_THROUGH}
           top={1}
           pos="relative"
         />

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { IconType } from "react-icons/lib";
 import { useLogoutMutation } from "../../generated/graphql";
-import { LIGHTER_REGULAR_BROWN, REGULAR_BROWN } from "../../utils/colors";
+import { FRONT_COLOR_LIGHTER, FRONT_COLOR } from "../../utils/colors";
 
 interface ProfileDrowDownLinkProps {
   icon: IconType;
@@ -25,8 +25,8 @@ export const ProfileDrowDownLink: React.FC<ProfileDrowDownLinkProps> = ({
   return (
     <Flex
       align="center"
-      color={{ base: REGULAR_BROWN, md: LIGHTER_REGULAR_BROWN }}
-      _hover={{ color: REGULAR_BROWN }}
+      color={{ base: FRONT_COLOR, md: FRONT_COLOR_LIGHTER }}
+      _hover={{ color: FRONT_COLOR }}
       onClick={
         logout
           ? () => {

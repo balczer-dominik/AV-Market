@@ -2,9 +2,10 @@ import { Flex, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons";
 import {
-  DARKER_REGULAR_BROWN,
-  LIGHTER_REGULAR_BROWN,
-  REGULAR_LIGHT_BROWN,
+  FRONT_COLOR_DARKER,
+  FRONT_COLOR_LIGHTER,
+  BACK_COLOR,
+  WHITE,
 } from "../../utils/colors";
 
 interface WearTileProps {
@@ -33,12 +34,12 @@ export const WearTile: React.FC<WearTileProps> = ({
         flexDir={"column"}
         justify={"space-evenly"}
         align="center"
-        bgColor={disabled ? LIGHTER_REGULAR_BROWN : DARKER_REGULAR_BROWN}
-        color={"white"}
+        bgColor={disabled ? FRONT_COLOR_LIGHTER : FRONT_COLOR_DARKER}
+        color={WHITE}
         transition="ease-out 65ms"
         borderLeftRadius={leftmost ? "10px" : "0px"}
         borderRightRadius={rightmost ? "10px" : "0px"}
-        borderColor={REGULAR_LIGHT_BROWN}
+        borderColor={BACK_COLOR}
         borderWidth="1px"
         borderStyle="solid"
       >

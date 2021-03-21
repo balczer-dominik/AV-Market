@@ -1,7 +1,7 @@
 import { Flex, Icon, Link, Text, Image } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons";
-import { REGULAR_BROWN } from "../../utils/colors";
+import { FRONT_COLOR } from "../../utils/colors";
 import { formatAvatarLink } from "../../utils/formatLinks";
 
 interface AdDetailProps {
@@ -19,7 +19,7 @@ export const AdDetail: React.FC<AdDetailProps> = ({
 }) => {
   return (
     <Flex
-      color={REGULAR_BROWN}
+      color={FRONT_COLOR}
       align="center"
       my={3}
       as={href ? Link : Text}
@@ -32,9 +32,10 @@ export const AdDetail: React.FC<AdDetailProps> = ({
           h={8}
           mr={2}
           src={formatAvatarLink(avatar)}
-          border={`2px solid ${REGULAR_BROWN}`}
+          border={`2px solid ${FRONT_COLOR}`}
           boxSizing="content-box"
           borderRadius="3px"
+          objectFit="cover"
         />
       ) : (
         <Icon
@@ -42,11 +43,11 @@ export const AdDetail: React.FC<AdDetailProps> = ({
           w={8}
           h={8}
           mr={2}
-          alignSelf={text.length > 40 ? "start" : "unset"}
+          alignSelf={text?.length > 40 ? "start" : "unset"}
         />
       )}
 
-      <Text fontSize={text.length > 40 ? 15 : 20} whiteSpace="pre-line">
+      <Text fontSize={text?.length > 40 ? 15 : 20} whiteSpace="pre-line">
         {text}
       </Text>
     </Flex>

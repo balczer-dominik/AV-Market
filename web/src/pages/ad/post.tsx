@@ -20,9 +20,9 @@ import { PostPreview } from "../../components/post/PostPreview";
 import { RegularButton } from "../../components/RegularButton";
 import { usePostMutation } from "../../generated/graphql";
 import {
-  DARKER_REGULAR_BROWN,
-  LIGHTER_REGULAR_BROWN,
-  REGULAR_BROWN,
+  FRONT_COLOR_DARKER,
+  FRONT_COLOR_LIGHTER,
+  FRONT_COLOR,
 } from "../../utils/colors";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import {
@@ -81,8 +81,8 @@ const PostAd: React.FC<{}> = ({}) => {
       <Stepper
         steps={steps}
         activeStep={activeStep < 4 ? activeStep : 3}
-        activeColor={DARKER_REGULAR_BROWN}
-        completeColor={LIGHTER_REGULAR_BROWN}
+        activeColor={FRONT_COLOR_DARKER}
+        completeColor={FRONT_COLOR_LIGHTER}
         circleFontSize={10}
       />
       <Box display={activeStep === 0 ? "block" : "none"}>

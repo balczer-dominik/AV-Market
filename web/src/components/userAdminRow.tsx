@@ -6,7 +6,7 @@ import {
   User,
   useUnbanUserMutation,
 } from "../generated/graphql";
-import { LIGHTER_REGULAR_BROWN } from "../utils/colors";
+import { FRONT_COLOR_LIGHTER, WHITE } from "../utils/colors";
 import { USER_BANNED, USER_UNBANNED } from "../utils/strings";
 import { useBetterToast } from "../utils/useBetterToast";
 
@@ -33,7 +33,7 @@ export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
         <Image
           mr={2}
           borderRadius={"5px"}
-          border={`3px ${LIGHTER_REGULAR_BROWN} solid`}
+          border={`3px ${FRONT_COLOR_LIGHTER} solid`}
           h={10}
           w={10}
           src={`/avatar/${avatar}.png`}
@@ -44,7 +44,7 @@ export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
               h={10}
               w={10}
               borderRadius={"5px"}
-              border={`3px ${LIGHTER_REGULAR_BROWN} solid`}
+              border={`3px ${FRONT_COLOR_LIGHTER} solid`}
             ></Flex>
           }
         />
@@ -54,7 +54,7 @@ export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
       <Td>{isBanned ? "Banned" : ""}</Td>
       <Td textAlign="right">
         <Button
-          color={"white"}
+          color={WHITE}
           bgColor={isBanned ? "green.300" : "red.300"}
           _hover={{
             bgColor: isBanned ? "green.200" : "red.200",

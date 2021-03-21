@@ -1,12 +1,13 @@
-import { HStack, Heading, Link, Flex, Icon } from "@chakra-ui/react";
+import { Flex, Heading, HStack, Icon, Link } from "@chakra-ui/react";
 import React from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { FaArrowDown, FaArrowUp, FaCoins } from "react-icons/fa";
 import { OrderOption, SortByOption } from "../../generated/graphql";
 import {
-  LIGHTER_REGULAR_LIGHT_BROWN,
-  LIGHTEST_REGULAR_BROWN,
-  REGULAR_BROWN,
+  BACK_COLOR_LIGHTER,
+  FRONT_COLOR_LIGHTEST,
+  FRONT_COLOR,
+  WHITE,
 } from "../../utils/colors";
 import {
   ORDER_ASCENDING_LABEL,
@@ -72,17 +73,6 @@ export const AdSortingButtons: React.FC<AdSortingButtonsProps> = ({
 
   const orderButtons = [
     {
-      aria: ORDER_ASCENDING_LABEL,
-      isSelected: state.order === OrderOption.Asc,
-      icon: FaArrowUp,
-      onClick: () => {
-        setter({
-          ...state,
-          order: OrderOption.Asc,
-        });
-      },
-    },
-    {
       aria: ORDER_DESCENDING_LABEL,
       isSelected: state.order === OrderOption.Desc,
       icon: FaArrowDown,
@@ -93,6 +83,17 @@ export const AdSortingButtons: React.FC<AdSortingButtonsProps> = ({
         });
       },
     },
+    {
+      aria: ORDER_ASCENDING_LABEL,
+      isSelected: state.order === OrderOption.Asc,
+      icon: FaArrowUp,
+      onClick: () => {
+        setter({
+          ...state,
+          order: OrderOption.Asc,
+        });
+      },
+    },
   ];
 
   return (
@@ -100,20 +101,21 @@ export const AdSortingButtons: React.FC<AdSortingButtonsProps> = ({
       justify={{ base: "start", md: "space-between" }}
       align="center"
       w="full"
+      mb={3}
     >
       <Heading size="lg" display={{ base: "none", md: "block" }}>
         {RESULTS_LABEL}
       </Heading>
       <HStack h="fit-content" spacing={0}>
         {[...sortButtons, ...orderButtons].map(
-          ({ aria, icon, onClick, isSelected }, i) => (
+          ({ icon, onClick, isSelected }, i) => (
             <Link>
               <Flex
                 align="center"
                 flexDir="row"
-                bgColor={isSelected ? LIGHTEST_REGULAR_BROWN : REGULAR_BROWN}
-                color="white"
-                borderColor={LIGHTER_REGULAR_LIGHT_BROWN}
+                bgColor={isSelected ? FRONT_COLOR_LIGHTEST : FRONT_COLOR}
+                color={WHITE}
+                borderColor={BACK_COLOR_LIGHTER}
                 borderStyle="solid"
                 borderWidth="1px"
                 borderLeftRadius={

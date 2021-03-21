@@ -10,7 +10,7 @@ import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
 import { RegularButton } from "../components/RegularButton";
 import { useRegisterMutation } from "../generated/graphql";
-import { LIGHTER_REGULAR_BROWN } from "../utils/colors";
+import { FRONT_COLOR_LIGHTER } from "../utils/colors";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import {
   CONFIRM_PASSWORD_LABEL,
@@ -73,7 +73,7 @@ export const register: React.FC<registerProps> = ({}) => {
         >
           {({ isSubmitting }) => (
             <Form>
-              <Text color={LIGHTER_REGULAR_BROWN}>{REQUIRED_FIELDS_HINT}</Text>
+              <Text color={FRONT_COLOR_LIGHTER}>{REQUIRED_FIELDS_HINT}</Text>
 
               <InputField
                 name="username"

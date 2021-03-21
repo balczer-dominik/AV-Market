@@ -3,9 +3,10 @@ import React from "react";
 import { MdMail, MdPhone } from "react-icons/md";
 import { RiMessengerFill } from "react-icons/ri";
 import {
-  LIGHTER_REGULAR_BROWN,
-  LIGHTEST_REGULAR_BROWN,
-  LIGHTEST_REGULAR_LIGHT_BROWN,
+  FRONT_COLOR_LIGHTER,
+  FRONT_COLOR_LIGHTEST,
+  BACK_COLOR_LIGHTEST,
+  WHITE,
 } from "../../utils/colors";
 import { formatPhone } from "../../utils/formatPhoneNumber";
 import {
@@ -38,15 +39,15 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
           mt={1}
           pb={2}
           w="full"
-          borderBottom={`2px solid ${LIGHTEST_REGULAR_BROWN}`}
+          borderBottom={`2px solid ${FRONT_COLOR_LIGHTEST}`}
         >
           {CONTACTS_LABEL}
         </Heading>
         <HStack
           justify="space-between"
           w="full"
-          bgColor={LIGHTER_REGULAR_BROWN}
-          color={LIGHTEST_REGULAR_LIGHT_BROWN}
+          bgColor={FRONT_COLOR_LIGHTER}
+          color={BACK_COLOR_LIGHTEST}
           borderRadius="5px"
           p={2}
         >
@@ -56,15 +57,15 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
               {EMAIL_LABEL}
             </Heading>
           </HStack>
-          <Text color="white">{email}</Text>
+          <Text color={WHITE}>{email}</Text>
         </HStack>
 
         {phone ? (
           <HStack
             justify="space-between"
             w="full"
-            bgColor={LIGHTER_REGULAR_BROWN.toUpperCase()}
-            color={LIGHTEST_REGULAR_LIGHT_BROWN}
+            bgColor={FRONT_COLOR_LIGHTER.toUpperCase()}
+            color={BACK_COLOR_LIGHTEST}
             borderRadius="5px"
             p={2}
           >
@@ -74,7 +75,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
                 {PHONE_LABEL}
               </Heading>
             </HStack>
-            <Text color="white">{formatPhone(phone)}</Text>
+            <Text color={WHITE}>{formatPhone(phone)}</Text>
           </HStack>
         ) : null}
 
@@ -82,8 +83,8 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
           <HStack
             justify="space-between"
             w="full"
-            bgColor={LIGHTER_REGULAR_BROWN.toUpperCase()}
-            color={LIGHTEST_REGULAR_LIGHT_BROWN}
+            bgColor={FRONT_COLOR_LIGHTER.toUpperCase()}
+            color={BACK_COLOR_LIGHTEST}
             borderRadius="5px"
             p={2}
           >
@@ -93,7 +94,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
                 {MESSENGER_LABEL}
               </Heading>
             </HStack>
-            <Text color="white">{messenger}</Text>
+            <Text color={WHITE}>{messenger}</Text>
           </HStack>
         ) : null}
       </VStack>

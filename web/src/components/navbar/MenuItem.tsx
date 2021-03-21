@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { isMobile } from "react-device-detect";
 import { IoIosArrowDown } from "react-icons/io";
-import { DARKER_REGULAR_BROWN, REGULAR_BROWN } from "../../utils/colors";
+import { FRONT_COLOR_DARKER, FRONT_COLOR } from "../../utils/colors";
 import { CategoryDropDown } from "./CategoryDropDown";
 import { Categories, MainCategory } from "./MenuRoutes";
 
@@ -39,7 +39,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         w={10}
         h={10}
         display={{ base: "none", md: "block" }}
-        color={isOpen ? DARKER_REGULAR_BROWN : REGULAR_BROWN}
+        color={isOpen ? FRONT_COLOR_DARKER : FRONT_COLOR}
       />
 
       <Flex

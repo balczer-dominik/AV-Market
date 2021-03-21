@@ -5,7 +5,7 @@ import {
   formatBrowseCategory,
   formatBrowseSubCategory,
 } from "../../utils/formatLinks";
-import { HOME_PAGE } from "../../utils/strings";
+import { HOME_PAGE, SEARCH_AD_PAGE_TITLE } from "../../utils/strings";
 import { Breadcrumbs } from "../ad/Breadcrumbs";
 import { Categories, MainCategory } from "../navbar/MenuRoutes";
 import { AdSearchbox } from "./AdSearchbox";
@@ -50,6 +50,10 @@ export const BrowseAds: React.FC<BrowseAdsProps> = ({
       label: HOME_PAGE,
       href: "/",
     },
+    {
+      label: SEARCH_AD_PAGE_TITLE,
+      href: "/ad/search",
+    },
   ];
 
   if (category) {
@@ -77,7 +81,7 @@ export const BrowseAds: React.FC<BrowseAdsProps> = ({
         justify={{ base: "unset", md: "space-between" }}
       >
         <AdSearchbox state={searchVariables} setter={setSearchVariables} />
-        <VStack w={{ base: "full", md: "65%" }}>
+        <VStack w={{ base: "full", md: "65%" }} spacing={0}>
           <AdSortingButtons
             setter={setSearchVariables}
             state={searchVariables}

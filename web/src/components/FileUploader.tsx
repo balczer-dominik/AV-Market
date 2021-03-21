@@ -1,6 +1,6 @@
 import { FormControl, FormLabel } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { REGULAR_DARK_BROWN } from "../utils/colors";
+import { ACCENT_COLOR } from "../utils/colors";
 import { NEW_AVATAR_LABEL } from "../utils/strings";
 
 interface FileUploaderProps {
@@ -45,7 +45,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
 
   return (
     <FormControl mt={4}>
-      <FormLabel htmlFor={"newAvatar"} color={REGULAR_DARK_BROWN}>
+      <FormLabel htmlFor={"newAvatar"} color={ACCENT_COLOR}>
         {NEW_AVATAR_LABEL}
       </FormLabel>
 

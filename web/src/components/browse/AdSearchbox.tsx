@@ -1,16 +1,17 @@
 import { Box, HStack } from "@chakra-ui/layout";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Icon, useDisclosure, Link } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
 import { BiText } from "react-icons/bi";
 import { FaCity, FaMapMarkerAlt } from "react-icons/fa";
 import { GiShinyEntrance } from "react-icons/gi";
+import { IoIosArrowDown } from "react-icons/io";
 import { RiCoinFill, RiCoinLine } from "react-icons/ri";
 import { OrderOption, SortByOption } from "../../generated/graphql";
 import {
-  LIGHTER_REGULAR_LIGHT_BROWN,
-  LIGHTEST_REGULAR_LIGHT_BROWN,
-  REGULAR_BROWN,
+  BACK_COLOR_LIGHTER,
+  BACK_COLOR_LIGHTEST,
+  FRONT_COLOR,
 } from "../../utils/colors";
 import {
   CITY_LABEL,
@@ -55,82 +56,103 @@ interface AdSearchboxProps {
 }
 
 export const AdSearchbox: React.FC<AdSearchboxProps> = ({ setter, state }) => {
+  const { isOpen, onToggle } = useDisclosure();
   return (
     <Box
-      bgColor={LIGHTEST_REGULAR_LIGHT_BROWN}
-      borderColor={REGULAR_BROWN}
+      bgColor={BACK_COLOR_LIGHTEST}
+      borderColor={FRONT_COLOR}
       borderRadius="10px"
       w={{ base: "full", md: "32%" }}
       mt={2}
       p={2}
     >
-      <Heading size="md" mt={1}>
+      <Heading size="md" mt={1} display={{ base: "none", md: "block" }}>
         {FILTERS_LABEL}
       </Heading>
-      <Formik
-        initialValues={{
-          title: "",
-          wear: "",
-          priceLower: "",
-          priceUpper: "",
-          county: "",
-          city: "",
-        }}
-        onSubmit={({ title, wear, priceLower, priceUpper, county, city }) => {
-          setter({
-            ...state,
-            title,
-            wear,
-            priceLower: parseInt(priceLower),
-            priceUpper: parseInt(priceUpper),
-            county,
-            city,
-          });
-        }}
-        validationSchema={SearchAdValidation}
+      <HStack
+        justify="space-between"
+        align="center"
+        display={{ base: "flex", md: "none" }}
+        as={Link}
+        onClick={onToggle}
+        style={{ textDecoration: "none" }}
       >
-        {({ resetForm, submitForm }) => (
-          <Form>
-            <InputField name="title" label={TITLE_LABEL} icon={BiText} />
-            <InputField
-              name="priceLower"
-              label={PRICE_LOWER_LABEL}
-              icon={RiCoinLine}
-            />
-            <InputField
-              name="priceUpper"
-              label={PRICE_UPPER_LABEL}
-              icon={RiCoinFill}
-            />
-            <InputField
-              name="wear"
-              label={WEAR_LABEL}
-              select={WearValuesSearch}
-              icon={GiShinyEntrance}
-            />
-            <InputField
-              name="county"
-              label={COUNTY_LABEL}
-              select={counties}
-              icon={FaMapMarkerAlt}
-            />
-            <InputField name="city" label={CITY_LABEL} icon={FaCity} />
+        <Heading size="md" my={1}>
+          {FILTERS_LABEL}
+        </Heading>
+        <Icon
+          as={IoIosArrowDown}
+          ml={"auto"}
+          transform={isOpen ? null : "rotate(180deg)"}
+          transition={"0.3s"}
+        />
+      </HStack>
+      <Box display={{ base: isOpen ? "block" : "none", md: "block" }}>
+        <Formik
+          initialValues={{
+            title: "",
+            wear: "",
+            priceLower: "",
+            priceUpper: "",
+            county: "",
+            city: "",
+          }}
+          onSubmit={({ title, wear, priceLower, priceUpper, county, city }) => {
+            setter({
+              ...state,
+              title,
+              wear,
+              priceLower: parseInt(priceLower),
+              priceUpper: parseInt(priceUpper),
+              county,
+              city,
+            });
+          }}
+          validationSchema={SearchAdValidation}
+        >
+          {({ resetForm, submitForm }) => (
+            <Form>
+              <InputField name="title" label={TITLE_LABEL} icon={BiText} />
+              <InputField
+                name="priceLower"
+                label={PRICE_LOWER_LABEL}
+                icon={RiCoinLine}
+              />
+              <InputField
+                name="priceUpper"
+                label={PRICE_UPPER_LABEL}
+                icon={RiCoinFill}
+              />
+              <InputField
+                name="wear"
+                label={WEAR_LABEL}
+                select={WearValuesSearch}
+                icon={GiShinyEntrance}
+              />
+              <InputField
+                name="county"
+                label={COUNTY_LABEL}
+                select={counties}
+                icon={FaMapMarkerAlt}
+              />
+              <InputField name="city" label={CITY_LABEL} icon={FaCity} />
 
-            <HStack mt={4} justify="space-between">
-              <RegularButton>{FILTER_LABEL}</RegularButton>
-              <RegularButton
-                variant="outline"
-                onClick={() => {
-                  resetForm();
-                  submitForm();
-                }}
-              >
-                {CLEAR_FILTER_LABEL}
-              </RegularButton>
-            </HStack>
-          </Form>
-        )}
-      </Formik>
+              <HStack mt={4} justify="space-between">
+                <RegularButton>{FILTER_LABEL}</RegularButton>
+                <RegularButton
+                  variant="outline"
+                  onClick={() => {
+                    resetForm();
+                    submitForm();
+                  }}
+                >
+                  {CLEAR_FILTER_LABEL}
+                </RegularButton>
+              </HStack>
+            </Form>
+          )}
+        </Formik>
+      </Box>
     </Box>
   );
 };

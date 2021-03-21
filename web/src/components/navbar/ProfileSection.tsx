@@ -11,7 +11,7 @@ import React from "react";
 import { BiLogIn } from "react-icons/bi";
 import { FaUserPlus } from "react-icons/fa";
 import { useMeQuery } from "../../generated/graphql";
-import { LIGHTER_REGULAR_BROWN, REGULAR_BROWN } from "../../utils/colors";
+import { FRONT_COLOR_LIGHTER, FRONT_COLOR, WHITE } from "../../utils/colors";
 import { isServer } from "../../utils/isServer";
 import { LOGIN_LABEL, REGISTER_LABEL } from "../../utils/strings";
 import { LoginDialogue } from "../LoginDialogue";
@@ -58,9 +58,9 @@ export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
                 <IconButton
                   mr={3}
                   p={2}
-                  bgColor={REGULAR_BROWN}
-                  color="white"
-                  _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
+                  bgColor={FRONT_COLOR}
+                  color={WHITE}
+                  _hover={{ bgColor: FRONT_COLOR_LIGHTER }}
                   as={FaUserPlus}
                   aria-label={REGISTER_LABEL}
                 />
@@ -68,9 +68,9 @@ export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
             </NextLink>
             <Link>
               <IconButton
-                bgColor={REGULAR_BROWN}
-                color="white"
-                _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
+                bgColor={FRONT_COLOR}
+                color={WHITE}
+                _hover={{ bgColor: FRONT_COLOR_LIGHTER }}
                 onClick={openLogin}
                 aria-label={LOGIN_LABEL}
                 as={BiLogIn}

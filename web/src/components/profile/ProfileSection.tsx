@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Icon } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons/lib";
-import { REGULAR_BROWN } from "../../utils/colors";
+import { FRONT_COLOR } from "../../utils/colors";
 
 interface ProfileSectionProps {
   title: string;
@@ -16,7 +16,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   return (
     <Box
       border="2px"
-      borderColor={REGULAR_BROWN}
+      borderColor={FRONT_COLOR}
       borderRadius="10px"
       p={3}
       boxShadow="md"
@@ -26,7 +26,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         justify="space-between"
         align="center"
         borderBottom="4px"
-        borderBottomColor={REGULAR_BROWN}
+        borderBottomColor={FRONT_COLOR}
         pb={2}
       >
         <Heading size="md">{title}</Heading>

@@ -166,6 +166,12 @@ export const PREVIOUS_PAGE_LABEL = "Előző oldal";
 export const NEXT_PAGE_LABEL = "Következő oldal";
 export const PAGE_LABEL = "oldal";
 export const LOAD_MORE_BUTTON = "Több betöltése...";
+export const NO_IMAGES = "Nincsenek képek";
+export const FEATURED_LABEL = "Kiemelt";
+export const SEARCH_AD_PAGE_TITLE = "Hirdetések";
+export const NO_LOCATION_PROVIDED = "Nincsen tartózkodási hely megadva.";
+export const NO_OTHER_RECENT_ADS =
+  "A felhasználónak nincsenek további hirdetései.";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";

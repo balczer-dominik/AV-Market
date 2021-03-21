@@ -1,7 +1,8 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 import { BiDetail } from "react-icons/bi";
+import { BsImageFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { GiShinyEntrance } from "react-icons/gi";
 import { ImLocation, ImPriceTag } from "react-icons/im";
@@ -15,6 +16,7 @@ import {
   Categories,
   MainCategory,
 } from "../../../components/navbar/MenuRoutes";
+import { BACK_COLOR_LIGHTER, FRONT_COLOR } from "../../../utils/colors";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { formatDate } from "../../../utils/formatDate";
 import { formatImageGallery } from "../../../utils/formatImageGallery";
@@ -28,7 +30,9 @@ import { formatPrice } from "../../../utils/formatPrice";
 import {
   HOME_PAGE,
   LOADING_TITLE,
+  NO_IMAGES,
   OTHER_ADS_LABEL,
+  SEARCH_AD_PAGE_TITLE,
 } from "../../../utils/strings";
 import { useGetAdFromUrl } from "../../../utils/useGetAdFromUrl";
 
@@ -40,8 +44,12 @@ const ViewAd: React.FC<ViewAdProps> = ({}) => {
 
   const breadItems = () => [
     {
-      href: "",
+      href: "/",
       label: HOME_PAGE,
+    },
+    {
+      href: "/ad/search",
+      label: SEARCH_AD_PAGE_TITLE,
     },
     {
       href: formatBrowseCategory(ad.category as MainCategory),
@@ -67,14 +75,31 @@ const ViewAd: React.FC<ViewAdProps> = ({}) => {
           <Breadcrumbs items={breadItems()} />
           <Flex mt={4} flexDir={{ base: "column-reverse", md: "row" }}>
             <Box w="400px" alignSelf="start">
-              <ReactImageGallery
-                items={formatImageGallery(ad.images)}
-                autoPlay
-                showNav={false}
-                showPlayButton={false}
-                showBullets
-                infinite
-              />
+              {ad.images.length !== 0 ? (
+                <ReactImageGallery
+                  items={formatImageGallery(ad.images)}
+                  autoPlay
+                  showNav={false}
+                  showPlayButton={false}
+                  showBullets
+                  infinite
+                />
+              ) : (
+                <Flex
+                  w="full"
+                  bgColor={BACK_COLOR_LIGHTER}
+                  color={FRONT_COLOR}
+                  align="center"
+                  justify="space-around"
+                  flexDir="column"
+                  borderRadius="10px"
+                  h="270px"
+                  display={{ base: "none", md: "flex" }}
+                >
+                  <Icon as={BsImageFill} h={100} w={100} />
+                  {NO_IMAGES}
+                </Flex>
+              )}
             </Box>
             <Box w="auto" ml={4}>
               <Heading size="md">{ad.title}</Heading>

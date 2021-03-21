@@ -3,6 +3,7 @@ fragment AdDetails on Ad {
   title
   price
   wear
+  featured
   ...Categories
   createdAt
   updatedAt

@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
-import { REGULAR_BROWN, REGULAR_LIGHT_BROWN } from "../../utils/colors";
+import { FRONT_COLOR, BACK_COLOR } from "../../utils/colors";
 
 export const NavBarContainer: React.FC = ({ children, ...props }) => {
   return (
@@ -11,11 +11,11 @@ export const NavBarContainer: React.FC = ({ children, ...props }) => {
         justify="space-between"
         wrap="wrap"
         w="100%"
-        color={REGULAR_BROWN}
+        color={FRONT_COLOR}
         shadow="xl"
         px={5}
         {...props}
-        bgColor={REGULAR_LIGHT_BROWN}
+        bgColor={BACK_COLOR}
       >
         {children}
       </Flex>

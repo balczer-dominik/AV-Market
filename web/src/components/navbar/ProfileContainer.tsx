@@ -12,10 +12,7 @@ import React from "react";
 import { isMobile } from "react-device-detect";
 import { FaUser } from "react-icons/fa";
 import { useMeQuery } from "../../generated/graphql";
-import {
-  LIGHTER_REGULAR_BROWN,
-  LIGHTER_REGULAR_LIGHT_BROWN,
-} from "../../utils/colors";
+import { FRONT_COLOR_LIGHTER, BACK_COLOR_LIGHTER } from "../../utils/colors";
 import { isServer } from "../../utils/isServer";
 import { ProfileDropDown } from "./ProfileDropDown";
 import { ProfileItems } from "./ProfileItems";
@@ -48,7 +45,7 @@ export const ProfileContainer: React.FC<ProfileContainerProps> = ({}) => {
           >
             <Image
               borderRadius={"5px"}
-              borderColor={LIGHTER_REGULAR_BROWN}
+              borderColor={FRONT_COLOR_LIGHTER}
               borderWidth={3}
               borderStyle="solid"
               h={10}
@@ -58,11 +55,11 @@ export const ProfileContainer: React.FC<ProfileContainerProps> = ({}) => {
                 <Flex
                   align={"center"}
                   justify={"center"}
-                  bgColor={LIGHTER_REGULAR_LIGHT_BROWN}
+                  bgColor={BACK_COLOR_LIGHTER}
                   h={10}
                   w={10}
                   borderRadius={"5px"}
-                  border={`3px ${LIGHTER_REGULAR_BROWN} solid`}
+                  border={`3px ${FRONT_COLOR_LIGHTER} solid`}
                 >
                   <Icon as={FaUser} h={6} w={6} />
                 </Flex>

@@ -1,9 +1,11 @@
+import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
 import {
   OrderOption,
   SortByOption,
   useAdsQuery,
 } from "../../generated/graphql";
+import { FRONT_COLOR_LIGHTER } from "../../utils/colors";
 import { LOAD_MORE_BUTTON } from "../../utils/strings";
 import { AdListing } from "../ad/AdListing";
 import { MainCategory } from "../navbar/MenuRoutes";
@@ -85,16 +87,27 @@ export const PaginatedAds: React.FC<PaginatedAdsProps> = ({
     <>
       {fetching ? (
         <Repeat n={10}>
-          <Spinner height="150px" />
+          <Box my={2} w="full">
+            <Spinner height="153px" />
+          </Box>
         </Repeat>
       ) : ads ? (
         ads.map((ad, i) => (
           <>
-            <AdListing ad={ad} />
+            <AdListing ad={ad} noOutline mt={0} />
             {i === 9 && hasMore && isLastPage ? (
-              <RegularButton onClick={handleLoadMore}>
-                {LOAD_MORE_BUTTON}
-              </RegularButton>
+              <Flex
+                justify="center"
+                w="full"
+                pt={4}
+                borderColor={FRONT_COLOR_LIGHTER}
+                borderTopWidth="1px"
+                borderstyle="solid"
+              >
+                <RegularButton onClick={handleLoadMore}>
+                  {LOAD_MORE_BUTTON}
+                </RegularButton>
+              </Flex>
             ) : null}
           </>
         ))

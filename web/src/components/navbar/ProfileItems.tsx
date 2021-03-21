@@ -3,10 +3,7 @@ import React from "react";
 import { BiDetail, BiLogOut } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { MeQuery } from "../../generated/graphql";
-import {
-  LIGHTER_REGULAR_LIGHT_BROWN,
-  SEE_THROUGH_REGULAR_LIGHT_BROWN,
-} from "../../utils/colors";
+import { BACK_COLOR_LIGHTER, BACK_COLOR_SEE_THROUGH } from "../../utils/colors";
 import {
   LOGOUT_LABEL,
   MY_AD_LABEL,
@@ -22,8 +19,8 @@ export const ProfileItems: React.FC<ProfileItemsProps> = ({ userData }) => {
   return (
     <Box
       bg={{
-        base: LIGHTER_REGULAR_LIGHT_BROWN,
-        md: SEE_THROUGH_REGULAR_LIGHT_BROWN,
+        base: BACK_COLOR_LIGHTER,
+        md: BACK_COLOR_SEE_THROUGH,
       }}
       p={3}
       borderRadius={2}

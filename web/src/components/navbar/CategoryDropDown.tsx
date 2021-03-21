@@ -3,10 +3,10 @@ import { Box, Flex, Icon, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
 import {
-  LIGHTER_REGULAR_BROWN,
-  LIGHTER_REGULAR_LIGHT_BROWN,
-  REGULAR_BROWN,
-  SEE_THROUGH_REGULAR_LIGHT_BROWN,
+  FRONT_COLOR_LIGHTER,
+  BACK_COLOR_LIGHTER,
+  FRONT_COLOR,
+  BACK_COLOR_SEE_THROUGH,
 } from "../../utils/colors";
 import {
   formatBrowseCategory,
@@ -24,8 +24,8 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
       pos={{ base: "relative", md: "absolute" }}
       zIndex={3}
       bg={{
-        base: LIGHTER_REGULAR_LIGHT_BROWN,
-        md: SEE_THROUGH_REGULAR_LIGHT_BROWN,
+        base: BACK_COLOR_LIGHTER,
+        md: BACK_COLOR_SEE_THROUGH,
       }}
       display="block"
       w={{ base: "100%", md: 230 }}
@@ -48,8 +48,8 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
       {category.subcategories.map((sc) => (
         <Flex
           align="center"
-          color={{ base: REGULAR_BROWN, md: LIGHTER_REGULAR_BROWN }}
-          _hover={{ color: REGULAR_BROWN }}
+          color={{ base: FRONT_COLOR, md: FRONT_COLOR_LIGHTER }}
+          _hover={{ color: FRONT_COLOR }}
         >
           <Icon as={sc.icon ?? CloseIcon} mr={2} />
           <NextLink href={`/ad/${category.route}/${sc.route}`}>

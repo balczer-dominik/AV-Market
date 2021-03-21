@@ -15,8 +15,9 @@ import { Layout } from "../../components/Layout";
 import { UserAdminRow } from "../../components/UserAdminRow";
 import { useGetUsersQuery } from "../../generated/graphql";
 import {
-  LIGHTER_REGULAR_BROWN,
-  LIGHTEST_REGULAR_BROWN,
+  FRONT_COLOR_LIGHTER,
+  FRONT_COLOR_LIGHTEST,
+  WHITE,
 } from "../../utils/colors";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { isServer } from "../../utils/isServer";
@@ -54,9 +55,9 @@ const Users: React.FC<{}> = () => {
           <Flex justify="space-between" my={10} align="center">
             <Flex w={"40%"} justify="flex-start">
               <Button
-                color={"white"}
-                bgColor={LIGHTER_REGULAR_BROWN}
-                _hover={{ bgColor: LIGHTEST_REGULAR_BROWN }}
+                color={WHITE}
+                bgColor={FRONT_COLOR_LIGHTER}
+                _hover={{ bgColor: FRONT_COLOR_LIGHTEST }}
                 display={page !== 0 ? "block" : "none"}
                 onClick={() => setPage(page - 1)}
               >
@@ -69,9 +70,9 @@ const Users: React.FC<{}> = () => {
 
             <Flex w={"40%"} justify="flex-end">
               <Button
-                bgColor={LIGHTER_REGULAR_BROWN}
-                _hover={{ bgColor: LIGHTEST_REGULAR_BROWN }}
-                color={"white"}
+                bgColor={FRONT_COLOR_LIGHTER}
+                _hover={{ bgColor: FRONT_COLOR_LIGHTEST }}
+                color={WHITE}
                 display={data?.getUsers.hasMore ? "block" : "none"}
                 onClick={() => setPage(page + 1)}
               >

@@ -2,7 +2,7 @@ import { Box, Flex, Icon, IconButton, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
 import { IoCreateOutline } from "react-icons/io5";
-import { LIGHTER_REGULAR_BROWN, REGULAR_BROWN } from "../../utils/colors";
+import { FRONT_COLOR_LIGHTER, FRONT_COLOR, WHITE } from "../../utils/colors";
 import { POST_LABEL } from "../../utils/strings";
 
 interface PostAdButtonProps {}
@@ -14,9 +14,9 @@ export const PostAdButton: React.FC<PostAdButtonProps> = ({}) => {
         <Link style={{ textDecoration: "none" }}>
           <IconButton
             display={{ base: "none", md: "block" }}
-            bgColor={REGULAR_BROWN}
-            color="white"
-            _hover={{ bgColor: LIGHTER_REGULAR_BROWN }}
+            bgColor={FRONT_COLOR}
+            color={WHITE}
+            _hover={{ bgColor: FRONT_COLOR_LIGHTER }}
             aria-label={POST_LABEL}
             as={IoCreateOutline}
             p={2}
@@ -25,8 +25,8 @@ export const PostAdButton: React.FC<PostAdButtonProps> = ({}) => {
           <Flex
             display={{ base: "flex", md: "none" }}
             align="center"
-            color={{ base: REGULAR_BROWN, md: LIGHTER_REGULAR_BROWN }}
-            _hover={{ color: REGULAR_BROWN }}
+            color={{ base: FRONT_COLOR, md: FRONT_COLOR_LIGHTER }}
+            _hover={{ color: FRONT_COLOR }}
             mb={3}
           >
             <Icon as={IoCreateOutline} mr={2} />

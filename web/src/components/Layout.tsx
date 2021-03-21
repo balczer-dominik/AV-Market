@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
-import React from "react";
 import Head from "next/head";
-import { REGULAR_BROWN } from "../utils/colors";
+import React from "react";
+import { BG_COLOR, FRONT_COLOR } from "../utils/colors";
 import { NavBar } from "./navbar/NavBar";
 
 export type LayoutVariant = "small" | "regular";
@@ -25,13 +25,13 @@ export const Layout: React.FC<LayoutProps> = ({
         mx="auto"
         px={4}
         mt={8}
-        color={REGULAR_BROWN}
+        color={FRONT_COLOR}
         alignContent="center"
         pb={4}
-        bgColor="white"
+        bgColor={BG_COLOR}
       >
         <Head>
-          <title>{title}</title>
+          <title>{title} - AV Market</title>
           <link
             rel="shortcut icon"
             href="http://localhost:3000/av_logo_favico.ico"

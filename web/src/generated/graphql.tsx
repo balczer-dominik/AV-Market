@@ -248,7 +248,7 @@ export type ContactsInput = {
 
 export type AdDetailsFragment = (
   { __typename?: 'Ad' }
-  & Pick<Ad, 'id' | 'title' | 'price' | 'wear' | 'createdAt' | 'updatedAt'>
+  & Pick<Ad, 'id' | 'title' | 'price' | 'wear' | 'featured' | 'createdAt' | 'updatedAt'>
   & CategoriesFragment
 );
 
@@ -676,6 +676,7 @@ export const AdDetailsFragmentDoc = gql`
   title
   price
   wear
+  featured
   ...Categories
   createdAt
   updatedAt

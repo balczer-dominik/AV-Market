@@ -2,7 +2,7 @@ import { Box, Flex, FormLabel, Heading } from "@chakra-ui/react";
 import React from "react";
 import { BiText } from "react-icons/bi";
 import { FaMoneyBillWave } from "react-icons/fa";
-import { REGULAR_DARK_BROWN } from "../../utils/colors";
+import { ACCENT_COLOR } from "../../utils/colors";
 import {
   BASIC_DETAILS_LABEL,
   DESC_LABEL,
@@ -44,7 +44,7 @@ export const PostDetailsForm: React.FC<PostDetailsFormProps> = ({
         type="number"
       />
       <InputField name="desc" label={DESC_LABEL} type="textarea" />
-      <FormLabel color={REGULAR_DARK_BROWN} mt={4}>
+      <FormLabel color={ACCENT_COLOR} mt={4}>
         {WEAR_LABEL}
       </FormLabel>
       <Flex w="100%" justify="space-between" borderRadius="10px" h={24}>

@@ -14,11 +14,13 @@ import { AdResolver } from "./resolvers/ad";
 import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
 import { UserAdministrationResolver } from "./resolvers/userAdministration";
+import { mockData } from "./util/mockData";
 import { registerAdSortingEnums } from "./util/type-graphql/AdSortingOptions";
+import argon2 from "argon2";
 
 const main = async () => {
   //TypeORM
-  await createConnection({
+  const conn = await createConnection({
     type: "postgres",
     database: "avmarket",
     username: "postgres",
@@ -86,6 +88,65 @@ const main = async () => {
     app,
     cors: false,
   });
+
+  // mockData.forEach(
+  //   async ({
+  //     id,
+  //     banned,
+  //     county,
+  //     createdAt,
+  //     updatedAt,
+  //     email,
+  //     messenger,
+  //     password,
+  //     phone,
+  //     username,
+  //   }) => {
+  //     const hashed = await argon2.hash(password);
+  //     User.insert({
+  //       id,
+  //       createdAt: new Date(parseInt(createdAt)),
+  //       updatedAt: new Date(parseInt(updatedAt)),
+  //       avatar: undefined,
+  //       banned,
+  //       city: undefined,
+  //       county,
+  //       email,
+  //       messenger: messenger ?? undefined,
+  //       password: hashed,
+  //       phone: phone ?? undefined,
+  //       username,
+  //     });
+  //   }
+  // );
+
+  mockData.forEach(
+    ({
+      wear,
+      updatedAt,
+      createdAt,
+      title,
+      subCategory,
+      price,
+      ownerId,
+      featured,
+      desc,
+      category,
+    }) => {
+      Ad.insert({
+        wear,
+        createdAt: new Date(parseInt(createdAt)),
+        updatedAt: new Date(parseInt(updatedAt)),
+        title,
+        subCategory,
+        price,
+        ownerId,
+        featured,
+        desc: undefined,
+        category,
+      });
+    }
+  );
 
   app.listen(4000, () => {
     console.log("Server started on localhost:4000");

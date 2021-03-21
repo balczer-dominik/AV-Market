@@ -13,7 +13,7 @@ import React, { useRef } from "react";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useLoginMutation } from "../generated/graphql";
-import { REGULAR_DARK_BROWN, REGULAR_LIGHT_BROWN } from "../utils/colors";
+import { BG_COLOR, ACCENT_COLOR, BACK_COLOR } from "../utils/colors";
 import {
   FORGOTTEN_PASSWORD_LABEL,
   LOGIN_LABEL,
@@ -45,10 +45,10 @@ export const LoginDialogue: React.FC<LoginDialogueProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef}>
       <ModalOverlay />
-      <ModalContent bgColor={"white"} mx={5}>
+      <ModalContent bgColor={BG_COLOR} mx={5}>
         <ModalHeader
-          bgColor={REGULAR_LIGHT_BROWN}
-          color={REGULAR_DARK_BROWN}
+          bgColor={BACK_COLOR}
+          color={ACCENT_COLOR}
           borderTopRadius="md"
         >
           {LOGIN_LABEL}

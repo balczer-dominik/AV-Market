@@ -4,11 +4,11 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Link,
+  Text,
 } from "@chakra-ui/react";
-import React from "react";
-import { REGULAR_BROWN } from "../../utils/colors";
-import { HOME_PAGE } from "../../utils/strings";
 import NextLink from "next/link";
+import React from "react";
+import { FRONT_COLOR } from "../../utils/colors";
 
 type BreadItem = {
   label: string;
@@ -21,7 +21,7 @@ interface BreadcrumbsProps {
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
   return (
-    <Breadcrumb separator={<ChevronRightIcon color={REGULAR_BROWN} />}>
+    <Breadcrumb separator={<ChevronRightIcon color={FRONT_COLOR} />}>
       {items ? (
         items.map(({ href, label }, i) => (
           <BreadcrumbItem isCurrentPage={i === items.length - 1}>
@@ -31,7 +31,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
                 fontWeight="bold"
                 style={{ textDecoration: "none" }}
               >
-                {label}
+                <Text isTruncated>{label}</Text>
               </BreadcrumbLink>
             </NextLink>
           </BreadcrumbItem>

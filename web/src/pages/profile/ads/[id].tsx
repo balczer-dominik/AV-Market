@@ -4,8 +4,8 @@ import {
   Flex,
   Heading,
   HStack,
-  Text,
   Link,
+  Text,
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";
@@ -14,9 +14,10 @@ import { AdListing } from "../../../components/ad/AdListing";
 import { Layout } from "../../../components/Layout";
 import { useUserAdsQuery } from "../../../generated/graphql";
 import {
-  DARKER_REGULAR_BROWN,
-  LIGHTER_REGULAR_BROWN,
-  LIGHTEST_REGULAR_BROWN,
+  FRONT_COLOR_DARKER,
+  FRONT_COLOR_LIGHTER,
+  FRONT_COLOR_LIGHTEST,
+  WHITE,
 } from "../../../utils/colors";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { formatProfileLink } from "../../../utils/formatLinks";
@@ -46,12 +47,12 @@ const UserAds: React.FC<{}> = () => {
           <HStack>
             <NextLink href={formatProfileLink(intId)}>
               <Link style={{ textDecoration: "none" }}>
-                <Heading size="xl" color={DARKER_REGULAR_BROWN}>
+                <Heading size="xl" color={FRONT_COLOR_DARKER}>
                   {data.userAds.owner.username}
                 </Heading>
               </Link>
             </NextLink>
-            <Heading size="xl" color={LIGHTER_REGULAR_BROWN}>
+            <Heading size="xl" color={FRONT_COLOR_LIGHTER}>
               {USERS_ADS_LABEL}
             </Heading>
           </HStack>
@@ -64,9 +65,9 @@ const UserAds: React.FC<{}> = () => {
           <Flex justify="space-between" my={10} align="center">
             <Flex w={"40%"} justify="flex-start">
               <Button
-                color={"white"}
-                bgColor={LIGHTER_REGULAR_BROWN}
-                _hover={{ bgColor: LIGHTEST_REGULAR_BROWN }}
+                color={WHITE}
+                bgColor={FRONT_COLOR_LIGHTER}
+                _hover={{ bgColor: FRONT_COLOR_LIGHTEST }}
                 display={page !== 0 ? "block" : "none"}
                 onClick={() => setPage(page - 1)}
               >
@@ -79,9 +80,9 @@ const UserAds: React.FC<{}> = () => {
 
             <Flex w={"40%"} justify="flex-end">
               <Button
-                bgColor={LIGHTER_REGULAR_BROWN}
-                _hover={{ bgColor: LIGHTEST_REGULAR_BROWN }}
-                color={"white"}
+                bgColor={FRONT_COLOR_LIGHTER}
+                _hover={{ bgColor: FRONT_COLOR_LIGHTEST }}
+                color={WHITE}
                 display={data?.userAds.hasMore ? "block" : "none"}
                 onClick={() => setPage(page + 1)}
               >
