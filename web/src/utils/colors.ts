@@ -2,13 +2,13 @@ const currentMode: "LIGHT" | "DARK" = "LIGHT";
 
 export const themes = {
   DARK: {
-    FRONT_COLOR: "#181a1b",
-    FRONT_COLOR_DARKER: "#141516",
-    FRONT_COLOR_LIGHTER: "#212121",
-    FRONT_COLOR_LIGHTEST: "#2e2e2e",
-    BACK_COLOR: "#474747",
-    BACK_COLOR_LIGHTER: "#aaaaaa",
-    BACK_COLOR_LIGHTEST: "#e7e7e7",
+    BACK_COLOR: "#181a1b",
+    FRONT_COLOR_DARKER: "#e7e7e7",
+    BACK_COLOR_LIGHTER: "#212121",
+    BACK_COLOR_LIGHTEST: "#2e2e2e",
+    FRONT_COLOR: "#474747",
+    FRONT_COLOR_LIGHTER: "#aaaaaa",
+    FRONT_COLOR_LIGHTEST: "#e7e7e7",
     BACK_COLOR_SEE_THROUGH: "rgba(218, 212, 190, 0.9)",
     ACCENT_COLOR: "#30302c",
     WHITE: "white",
