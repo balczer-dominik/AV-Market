@@ -1,39 +1,13 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Stack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Stack, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import {
-  OrderOption,
-  SortByOption,
-  useAdsQuery,
-} from "../../generated/graphql";
-import {
-  LIGHTER_REGULAR_BROWN,
-  LIGHTEST_REGULAR_BROWN,
-} from "../../utils/colors";
+import { OrderOption, SortByOption } from "../../generated/graphql";
 import {
   formatBrowseCategory,
   formatBrowseSubCategory,
 } from "../../utils/formatLinks";
-import {
-  HOME_PAGE,
-  LOAD_MORE_BUTTON,
-  NEXT_PAGE_LABEL,
-  PAGE_LABEL,
-  PREVIOUS_PAGE_LABEL,
-} from "../../utils/strings";
-import { AdListing } from "../ad/AdListing";
+import { HOME_PAGE } from "../../utils/strings";
 import { Breadcrumbs } from "../ad/Breadcrumbs";
 import { Categories, MainCategory } from "../navbar/MenuRoutes";
-import { RegularButton } from "../RegularButton";
-import { Repeat } from "../Repeat";
-import { Spinner } from "../Spinner";
 import { AdSearchbox } from "./AdSearchbox";
 import { AdSortingButtons } from "./AdSortingButtons";
 import { PaginatedAds } from "./PaginatedAds";
