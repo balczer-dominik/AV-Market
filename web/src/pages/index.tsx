@@ -4,7 +4,7 @@ import { Layout } from "../components/Layout";
 import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => (
-  <Layout title="AV Market" variant="regular">
+  <Layout title="Főoldal" variant="regular">
     <div>Hello World</div>
   </Layout>
 );

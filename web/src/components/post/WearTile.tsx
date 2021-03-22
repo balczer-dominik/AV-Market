@@ -20,7 +20,7 @@ export const WearTile: React.FC<WearTileProps> = ({
   select,
 }) => {
   const {
-    theme: { FRONT_COLOR_DARKER, FRONT_COLOR_LIGHTER, BACK_COLOR, WHITE },
+    theme: { FRONT_COLOR_DARKER, FRONT_COLOR_LIGHTER_ALT, BACK_COLOR, WHITE },
   } = useContext(ThemeContext);
   return (
     <Link style={{ textDecoration: "none" }} onClick={() => select()} w="20%">
@@ -32,7 +32,7 @@ export const WearTile: React.FC<WearTileProps> = ({
         flexDir={"column"}
         justify={"space-evenly"}
         align="center"
-        bgColor={disabled ? FRONT_COLOR_LIGHTER : FRONT_COLOR_DARKER}
+        bgColor={disabled ? FRONT_COLOR_LIGHTER_ALT : FRONT_COLOR_DARKER}
         color={WHITE}
         transition="ease-out 65ms"
         borderLeftRadius={leftmost ? "10px" : "0px"}

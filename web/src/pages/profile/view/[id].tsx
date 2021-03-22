@@ -1,6 +1,6 @@
 import { Box, Flex, VStack } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
-import React from "react";
+import React, { useEffect } from "react";
 import { AdRecent } from "../../../components/ad/AdRecent";
 import { Layout } from "../../../components/Layout";
 import { LocationMap } from "../../../components/profile/LocationMap";
@@ -13,7 +13,7 @@ import { useGetUserFromId } from "../../../utils/useGetUserFromId";
 interface ViewProfileProps {}
 
 const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
-  const [{ data }] = useGetUserFromId();
+  const [{ data, fetching }] = useGetUserFromId();
   const user = data ? data.user : null;
   return (
     <Layout title={user ? `${user.username} profilja` : LOADING_TITLE}>
@@ -32,6 +32,7 @@ const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
             karmaN={3}
             adCount={user.adCount}
             deliveryCount={5}
+            fetching={fetching}
           />
           <VStack w={{ base: "full", md: "68%" }}>
             <UserDetails

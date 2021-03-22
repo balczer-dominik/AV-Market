@@ -42,7 +42,6 @@ export const ChangeLocationForm: React.FC<ChangeLocationFormProps> = ({}) => {
         }
         meLocation();
         toast("success", CHANGE_LOCATION_SUCCESS);
-        console.log("county", newCounty, "city", newCity);
       }}
     >
       {({ isSubmitting }) => (

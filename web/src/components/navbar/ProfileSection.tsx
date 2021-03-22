@@ -1,6 +1,7 @@
 import {
   Box,
   Flex,
+  HStack,
   IconButton,
   Link,
   Stack,
@@ -21,7 +22,7 @@ import { ThemeSwitcher } from "./ThemeSwitcher";
 
 export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   const {
-    theme: { FRONT_COLOR_LIGHTER, FRONT_COLOR, WHITE },
+    theme: { FRONT_COLOR_LIGHTER, WHITE, FRONT_COLOR_ALT },
   } = useContext(ThemeContext);
   const [{ data, fetching: meFetching }] = useMeQuery({ pause: isServer() });
   const {
@@ -58,31 +59,33 @@ export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
           </Flex>
         ) : (
           <Flex justify="space-between">
-            <NextLink href="/register">
+            <ThemeSwitcher />
+            <HStack>
+              <NextLink href="/register">
+                <Link>
+                  <IconButton
+                    p={2}
+                    bgColor={FRONT_COLOR_ALT}
+                    color={WHITE}
+                    _hover={{ bgColor: FRONT_COLOR_LIGHTER }}
+                    as={FaUserPlus}
+                    aria-label={REGISTER_LABEL}
+                  />
+                </Link>
+              </NextLink>
+
               <Link>
                 <IconButton
-                  mr={3}
-                  p={2}
-                  bgColor={FRONT_COLOR}
+                  bgColor={FRONT_COLOR_ALT}
                   color={WHITE}
                   _hover={{ bgColor: FRONT_COLOR_LIGHTER }}
-                  as={FaUserPlus}
-                  aria-label={REGISTER_LABEL}
+                  onClick={openLogin}
+                  aria-label={LOGIN_LABEL}
+                  as={BiLogIn}
+                  p={2}
                 />
               </Link>
-            </NextLink>
-            <ThemeSwitcher />
-            <Link>
-              <IconButton
-                bgColor={FRONT_COLOR}
-                color={WHITE}
-                _hover={{ bgColor: FRONT_COLOR_LIGHTER }}
-                onClick={openLogin}
-                aria-label={LOGIN_LABEL}
-                as={BiLogIn}
-                p={2}
-              />
-            </Link>
+            </HStack>
           </Flex>
         )}
       </Stack>

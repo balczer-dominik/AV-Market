@@ -20,10 +20,10 @@ export const Layout: React.FC<LayoutProps> = ({
     theme: { BG_COLOR, FRONT_COLOR },
   } = useContext(ThemeContext);
   return (
-    <Box w="full" bgColor={BG_COLOR} color={FRONT_COLOR} h="full">
+    <Box w="full" color={FRONT_COLOR} h="full">
       <style jsx global>{`
         body {
-          background-color: ${BG_COLOR};
+          background-color: ${BG_COLOR} !important;
         }
       `}</style>
       <NavBar />

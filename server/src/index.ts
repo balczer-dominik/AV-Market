@@ -120,33 +120,33 @@ const main = async () => {
   //   }
   // );
 
-  mockData.forEach(
-    ({
-      wear,
-      updatedAt,
-      createdAt,
-      title,
-      subCategory,
-      price,
-      ownerId,
-      featured,
-      desc,
-      category,
-    }) => {
-      Ad.insert({
-        wear,
-        createdAt: new Date(parseInt(createdAt)),
-        updatedAt: new Date(parseInt(updatedAt)),
-        title,
-        subCategory,
-        price,
-        ownerId,
-        featured,
-        desc: undefined,
-        category,
-      });
-    }
-  );
+  // mockData.forEach(
+  //   ({
+  //     wear,
+  //     updatedAt,
+  //     createdAt,
+  //     title,
+  //     subCategory,
+  //     price,
+  //     ownerId,
+  //     featured,
+  //     desc,
+  //     category,
+  //   }) => {
+  //     Ad.insert({
+  //       wear,
+  //       createdAt: new Date(parseInt(createdAt)),
+  //       updatedAt: new Date(parseInt(updatedAt)),
+  //       title,
+  //       subCategory,
+  //       price,
+  //       ownerId,
+  //       featured,
+  //       desc: undefined,
+  //       category,
+  //     });
+  //   }
+  // );
 
   app.listen(4000, () => {
     console.log("Server started on localhost:4000");

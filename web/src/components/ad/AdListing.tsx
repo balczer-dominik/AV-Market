@@ -6,6 +6,7 @@ import {
   Icon,
   Image,
   Link,
+  Stack,
   Tag,
   Text,
   Tooltip,
@@ -59,6 +60,7 @@ export const AdListing: React.FC<AdListingProps> = ({
       FRONT_COLOR_LIGHTEST,
       BACK_COLOR_LIGHTEST,
       FRONT_COLOR,
+      FRONT_COLOR_ALT,
       WHITE,
     },
   } = useContext(ThemeContext);
@@ -125,7 +127,11 @@ export const AdListing: React.FC<AdListingProps> = ({
                 <Heading size="sm">{title}</Heading>
               </Link>
             </NextLink>
-            <HStack spacing={2}>
+            <HStack
+              flexDir={{ base: "column", md: "row" }}
+              spacing={{ base: 0, md: 2 }}
+              align={{ base: "flex-start", md: "center" }}
+            >
               <NextLink href={formatProfileLink(ownerId)}>
                 <Link style={{ textDecoration: "none" }}>
                   <Text
@@ -156,13 +162,14 @@ export const AdListing: React.FC<AdListingProps> = ({
                 color={FRONT_COLOR_LIGHTER}
                 style={{ textDecoration: "none" }}
                 fontSize="sm"
+                display={{ base: "none", md: "block" }}
               >
                 {formatDate(createdAt)}
               </Text>
             </Tooltip>
           </Box>
           <Flex justify="space-between" align="center">
-            <Tag bgColor={FRONT_COLOR} w="fit-content" color={WHITE}>
+            <Tag bgColor={FRONT_COLOR_ALT} w="fit-content" color={WHITE}>
               {formatPrice(price)}
             </Tag>
             <Box display={{ base: "none", md: "block" }}>

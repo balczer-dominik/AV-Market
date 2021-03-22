@@ -17,6 +17,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
       BACK_COLOR_LIGHTER,
       FRONT_COLOR,
       BACK_COLOR_SEE_THROUGH,
+      FRONT_COLOR_DARKER,
     },
   } = useContext(ThemeContext);
   return (
@@ -31,7 +32,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
       w={{ base: "100%", md: 230 }}
       px={3}
       py={2}
-      mt={2}
+      mt={{ base: 2, md: 4 }}
     >
       <NextLink href={formatBrowseCategory(category.key)}>
         <Link style={{ textDecoration: "none" }}>
@@ -49,7 +50,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
         <Flex
           align="center"
           color={{ base: FRONT_COLOR, md: FRONT_COLOR_LIGHTER }}
-          _hover={{ color: FRONT_COLOR }}
+          _hover={{ color: FRONT_COLOR_DARKER }}
         >
           <Icon as={sc.icon ?? CloseIcon} mr={2} />
           <NextLink href={`/ad/${category.route}/${sc.route}`}>

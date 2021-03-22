@@ -9,7 +9,7 @@ interface PostAdButtonProps {}
 
 export const PostAdButton: React.FC<PostAdButtonProps> = ({}) => {
   const {
-    theme: { FRONT_COLOR_LIGHTER, FRONT_COLOR, WHITE },
+    theme: { FRONT_COLOR_LIGHTER_ALT, FRONT_COLOR, FRONT_COLOR_ALT, WHITE },
   } = useContext(ThemeContext);
   return (
     <Box>
@@ -17,9 +17,9 @@ export const PostAdButton: React.FC<PostAdButtonProps> = ({}) => {
         <Link style={{ textDecoration: "none" }}>
           <IconButton
             display={{ base: "none", md: "block" }}
-            bgColor={FRONT_COLOR}
+            bgColor={FRONT_COLOR_ALT}
             color={WHITE}
-            _hover={{ bgColor: FRONT_COLOR_LIGHTER }}
+            _hover={{ bgColor: FRONT_COLOR_LIGHTER_ALT }}
             aria-label={POST_LABEL}
             as={IoCreateOutline}
             p={2}
@@ -28,7 +28,7 @@ export const PostAdButton: React.FC<PostAdButtonProps> = ({}) => {
           <Flex
             display={{ base: "flex", md: "none" }}
             align="center"
-            color={{ base: FRONT_COLOR, md: FRONT_COLOR_LIGHTER }}
+            color={{ base: FRONT_COLOR, md: FRONT_COLOR_LIGHTER_ALT }}
             _hover={{ color: FRONT_COLOR }}
             mb={3}
           >

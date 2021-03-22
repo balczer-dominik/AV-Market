@@ -38,6 +38,11 @@ export const ThemeProvider: React.FC = ({ children }) => {
     <ThemeContext.Provider
       value={{ theme: Modes[mode], toggleTheme: toggleMode }}
     >
+      <style jsx global>{`
+        body {
+          background-color: ${Modes[mode].BG_COLOR};
+        }
+      `}</style>
       {children}
     </ThemeContext.Provider>
   );

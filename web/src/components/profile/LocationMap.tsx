@@ -11,7 +11,11 @@ interface LocationMapProps {
 
 export const LocationMap: React.FC<LocationMapProps> = ({ coordinates }) => {
   const {
-    theme: { FRONT_COLOR_LIGHTER, FRONT_COLOR_LIGHTEST, BACK_COLOR_LIGHTEST },
+    theme: {
+      FRONT_COLOR_LIGHTER_ALT,
+      FRONT_COLOR_LIGHTEST,
+      BACK_COLOR_LIGHTEST_ALT,
+    },
   } = useContext(ThemeContext);
   const Map = ReactMapboxGl({ accessToken: MAPBOX_ACCESS_TOKEN });
   return (
@@ -39,9 +43,9 @@ export const LocationMap: React.FC<LocationMapProps> = ({ coordinates }) => {
             w="full"
             align="center"
             justify="center"
-            bgColor={FRONT_COLOR_LIGHTER}
             borderRadius="10px"
-            color={BACK_COLOR_LIGHTEST}
+            bgColor={FRONT_COLOR_LIGHTER_ALT}
+            color={BACK_COLOR_LIGHTEST_ALT}
           >
             {NO_LOCATION_PROVIDED}
           </Flex>

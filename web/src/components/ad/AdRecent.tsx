@@ -43,6 +43,7 @@ export const AdRecent: React.FC<AdRecentProps> = ({
       FRONT_COLOR_LIGHTEST,
       BACK_COLOR_LIGHTEST,
       FRONT_COLOR,
+      FRONT_COLOR_ALT,
       WHITE,
     },
   } = useContext(ThemeContext);
@@ -77,33 +78,34 @@ export const AdRecent: React.FC<AdRecentProps> = ({
               style={{ textDecoration: "none" }}
               justifySelf="center"
             >
-              <Image
-                src={formatAdSrc(ad.thumbnail)}
-                h={32}
-                w="100%"
-                objectFit="cover"
-                fallback={
-                  <Flex
-                    h={32}
-                    w="100%"
-                    borderColor={FRONT_COLOR_LIGHTEST}
-                    borderRadius="5px"
-                    borderWidth="1px"
-                    borderStyle="solid"
-                    color={FRONT_COLOR}
-                    align="center"
-                    justify="space-around"
-                    flexDir="column"
-                    display={{ base: "none", md: "flex" }}
-                  >
-                    <Icon as={BsImageFill} h={50} w={50} />
-                  </Flex>
-                }
-              />
+              {ad.thumbnail !== null ? (
+                <Image
+                  src={formatAdSrc(ad.thumbnail)}
+                  h={32}
+                  w="100%"
+                  objectFit="cover"
+                />
+              ) : (
+                <Flex
+                  h={32}
+                  w="100%"
+                  borderColor={FRONT_COLOR_LIGHTEST}
+                  borderRadius="5px"
+                  borderWidth="1px"
+                  borderStyle="solid"
+                  color={FRONT_COLOR}
+                  align="center"
+                  justify="space-around"
+                  flexDir="column"
+                >
+                  <Icon as={BsImageFill} h={50} w={50} />
+                </Flex>
+              )}
+
               <Text isTruncated fontSize={14} mb={1}>
                 {ad.title}
               </Text>
-              <Tag bgColor={FRONT_COLOR} w="fit-content" color={WHITE}>
+              <Tag bgColor={FRONT_COLOR_ALT} w="fit-content" color={WHITE}>
                 {formatPrice(ad.price)}
               </Tag>
             </Flex>

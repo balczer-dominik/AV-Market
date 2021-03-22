@@ -30,6 +30,8 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
       FRONT_COLOR_LIGHTER,
       FRONT_COLOR_LIGHTEST,
       BACK_COLOR_LIGHTEST,
+      FRONT_COLOR_LIGHTER_ALT,
+      BACK_COLOR_LIGHTEST_ALT,
       WHITE,
     },
   } = useContext(ThemeContext);
@@ -49,8 +51,8 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
         <HStack
           justify="space-between"
           w="full"
-          bgColor={FRONT_COLOR_LIGHTER}
-          color={BACK_COLOR_LIGHTEST}
+          bgColor={FRONT_COLOR_LIGHTER_ALT}
+          color={BACK_COLOR_LIGHTEST_ALT}
           borderRadius="5px"
           p={2}
         >
@@ -67,8 +69,8 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
           <HStack
             justify="space-between"
             w="full"
-            bgColor={FRONT_COLOR_LIGHTER.toUpperCase()}
-            color={BACK_COLOR_LIGHTEST}
+            bgColor={FRONT_COLOR_LIGHTER_ALT}
+            color={BACK_COLOR_LIGHTEST_ALT}
             borderRadius="5px"
             p={2}
           >
@@ -86,8 +88,8 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
           <HStack
             justify="space-between"
             w="full"
-            bgColor={FRONT_COLOR_LIGHTER.toUpperCase()}
-            color={BACK_COLOR_LIGHTEST}
+            bgColor={FRONT_COLOR_LIGHTER_ALT}
+            color={BACK_COLOR_LIGHTEST_ALT}
             borderRadius="5px"
             p={2}
           >

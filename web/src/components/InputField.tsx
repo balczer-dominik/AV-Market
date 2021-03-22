@@ -103,6 +103,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           ) : (
             <Input
               bgColor={bgColor ?? BG_COLOR}
+              color={ACCENT_COLOR}
               textAlign={type === "number" ? "right" : "left"}
               ref={ref}
               type={type === "password" && !showPassword ? "password" : "text"}

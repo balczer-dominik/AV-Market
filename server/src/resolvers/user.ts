@@ -97,7 +97,10 @@ export class UserResolver {
       return;
     }
 
-    const test = node_geocoder({ provider: "openstreetmap" });
+    const test = node_geocoder({
+      provider: "mapquest",
+      apiKey: "TmNcUU4EbYFwGNcAAAdaR7AWR7Fd4mCI",
+    });
 
     const res = (
       await test.geocode(`${user.county ?? ""}, ${user.city ?? ""}`)

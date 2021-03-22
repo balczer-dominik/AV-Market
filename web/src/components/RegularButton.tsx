@@ -31,8 +31,8 @@ export const RegularButton: React.FC<SubmitButtonProps> = ({
   const {
     theme: {
       FRONT_COLOR_DARKER,
-      FRONT_COLOR_LIGHTER,
-      FRONT_COLOR,
+      FRONT_COLOR_LIGHTER_ALT,
+      FRONT_COLOR_ALT,
       ACCENT_COLOR,
       WHITE,
     },
@@ -46,8 +46,8 @@ export const RegularButton: React.FC<SubmitButtonProps> = ({
       onClick={onClick}
       borderWidth={variant === "solid" ? null : "0.15rem"}
       borderColor={variant === "solid" ? null : FRONT_COLOR_DARKER}
-      bgColor={variant === "solid" ? FRONT_COLOR : null}
-      _hover={variant === "solid" ? { bgColor: FRONT_COLOR_LIGHTER } : null}
+      bgColor={variant === "solid" ? FRONT_COLOR_ALT : null}
+      _hover={variant === "solid" ? { bgColor: FRONT_COLOR_LIGHTER_ALT } : null}
       color={variant === "solid" ? WHITE : ACCENT_COLOR}
       w={w ?? "unset"}
     >
