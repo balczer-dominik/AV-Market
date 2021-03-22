@@ -1,10 +1,18 @@
 import { Heading, SimpleGrid, Stack } from "@chakra-ui/react";
+import { withUrqlClient } from "next-urql";
+import React from "react";
+import {
+  FaKey,
+  FaLocationArrow,
+  FaMailBulk,
+  FaRegUserCircle,
+} from "react-icons/fa";
+import { Layout } from "@components/Layout";
 import { ChangeAvatarForm } from "@components/ChangeAvatarForm";
 import { ChangeContactsForm } from "@components/ChangeContactsForm";
 import { ChangeLocationForm } from "@components/ChangeLocationForm";
 import { ChangePasswordForm } from "@components/ChangePasswordForm";
-import { Layout } from "@components/Layout";
-import { ProfileSection } from "@components/ProfileSection";
+import { ProfileEditSection } from "@components/ProfileEditSection";
 import { useMeQuery } from "@generated/graphql";
 import { createUrqlClient } from "@utils/createUrqlClient";
 import {
@@ -15,14 +23,6 @@ import {
   EDIT_PROFILE_LABEL,
 } from "@utils/strings";
 import { useIsAuth } from "@utils/useIsAuth";
-import { withUrqlClient } from "next-urql";
-import React from "react";
-import {
-  FaKey,
-  FaLocationArrow,
-  FaMailBulk,
-  FaRegUserCircle,
-} from "react-icons/fa";
 
 const Edit: React.FC<{}> = ({}) => {
   useIsAuth();
@@ -41,21 +41,24 @@ const Edit: React.FC<{}> = ({}) => {
             {EDIT_PROFILE_LABEL}
           </Heading>
           <SimpleGrid spacing="40px" minChildWidth="300px">
-            <ProfileSection title={CHANGE_PASSWORD_LABEL} icon={FaKey}>
+            <ProfileEditSection title={CHANGE_PASSWORD_LABEL} icon={FaKey}>
               <ChangePasswordForm />
-            </ProfileSection>
-            <ProfileSection title={CHANGE_CONTACTS_LABEL} icon={FaMailBulk}>
+            </ProfileEditSection>
+            <ProfileEditSection title={CHANGE_CONTACTS_LABEL} icon={FaMailBulk}>
               <ChangeContactsForm />
-            </ProfileSection>
-            <ProfileSection title={CHANGE_AVATAR_LABEL} icon={FaRegUserCircle}>
+            </ProfileEditSection>
+            <ProfileEditSection
+              title={CHANGE_AVATAR_LABEL}
+              icon={FaRegUserCircle}
+            >
               <ChangeAvatarForm />
-            </ProfileSection>
-            <ProfileSection
+            </ProfileEditSection>
+            <ProfileEditSection
               title={CHANGE_LOCATION_LABEL}
               icon={FaLocationArrow}
             >
               <ChangeLocationForm />
-            </ProfileSection>
+            </ProfileEditSection>
           </SimpleGrid>
         </Stack>
       ) : null}

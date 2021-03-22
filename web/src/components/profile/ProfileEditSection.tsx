@@ -3,12 +3,12 @@ import React, { useContext } from "react";
 import { IconType } from "react-icons/lib";
 import { ThemeContext } from "@utils/ThemeProvider";
 
-interface ProfileSectionProps {
+interface EditProfileSectionProps {
   title: string;
   icon: IconType;
 }
 
-export const ProfileSection: React.FC<ProfileSectionProps> = ({
+export const ProfileEditSection: React.FC<EditProfileSectionProps> = ({
   title,
   icon,
   children,
