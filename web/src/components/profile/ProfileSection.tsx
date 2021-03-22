@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Icon } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { IconType } from "react-icons/lib";
-import { FRONT_COLOR } from "../../utils/colors";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface ProfileSectionProps {
   title: string;
@@ -13,6 +13,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   icon,
   children,
 }) => {
+  const {
+    theme: { FRONT_COLOR },
+  } = useContext(ThemeContext);
   return (
     <Box
       border="2px"

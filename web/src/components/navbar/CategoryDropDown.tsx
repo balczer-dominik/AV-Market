@@ -1,24 +1,24 @@
 import { CloseIcon } from "@chakra-ui/icons";
 import { Box, Flex, Icon, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
-import {
-  FRONT_COLOR_LIGHTER,
-  BACK_COLOR_LIGHTER,
-  FRONT_COLOR,
-  BACK_COLOR_SEE_THROUGH,
-} from "../../utils/colors";
-import {
-  formatBrowseCategory,
-  formatBrowseSubCategory,
-} from "../../utils/formatLinks";
-import { Categories, Category, MainCategory } from "./MenuRoutes";
+import React, { useContext } from "react";
+import { formatBrowseCategory } from "../../utils/formatLinks";
+import { ThemeContext } from "../../utils/ThemeProvider";
+import { Category } from "./MenuRoutes";
 
 interface SubcategoryProps {
   category: Category;
 }
 
 export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
+  const {
+    theme: {
+      FRONT_COLOR_LIGHTER,
+      BACK_COLOR_LIGHTER,
+      FRONT_COLOR,
+      BACK_COLOR_SEE_THROUGH,
+    },
+  } = useContext(ThemeContext);
   return (
     <Box
       pos={{ base: "relative", md: "absolute" }}

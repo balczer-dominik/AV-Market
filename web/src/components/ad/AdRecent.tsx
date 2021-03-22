@@ -10,17 +10,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { BsImageFill } from "react-icons/bs";
 import { Ad } from "../../generated/graphql";
-import {
-  FRONT_COLOR_DARKER,
-  FRONT_COLOR_LIGHTER,
-  FRONT_COLOR_LIGHTEST,
-  BACK_COLOR_LIGHTEST,
-  FRONT_COLOR,
-  WHITE,
-} from "../../utils/colors";
 import {
   formatAdLink,
   formatAdsLink,
@@ -29,6 +21,7 @@ import {
 } from "../../utils/formatLinks";
 import { formatPrice } from "../../utils/formatPrice";
 import { NO_OTHER_RECENT_ADS, OTHERS_LABEL } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface AdRecentProps {
   owner: string;
@@ -43,6 +36,16 @@ export const AdRecent: React.FC<AdRecentProps> = ({
   recent,
   ownerId,
 }) => {
+  const {
+    theme: {
+      FRONT_COLOR_DARKER,
+      FRONT_COLOR_LIGHTER,
+      FRONT_COLOR_LIGHTEST,
+      BACK_COLOR_LIGHTEST,
+      FRONT_COLOR,
+      WHITE,
+    },
+  } = useContext(ThemeContext);
   return (
     <Box mt={4} w="full">
       <Flex justify="space-between" mb={2} aling="center">

@@ -1,13 +1,16 @@
 import { Box, Flex, Icon, IconButton, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { IoCreateOutline } from "react-icons/io5";
-import { FRONT_COLOR_LIGHTER, FRONT_COLOR, WHITE } from "../../utils/colors";
 import { POST_LABEL } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface PostAdButtonProps {}
 
 export const PostAdButton: React.FC<PostAdButtonProps> = ({}) => {
+  const {
+    theme: { FRONT_COLOR_LIGHTER, FRONT_COLOR, WHITE },
+  } = useContext(ThemeContext);
   return (
     <Box>
       <NextLink href="/ad/post">

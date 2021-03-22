@@ -7,18 +7,22 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { BiLogIn } from "react-icons/bi";
 import { FaUserPlus } from "react-icons/fa";
 import { useMeQuery } from "../../generated/graphql";
-import { FRONT_COLOR_LIGHTER, FRONT_COLOR, WHITE } from "../../utils/colors";
 import { isServer } from "../../utils/isServer";
 import { LOGIN_LABEL, REGISTER_LABEL } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 import { LoginDialogue } from "../LoginDialogue";
 import { PostAdButton } from "./PostAdButton";
 import { ProfileContainer } from "./ProfileContainer";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
+  const {
+    theme: { FRONT_COLOR_LIGHTER, FRONT_COLOR, WHITE },
+  } = useContext(ThemeContext);
   const [{ data, fetching: meFetching }] = useMeQuery({ pause: isServer() });
   const {
     isOpen: loginOpen,
@@ -48,6 +52,7 @@ export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
             align={{ base: "unset", md: "center" }}
             flexDir={{ base: "column", md: "row" }}
           >
+            <ThemeSwitcher />
             <PostAdButton />
             <ProfileContainer />
           </Flex>
@@ -66,6 +71,7 @@ export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
                 />
               </Link>
             </NextLink>
+            <ThemeSwitcher />
             <Link>
               <IconButton
                 bgColor={FRONT_COLOR}

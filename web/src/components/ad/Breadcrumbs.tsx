@@ -7,8 +7,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
-import { FRONT_COLOR } from "../../utils/colors";
+import React, { useContext } from "react";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 type BreadItem = {
   label: string;
@@ -20,6 +20,9 @@ interface BreadcrumbsProps {
 }
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
+  const {
+    theme: { FRONT_COLOR },
+  } = useContext(ThemeContext);
   return (
     <Breadcrumb separator={<ChevronRightIcon color={FRONT_COLOR} />}>
       {items ? (

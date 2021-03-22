@@ -9,11 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useLoginMutation } from "../generated/graphql";
-import { BG_COLOR, ACCENT_COLOR, BACK_COLOR } from "../utils/colors";
 import {
   FORGOTTEN_PASSWORD_LABEL,
   LOGIN_LABEL,
@@ -23,6 +22,7 @@ import {
   USERNAME_OR_EMAIL_LABEL,
   WELCOME_USER,
 } from "../utils/strings";
+import { ThemeContext } from "../utils/ThemeProvider";
 import { toErrorMap } from "../utils/toErrorMap";
 import { useBetterToast } from "../utils/useBetterToast";
 import { InputField } from "./InputField";
@@ -37,6 +37,9 @@ export const LoginDialogue: React.FC<LoginDialogueProps> = ({
   isOpen,
   onClose,
 }) => {
+  const {
+    theme: { BG_COLOR, ACCENT_COLOR, BACK_COLOR },
+  } = useContext(ThemeContext);
   const [, login] = useLoginMutation();
   const toast = useBetterToast();
   const router = useRouter();

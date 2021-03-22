@@ -1,8 +1,9 @@
 import { Heading, Stack, Text } from "@chakra-ui/react";
+import { ThemeContext } from "@utils/ThemeProvider";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -10,7 +11,6 @@ import { InputField } from "../components/InputField";
 import { Layout } from "../components/Layout";
 import { RegularButton } from "../components/RegularButton";
 import { useRegisterMutation } from "../generated/graphql";
-import { FRONT_COLOR_LIGHTER } from "../utils/colors";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import {
   CONFIRM_PASSWORD_LABEL,
@@ -34,6 +34,9 @@ import { RegisterValidator } from "../utils/validators";
 interface registerProps {}
 
 export const register: React.FC<registerProps> = ({}) => {
+  const {
+    theme: { FRONT_COLOR_LIGHTER },
+  } = useContext(ThemeContext);
   const toast = useBetterToast();
   const router = useRouter();
   const [, register] = useRegisterMutation();

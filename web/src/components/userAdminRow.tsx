@@ -1,13 +1,13 @@
 import { Button, Flex, Icon, Image, Td, Tr } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaCheck, FaHammer } from "react-icons/fa";
 import {
   useBanUserMutation,
   User,
   useUnbanUserMutation,
 } from "../generated/graphql";
-import { FRONT_COLOR_LIGHTER, WHITE } from "../utils/colors";
 import { USER_BANNED, USER_UNBANNED } from "../utils/strings";
+import { ThemeContext } from "../utils/ThemeProvider";
 import { useBetterToast } from "../utils/useBetterToast";
 
 interface UserAdminRowProps {
@@ -17,10 +17,12 @@ interface UserAdminRowProps {
 }
 
 export const UserAdminRow: React.FC<UserAdminRowProps> = ({ user }) => {
+  const {
+    theme: { FRONT_COLOR_LIGHTER, WHITE },
+  } = useContext(ThemeContext);
   const [, banUser] = useBanUserMutation();
   const [, unbanUser] = useUnbanUserMutation();
   const { id, avatar, username, email, banned } = user;
-  console.log(user);
   const [isBanned, setBanned] = useState(banned);
   const toast = useBetterToast();
   useEffect(() => {

@@ -1,7 +1,7 @@
 import { FormControl, FormLabel } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { ACCENT_COLOR } from "../utils/colors";
+import React, { useContext, useEffect, useState } from "react";
 import { NEW_AVATAR_LABEL } from "../utils/strings";
+import { ThemeContext } from "../utils/ThemeProvider";
 
 interface FileUploaderProps {
   fieldName: string;
@@ -14,6 +14,9 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   setter: setFieldValue,
   file,
 }) => {
+  const {
+    theme: { ACCENT_COLOR },
+  } = useContext(ThemeContext);
   const [state, setState] = useState(undefined);
 
   useEffect(() => {

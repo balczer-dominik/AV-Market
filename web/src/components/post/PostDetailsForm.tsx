@@ -1,8 +1,7 @@
 import { Box, Flex, FormLabel, Heading } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { BiText } from "react-icons/bi";
 import { FaMoneyBillWave } from "react-icons/fa";
-import { ACCENT_COLOR } from "../../utils/colors";
 import {
   BASIC_DETAILS_LABEL,
   DESC_LABEL,
@@ -11,6 +10,7 @@ import {
   WearValues,
   WEAR_LABEL,
 } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 import { InputField } from "../InputField";
 import { WearTile } from "./WearTile";
 
@@ -31,6 +31,9 @@ export const PostDetailsForm: React.FC<PostDetailsFormProps> = ({
   category,
   setCategory,
 }) => {
+  const {
+    theme: { ACCENT_COLOR },
+  } = useContext(ThemeContext);
   return (
     <Box display={display ? "block" : "none"}>
       <Heading my={4} size="md">

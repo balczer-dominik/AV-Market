@@ -1,7 +1,6 @@
-export var currentMode: "LIGHT" | "DARK" = "DARK";
-
-export const themes = {
+export const ColorThemes = {
   DARK: {
+    name: "DARK-GREY",
     FRONT_COLOR: "#898989",
     FRONT_COLOR_ALT: "#505050",
     FRONT_COLOR_DARKER: "#a8a8a8",
@@ -16,8 +15,11 @@ export const themes = {
     ACCENT_COLOR: "#b8b3b3",
     WHITE: "#d7d7d7",
     BG_COLOR: "#1b1b1b",
+    SUN: "yellow.200",
+    MOON: "blue.200",
   },
   LIGHT: {
+    name: "LIGHT-BROWN",
     FRONT_COLOR: "#777672",
     FRONT_COLOR_ALT: "#777672",
     FRONT_COLOR_DARKER: "#63625d",
@@ -32,24 +34,7 @@ export const themes = {
     ACCENT_COLOR: "#30302c",
     WHITE: "white",
     BG_COLOR: "white",
+    SUN: "#777672",
+    MOON: "#777672",
   },
 };
-
-//Default
-export const FRONT_COLOR = themes[currentMode].FRONT_COLOR;
-export const FRONT_COLOR_ALT = themes[currentMode].FRONT_COLOR_ALT;
-export const FRONT_COLOR_DARKER = themes[currentMode].FRONT_COLOR_DARKER;
-export const FRONT_COLOR_LIGHTER = themes[currentMode].FRONT_COLOR_LIGHTER;
-export const FRONT_COLOR_LIGHTER_ALT =
-  themes[currentMode].FRONT_COLOR_LIGHTER_ALT;
-export const FRONT_COLOR_LIGHTEST = themes[currentMode].FRONT_COLOR_LIGHTEST;
-export const BACK_COLOR = themes[currentMode].BACK_COLOR;
-export const BACK_COLOR_LIGHTER = themes[currentMode].BACK_COLOR_LIGHTER;
-export const BACK_COLOR_LIGHTEST = themes[currentMode].BACK_COLOR_LIGHTEST;
-export const BACK_COLOR_LIGHTEST_ALT =
-  themes[currentMode].BACK_COLOR_LIGHTEST_ALT;
-export const BACK_COLOR_SEE_THROUGH =
-  themes[currentMode].BACK_COLOR_SEE_THROUGH;
-export const ACCENT_COLOR = themes[currentMode].ACCENT_COLOR;
-export const WHITE = themes[currentMode].WHITE;
-export const BG_COLOR = themes[currentMode].BG_COLOR;

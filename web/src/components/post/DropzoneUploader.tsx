@@ -1,9 +1,9 @@
 import { Box, SimpleGrid, Text } from "@chakra-ui/layout";
 import { Flex } from "@chakra-ui/react";
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 import Dropzone from "react-dropzone";
-import { FRONT_COLOR } from "../../utils/colors";
 import { DROPZONE_TEXT } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 import { DropzoneThumb } from "./DropzoneThumb";
 
 interface DropzoneUploaderProps {
@@ -17,6 +17,9 @@ export const DropzoneUploader: React.FC<DropzoneUploaderProps> = ({
   setter,
   images,
 }) => {
+  const {
+    theme: { FRONT_COLOR },
+  } = useContext(ThemeContext);
   const handleDrop = useCallback((acceptedFiles) => {
     setter(fieldName, images.concat(acceptedFiles));
   }, []);

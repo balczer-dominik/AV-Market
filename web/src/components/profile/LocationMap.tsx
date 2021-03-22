@@ -1,21 +1,18 @@
 import { Box, Flex, Heading, VStack } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import ReactMapboxGl from "react-mapbox-gl";
-import {
-  FRONT_COLOR_LIGHTER,
-  BACK_COLOR_LIGHTER,
-  FRONT_COLOR_LIGHTEST,
-  BACK_COLOR_LIGHTEST,
-  FRONT_COLOR,
-} from "../../utils/colors";
 import { MAPBOX_ACCESS_TOKEN } from "../../utils/env";
 import { LOCATION_LABEL, NO_LOCATION_PROVIDED } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface LocationMapProps {
   coordinates?: [number, number];
 }
 
 export const LocationMap: React.FC<LocationMapProps> = ({ coordinates }) => {
+  const {
+    theme: { FRONT_COLOR_LIGHTER, FRONT_COLOR_LIGHTEST, BACK_COLOR_LIGHTEST },
+  } = useContext(ThemeContext);
   const Map = ReactMapboxGl({ accessToken: MAPBOX_ACCESS_TOKEN });
   return (
     <>

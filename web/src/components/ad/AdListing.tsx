@@ -11,20 +11,12 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { BsImageFill } from "react-icons/bs";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { MdMail } from "react-icons/md";
 import { RiPhoneFill } from "react-icons/ri";
 import { AdSnippetFragment } from "../../generated/graphql";
-import {
-  FRONT_COLOR_DARKER,
-  FRONT_COLOR_LIGHTER,
-  FRONT_COLOR_LIGHTEST,
-  BACK_COLOR_LIGHTEST,
-  FRONT_COLOR,
-  WHITE,
-} from "../../utils/colors";
 import { formatDate } from "../../utils/formatDate";
 import {
   formatAdLink,
@@ -36,6 +28,7 @@ import { formatPhone } from "../../utils/formatPhoneNumber";
 import { formatPrice } from "../../utils/formatPrice";
 import { FEATURED_LABEL, LAST_UPDATE_AT } from "../../utils/strings";
 import { DropzoneThumb } from "../post/DropzoneThumb";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface AdListingProps {
   ad: Partial<AdSnippetFragment>;
@@ -59,6 +52,16 @@ export const AdListing: React.FC<AdListingProps> = ({
   noOutline = false,
   mt = 2,
 }) => {
+  const {
+    theme: {
+      FRONT_COLOR_DARKER,
+      FRONT_COLOR_LIGHTER,
+      FRONT_COLOR_LIGHTEST,
+      BACK_COLOR_LIGHTEST,
+      FRONT_COLOR,
+      WHITE,
+    },
+  } = useContext(ThemeContext);
   return (
     <Flex
       mt={mt}

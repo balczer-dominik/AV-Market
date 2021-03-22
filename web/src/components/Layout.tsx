@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import Head from "next/head";
-import React from "react";
-import { BG_COLOR, FRONT_COLOR } from "../utils/colors";
+import React, { useContext } from "react";
+import { ThemeContext } from "../utils/ThemeProvider";
 import { NavBar } from "./navbar/NavBar";
 
 export type LayoutVariant = "small" | "regular";
@@ -16,8 +16,16 @@ export const Layout: React.FC<LayoutProps> = ({
   variant = "regular",
   title,
 }) => {
+  const {
+    theme: { BG_COLOR, FRONT_COLOR },
+  } = useContext(ThemeContext);
   return (
     <Box w="full" bgColor={BG_COLOR} color={FRONT_COLOR} h="full">
+      <style jsx global>{`
+        body {
+          background-color: ${BG_COLOR};
+        }
+      `}</style>
       <NavBar />
       <Box
         maxWidth={variant === "regular" ? "850px" : "400px"}

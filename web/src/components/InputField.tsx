@@ -14,17 +14,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Field, useField } from "formik";
-import React, { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, useContext } from "react";
 import { IconType } from "react-icons";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import {
-  BG_COLOR,
-  FRONT_COLOR_LIGHTER,
-  FRONT_COLOR_LIGHTEST,
-  ACCENT_COLOR,
-  WHITE,
-} from "../utils/colors";
 import { HIDE_PASSWORD, SHOW_PASSWORD } from "../utils/strings";
+import { ThemeContext } from "../utils/ThemeProvider";
 
 type FieldType = "regular" | "password" | "number" | "textarea" | "select";
 
@@ -50,6 +44,15 @@ export const InputField: React.FC<InputFieldProps> = ({
   bgColor,
   ...props
 }) => {
+  const {
+    theme: {
+      BG_COLOR,
+      FRONT_COLOR_LIGHTER,
+      FRONT_COLOR_LIGHTEST,
+      ACCENT_COLOR,
+      WHITE,
+    },
+  } = useContext(ThemeContext);
   const [field, { error }] = useField(props);
   const { isOpen: showPassword, onToggle: togglePassword } = useDisclosure();
   return (

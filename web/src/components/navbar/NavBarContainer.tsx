@@ -1,8 +1,11 @@
 import { Flex } from "@chakra-ui/react";
-import React from "react";
-import { FRONT_COLOR, BACK_COLOR } from "../../utils/colors";
+import React, { useContext } from "react";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 export const NavBarContainer: React.FC = ({ children, ...props }) => {
+  const {
+    theme: { FRONT_COLOR, BACK_COLOR },
+  } = useContext(ThemeContext);
   return (
     <>
       <Flex

@@ -1,13 +1,7 @@
 import { Box, Heading, HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { MdMail, MdPhone } from "react-icons/md";
 import { RiMessengerFill } from "react-icons/ri";
-import {
-  FRONT_COLOR_LIGHTER,
-  FRONT_COLOR_LIGHTEST,
-  BACK_COLOR_LIGHTEST,
-  WHITE,
-} from "../../utils/colors";
 import { formatPhone } from "../../utils/formatPhoneNumber";
 import {
   CONTACTS_LABEL,
@@ -15,6 +9,7 @@ import {
   MESSENGER_LABEL,
   PHONE_LABEL,
 } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface UserDetailsProps {
   county?: string;
@@ -30,6 +25,14 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
   messenger,
   email,
 }) => {
+  const {
+    theme: {
+      FRONT_COLOR_LIGHTER,
+      FRONT_COLOR_LIGHTEST,
+      BACK_COLOR_LIGHTEST,
+      WHITE,
+    },
+  } = useContext(ThemeContext);
   return (
     <Box w="full">
       <VStack align="start" p={3} w="full">

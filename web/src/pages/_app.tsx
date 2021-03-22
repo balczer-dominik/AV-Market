@@ -1,8 +1,8 @@
 import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react";
 import "../utils/gallery-style.css";
+import { ThemeProvider } from "../utils/ThemeProvider";
 
 import theme from "../theme";
-import { BG_COLOR } from "../utils/colors";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -10,12 +10,9 @@ function MyApp({ Component, pageProps }) {
       <ColorModeProvider
         options={{ initialColorMode: "light", useSystemColorMode: false }}
       >
-        <style jsx global>{`
-          body {
-            background-color: ${BG_COLOR};
-          }
-        `}</style>
-        <Component {...pageProps} />
+        <ThemeProvider>
+          <Component {...pageProps} />
+        </ThemeProvider>
       </ColorModeProvider>
     </ChakraProvider>
   );

@@ -9,7 +9,7 @@ import {
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { MdMail } from "react-icons/md";
 import Stepper from "react-stepper-horizontal";
 import { Layout } from "../../components/Layout";
@@ -19,11 +19,6 @@ import { PostDetailsForm } from "../../components/post/PostDetailsForm";
 import { PostPreview } from "../../components/post/PostPreview";
 import { RegularButton } from "../../components/RegularButton";
 import { usePostMutation } from "../../generated/graphql";
-import {
-  FRONT_COLOR_DARKER,
-  FRONT_COLOR_LIGHTER,
-  FRONT_COLOR,
-} from "../../utils/colors";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import {
   BACK_BUTTON,
@@ -37,6 +32,7 @@ import {
   SUBMIT_BUTTON,
   UPLOAD_IMAGE_LABEL,
 } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 import { toErrorMap } from "../../utils/toErrorMap";
 import { useIsAuth } from "../../utils/useIsAuth";
 import { PostValidator } from "../../utils/validators";
@@ -50,6 +46,9 @@ const step = (label: string) => {
 
 const PostAd: React.FC<{}> = ({}) => {
   useIsAuth();
+  const {
+    theme: { FRONT_COLOR_DARKER, FRONT_COLOR_LIGHTER },
+  } = useContext(ThemeContext);
   const activeState = useState(0);
   const [activeStep, setStep] = activeState;
   const [details, setDetails] = useState({ main: "", sub: "", wear: "" });

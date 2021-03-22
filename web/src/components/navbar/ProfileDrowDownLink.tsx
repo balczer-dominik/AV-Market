@@ -1,10 +1,10 @@
 import { Flex, Icon, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import { IconType } from "react-icons/lib";
 import { useLogoutMutation } from "../../generated/graphql";
-import { FRONT_COLOR_LIGHTER, FRONT_COLOR } from "../../utils/colors";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface ProfileDrowDownLinkProps {
   icon: IconType;
@@ -19,6 +19,9 @@ export const ProfileDrowDownLink: React.FC<ProfileDrowDownLinkProps> = ({
   href,
   logout = false,
 }) => {
+  const {
+    theme: { FRONT_COLOR_LIGHTER, FRONT_COLOR },
+  } = useContext(ThemeContext);
   const [, useLogout] = useLogoutMutation();
   const router = useRouter();
 

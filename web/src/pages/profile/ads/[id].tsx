@@ -9,23 +9,26 @@ import {
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AdListing } from "../../../components/ad/AdListing";
 import { Layout } from "../../../components/Layout";
 import { useUserAdsQuery } from "../../../generated/graphql";
-import {
-  FRONT_COLOR_DARKER,
-  FRONT_COLOR_LIGHTER,
-  FRONT_COLOR_LIGHTEST,
-  WHITE,
-} from "../../../utils/colors";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { formatProfileLink } from "../../../utils/formatLinks";
 import { isServer } from "../../../utils/isServer";
 import { LOADING_TITLE, USERS_ADS_LABEL } from "../../../utils/strings";
+import { ThemeContext } from "../../../utils/ThemeProvider";
 import { useGetIdFromUrl } from "../../../utils/useGetIdFromUrl";
 
 const UserAds: React.FC<{}> = () => {
+  const {
+    theme: {
+      FRONT_COLOR_DARKER,
+      FRONT_COLOR_LIGHTER,
+      FRONT_COLOR_LIGHTEST,
+      WHITE,
+    },
+  } = useContext(ThemeContext);
   const [page, setPage] = useState(0);
   const intId = useGetIdFromUrl();
   const [{ data }] = useUserAdsQuery({

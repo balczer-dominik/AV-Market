@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, VStack } from "@chakra-ui/react";
+import { Box, Flex, VStack } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 import { AdRecent } from "../../../components/ad/AdRecent";

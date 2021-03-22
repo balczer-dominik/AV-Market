@@ -1,12 +1,6 @@
 import { Button } from "@chakra-ui/react";
-import React from "react";
-import {
-  FRONT_COLOR_DARKER,
-  FRONT_COLOR_LIGHTER,
-  FRONT_COLOR,
-  ACCENT_COLOR,
-  WHITE,
-} from "../utils/colors";
+import React, { useContext } from "react";
+import { ThemeContext } from "../utils/ThemeProvider";
 
 type ButtonVariant =
   | "link"
@@ -34,6 +28,15 @@ export const RegularButton: React.FC<SubmitButtonProps> = ({
   disabled = false,
   w,
 }) => {
+  const {
+    theme: {
+      FRONT_COLOR_DARKER,
+      FRONT_COLOR_LIGHTER,
+      FRONT_COLOR,
+      ACCENT_COLOR,
+      WHITE,
+    },
+  } = useContext(ThemeContext);
   return (
     <Button
       disabled={disabled.valueOf()}

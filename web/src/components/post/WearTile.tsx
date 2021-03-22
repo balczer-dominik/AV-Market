@@ -1,12 +1,7 @@
 import { Flex, Link, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { IconType } from "react-icons";
-import {
-  FRONT_COLOR_DARKER,
-  FRONT_COLOR_LIGHTER,
-  BACK_COLOR,
-  WHITE,
-} from "../../utils/colors";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface WearTileProps {
   name: string;
@@ -24,6 +19,9 @@ export const WearTile: React.FC<WearTileProps> = ({
   rightmost = false,
   select,
 }) => {
+  const {
+    theme: { FRONT_COLOR_DARKER, FRONT_COLOR_LIGHTER, BACK_COLOR, WHITE },
+  } = useContext(ThemeContext);
   return (
     <Link style={{ textDecoration: "none" }} onClick={() => select()} w="20%">
       <Flex

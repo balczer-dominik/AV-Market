@@ -1,14 +1,8 @@
 import { Flex, Heading, HStack, Icon, Link } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { FaArrowDown, FaArrowUp, FaCoins } from "react-icons/fa";
 import { OrderOption, SortByOption } from "../../generated/graphql";
-import {
-  BACK_COLOR_LIGHTER,
-  FRONT_COLOR_LIGHTEST,
-  FRONT_COLOR,
-  WHITE,
-} from "../../utils/colors";
 import {
   ORDER_ASCENDING_LABEL,
   ORDER_DESCENDING_LABEL,
@@ -16,6 +10,7 @@ import {
   SORT_BY_PRICE_LABEL,
   SORT_BY_UPLOAD_LABEL,
 } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface AdSortingButtonsProps {
   setter: React.Dispatch<
@@ -46,6 +41,9 @@ export const AdSortingButtons: React.FC<AdSortingButtonsProps> = ({
   setter,
   state,
 }) => {
+  const {
+    theme: { BACK_COLOR_LIGHTER, FRONT_COLOR_LIGHTEST, FRONT_COLOR, WHITE },
+  } = useContext(ThemeContext);
   const sortButtons = [
     {
       aria: SORT_BY_UPLOAD_LABEL,

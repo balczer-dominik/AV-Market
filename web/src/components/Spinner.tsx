@@ -1,13 +1,12 @@
 import { Flex } from "@chakra-ui/layout";
 import { Spinner as ChakraSpinner } from "@chakra-ui/react";
-import React from "react";
-import {
-  FRONT_COLOR_LIGHTER,
-  BACK_COLOR_LIGHTEST,
-  FRONT_COLOR,
-} from "../utils/colors";
+import React, { useContext } from "react";
+import { ThemeContext } from "../utils/ThemeProvider";
 
 export const Spinner: React.FC<{ height: string }> = ({ height }) => {
+  const {
+    theme: { BACK_COLOR_LIGHTEST, FRONT_COLOR },
+  } = useContext(ThemeContext);
   return (
     <Flex
       align="center"

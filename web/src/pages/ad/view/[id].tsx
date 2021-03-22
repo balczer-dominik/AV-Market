@@ -1,6 +1,6 @@
 import { Box, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
-import React from "react";
+import React, { useContext } from "react";
 import { BiDetail } from "react-icons/bi";
 import { BsImageFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
@@ -16,7 +16,6 @@ import {
   Categories,
   MainCategory,
 } from "../../../components/navbar/MenuRoutes";
-import { BACK_COLOR_LIGHTER, FRONT_COLOR } from "../../../utils/colors";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { formatDate } from "../../../utils/formatDate";
 import { formatImageGallery } from "../../../utils/formatImageGallery";
@@ -34,11 +33,15 @@ import {
   OTHER_ADS_LABEL,
   SEARCH_AD_PAGE_TITLE,
 } from "../../../utils/strings";
+import { ThemeContext } from "../../../utils/ThemeProvider";
 import { useGetAdFromUrl } from "../../../utils/useGetAdFromUrl";
 
 interface ViewAdProps {}
 
 const ViewAd: React.FC<ViewAdProps> = ({}) => {
+  const {
+    theme: { BACK_COLOR_LIGHTER, FRONT_COLOR },
+  } = useContext(ThemeContext);
   const [{ data }] = useGetAdFromUrl();
   const ad = data ? data.ad.ad : null;
 

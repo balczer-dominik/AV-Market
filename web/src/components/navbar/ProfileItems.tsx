@@ -1,14 +1,14 @@
 import { Box, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { BiDetail, BiLogOut } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { MeQuery } from "../../generated/graphql";
-import { BACK_COLOR_LIGHTER, BACK_COLOR_SEE_THROUGH } from "../../utils/colors";
 import {
   LOGOUT_LABEL,
   MY_AD_LABEL,
   PROFILE_VIEW_LABEL,
 } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 import { ProfileDrowDownLink } from "./ProfileDrowDownLink";
 
 interface ProfileItemsProps {
@@ -16,6 +16,9 @@ interface ProfileItemsProps {
 }
 
 export const ProfileItems: React.FC<ProfileItemsProps> = ({ userData }) => {
+  const {
+    theme: { BACK_COLOR_LIGHTER, BACK_COLOR_SEE_THROUGH },
+  } = useContext(ThemeContext);
   return (
     <Box
       bg={{

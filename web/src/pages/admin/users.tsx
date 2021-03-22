@@ -10,21 +10,20 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Layout } from "../../components/Layout";
 import { UserAdminRow } from "../../components/UserAdminRow";
 import { useGetUsersQuery } from "../../generated/graphql";
-import {
-  FRONT_COLOR_LIGHTER,
-  FRONT_COLOR_LIGHTEST,
-  WHITE,
-} from "../../utils/colors";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { isServer } from "../../utils/isServer";
+import { ThemeContext } from "../../utils/ThemeProvider";
 import { useIsAdmin } from "../../utils/useIsAdmin";
 
 const Users: React.FC<{}> = () => {
   useIsAdmin();
+  const {
+    theme: { FRONT_COLOR_LIGHTER, FRONT_COLOR_LIGHTEST, WHITE },
+  } = useContext(ThemeContext);
   const [page, setPage] = useState(0);
   const [{ data }] = useGetUsersQuery({
     variables: { limit: 5, offset: 5 * page },

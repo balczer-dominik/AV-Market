@@ -6,10 +6,10 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { isMobile } from "react-device-detect";
 import { IoIosArrowDown } from "react-icons/io";
-import { FRONT_COLOR_DARKER, FRONT_COLOR } from "../../utils/colors";
+import { ThemeContext } from "../../utils/ThemeProvider";
 import { CategoryDropDown } from "./CategoryDropDown";
 import { Categories, MainCategory } from "./MenuRoutes";
 
@@ -20,6 +20,9 @@ interface MenuItemProps {
 export const MenuItem: React.FC<MenuItemProps> = ({
   category: categoryName,
 }) => {
+  const {
+    theme: { FRONT_COLOR_DARKER, FRONT_COLOR },
+  } = useContext(ThemeContext);
   const { isOpen, onToggle } = useDisclosure();
   const category = Categories[categoryName];
 

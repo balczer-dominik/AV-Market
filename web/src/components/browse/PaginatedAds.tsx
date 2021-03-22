@@ -1,12 +1,12 @@
 import { Box, Flex } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import {
   OrderOption,
   SortByOption,
   useAdsQuery,
 } from "../../generated/graphql";
-import { FRONT_COLOR_LIGHTER } from "../../utils/colors";
 import { LOAD_MORE_BUTTON } from "../../utils/strings";
+import { ThemeContext } from "../../utils/ThemeProvider";
 import { AdListing } from "../ad/AdListing";
 import { MainCategory } from "../navbar/MenuRoutes";
 import { RegularButton } from "../RegularButton";
@@ -48,6 +48,9 @@ export const PaginatedAds: React.FC<PaginatedAdsProps> = ({
   category,
   subcategory,
 }) => {
+  const {
+    theme: { FRONT_COLOR_LIGHTER },
+  } = useContext(ThemeContext);
   //Query
   const [{ data, fetching }] = useAdsQuery({
     variables: {

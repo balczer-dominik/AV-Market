@@ -1,8 +1,8 @@
 import { Flex, Icon, Link, Text, Image } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { IconType } from "react-icons";
-import { FRONT_COLOR } from "../../utils/colors";
 import { formatAvatarLink } from "../../utils/formatLinks";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface AdDetailProps {
   icon?: IconType;
@@ -17,6 +17,9 @@ export const AdDetail: React.FC<AdDetailProps> = ({
   href,
   avatar,
 }) => {
+  const {
+    theme: { FRONT_COLOR },
+  } = useContext(ThemeContext);
   return (
     <Flex
       color={FRONT_COLOR}

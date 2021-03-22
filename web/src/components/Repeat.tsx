@@ -10,5 +10,5 @@ export const Repeat: React.FC<RepeatProps> = ({ n, children }) => {
   for (var _i = 0; _i < n; _i++) {
     toRender.push(children);
   }
-  return toRender.map((i) => i);
+  return <>{toRender.map((i) => i)}</>;
 };

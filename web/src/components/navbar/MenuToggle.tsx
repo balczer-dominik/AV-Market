@@ -1,7 +1,7 @@
 import { HamburgerIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { Box, IconButton } from "@chakra-ui/react";
-import React from "react";
-import { FRONT_COLOR } from "../../utils/colors";
+import React, { useContext } from "react";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface MenuToggleProps {
   toggle: () => void;
@@ -9,6 +9,9 @@ interface MenuToggleProps {
 }
 
 export const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => {
+  const {
+    theme: { FRONT_COLOR },
+  } = useContext(ThemeContext);
   return (
     <Box
       w={{ base: null, md: "0%" }}

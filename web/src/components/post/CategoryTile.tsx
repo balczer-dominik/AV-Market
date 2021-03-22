@@ -1,8 +1,8 @@
 import Icon from "@chakra-ui/icon";
 import { Flex, Link, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { IconType } from "react-icons";
-import { FRONT_COLOR, WHITE } from "../../utils/colors";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface CategoryTileProps {
   name: string;
@@ -17,6 +17,9 @@ export const CategoryTile: React.FC<CategoryTileProps> = ({
   disabled,
   select,
 }) => {
+  const {
+    theme: { FRONT_COLOR, WHITE },
+  } = useContext(ThemeContext);
   return (
     <Link
       style={{ textDecoration: "none" }}

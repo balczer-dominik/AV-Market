@@ -10,11 +10,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { FaEdit, FaHeart, FaTruck, FaUser } from "react-icons/fa";
 import { ImPriceTags } from "react-icons/im";
 import { RiChat3Fill } from "react-icons/ri";
-import { FRONT_COLOR_LIGHTEST, BACK_COLOR_LIGHTEST } from "../../utils/colors";
 import { formatAdsLink, formatAvatarLink } from "../../utils/formatLinks";
 import {
   LEAVE_FEEDBACK_LABEL,
@@ -23,6 +22,7 @@ import {
 } from "../../utils/strings";
 import { RegularButton } from "../RegularButton";
 import { useMeIdQuery } from "../../generated/graphql";
+import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface UserCardProps {
   userId: number;
@@ -59,6 +59,9 @@ export const UserCard: React.FC<UserCardProps> = ({
   adCount,
   deliveryCount,
 }) => {
+  const {
+    theme: { FRONT_COLOR_LIGHTEST, BACK_COLOR_LIGHTEST },
+  } = useContext(ThemeContext);
   const [{ data }] = useMeIdQuery();
   return (
     <Box width={{ base: "full", md: "30%" }}>
