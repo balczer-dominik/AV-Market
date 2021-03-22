@@ -1,15 +1,17 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useMeQuery } from "../generated/graphql";
-import { ACCESS_DENIED, ERROR_GENERIC, ERROR_NOT_AUTHORIZED } from "./strings";
-import { useBetterToast } from "./useBetterToast";
+import { useMeQuery } from "@generated/graphql";
+import {
+  ACCESS_DENIED,
+  ERROR_GENERIC,
+  ERROR_NOT_AUTHORIZED,
+} from "@utils/strings";
+import { useBetterToast } from "@utils/useBetterToast";
 
 export const useIsAdmin = () => {
   const [{ data, fetching }] = useMeQuery();
   const toast = useBetterToast();
   const router = useRouter();
-
-  let render: Boolean = false;
 
   useEffect(() => {
     if (!fetching && !data?.me) {

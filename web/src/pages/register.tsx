@@ -1,17 +1,9 @@
 import { Heading, Stack, Text } from "@chakra-ui/react";
-import { ThemeContext } from "@utils/ThemeProvider";
-import { Form, Formik } from "formik";
-import { withUrqlClient } from "next-urql";
-import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import { FaUser } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { RiLockPasswordFill } from "react-icons/ri";
-import { InputField } from "../components/InputField";
-import { Layout } from "../components/Layout";
-import { RegularButton } from "../components/RegularButton";
-import { useRegisterMutation } from "../generated/graphql";
-import { createUrqlClient } from "../utils/createUrqlClient";
+import { InputField } from "@components/InputField";
+import { Layout } from "@components/Layout";
+import { RegularButton } from "@components/RegularButton";
+import { useRegisterMutation } from "@generated/graphql";
+import { createUrqlClient } from "@utils/createUrqlClient";
 import {
   CONFIRM_PASSWORD_LABEL,
   EMAIL_LABEL_REQUIRED,
@@ -26,10 +18,18 @@ import {
   REGISTER_USERNAME_HINT,
   REQUIRED_FIELDS_HINT,
   USERNAME_LABEL_REQUIRED,
-} from "../utils/strings";
-import { toErrorMap } from "../utils/toErrorMap";
-import { useBetterToast } from "../utils/useBetterToast";
-import { RegisterValidator } from "../utils/validators";
+} from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
+import { toErrorMap } from "@utils/toErrorMap";
+import { useBetterToast } from "@utils/useBetterToast";
+import { RegisterValidator } from "@utils/validators";
+import { Form, Formik } from "formik";
+import { withUrqlClient } from "next-urql";
+import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import { FaUser } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { RiLockPasswordFill } from "react-icons/ri";
 
 interface registerProps {}
 

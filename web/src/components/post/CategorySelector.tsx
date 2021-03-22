@@ -1,7 +1,7 @@
 import { SimpleGrid } from "@chakra-ui/layout";
 import React from "react";
-import { Categories, MainCategories } from "../navbar/MenuRoutes";
-import { CategoryTile } from "./CategoryTile";
+import { Categories, MainCategories } from "@components/MenuRoutes";
+import { CategoryTile } from "@components/CategoryTile";
 
 interface CategorySelectorProps {
   category: { main: string; sub: string; wear: string };

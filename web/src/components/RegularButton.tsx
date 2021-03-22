@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { ThemeContext } from "../utils/ThemeProvider";
+import { ThemeContext } from "@utils/ThemeProvider";
 
 type ButtonVariant =
   | "link"

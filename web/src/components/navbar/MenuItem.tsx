@@ -6,12 +6,12 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { CategoryDropDown } from "@components/CategoryDropDown";
+import { Categories, MainCategory } from "@components/MenuRoutes";
+import { ThemeContext } from "@utils/ThemeProvider";
 import React, { useContext } from "react";
 import { isMobile } from "react-device-detect";
 import { IoIosArrowDown } from "react-icons/io";
-import { ThemeContext } from "../../utils/ThemeProvider";
-import { CategoryDropDown } from "./CategoryDropDown";
-import { Categories, MainCategory } from "./MenuRoutes";
 
 interface MenuItemProps {
   category: MainCategory;

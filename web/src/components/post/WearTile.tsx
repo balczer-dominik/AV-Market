@@ -1,7 +1,7 @@
 import { Flex, Link, Text } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { IconType } from "react-icons";
-import { ThemeContext } from "../../utils/ThemeProvider";
+import { ThemeContext } from "@utils/ThemeProvider";
 
 interface WearTileProps {
   name: string;

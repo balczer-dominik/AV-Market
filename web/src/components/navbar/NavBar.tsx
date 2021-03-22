@@ -1,10 +1,10 @@
 import { useDisclosure } from "@chakra-ui/react";
 import React from "react";
-import { MenuLinks } from "./MenuLinks";
-import { MenuToggle } from "./MenuToggle";
-import { NavBarContainer } from "./NavBarContainer";
-import { ProfileSection } from "./ProfileSection";
-import { Title } from "./Title";
+import { MenuLinks } from "@components/MenuLinks";
+import { MenuToggle } from "@components/MenuToggle";
+import { NavBarContainer } from "@components/NavBarContainer";
+import { ProfileSection } from "@components/ProfileSection";
+import { Title } from "@components/Title";
 
 export const NavBar: React.FC = (props) => {
   const { isOpen, onToggle } = useDisclosure();

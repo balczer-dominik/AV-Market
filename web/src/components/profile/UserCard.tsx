@@ -16,14 +16,14 @@ import { FaEdit, FaHeart, FaTruck, FaUser } from "react-icons/fa";
 import { ImPriceTags } from "react-icons/im";
 import { RiChat3Fill } from "react-icons/ri";
 import { useMeIdQuery } from "../../generated/graphql";
-import { formatAdsLink, formatAvatarLink } from "../../utils/formatLinks";
-import { isServer } from "../../utils/isServer";
+import { formatAdsLink, formatAvatarLink } from "@utils/formatLinks";
+import { isServer } from "@utils/isServer";
 import {
   LEAVE_FEEDBACK_LABEL,
   PROFILE_EDIT_LABEL,
   SEND_MESSAGE_LABEL,
-} from "../../utils/strings";
-import { ThemeContext } from "../../utils/ThemeProvider";
+} from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
 import { RegularButton } from "../RegularButton";
 
 interface UserCardProps {

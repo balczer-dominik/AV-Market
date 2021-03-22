@@ -1,10 +1,10 @@
 import { Flex, Icon, Link, Text } from "@chakra-ui/react";
+import { useLogoutMutation } from "@generated/graphql";
+import { ThemeContext } from "@utils/ThemeProvider";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import { IconType } from "react-icons/lib";
-import { useLogoutMutation } from "../../generated/graphql";
-import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface ProfileDrowDownLinkProps {
   icon: IconType;

@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react";
+import { NavBar } from "@components/NavBar";
+import { ThemeContext } from "@utils/ThemeProvider";
 import Head from "next/head";
 import React, { useContext } from "react";
-import { ThemeContext } from "../utils/ThemeProvider";
-import { NavBar } from "./navbar/NavBar";
 
 export type LayoutVariant = "small" | "regular";
 

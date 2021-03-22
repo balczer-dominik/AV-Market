@@ -1,14 +1,14 @@
 import { Box, Flex, VStack } from "@chakra-ui/react";
+import { AdRecent } from "@components/AdRecent";
+import { Layout } from "@components/Layout";
+import { LocationMap } from "@components/LocationMap";
+import { UserCard } from "@components/UserCard";
+import { UserDetails } from "@components/UserDetails";
+import { createUrqlClient } from "@utils/createUrqlClient";
+import { LOADING_TITLE, USERS_RECENT_ADS_LABEL } from "@utils/strings";
+import { useGetUserFromId } from "@utils/useGetUserFromId";
 import { withUrqlClient } from "next-urql";
-import React, { useEffect } from "react";
-import { AdRecent } from "../../../components/ad/AdRecent";
-import { Layout } from "../../../components/Layout";
-import { LocationMap } from "../../../components/profile/LocationMap";
-import { UserCard } from "../../../components/profile/UserCard";
-import { UserDetails } from "../../../components/profile/UserDetails";
-import { createUrqlClient } from "../../../utils/createUrqlClient";
-import { LOADING_TITLE, USERS_RECENT_ADS_LABEL } from "../../../utils/strings";
-import { useGetUserFromId } from "../../../utils/useGetUserFromId";
+import React from "react";
 
 interface ViewProfileProps {}
 

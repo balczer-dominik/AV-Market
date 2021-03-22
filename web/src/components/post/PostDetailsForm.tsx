@@ -9,10 +9,10 @@ import {
   TITLE_LABEL,
   WearValues,
   WEAR_LABEL,
-} from "../../utils/strings";
-import { ThemeContext } from "../../utils/ThemeProvider";
-import { InputField } from "../InputField";
-import { WearTile } from "./WearTile";
+} from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
+import { InputField } from "@components/InputField";
+import { WearTile } from "@components/WearTile";
 
 interface PostDetailsFormProps {
   display: Boolean;

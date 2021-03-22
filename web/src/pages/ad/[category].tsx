@@ -1,10 +1,10 @@
+import { BrowseAds } from "@components/BrowseAds";
+import { Layout } from "@components/Layout";
+import { Categories, MainCategory } from "@components/MenuRoutes";
+import { createUrqlClient } from "@utils/createUrqlClient";
+import { getCategoriesFromURL } from "@utils/getCategoriesFromURL";
 import { withUrqlClient } from "next-urql";
 import React from "react";
-import { BrowseAds } from "../../components/browse/BrowseAds";
-import { Layout } from "../../components/Layout";
-import { Categories, MainCategory } from "../../components/navbar/MenuRoutes";
-import { createUrqlClient } from "../../utils/createUrqlClient";
-import { getCategoriesFromURL } from "../../utils/getCategoriesFromURL";
 
 export const CategoryPage: React.FC<{}> = () => {
   const { category, subcategory } = getCategoriesFromURL();

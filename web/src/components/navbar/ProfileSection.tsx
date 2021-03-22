@@ -7,18 +7,18 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { LoginDialogue } from "@components/LoginDialogue";
+import { PostAdButton } from "@components/PostAdButton";
+import { ProfileContainer } from "@components/ProfileContainer";
+import { ThemeSwitcher } from "@components/ThemeSwitcher";
+import { useMeQuery } from "@generated/graphql";
+import { isServer } from "@utils/isServer";
+import { LOGIN_LABEL, REGISTER_LABEL } from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
 import NextLink from "next/link";
 import React, { useContext } from "react";
 import { BiLogIn } from "react-icons/bi";
 import { FaUserPlus } from "react-icons/fa";
-import { useMeQuery } from "../../generated/graphql";
-import { isServer } from "../../utils/isServer";
-import { LOGIN_LABEL, REGISTER_LABEL } from "../../utils/strings";
-import { ThemeContext } from "../../utils/ThemeProvider";
-import { LoginDialogue } from "../LoginDialogue";
-import { PostAdButton } from "./PostAdButton";
-import { ProfileContainer } from "./ProfileContainer";
-import { ThemeSwitcher } from "./ThemeSwitcher";
 
 export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   const {

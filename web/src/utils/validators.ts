@@ -14,7 +14,7 @@ import {
   USERNAME_CONTAINS_FORBIDDEN,
   USERNAME_TOO_LONG,
   USERNAME_TOO_SHORT,
-} from "./strings";
+} from "@utils/strings";
 
 const emailValidation = Yup.string().email(INCORRECT_EMAIL_FORMAT);
 

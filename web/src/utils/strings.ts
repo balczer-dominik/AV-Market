@@ -172,6 +172,8 @@ export const SEARCH_AD_PAGE_TITLE = "Hirdetések";
 export const NO_LOCATION_PROVIDED = "Nincsen tartózkodási hely megadva.";
 export const NO_OTHER_RECENT_ADS =
   "A felhasználónak nincsenek további hirdetései.";
+export const ADVERTISE_LABEL = "Hirdetne?";
+export const SHOP_LABEL = "Vásárolna?";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";

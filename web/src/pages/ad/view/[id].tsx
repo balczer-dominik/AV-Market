@@ -8,33 +8,30 @@ import { GiShinyEntrance } from "react-icons/gi";
 import { ImLocation, ImPriceTag } from "react-icons/im";
 import ReactImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-import { AdDetail } from "../../../components/ad/AdDetail";
-import { AdRecent } from "../../../components/ad/AdRecent";
-import { Breadcrumbs } from "../../../components/ad/Breadcrumbs";
-import { Layout } from "../../../components/Layout";
-import {
-  Categories,
-  MainCategory,
-} from "../../../components/navbar/MenuRoutes";
-import { createUrqlClient } from "../../../utils/createUrqlClient";
-import { formatDate } from "../../../utils/formatDate";
-import { formatImageGallery } from "../../../utils/formatImageGallery";
+import { AdDetail } from "@components/AdDetail";
+import { AdRecent } from "@components/AdRecent";
+import { Breadcrumbs } from "@components/Breadcrumbs";
+import { Layout } from "@components/Layout";
+import { Categories, MainCategory } from "@components/MenuRoutes";
+import { createUrqlClient } from "@utils/createUrqlClient";
+import { formatDate } from "@utils/formatDate";
+import { formatImageGallery } from "@utils/formatImageGallery";
 import {
   formatBrowseCategory,
   formatBrowseSubCategory,
   formatProfileLink,
-} from "../../../utils/formatLinks";
-import { formatLocation } from "../../../utils/formatLocation";
-import { formatPrice } from "../../../utils/formatPrice";
+} from "@utils/formatLinks";
+import { formatLocation } from "@utils/formatLocation";
+import { formatPrice } from "@utils/formatPrice";
 import {
   HOME_PAGE,
   LOADING_TITLE,
   NO_IMAGES,
   OTHER_ADS_LABEL,
   SEARCH_AD_PAGE_TITLE,
-} from "../../../utils/strings";
-import { ThemeContext } from "../../../utils/ThemeProvider";
-import { useGetAdFromUrl } from "../../../utils/useGetAdFromUrl";
+} from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
+import { useGetAdFromUrl } from "@utils/useGetAdFromUrl";
 
 interface ViewAdProps {}
 

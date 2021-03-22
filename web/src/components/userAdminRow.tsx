@@ -1,14 +1,14 @@
 import { Button, Flex, Icon, Image, Td, Tr } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
-import { FaCheck, FaHammer } from "react-icons/fa";
 import {
   useBanUserMutation,
   User,
   useUnbanUserMutation,
-} from "../generated/graphql";
-import { USER_BANNED, USER_UNBANNED } from "../utils/strings";
-import { ThemeContext } from "../utils/ThemeProvider";
-import { useBetterToast } from "../utils/useBetterToast";
+} from "@generated/graphql";
+import { USER_BANNED, USER_UNBANNED } from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
+import { useBetterToast } from "@utils/useBetterToast";
+import React, { useContext, useEffect, useState } from "react";
+import { FaCheck, FaHammer } from "react-icons/fa";
 
 interface UserAdminRowProps {
   user: {

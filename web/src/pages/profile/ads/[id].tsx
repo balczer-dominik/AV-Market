@@ -7,18 +7,18 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
+import { AdListing } from "@components/AdListing";
+import { Layout } from "@components/Layout";
+import { useUserAdsQuery } from "@generated/graphql";
+import { createUrqlClient } from "@utils/createUrqlClient";
+import { formatProfileLink } from "@utils/formatLinks";
+import { isServer } from "@utils/isServer";
+import { LOADING_TITLE, USERS_ADS_LABEL } from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
+import { useGetIdFromUrl } from "@utils/useGetIdFromUrl";
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";
 import React, { useContext, useState } from "react";
-import { AdListing } from "../../../components/ad/AdListing";
-import { Layout } from "../../../components/Layout";
-import { useUserAdsQuery } from "../../../generated/graphql";
-import { createUrqlClient } from "../../../utils/createUrqlClient";
-import { formatProfileLink } from "../../../utils/formatLinks";
-import { isServer } from "../../../utils/isServer";
-import { LOADING_TITLE, USERS_ADS_LABEL } from "../../../utils/strings";
-import { ThemeContext } from "../../../utils/ThemeProvider";
-import { useGetIdFromUrl } from "../../../utils/useGetIdFromUrl";
 
 const UserAds: React.FC<{}> = () => {
   const {

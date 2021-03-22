@@ -7,7 +7,7 @@ import {
   useChangeContactsMutation,
   useMeContactsQuery,
 } from "../../generated/graphql";
-import { formatPhone } from "../../utils/formatPhoneNumber";
+import { formatPhone } from "@utils/formatPhoneNumber";
 import {
   CHANGE_CONTACTS_SUCCESS,
   CONFIRM_CHANGE_LABEL,
@@ -18,10 +18,10 @@ import {
   NEW_EMAIL_LABEL,
   NEW_MESSENGER_LABEL,
   NEW_PHONE_LABEL,
-} from "../../utils/strings";
-import { toErrorMap } from "../../utils/toErrorMap";
-import { useBetterToast } from "../../utils/useBetterToast";
-import { ChangeEmailValidator } from "../../utils/validators";
+} from "@utils/strings";
+import { toErrorMap } from "@utils/toErrorMap";
+import { useBetterToast } from "@utils/useBetterToast";
+import { ChangeEmailValidator } from "@utils/validators";
 import { InputField } from "../InputField";
 import { RegularButton } from "../RegularButton";
 

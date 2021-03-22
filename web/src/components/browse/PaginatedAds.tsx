@@ -1,17 +1,13 @@
 import { Box, Flex } from "@chakra-ui/react";
+import { AdListing } from "@components/AdListing";
+import { MainCategory } from "@components/MenuRoutes";
+import { RegularButton } from "@components/RegularButton";
+import { Repeat } from "@components/Repeat";
+import { Spinner } from "@components/Spinner";
+import { OrderOption, SortByOption, useAdsQuery } from "@generated/graphql";
+import { LOAD_MORE_BUTTON } from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
 import React, { useContext } from "react";
-import {
-  OrderOption,
-  SortByOption,
-  useAdsQuery,
-} from "../../generated/graphql";
-import { LOAD_MORE_BUTTON } from "../../utils/strings";
-import { ThemeContext } from "../../utils/ThemeProvider";
-import { AdListing } from "../ad/AdListing";
-import { MainCategory } from "../navbar/MenuRoutes";
-import { RegularButton } from "../RegularButton";
-import { Repeat } from "../Repeat";
-import { Spinner } from "../Spinner";
 
 interface PaginatedAdsProps {
   pageVariables: {

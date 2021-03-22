@@ -1,7 +1,7 @@
 import { Icon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { HStack } from "@chakra-ui/layout";
 import { Switch } from "@chakra-ui/switch";
-import { ThemeContext } from "../../utils/ThemeProvider";
+import { ThemeContext } from "@utils/ThemeProvider";
 import React, { useContext } from "react";
 
 interface ThemeSwitcherProps {}

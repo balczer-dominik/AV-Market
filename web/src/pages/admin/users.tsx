@@ -9,15 +9,15 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { Layout } from "@components/Layout";
+import { UserAdminRow } from "@components/UserAdminRow";
+import { useGetUsersQuery } from "@generated/graphql";
+import { createUrqlClient } from "@utils/createUrqlClient";
+import { isServer } from "@utils/isServer";
+import { ThemeContext } from "@utils/ThemeProvider";
+import { useIsAdmin } from "@utils/useIsAdmin";
 import { withUrqlClient } from "next-urql";
 import React, { useContext, useState } from "react";
-import { Layout } from "../../components/Layout";
-import { UserAdminRow } from "../../components/UserAdminRow";
-import { useGetUsersQuery } from "../../generated/graphql";
-import { createUrqlClient } from "../../utils/createUrqlClient";
-import { isServer } from "../../utils/isServer";
-import { ThemeContext } from "../../utils/ThemeProvider";
-import { useIsAdmin } from "../../utils/useIsAdmin";
 
 const Users: React.FC<{}> = () => {
   useIsAdmin();

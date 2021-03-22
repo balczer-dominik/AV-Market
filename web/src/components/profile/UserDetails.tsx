@@ -2,14 +2,14 @@ import { Box, Heading, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { MdMail, MdPhone } from "react-icons/md";
 import { RiMessengerFill } from "react-icons/ri";
-import { formatPhone } from "../../utils/formatPhoneNumber";
+import { formatPhone } from "@utils/formatPhoneNumber";
 import {
   CONTACTS_LABEL,
   EMAIL_LABEL,
   MESSENGER_LABEL,
   PHONE_LABEL,
-} from "../../utils/strings";
-import { ThemeContext } from "../../utils/ThemeProvider";
+} from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
 
 interface UserDetailsProps {
   county?: string;

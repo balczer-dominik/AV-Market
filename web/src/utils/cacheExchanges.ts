@@ -6,8 +6,8 @@ import {
   MeQuery,
   RegisterMutation,
   UploadAvatarMutation,
-} from "../generated/graphql";
-import { betterUpdateQuery } from "./betterUpdateQuery";
+} from "@generated/graphql";
+import { betterUpdateQuery } from "@utils/betterUpdateQuery";
 
 export const cacheExchanges: CacheExchangeOpts = {
   updates: {

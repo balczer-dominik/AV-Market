@@ -1,7 +1,7 @@
 import { Box, Stack } from "@chakra-ui/react";
+import { MenuItem } from "@components/MenuItem";
+import { MainCategories, MainCategory } from "@components/MenuRoutes";
 import React from "react";
-import { MenuItem } from "./MenuItem";
-import { MainCategories, MainCategory } from "./MenuRoutes";
 
 export const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   return (

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useAdQuery } from "../generated/graphql";
+import { useAdQuery } from "@generated/graphql";
 
 export const useGetAdFromUrl = () => {
   const router = useRouter();

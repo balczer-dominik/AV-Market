@@ -1,16 +1,16 @@
 import { Stack, VStack } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { OrderOption, SortByOption } from "../../generated/graphql";
+import { AdSearchbox } from "@components/AdSearchbox";
+import { AdSortingButtons } from "@components/AdSortingButtons";
+import { Breadcrumbs } from "@components/Breadcrumbs";
+import { Categories, MainCategory } from "@components/MenuRoutes";
+import { PaginatedAds } from "@components/PaginatedAds";
+import { OrderOption, SortByOption } from "@generated/graphql";
 import {
   formatBrowseCategory,
   formatBrowseSubCategory,
-} from "../../utils/formatLinks";
-import { HOME_PAGE, SEARCH_AD_PAGE_TITLE } from "../../utils/strings";
-import { Breadcrumbs } from "../ad/Breadcrumbs";
-import { Categories, MainCategory } from "../navbar/MenuRoutes";
-import { AdSearchbox } from "./AdSearchbox";
-import { AdSortingButtons } from "./AdSortingButtons";
-import { PaginatedAds } from "./PaginatedAds";
+} from "@utils/formatLinks";
+import { HOME_PAGE, SEARCH_AD_PAGE_TITLE } from "@utils/strings";
+import React, { useEffect, useState } from "react";
 
 interface BrowseAdsProps {
   category?: MainCategory;

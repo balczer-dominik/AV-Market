@@ -1,7 +1,7 @@
 import { HamburgerIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { Box, IconButton } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { ThemeContext } from "../../utils/ThemeProvider";
+import { ThemeContext } from "@utils/ThemeProvider";
 
 interface MenuToggleProps {
   toggle: () => void;

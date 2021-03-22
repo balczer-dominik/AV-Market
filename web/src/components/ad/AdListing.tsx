@@ -6,30 +6,29 @@ import {
   Icon,
   Image,
   Link,
-  Stack,
   Tag,
   Text,
   Tooltip,
 } from "@chakra-ui/react";
+import { DropzoneThumb } from "@components/DropzoneThumb";
+import { AdSnippetFragment } from "@generated/graphql";
+import { formatDate } from "@utils/formatDate";
+import {
+  formatAdLink,
+  formatAdSrc,
+  formatProfileLink,
+} from "@utils/formatLinks";
+import { formatLocation } from "@utils/formatLocation";
+import { formatPhone } from "@utils/formatPhoneNumber";
+import { formatPrice } from "@utils/formatPrice";
+import { FEATURED_LABEL, LAST_UPDATE_AT } from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
 import NextLink from "next/link";
 import React, { useContext } from "react";
 import { BsImageFill } from "react-icons/bs";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { MdMail } from "react-icons/md";
 import { RiPhoneFill } from "react-icons/ri";
-import { AdSnippetFragment } from "../../generated/graphql";
-import { formatDate } from "../../utils/formatDate";
-import {
-  formatAdLink,
-  formatAdSrc,
-  formatProfileLink,
-} from "../../utils/formatLinks";
-import { formatLocation } from "../../utils/formatLocation";
-import { formatPhone } from "../../utils/formatPhoneNumber";
-import { formatPrice } from "../../utils/formatPrice";
-import { FEATURED_LABEL, LAST_UPDATE_AT } from "../../utils/strings";
-import { DropzoneThumb } from "../post/DropzoneThumb";
-import { ThemeContext } from "../../utils/ThemeProvider";
 
 interface AdListingProps {
   ad: Partial<AdSnippetFragment>;

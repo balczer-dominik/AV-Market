@@ -1,4 +1,4 @@
-import { formatAdSrc } from "./formatLinks";
+import { formatAdSrc } from "@utils/formatLinks";
 
 export const formatImageGallery = (images: string[]) => {
   return images.map((image) => {

@@ -1,7 +1,7 @@
 import { FormControl, FormLabel } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
-import { NEW_AVATAR_LABEL } from "../utils/strings";
-import { ThemeContext } from "../utils/ThemeProvider";
+import { NEW_AVATAR_LABEL } from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
 
 interface FileUploaderProps {
   fieldName: string;

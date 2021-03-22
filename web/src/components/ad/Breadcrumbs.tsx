@@ -6,9 +6,9 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
+import { ThemeContext } from "@utils/ThemeProvider";
 import NextLink from "next/link";
 import React, { useContext } from "react";
-import { ThemeContext } from "../../utils/ThemeProvider";
 
 type BreadItem = {
   label: string;

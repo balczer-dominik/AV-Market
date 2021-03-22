@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { ThemeContext } from "../../utils/ThemeProvider";
+import { ThemeContext } from "@utils/ThemeProvider";
 
 export const NavBarContainer: React.FC = ({ children, ...props }) => {
   const {

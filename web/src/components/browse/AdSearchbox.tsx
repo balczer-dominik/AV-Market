@@ -1,13 +1,8 @@
 import { Box, HStack } from "@chakra-ui/layout";
-import { Heading, Icon, useDisclosure, Link } from "@chakra-ui/react";
-import { Form, Formik } from "formik";
-import React, { useContext } from "react";
-import { BiText } from "react-icons/bi";
-import { FaCity, FaMapMarkerAlt } from "react-icons/fa";
-import { GiShinyEntrance } from "react-icons/gi";
-import { IoIosArrowDown } from "react-icons/io";
-import { RiCoinFill, RiCoinLine } from "react-icons/ri";
-import { OrderOption, SortByOption } from "../../generated/graphql";
+import { Heading, Icon, Link, useDisclosure } from "@chakra-ui/react";
+import { InputField } from "@components/InputField";
+import { RegularButton } from "@components/RegularButton";
+import { OrderOption, SortByOption } from "@generated/graphql";
 import {
   CITY_LABEL,
   CLEAR_FILTER_LABEL,
@@ -20,11 +15,16 @@ import {
   TITLE_LABEL,
   WearValuesSearch,
   WEAR_LABEL,
-} from "../../utils/strings";
-import { ThemeContext } from "../../utils/ThemeProvider";
-import { SearchAdValidation } from "../../utils/validators";
-import { InputField } from "../InputField";
-import { RegularButton } from "../RegularButton";
+} from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
+import { SearchAdValidation } from "@utils/validators";
+import { Form, Formik } from "formik";
+import React, { useContext } from "react";
+import { BiText } from "react-icons/bi";
+import { FaCity, FaMapMarkerAlt } from "react-icons/fa";
+import { GiShinyEntrance } from "react-icons/gi";
+import { IoIosArrowDown } from "react-icons/io";
+import { RiCoinFill, RiCoinLine } from "react-icons/ri";
 
 interface AdSearchboxProps {
   setter: React.Dispatch<

@@ -2,8 +2,8 @@ import { Box, Flex, Icon, IconButton, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useContext } from "react";
 import { IoCreateOutline } from "react-icons/io5";
-import { POST_LABEL } from "../../utils/strings";
-import { ThemeContext } from "../../utils/ThemeProvider";
+import { POST_LABEL } from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
 
 interface PostAdButtonProps {}
 

@@ -1,9 +1,9 @@
 import { TriangleUpIcon } from "@chakra-ui/icons";
 import { Box, Flex, Icon } from "@chakra-ui/react";
+import { ProfileItems } from "@components/ProfileItems";
+import { MeQuery } from "@generated/graphql";
+import { ThemeContext } from "@utils/ThemeProvider";
 import React, { useContext } from "react";
-import { MeQuery } from "../../generated/graphql";
-import { ThemeContext } from "../../utils/ThemeProvider";
-import { ProfileItems } from "./ProfileItems";
 
 interface ProfileDropDownProps {
   userData: MeQuery;

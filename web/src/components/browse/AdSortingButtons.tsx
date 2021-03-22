@@ -1,16 +1,16 @@
 import { Flex, Heading, HStack, Icon, Link } from "@chakra-ui/react";
-import React, { useContext } from "react";
-import { BiTimeFive } from "react-icons/bi";
-import { FaArrowDown, FaArrowUp, FaCoins } from "react-icons/fa";
-import { OrderOption, SortByOption } from "../../generated/graphql";
+import { OrderOption, SortByOption } from "@generated/graphql";
 import {
   ORDER_ASCENDING_LABEL,
   ORDER_DESCENDING_LABEL,
   RESULTS_LABEL,
   SORT_BY_PRICE_LABEL,
   SORT_BY_UPLOAD_LABEL,
-} from "../../utils/strings";
-import { ThemeContext } from "../../utils/ThemeProvider";
+} from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
+import React, { useContext } from "react";
+import { BiTimeFive } from "react-icons/bi";
+import { FaArrowDown, FaArrowUp, FaCoins } from "react-icons/fa";
 
 interface AdSortingButtonsProps {
   setter: React.Dispatch<

@@ -1,4 +1,4 @@
-import { Categories, MainCategory } from "../components/navbar/MenuRoutes";
+import { Categories, MainCategory } from "@components/MenuRoutes";
 
 export const formatAdSrc = (src: string) => `/ad/${src}.png`;
 export const formatAdLink = (id: number) => `/ad/view/${id}`;

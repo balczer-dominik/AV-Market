@@ -9,8 +9,8 @@ import {
   ERROR_GENERIC,
   CONFIRM_CHANGE_LABEL,
   CURRENT_AVATAR_LABEL,
-} from "../../utils/strings";
-import { useBetterToast } from "../../utils/useBetterToast";
+} from "@utils/strings";
+import { useBetterToast } from "@utils/useBetterToast";
 import { FileUploader } from "../FileUploader";
 import { RegularButton } from "../RegularButton";
 import { Text, Image, Box } from "@chakra-ui/react";

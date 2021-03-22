@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ColorThemes } from "../utils/colors";
+import { ColorThemes } from "@utils/colors";
 type ThemeMode = "LIGHT" | "DARK";
 export type Theme = {
   name: string;

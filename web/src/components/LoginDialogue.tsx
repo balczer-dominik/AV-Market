@@ -7,12 +7,9 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { Form, Formik } from "formik";
-import { useRouter } from "next/router";
-import React, { useContext, useRef } from "react";
-import { FaUser } from "react-icons/fa";
-import { RiLockPasswordFill } from "react-icons/ri";
-import { useLoginMutation } from "../generated/graphql";
+import { InputField } from "@components/InputField";
+import { RegularButton } from "@components/RegularButton";
+import { useLoginMutation } from "@generated/graphql";
 import {
   FORGOTTEN_PASSWORD_LABEL,
   LOGIN_LABEL,
@@ -21,12 +18,15 @@ import {
   PASSWORD_PLACEHOLDER,
   USERNAME_OR_EMAIL_LABEL,
   WELCOME_USER,
-} from "../utils/strings";
-import { ThemeContext } from "../utils/ThemeProvider";
-import { toErrorMap } from "../utils/toErrorMap";
-import { useBetterToast } from "../utils/useBetterToast";
-import { InputField } from "./InputField";
-import { RegularButton } from "./RegularButton";
+} from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
+import { toErrorMap } from "@utils/toErrorMap";
+import { useBetterToast } from "@utils/useBetterToast";
+import { Form, Formik } from "formik";
+import { useRouter } from "next/router";
+import React, { useContext, useRef } from "react";
+import { FaUser } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
 
 interface LoginDialogueProps {
   isOpen: boolean;

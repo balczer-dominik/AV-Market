@@ -1,15 +1,11 @@
 import { Box, Text } from "@chakra-ui/react";
+import { ProfileDrowDownLink } from "@components/ProfileDrowDownLink";
+import { MeQuery } from "@generated/graphql";
+import { LOGOUT_LABEL, MY_AD_LABEL, PROFILE_VIEW_LABEL } from "@utils/strings";
+import { ThemeContext } from "@utils/ThemeProvider";
 import React, { useContext } from "react";
 import { BiDetail, BiLogOut } from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
-import { MeQuery } from "../../generated/graphql";
-import {
-  LOGOUT_LABEL,
-  MY_AD_LABEL,
-  PROFILE_VIEW_LABEL,
-} from "../../utils/strings";
-import { ThemeContext } from "../../utils/ThemeProvider";
-import { ProfileDrowDownLink } from "./ProfileDrowDownLink";
 
 interface ProfileItemsProps {
   userData: MeQuery;

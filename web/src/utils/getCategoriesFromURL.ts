@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { Categories } from "../components/navbar/MenuRoutes";
+import { Categories } from "@components/MenuRoutes";
 
 export const getCategoriesFromURL = () => {
   const router = useRouter();

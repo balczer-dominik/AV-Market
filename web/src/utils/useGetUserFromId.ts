@@ -1,6 +1,5 @@
-import { useRouter } from "next/router";
-import { useUserQuery } from "../generated/graphql";
-import { useGetIdFromUrl } from "./useGetIdFromUrl";
+import { useUserQuery } from "@generated/graphql";
+import { useGetIdFromUrl } from "@utils/useGetIdFromUrl";
 
 export const useGetUserFromId = () => {
   const intId = useGetIdFromUrl();
