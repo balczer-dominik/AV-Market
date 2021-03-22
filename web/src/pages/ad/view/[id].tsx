@@ -74,7 +74,7 @@ const ViewAd: React.FC<ViewAdProps> = ({}) => {
         <Box>
           <Breadcrumbs items={breadItems()} />
           <Flex mt={4} flexDir={{ base: "column-reverse", md: "row" }}>
-            <Box w="400px" alignSelf="start">
+            <Box w={{ base: "100%", md: "400px" }} alignSelf="start">
               {ad.images.length !== 0 ? (
                 <ReactImageGallery
                   items={formatImageGallery(ad.images)}

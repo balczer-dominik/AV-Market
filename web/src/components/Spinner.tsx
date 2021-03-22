@@ -3,7 +3,9 @@ import { Spinner as ChakraSpinner } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { ThemeContext } from "@utils/ThemeProvider";
 
-export const Spinner: React.FC<{ height: string }> = ({ height }) => {
+export const Spinner: React.FC<{
+  height: string | { base: string; md: string };
+}> = ({ height }) => {
   const {
     theme: { BACK_COLOR_LIGHTEST, FRONT_COLOR },
   } = useContext(ThemeContext);

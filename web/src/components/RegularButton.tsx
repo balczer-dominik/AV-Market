@@ -16,7 +16,8 @@ interface SubmitButtonProps {
   mt?: number;
   onClick?: () => void;
   disabled?: Boolean;
-  w?: string;
+  w?: string | { base: string; md: string };
+  h?: string;
 }
 
 export const RegularButton: React.FC<SubmitButtonProps> = ({
@@ -27,6 +28,7 @@ export const RegularButton: React.FC<SubmitButtonProps> = ({
   onClick,
   disabled = false,
   w,
+  h,
 }) => {
   const {
     theme: {
@@ -50,6 +52,7 @@ export const RegularButton: React.FC<SubmitButtonProps> = ({
       _hover={variant === "solid" ? { bgColor: FRONT_COLOR_LIGHTER_ALT } : null}
       color={variant === "solid" ? WHITE : ACCENT_COLOR}
       w={w ?? "unset"}
+      h={h ?? "2.5rem"}
     >
       {children}
     </Button>
