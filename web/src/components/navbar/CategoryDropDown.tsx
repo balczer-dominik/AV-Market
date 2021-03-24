@@ -23,7 +23,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
   return (
     <Box
       pos={{ base: "relative", md: "absolute" }}
-      zIndex={3}
+      zIndex={300}
       bg={{
         base: BACK_COLOR_LIGHTER,
         md: BACK_COLOR_SEE_THROUGH,
