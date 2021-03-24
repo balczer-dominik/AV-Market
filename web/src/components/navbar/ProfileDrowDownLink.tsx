@@ -40,7 +40,7 @@ export const ProfileDrowDownLink: React.FC<ProfileDrowDownLinkProps> = ({
       }
     >
       <Icon as={icon} mr={2} />
-      <NextLink href={href}>
+      <NextLink href={href} passHref>
         <Link style={{ textDecoration: "none" }}>
           <Text my={1}>{label}</Text>
         </Link>

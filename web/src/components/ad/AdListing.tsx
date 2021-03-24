@@ -122,7 +122,7 @@ export const AdListing: React.FC<AdListingProps> = ({
       <Box w="100%">
         <Flex flexDir="column" justify="space-between" h="100%">
           <Box>
-            <NextLink href={formatAdLink(id)}>
+            <NextLink href={formatAdLink(id)} passHref>
               <Link style={{ textDecoration: "none" }}>
                 <Heading size="sm">{title}</Heading>
               </Link>
@@ -132,7 +132,7 @@ export const AdListing: React.FC<AdListingProps> = ({
               spacing={{ base: 0, md: 2 }}
               align={{ base: "flex-start", md: "center" }}
             >
-              <NextLink href={formatProfileLink(ownerId)}>
+              <NextLink href={formatProfileLink(ownerId)} passHref>
                 <Link style={{ textDecoration: "none" }}>
                   <Text
                     color={FRONT_COLOR_DARKER}

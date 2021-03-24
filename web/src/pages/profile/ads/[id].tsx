@@ -48,7 +48,7 @@ const UserAds: React.FC<{}> = () => {
       {data ? (
         <Box>
           <HStack>
-            <NextLink href={formatProfileLink(intId)}>
+            <NextLink href={formatProfileLink(intId)} passHref>
               <Link style={{ textDecoration: "none" }}>
                 <Heading size="xl" color={FRONT_COLOR_DARKER}>
                   {data.userAds.owner.username}

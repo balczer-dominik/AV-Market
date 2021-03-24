@@ -55,7 +55,7 @@ const Index = () => {
       >
         <VStack align="start" spacing={4} w={{ base: "full", md: "320px" }}>
           <Heading size="xl">{SHOP_LABEL}</Heading>
-          <NextLink href="/ad/search">
+          <NextLink href="/ad/search" passHref>
             <RegularButton w={{ base: "full", md: "320px" }} h="60px">
               <Text fontSize="xl">{BROWSE_ADS_LABEL}</Text>
             </RegularButton>
@@ -63,7 +63,7 @@ const Index = () => {
         </VStack>
         <VStack align="start" spacing={4} w={{ base: "full", md: "320px" }}>
           <Heading size="xl">{ADVERTISE_LABEL}</Heading>
-          <NextLink href="/ad/post">
+          <NextLink href="/ad/post" passHref>
             <RegularButton w={{ base: "full", md: "320px" }} h="60px">
               <Text fontSize="xl">{POST_LABEL}</Text>
             </RegularButton>
@@ -78,7 +78,7 @@ const Index = () => {
         {ads
           ?.filter((_, i) => i >= 5)
           .map((ad) => (
-            <NextLink href={formatAdLink(ad.id)}>
+            <NextLink href={formatAdLink(ad.id)} passHref>
               <Link style={{ textDecoration: "none" }}>
                 <VStack align="start">
                   <Image

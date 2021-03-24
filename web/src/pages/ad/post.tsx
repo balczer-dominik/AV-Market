@@ -119,7 +119,7 @@ const PostAd: React.FC<{}> = ({}) => {
             setErrors(toErrorMap(errors));
             return;
           }
-          router.replace(`/ad/view/${id}`);
+          router.push(`/ad/view/${id}`);
         }}
       >
         {({ isSubmitting, isValid, dirty, setFieldValue, values }) => {

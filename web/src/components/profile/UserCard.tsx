@@ -107,7 +107,7 @@ export const UserCard: React.FC<UserCardProps> = ({
                 ).toFixed()}% (${karmaP}/${karmaN})`}</Text>
               </HStack>
               <Box w="100%">
-                <NextLink href={formatAdsLink(userId)}>
+                <NextLink href={formatAdsLink(userId)} passHref>
                   <Link style={{ textDecoration: "none" }}>
                     <HStack justify="space-between">
                       <Icon as={ImPriceTags} h={8} w={8} />
@@ -143,7 +143,7 @@ export const UserCard: React.FC<UserCardProps> = ({
                 </RegularButton>
               ) : null}
               {meId === userId && !meFetching ? (
-                <NextLink href="/profile/edit">
+                <NextLink href="/profile/edit" passHref>
                   <RegularButton w="full">
                     <HStack justify="space-between" w="full">
                       <Icon as={FaEdit} w={6} h={6} />

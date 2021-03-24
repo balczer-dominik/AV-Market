@@ -46,6 +46,7 @@ export const NEW_PHONE_LABEL = "Új telefonszám";
 export const CHANGE_EMAIL_PLACEHOLDER = "teszt.elek@teszt.hu";
 export const CHANGE_MESSENGER_PLACEHOLDER = "Teszt Elek";
 export const CHANGE_PHONE_PLACEHOLDER = "301234567";
+export const SEND_LABEL = "Küldés";
 
 //Toast
 export const REGISTER_SUCCESS_LABEL = "Sikeres regisztráció";
@@ -68,6 +69,8 @@ export const ERROR_GENERIC = "Hiba";
 export const ERROR_NOT_AUTHORIZED =
   "A kért oldal megtekintéséhez jelentkezzen be.";
 export const ACCESS_DENIED = "A kért oldal megtekintéséhez nincsen engedélye.";
+export const FORGOT_PASSWORD_EMAIL_SENT =
+  "A megadott e-mail címre elküldtük a jelszó visszaállításához szükséges linket.";
 
 //Register validation
 export const INCORRECT_EMAIL_FORMAT = "Helytelen e-mail formátum.";

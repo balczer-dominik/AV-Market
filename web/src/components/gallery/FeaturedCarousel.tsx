@@ -46,7 +46,7 @@ export const FeaturedCarousel: React.FC<FeaturedCarouselProps> = ({ ads }) => {
           showThumbs={false}
         >
           {ads.map((ad) => (
-            <NextLink href={formatAdLink(ad.id)}>
+            <NextLink href={formatAdLink(ad.id)} passHref>
               <Link>
                 <Flex
                   borderRadius="10px"

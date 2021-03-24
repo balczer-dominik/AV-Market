@@ -34,7 +34,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
       py={2}
       mt={{ base: 2, md: 4 }}
     >
-      <NextLink href={formatBrowseCategory(category.key)}>
+      <NextLink href={formatBrowseCategory(category.key)} passHref>
         <Link style={{ textDecoration: "none" }}>
           <Text
             fontWeight="bold"
@@ -53,7 +53,7 @@ export const CategoryDropDown: React.FC<SubcategoryProps> = ({ category }) => {
           _hover={{ color: FRONT_COLOR_DARKER }}
         >
           <Icon as={sc.icon ?? CloseIcon} mr={2} />
-          <NextLink href={`/ad/${category.route}/${sc.route}`}>
+          <NextLink href={`/ad/${category.route}/${sc.route}`} passHref>
             <Link style={{ textDecoration: "none" }}>
               <Text my={1}>{sc.title}</Text>
             </Link>

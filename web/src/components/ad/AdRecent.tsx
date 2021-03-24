@@ -51,14 +51,14 @@ export const AdRecent: React.FC<AdRecentProps> = ({
     <Box mt={4} w="full">
       <Flex justify="space-between" mb={2} aling="center">
         <Heading fontSize="xl" color={FRONT_COLOR_LIGHTER}>
-          <NextLink href={formatProfileLink(ownerId)}>
+          <NextLink href={formatProfileLink(ownerId)} passHref>
             <Link style={{ textDecoration: "none" }} color={FRONT_COLOR_DARKER}>
               <b>{owner}</b>
             </Link>
           </NextLink>{" "}
           {label}
         </Heading>
-        <NextLink href={formatAdsLink(ownerId)}>
+        <NextLink href={formatAdsLink(ownerId)} passHref>
           <Link style={{ textDecoration: "none" }} color={FRONT_COLOR_LIGHTEST}>
             {OTHERS_LABEL}
           </Link>

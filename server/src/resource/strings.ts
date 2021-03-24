@@ -19,6 +19,10 @@ export const USER_BANNED = "Ez a felhasználó le van tiltva.";
 export const INCORRECT_PHONE_FORMAT = "Helytelen telefonszám formátum.";
 export const INCORRECT_PHONE_LENGTH = "Helytelen telefonszám hossz.";
 
+//Other validation
+export const INVALID_TOKEN = "Érvénytelen vagy lejárt link.";
+export const USER_NO_LONGER_EXISTS = "A felhasználói fiók érvénytelen.";
+
 //Ad types
 export type Wear =
   | "Erősen használt"

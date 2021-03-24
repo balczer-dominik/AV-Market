@@ -28,7 +28,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
       {items ? (
         items.map(({ href, label }, i) => (
           <BreadcrumbItem isCurrentPage={i === items.length - 1}>
-            <NextLink href={href}>
+            <NextLink href={href} passHref>
               <BreadcrumbLink
                 as={Link}
                 fontWeight="bold"
@@ -41,7 +41,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
         ))
       ) : (
         <BreadcrumbItem>
-          <NextLink href={"/"}>
+          <NextLink href={"/"} passHref>
             <BreadcrumbLink as={Link}>nincs item</BreadcrumbLink>
           </NextLink>
         </BreadcrumbItem>

@@ -11,7 +11,7 @@ export const useIsAuth = () => {
 
   useEffect(() => {
     if (!fetching && !data?.me) {
-      router.replace("/");
+      router.push("/");
       toast("error", ERROR_GENERIC, ERROR_NOT_AUTHORIZED);
       return;
     }

@@ -13,7 +13,7 @@ export const PostAdButton: React.FC<PostAdButtonProps> = ({}) => {
   } = useContext(ThemeContext);
   return (
     <Box>
-      <NextLink href="/ad/post">
+      <NextLink href="/ad/post" passHref>
         <Link style={{ textDecoration: "none" }}>
           <IconButton
             display={{ base: "none", md: "block" }}

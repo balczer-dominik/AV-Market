@@ -15,12 +15,12 @@ export const useIsAdmin = () => {
 
   useEffect(() => {
     if (!fetching && !data?.me) {
-      router.replace("/");
+      router.push("/");
       toast("error", ERROR_GENERIC, ERROR_NOT_AUTHORIZED);
     }
 
     if (!fetching && data?.me && data.me.id !== 15) {
-      router.replace("/");
+      router.push("/");
       toast("error", ERROR_GENERIC, ACCESS_DENIED);
     }
   }, [fetching, data, router]);

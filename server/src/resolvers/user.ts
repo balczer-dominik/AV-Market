@@ -19,10 +19,12 @@ import argon2 from "argon2";
 import { getConnection } from "typeorm";
 import {
   INCORRECT_PASSWORD,
+  INVALID_TOKEN,
   UNKNOWN_ERROR_SERVER,
   USERNAME_TAKEN,
   USER_BANNED,
   USER_NOT_FOUND,
+  USER_NO_LONGER_EXISTS,
 } from "../resource/strings";
 import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from "../constants";
 import { v4 } from "uuid";
@@ -191,6 +193,7 @@ export class UserResolver {
     const user = await User.findOne({ where: { username } });
 
     if (!user) return { field: "username", message: USER_NOT_FOUND };
+    if (user.banned) return { field: "username", message: USER_BANNED };
 
     const token = v4();
 
@@ -204,6 +207,42 @@ export class UserResolver {
     await sendEmail(user.email, changePasswordEmail(token));
 
     return null;
+  }
+
+  @Mutation(() => UserResponse)
+  async resetPassword(
+    @Arg("token") token: string,
+    @Arg("newPassword") newPassword: string,
+    @Ctx() { redis, req }: MyContext
+  ): Promise<UserResponse> {
+    const errors = validatePassword(newPassword);
+
+    if (errors) {
+      return { errors };
+    }
+
+    const key = FORGOT_PASSWORD_PREFIX + token;
+    const userId = await redis.get(key);
+    if (!userId) {
+      return errorResponse("username", INVALID_TOKEN);
+    }
+
+    const userIdNum = parseInt(userId);
+    const user = await User.findOne(userIdNum);
+
+    if (!user || user.banned) {
+      return errorResponse("username", USER_NO_LONGER_EXISTS);
+    }
+
+    await User.update(
+      { id: userIdNum },
+      { password: await argon2.hash(newPassword) }
+    );
+    await redis.del(key);
+
+    req.session.userId = user.id;
+
+    return { user };
   }
 
   @Mutation(() => Boolean)

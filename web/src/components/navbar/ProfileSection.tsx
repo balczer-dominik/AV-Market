@@ -7,7 +7,7 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { LoginDialogue } from "@components/LoginDialogue";
+import { LoginDialogue } from "@components/login/LoginDialogue";
 import { PostAdButton } from "@components/PostAdButton";
 import { ProfileContainer } from "@components/ProfileContainer";
 import { ThemeSwitcher } from "@components/ThemeSwitcher";
@@ -61,7 +61,7 @@ export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
           <Flex justify="space-between">
             <ThemeSwitcher />
             <HStack>
-              <NextLink href="/register">
+              <NextLink href="/register" passHref>
                 <Link>
                   <IconButton
                     p={2}
