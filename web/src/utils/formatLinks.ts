@@ -13,7 +13,6 @@ export const formatBrowseSubCategory = (
   subcategory: string
 ) =>
   `/ad/${Categories[maincategory].route}/${
-    Categories[maincategory].subcategories.find(
-      (sc) => (sc.title = subcategory)
-    ).route
+    Categories[maincategory].subcategories.find((sc) => sc.title == subcategory)
+      .route
   }`;
