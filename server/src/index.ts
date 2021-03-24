@@ -14,13 +14,11 @@ import { AdResolver } from "./resolvers/ad";
 import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
 import { UserAdministrationResolver } from "./resolvers/userAdministration";
-import { mockData } from "./util/mockData";
 import { registerAdSortingEnums } from "./util/type-graphql/AdSortingOptions";
-import argon2 from "argon2";
 
 const main = async () => {
   //TypeORM
-  const conn = await createConnection({
+  await createConnection({
     type: "postgres",
     database: "avmarket",
     username: "postgres",

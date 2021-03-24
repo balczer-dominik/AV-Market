@@ -35,14 +35,14 @@ interface registerProps {}
 
 export const register: React.FC<registerProps> = ({}) => {
   const {
-    theme: { FRONT_COLOR_LIGHTER },
+    theme: { FRONT_COLOR_LIGHTER, BACK_COLOR_LIGHTER },
   } = useContext(ThemeContext);
   const toast = useBetterToast();
   const router = useRouter();
   const [, register] = useRegisterMutation();
   return (
     <Layout title={REGISTER_LABEL} variant="small">
-      <Stack spacing={4} px={2}>
+      <Stack spacing={4} p={4} borderRadius="10px" bgColor={BACK_COLOR_LIGHTER}>
         <Heading
           fontSize={"5xl"}
           textAlign="center"

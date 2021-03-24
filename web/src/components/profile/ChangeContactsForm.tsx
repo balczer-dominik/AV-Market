@@ -1,15 +1,10 @@
 import { Box, Text } from "@chakra-ui/react";
-import { Form, Formik } from "formik";
-import React from "react";
-import { FaFacebookMessenger, FaPhone } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import {
-  useChangeContactsMutation,
-  useMeContactsQuery,
-} from "../../generated/graphql";
 import { formatPhone } from "@utils/formatPhoneNumber";
 import {
   CHANGE_CONTACTS_SUCCESS,
+  CHANGE_EMAIL_PLACEHOLDER,
+  CHANGE_MESSENGER_PLACEHOLDER,
+  CHANGE_PHONE_PLACEHOLDER,
   CONFIRM_CHANGE_LABEL,
   CURRENT_EMAIL_LABEL,
   CURRENT_MESSENGER_LABEL,
@@ -21,7 +16,15 @@ import {
 } from "@utils/strings";
 import { toErrorMap } from "@utils/toErrorMap";
 import { useBetterToast } from "@utils/useBetterToast";
-import { ChangeEmailValidator } from "@utils/validators";
+import { ChangeContactsValidator } from "@utils/validators";
+import { Form, Formik } from "formik";
+import React from "react";
+import { FaFacebookMessenger, FaPhone } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import {
+  useChangeContactsMutation,
+  useMeContactsQuery,
+} from "../../generated/graphql";
 import { InputField } from "../InputField";
 import { RegularButton } from "../RegularButton";
 
@@ -39,7 +42,7 @@ export const ChangeContactsForm: React.FC<ChangeContactsFormProps> = ({}) => {
         messenger: "",
         phone: "",
       }}
-      validationSchema={ChangeEmailValidator}
+      validationSchema={ChangeContactsValidator}
       onSubmit={async ({ email, messenger, phone }, { setErrors }) => {
         const errors = (
           await changeContacts({ contacts: { email, messenger, phone } })
@@ -54,13 +57,24 @@ export const ChangeContactsForm: React.FC<ChangeContactsFormProps> = ({}) => {
     >
       {({ isSubmitting }) => (
         <Form>
-          <InputField name="email" label={NEW_EMAIL_LABEL} icon={MdEmail} />
+          <InputField
+            name="email"
+            label={NEW_EMAIL_LABEL}
+            icon={MdEmail}
+            placeholder={CHANGE_EMAIL_PLACEHOLDER}
+          />
           <InputField
             name="messenger"
             label={NEW_MESSENGER_LABEL}
             icon={FaFacebookMessenger}
+            placeholder={CHANGE_MESSENGER_PLACEHOLDER}
           />
-          <InputField name="phone" label={NEW_PHONE_LABEL} icon={FaPhone} />
+          <InputField
+            name="phone"
+            label={NEW_PHONE_LABEL}
+            icon={FaPhone}
+            placeholder={CHANGE_PHONE_PLACEHOLDER}
+          />
           {data ? (
             <Box my={3}>
               <Text>{CURRENT_EMAIL_LABEL + data.me.email}</Text>

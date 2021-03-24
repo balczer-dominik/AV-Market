@@ -38,7 +38,13 @@ export const FeaturedCarousel: React.FC<FeaturedCarouselProps> = ({ ads }) => {
         {FEATURED_LABEL}
       </Heading>
       {ads ? (
-        <Carousel autoPlay emulateTouch infiniteLoop showStatus={false}>
+        <Carousel
+          autoPlay
+          emulateTouch
+          infiniteLoop
+          showStatus={false}
+          showThumbs={false}
+        >
           {ads.map((ad) => (
             <NextLink href={formatAdLink(ad.id)}>
               <Link>

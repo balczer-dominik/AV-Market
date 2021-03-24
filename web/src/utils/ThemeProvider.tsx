@@ -27,7 +27,7 @@ export const ThemeContext = React.createContext<ThemeContext>(
 );
 
 export const ThemeProvider: React.FC = ({ children }) => {
-  const [mode, setMode] = useState<ThemeMode>("DARK");
+  const [mode, setMode] = useState<ThemeMode>("LIGHT");
   const toggleMode = () => {
     setMode(mode === "LIGHT" ? "DARK" : "LIGHT");
   };

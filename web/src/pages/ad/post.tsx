@@ -149,7 +149,7 @@ const PostAd: React.FC<{}> = ({}) => {
 
               <Flex mt={6} justify="space-between" align="center">
                 <RegularButton
-                  disabled={activeStep === 0}
+                  disabled={activeStep === 0 || isSubmitting}
                   onClick={() => {
                     setStep(activeStep - 1);
                   }}
@@ -158,7 +158,7 @@ const PostAd: React.FC<{}> = ({}) => {
                 </RegularButton>
                 <RegularButton
                   spinner={isSubmitting}
-                  disabled={!canContinue()}
+                  disabled={!canContinue() || isSubmitting}
                   onClick={
                     activeStep > 3 ? null : () => setStep(activeStep + 1)
                   }

@@ -2,6 +2,8 @@ import * as Yup from "yup";
 import {
   FIELD_REQUIRED,
   INCORRECT_EMAIL_FORMAT,
+  INCORRECT_PHONE_FORMAT,
+  INCORRECT_PHONE_LENGTH,
   PASSWORDS_MUST_MATCH,
   PASSWORD_DOESNT_CONTAIN_CAPITAL,
   PASSWORD_TOO_LONG,
@@ -32,6 +34,11 @@ const passwordValidation = Yup.string()
   .max(32, PASSWORD_TOO_LONG)
   .matches(/\w*[A-Z]\w*/, PASSWORD_DOESNT_CONTAIN_CAPITAL);
 
+const phoneValidation = Yup.string()
+  .min(9, INCORRECT_PHONE_LENGTH)
+  .max(9, INCORRECT_PHONE_LENGTH)
+  .matches(/^[0-9]*$/, INCORRECT_PHONE_FORMAT);
+
 const passwordConfirmValidation = (ref: string) =>
   Yup.string()
     .required(FIELD_REQUIRED)
@@ -47,7 +54,7 @@ const priceValidation = Yup.number()
   .min(50, PRICE_TOO_LOW)
   .max(999999999, PRICE_TOO_HIGH);
 
-const priceValidationRequired = priceValidation.required();
+const priceValidationRequired = priceValidation.required(FIELD_REQUIRED);
 
 export const RegisterValidator = Yup.object().shape({
   email: emailValidationRequired,
@@ -56,8 +63,9 @@ export const RegisterValidator = Yup.object().shape({
   passwordConfirm: passwordConfirmValidation("password"),
 });
 
-export const ChangeEmailValidator = Yup.object().shape({
-  newEmail: emailValidation,
+export const ChangeContactsValidator = Yup.object().shape({
+  email: emailValidation,
+  phone: phoneValidation,
 });
 
 export const ChangePasswordValidator = Yup.object().shape({

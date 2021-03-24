@@ -43,6 +43,9 @@ export const CURRENT_PHONE_LABEL = "Jelenlegi telefonszám: ";
 export const DATA_NOT_SUPPLIED = "Nincs megadva.";
 export const NEW_MESSENGER_LABEL = "Új messenger";
 export const NEW_PHONE_LABEL = "Új telefonszám";
+export const CHANGE_EMAIL_PLACEHOLDER = "teszt.elek@teszt.hu";
+export const CHANGE_MESSENGER_PLACEHOLDER = "Teszt Elek";
+export const CHANGE_PHONE_PLACEHOLDER = "301234567";
 
 //Toast
 export const REGISTER_SUCCESS_LABEL = "Sikeres regisztráció";
@@ -119,6 +122,10 @@ export const SubCategoryRoutes = {
   SZABADIDO: "szabadido",
   INGATLAN: "ingatlan",
 };
+
+//Contact validation
+export const INCORRECT_PHONE_FORMAT = "Helytelen telefonszám formátum.";
+export const INCORRECT_PHONE_LENGTH = "Helytelen telefonszám hossz.";
 
 //Ad validation
 export const PRICE_TOO_LOW = "Az ár túl alacsony.";

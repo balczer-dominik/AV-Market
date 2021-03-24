@@ -1,5 +1,5 @@
 import { Flex, SimpleGrid, Stack, VStack } from "@chakra-ui/layout";
-import { Heading, Text, Image, Icon, Tag } from "@chakra-ui/react";
+import { Heading, Text, Image, Icon, Tag, Link } from "@chakra-ui/react";
 import { FeaturedCarousel } from "@components/FeaturedCarousel";
 import { Layout } from "@components/Layout";
 import { RegularButton } from "@components/RegularButton";
@@ -19,6 +19,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import NextLink from "next/link";
 import { BsImageFill } from "react-icons/bs";
 import { formatPrice } from "@utils/formatPrice";
+import { formatAdLink, formatAdSrc } from "@utils/formatLinks";
 
 const Index = () => {
   const {
@@ -48,7 +49,8 @@ const Index = () => {
         align="center"
         bgColor={BACK_COLOR_LIGHTER}
         borderRadius="10px"
-        py={4}
+        pt={2}
+        pb={4}
         px={{ base: 4, md: 0 }}
       >
         <VStack align="start" spacing={4} w={{ base: "full", md: "320px" }}>
@@ -76,33 +78,38 @@ const Index = () => {
         {ads
           ?.filter((_, i) => i >= 5)
           .map((ad) => (
-            <VStack align="start">
-              <Image
-                src={ad.thumbnail}
-                h="100px"
-                objectFit="cover"
-                fallback={
-                  <Flex
-                    w="full"
-                    justify="center"
-                    align="center"
+            <NextLink href={formatAdLink(ad.id)}>
+              <Link style={{ textDecoration: "none" }}>
+                <VStack align="start">
+                  <Image
+                    src={formatAdSrc(ad.thumbnail)}
+                    w="100%"
                     h="100px"
-                    bgColor={BACK_COLOR_LIGHTEST_ALT}
-                    color={FRONT_COLOR_ALT}
+                    objectFit="cover"
+                    fallback={
+                      <Flex
+                        w="full"
+                        justify="center"
+                        align="center"
+                        h="100px"
+                        bgColor={BACK_COLOR_LIGHTEST_ALT}
+                        color={FRONT_COLOR_ALT}
+                        borderRadius="5px"
+                      >
+                        <Icon as={BsImageFill} />
+                      </Flex>
+                    }
                     borderRadius="5px"
-                  >
-                    <Icon as={BsImageFill} />
-                  </Flex>
-                }
-                borderRadius="5px"
-              />
-              <Heading size="sm" isTruncated>
-                {ad.title}
-              </Heading>
-              <Tag bgColor={FRONT_COLOR_ALT} w="fit-content" color={WHITE}>
-                {formatPrice(ad.price)}
-              </Tag>
-            </VStack>
+                  />
+                  <Heading size="sm" isTruncated maxW="100%">
+                    {ad.title}
+                  </Heading>
+                  <Tag bgColor={FRONT_COLOR_ALT} w="fit-content" color={WHITE}>
+                    {formatPrice(ad.price)}
+                  </Tag>
+                </VStack>
+              </Link>
+            </NextLink>
           ))}
       </SimpleGrid>
     </Layout>

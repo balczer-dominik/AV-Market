@@ -81,7 +81,11 @@ export const BrowseAds: React.FC<BrowseAdsProps> = ({
         justify={{ base: "unset", md: "space-between" }}
       >
         <AdSearchbox state={searchVariables} setter={setSearchVariables} />
-        <VStack w={{ base: "full", md: "65%" }} spacing={0}>
+        <VStack
+          w={{ base: "full", md: "100%" }}
+          pl={{ base: 0, md: 4 }}
+          spacing={0}
+        >
           <AdSortingButtons
             setter={setSearchVariables}
             state={searchVariables}

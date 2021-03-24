@@ -15,7 +15,7 @@ export const validatePost = (title: string, price: number) => {
     });
   }
 
-  if (price > 10 * 1000 * 1000) {
+  if (price > 10 * 1000 * 1000 * 1000) {
     errors.push({
       field: "price",
       message: PRICE_TOO_HIGH,
