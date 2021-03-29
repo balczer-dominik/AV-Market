@@ -154,6 +154,7 @@ export type Mutation = {
   post: AdResponse;
   editAd: AdResponse;
   deleteAd: Scalars['Boolean'];
+  deleteAdImage: Scalars['Boolean'];
   register: UserResponse;
   login: UserResponse;
   forgotPassword?: Maybe<FieldError>;
@@ -181,6 +182,11 @@ export type MutationEditAdArgs = {
 
 export type MutationDeleteAdArgs = {
   adId: Scalars['Int'];
+};
+
+
+export type MutationDeleteAdImageArgs = {
+  src: Scalars['String'];
 };
 
 
@@ -409,6 +415,16 @@ export type DeleteAdMutationVariables = Exact<{
 export type DeleteAdMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteAd'>
+);
+
+export type DeleteAdImageMutationVariables = Exact<{
+  src: Scalars['String'];
+}>;
+
+
+export type DeleteAdImageMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteAdImage'>
 );
 
 export type EditAdMutationVariables = Exact<{
@@ -889,6 +905,15 @@ export const DeleteAdDocument = gql`
 
 export function useDeleteAdMutation() {
   return Urql.useMutation<DeleteAdMutation, DeleteAdMutationVariables>(DeleteAdDocument);
+};
+export const DeleteAdImageDocument = gql`
+    mutation DeleteAdImage($src: String!) {
+  deleteAdImage(src: $src)
+}
+    `;
+
+export function useDeleteAdImageMutation() {
+  return Urql.useMutation<DeleteAdImageMutation, DeleteAdImageMutationVariables>(DeleteAdImageDocument);
 };
 export const EditAdDocument = gql`
     mutation EditAd($adId: Int!, $options: PostInput!) {

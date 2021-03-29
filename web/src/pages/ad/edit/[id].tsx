@@ -43,12 +43,13 @@ import { BiText } from "react-icons/bi";
 import { FaMoneyBillWave } from "react-icons/fa";
 import { useEditAdMutation } from "@generated/graphql";
 import { toErrorMap } from "@utils/toErrorMap";
+import { EditAdImages } from "@components/edit-ad/EditAdImages";
 
 const EditAd: React.FC<{}> = () => {
   const {
     theme: { FRONT_COLOR_LIGHTEST },
   } = useContext(ThemeContext);
-  const ad = useGetAdFromUrl();
+  const { ad } = useGetAdFromUrl();
   const meId = useMeId();
   const [state, setState] = useState({ show: false, wear: "" });
   const toast = useBetterToast();
@@ -211,6 +212,8 @@ const EditAd: React.FC<{}> = () => {
       ) : (
         <Spinner height="500px" />
       )}
+      <br />
+      {ad ? <EditAdImages adId={ad.id} images={ad.images} /> : null}
     </Layout>
   );
 };

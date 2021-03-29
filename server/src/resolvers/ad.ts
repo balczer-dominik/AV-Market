@@ -296,4 +296,32 @@ export class AdResolver {
 
     return true;
   }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => Boolean)
+  async deleteAdImage(
+    @Arg("src", () => String) src: string,
+    @Ctx() { req }: MyContext
+  ) {
+    //Fetching
+    const image = await AdImage.findOne({ where: { src } });
+    if (!image) {
+      return false;
+    }
+
+    const ad = await Ad.findOne(image.adId);
+
+    if (!ad) {
+      return false;
+    }
+
+    //Authorization
+    if (req.session.userId !== ad.ownerId) {
+      return false;
+    }
+
+    AdImage.delete({ src });
+
+    return true;
+  }
 }

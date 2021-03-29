@@ -75,6 +75,7 @@ export const FORGOT_PASSWORD_EMAIL_SENT =
 export const SUCCESS = "Siker";
 export const EDIT_AD_SUCCESS = "Sikeresen módosította az apróhirdetést.";
 export const DELETE_AD_SUCCESS = "Sikeresen törölte az apróhirdetést.";
+export const DELETE_IMAGE_SUCCESS = "Sikeresen törölte a fényképet.";
 
 //Register validation
 export const INCORRECT_EMAIL_FORMAT = "Helytelen e-mail formátum.";
@@ -143,6 +144,7 @@ export const TITLE_TOO_LONG = "A cím legfeljebb 60 karakterből állhat.";
 //Ad misc.
 export const AD_NOT_FOUND = "Hirdetés nem található.";
 export const PHOTOS_LABEL = "Fényképek feltöltése";
+export const DELETE_IMAGE = "Fénykép törlése";
 
 //UI
 export const POST_AD_TITLE = "Hirdetés feladása";

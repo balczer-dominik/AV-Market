@@ -1,0 +1,3 @@
+mutation DeleteAdImage($src: String!) {
+  deleteAdImage(src: $src)
+}
