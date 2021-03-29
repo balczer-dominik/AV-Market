@@ -14,14 +14,14 @@ import { ChangeLocationForm } from "@components/ChangeLocationForm";
 import { ChangePasswordForm } from "@components/ChangePasswordForm";
 import { ProfileEditSection } from "@components/ProfileEditSection";
 import { useMeQuery } from "@generated/graphql";
-import { createUrqlClient } from "@utils/createUrqlClient";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import {
   CHANGE_AVATAR_LABEL,
   CHANGE_CONTACTS_LABEL,
   CHANGE_LOCATION_LABEL,
   CHANGE_PASSWORD_LABEL,
   EDIT_PROFILE_LABEL,
-} from "@utils/strings";
+} from "src/resources/strings";
 import { useIsAuth } from "@utils/useIsAuth";
 
 const Edit: React.FC<{}> = ({}) => {

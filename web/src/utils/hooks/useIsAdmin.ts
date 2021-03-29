@@ -5,8 +5,8 @@ import {
   ACCESS_DENIED,
   ERROR_GENERIC,
   ERROR_NOT_AUTHORIZED,
-} from "@utils/strings";
-import { useBetterToast } from "@utils/useBetterToast";
+} from "src/resources/strings";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
 
 export const useIsAdmin = () => {
   const [{ data, fetching }] = useMeQuery();

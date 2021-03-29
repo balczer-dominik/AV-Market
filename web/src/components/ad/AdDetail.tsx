@@ -1,6 +1,6 @@
 import { Flex, Icon, Image, Link, Text } from "@chakra-ui/react";
-import { formatAvatarLink } from "@utils/formatLinks";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { formatAvatarLink } from "@utils/formatters/formatLinks";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import React, { useContext } from "react";
 import { IconType } from "react-icons";
 

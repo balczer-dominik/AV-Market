@@ -6,8 +6,8 @@ import {
   RESULTS_LABEL,
   SORT_BY_PRICE_LABEL,
   SORT_BY_UPLOAD_LABEL,
-} from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+} from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import React, { useContext } from "react";
 import { BiTimeFive } from "react-icons/bi";
 import { FaArrowDown, FaArrowUp, FaCoins } from "react-icons/fa";

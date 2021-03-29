@@ -4,9 +4,9 @@ import { Layout } from "@components/Layout";
 import { LocationMap } from "@components/LocationMap";
 import { UserCard } from "@components/UserCard";
 import { UserDetails } from "@components/UserDetails";
-import { createUrqlClient } from "@utils/createUrqlClient";
-import { LOADING_TITLE, USERS_RECENT_ADS_LABEL } from "@utils/strings";
-import { useGetUserFromId } from "@utils/useGetUserFromId";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
+import { LOADING_TITLE, USERS_RECENT_ADS_LABEL } from "src/resources/strings";
+import { useGetUserFromId } from "@utils/hooks/useGetUserFromId";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 

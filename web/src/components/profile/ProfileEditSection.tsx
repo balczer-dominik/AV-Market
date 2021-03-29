@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Icon } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { IconType } from "react-icons/lib";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 
 interface EditProfileSectionProps {
   title: string;

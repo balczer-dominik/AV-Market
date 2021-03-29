@@ -6,7 +6,7 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import NextLink from "next/link";
 import React, { useContext } from "react";
 

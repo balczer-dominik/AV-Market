@@ -1,9 +1,9 @@
 import { BrowseAds } from "@components/browse/BrowseAds";
 import { Layout } from "@components/Layout";
 import { MainCategory } from "@components/MenuRoutes";
-import { createUrqlClient } from "@utils/createUrqlClient";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import { getCategoriesFromURL } from "@utils/getCategoriesFromURL";
-import { SEARCH_AD_PAGE_TITLE } from "@utils/strings";
+import { SEARCH_AD_PAGE_TITLE } from "src/resources/strings";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 

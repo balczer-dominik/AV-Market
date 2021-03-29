@@ -15,8 +15,8 @@ import {
   TITLE_LABEL,
   WearValuesSearch,
   WEAR_LABEL,
-} from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+} from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { SearchAdValidation } from "@utils/validators";
 import { Form, Formik } from "formik";
 import React, { useContext } from "react";

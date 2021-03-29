@@ -2,7 +2,7 @@ import { TriangleUpIcon } from "@chakra-ui/icons";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import { ProfileItems } from "@components/ProfileItems";
 import { MeQuery } from "@generated/graphql";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import React, { useContext } from "react";
 
 interface ProfileDropDownProps {

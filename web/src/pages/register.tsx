@@ -3,7 +3,7 @@ import { InputField } from "@components/InputField";
 import { Layout } from "@components/Layout";
 import { RegularButton } from "@components/RegularButton";
 import { useRegisterMutation } from "@generated/graphql";
-import { createUrqlClient } from "@utils/createUrqlClient";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import {
   CONFIRM_PASSWORD_LABEL,
   EMAIL_LABEL_REQUIRED,
@@ -18,10 +18,10 @@ import {
   REGISTER_USERNAME_HINT,
   REQUIRED_FIELDS_HINT,
   USERNAME_LABEL_REQUIRED,
-} from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+} from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { toErrorMap } from "@utils/toErrorMap";
-import { useBetterToast } from "@utils/useBetterToast";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
 import { RegisterValidator } from "@utils/validators";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";

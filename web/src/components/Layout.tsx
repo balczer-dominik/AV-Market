@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { NavBar } from "@components/NavBar";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import Head from "next/head";
 import React, { useContext } from "react";
 

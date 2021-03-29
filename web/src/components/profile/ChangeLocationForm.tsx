@@ -12,9 +12,9 @@ import {
   CURRENT_LOCATION_LABEL,
   NEW_CITY_LABEL,
   NEW_COUNTY_LABEL,
-} from "@utils/strings";
+} from "src/resources/strings";
 import { toErrorMap } from "@utils/toErrorMap";
-import { useBetterToast } from "@utils/useBetterToast";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
 import { InputField } from "../InputField";
 import { RegularButton } from "../RegularButton";
 import { Text } from "@chakra-ui/react";

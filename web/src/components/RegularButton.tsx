@@ -1,6 +1,7 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Link } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
+import NextLink from "next/link";
 
 type ButtonVariant =
   | "link"
@@ -11,8 +12,9 @@ type ButtonVariant =
   | "unstyled";
 
 interface SubmitButtonProps {
+  href?: string;
   spinner?: boolean;
-  variant?: ButtonVariant;
+  variant?: ButtonVariant | "edit" | "delete";
   mt?: number;
   onClick?: () => void;
   disabled?: Boolean;
@@ -29,6 +31,7 @@ export const RegularButton: React.FC<SubmitButtonProps> = ({
   disabled = false,
   w,
   h,
+  href,
 }) => {
   const {
     theme: {
@@ -37,24 +40,57 @@ export const RegularButton: React.FC<SubmitButtonProps> = ({
       FRONT_COLOR_ALT,
       ACCENT_COLOR,
       WHITE,
+      FRONT_COLOR_LIGHTER,
+      RED,
     },
   } = useContext(ThemeContext);
-  return (
+
+  const bgColor = (variant) => {
+    if (variant === "solid") {
+      return FRONT_COLOR_ALT;
+    }
+    if (variant === "edit") {
+      return FRONT_COLOR_LIGHTER;
+    }
+    if (variant === "delete") {
+      return RED;
+    }
+    return null;
+  };
+
+  const color = (variant) => {
+    if (variant === "solid" || variant === "edit" || variant === "delete") {
+      return WHITE;
+    }
+    return ACCENT_COLOR;
+  };
+
+  let button = (
     <Button
       disabled={disabled.valueOf()}
       mt={mt}
       type={onClick ? "button" : "submit"}
       isLoading={spinner}
       onClick={onClick}
-      borderWidth={variant === "solid" ? null : "0.15rem"}
-      borderColor={variant === "solid" ? null : FRONT_COLOR_DARKER}
-      bgColor={variant === "solid" ? FRONT_COLOR_ALT : null}
+      borderWidth={variant === "outline" ? "0.15rem" : null}
+      borderColor={variant === "outline" ? FRONT_COLOR_DARKER : null}
+      bgColor={bgColor(variant)}
       _hover={variant === "solid" ? { bgColor: FRONT_COLOR_LIGHTER_ALT } : null}
-      color={variant === "solid" ? WHITE : ACCENT_COLOR}
+      color={color(variant)}
       w={w ?? "unset"}
       h={h ?? "2.5rem"}
     >
       {children}
     </Button>
   );
+
+  if (href) {
+    return (
+      <NextLink href={href} passHref>
+        <Link style={{ textDecoration: "none" }}>{button}</Link>
+      </NextLink>
+    );
+  }
+
+  return button;
 };

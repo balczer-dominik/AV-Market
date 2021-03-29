@@ -186,6 +186,9 @@ export const ADVERTISE_LABEL = "Hirdetne?";
 export const SHOP_LABEL = "Vásárolna?";
 export const BROWSE_ADS_LABEL = "Hirdetések böngészése";
 export const RECENT_ADS = "Legutóbbi apróhirdetések";
+export const THIS_AD_IS_YOURS = "Ez a hirdetés a tied.";
+export const EDIT_LABEL = "Szerkesztés";
+export const DELETE_LABEL = "Törlés";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";

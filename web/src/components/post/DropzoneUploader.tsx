@@ -2,8 +2,8 @@ import { Box, SimpleGrid, Text } from "@chakra-ui/layout";
 import { Flex } from "@chakra-ui/react";
 import React, { useCallback, useContext } from "react";
 import Dropzone from "react-dropzone";
-import { DROPZONE_TEXT } from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { DROPZONE_TEXT } from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { DropzoneThumb } from "@components/DropzoneThumb";
 
 interface DropzoneUploaderProps {

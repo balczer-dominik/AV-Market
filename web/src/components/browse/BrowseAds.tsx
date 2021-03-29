@@ -8,8 +8,8 @@ import { OrderOption, SortByOption } from "@generated/graphql";
 import {
   formatBrowseCategory,
   formatBrowseSubCategory,
-} from "@utils/formatLinks";
-import { HOME_PAGE, SEARCH_AD_PAGE_TITLE } from "@utils/strings";
+} from "@utils/formatters/formatLinks";
+import { HOME_PAGE, SEARCH_AD_PAGE_TITLE } from "src/resources/strings";
 import React, { useEffect, useState } from "react";
 
 interface BrowseAdsProps {

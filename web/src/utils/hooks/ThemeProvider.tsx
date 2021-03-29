@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ColorThemes } from "@utils/colors";
+import React, { useEffect, useState } from "react";
+import { ColorThemes } from "@resources/colors";
 type ThemeMode = "LIGHT" | "DARK";
 export type Theme = {
   name: string;
@@ -19,6 +19,7 @@ export type Theme = {
   BG_COLOR: string;
   SUN: string;
   MOON: string;
+  RED: string;
 };
 type ThemeContext = { theme: Theme; toggleTheme: () => void };
 
@@ -29,18 +30,24 @@ export const ThemeContext = React.createContext<ThemeContext>(
 export const ThemeProvider: React.FC = ({ children }) => {
   const [mode, setMode] = useState<ThemeMode>("LIGHT");
   const toggleMode = () => {
-    setMode(mode === "LIGHT" ? "DARK" : "LIGHT");
+    const newMode = mode === "LIGHT" ? "DARK" : "LIGHT";
+    setMode(newMode);
+    localStorage.setItem("mode", newMode);
   };
 
-  const Modes = ColorThemes;
+  useEffect(() => {
+    if (window) {
+      setMode((localStorage.getItem("mode") as ThemeMode) ?? "LIGHT");
+    }
+  }, [typeof window]);
 
   return (
     <ThemeContext.Provider
-      value={{ theme: Modes[mode], toggleTheme: toggleMode }}
+      value={{ theme: ColorThemes[mode], toggleTheme: toggleMode }}
     >
       <style jsx global>{`
         body {
-          background-color: ${Modes[mode].BG_COLOR};
+          background-color: ${mode ? ColorThemes[mode].BG_COLOR : "unset"};
         }
       `}</style>
       {children}

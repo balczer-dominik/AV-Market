@@ -4,9 +4,9 @@ import {
   User,
   useUnbanUserMutation,
 } from "@generated/graphql";
-import { USER_BANNED, USER_UNBANNED } from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
-import { useBetterToast } from "@utils/useBetterToast";
+import { USER_BANNED, USER_UNBANNED } from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
 import React, { useContext, useEffect, useState } from "react";
 import { FaCheck, FaHammer } from "react-icons/fa";
 

@@ -9,8 +9,8 @@ import {
   TITLE_LABEL,
   WearValues,
   WEAR_LABEL,
-} from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+} from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { InputField } from "@components/InputField";
 import { WearTile } from "@components/WearTile";
 

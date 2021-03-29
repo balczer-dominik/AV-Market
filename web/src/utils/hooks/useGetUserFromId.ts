@@ -1,5 +1,5 @@
 import { useUserQuery } from "@generated/graphql";
-import { useGetIdFromUrl } from "@utils/useGetIdFromUrl";
+import { useGetIdFromUrl } from "@utils/hooks/useGetIdFromUrl";
 
 export const useGetUserFromId = () => {
   const intId = useGetIdFromUrl();

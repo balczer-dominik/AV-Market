@@ -10,12 +10,12 @@ import {
 import { AdListing } from "@components/AdListing";
 import { Layout } from "@components/Layout";
 import { useUserAdsQuery } from "@generated/graphql";
-import { createUrqlClient } from "@utils/createUrqlClient";
-import { formatProfileLink } from "@utils/formatLinks";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
+import { formatProfileLink } from "@utils/formatters/formatLinks";
 import { isServer } from "@utils/isServer";
-import { LOADING_TITLE, USERS_ADS_LABEL } from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
-import { useGetIdFromUrl } from "@utils/useGetIdFromUrl";
+import { LOADING_TITLE, USERS_ADS_LABEL } from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
+import { useGetIdFromUrl } from "@utils/hooks/useGetIdFromUrl";
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";
 import React, { useContext, useState } from "react";

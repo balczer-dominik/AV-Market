@@ -1,9 +1,9 @@
 import { Box, Flex, Heading, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import ReactMapboxGl from "react-mapbox-gl";
-import { MAPBOX_ACCESS_TOKEN } from "@utils/env";
-import { LOCATION_LABEL, NO_LOCATION_PROVIDED } from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { MAPBOX_ACCESS_TOKEN } from "src/resources/env";
+import { LOCATION_LABEL, NO_LOCATION_PROVIDED } from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 
 interface LocationMapProps {
   coordinates?: [number, number];

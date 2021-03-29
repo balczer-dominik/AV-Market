@@ -12,13 +12,13 @@ import { PostAdButton } from "@components/PostAdButton";
 import { ProfileContainer } from "@components/ProfileContainer";
 import { ThemeSwitcher } from "@components/ThemeSwitcher";
 import { useMeQuery } from "@generated/graphql";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { isServer } from "@utils/isServer";
-import { LOGIN_LABEL, REGISTER_LABEL } from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
 import NextLink from "next/link";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BiLogIn } from "react-icons/bi";
 import { FaUserPlus } from "react-icons/fa";
+import { LOGIN_LABEL, REGISTER_LABEL } from "src/resources/strings";
 
 export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   const {
@@ -30,6 +30,12 @@ export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
     onOpen: openLogin,
     onClose: closeLogin,
   } = useDisclosure();
+
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem("userId", data.me?.id.toString());
+    }
+  }, [data]);
 
   return (
     <Box

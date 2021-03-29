@@ -5,8 +5,8 @@ import { RegularButton } from "@components/RegularButton";
 import { Repeat } from "@components/Repeat";
 import { Spinner } from "@components/Spinner";
 import { OrderOption, SortByOption, useAdsQuery } from "@generated/graphql";
-import { LOAD_MORE_BUTTON } from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { LOAD_MORE_BUTTON } from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import React, { useContext } from "react";
 
 interface PaginatedAdsProps {

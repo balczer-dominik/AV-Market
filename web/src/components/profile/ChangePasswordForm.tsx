@@ -8,9 +8,9 @@ import {
   CONFIRM_PASSWORD_LABEL,
   CURRENT_PASSWORD_LABEL,
   NEW_PASSWORD_LABEL,
-} from "@utils/strings";
+} from "src/resources/strings";
 import { toErrorMap } from "@utils/toErrorMap";
-import { useBetterToast } from "@utils/useBetterToast";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
 import { ChangePasswordValidator } from "@utils/validators";
 import { InputField } from "../InputField";
 import { RegularButton } from "../RegularButton";

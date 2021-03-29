@@ -12,10 +12,10 @@ import {
 import { Layout } from "@components/Layout";
 import { UserAdminRow } from "@components/UserAdminRow";
 import { useGetUsersQuery } from "@generated/graphql";
-import { createUrqlClient } from "@utils/createUrqlClient";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import { isServer } from "@utils/isServer";
-import { ThemeContext } from "@utils/ThemeProvider";
-import { useIsAdmin } from "@utils/useIsAdmin";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
+import { useIsAdmin } from "@utils/hooks/useIsAdmin";
 import { withUrqlClient } from "next-urql";
 import React, { useContext, useState } from "react";
 

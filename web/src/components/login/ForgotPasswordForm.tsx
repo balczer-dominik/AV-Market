@@ -7,9 +7,9 @@ import {
   FORGOT_PASSWORD_EMAIL_SENT,
   SEND_LABEL,
   USERNAME_LABEL,
-} from "@utils/strings";
+} from "src/resources/strings";
 import { toErrorMap } from "@utils/toErrorMap";
-import { useBetterToast } from "@utils/useBetterToast";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaUser } from "react-icons/fa";

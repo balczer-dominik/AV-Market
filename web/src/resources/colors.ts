@@ -17,6 +17,7 @@ export const ColorThemes = {
     BG_COLOR: "#1b1b1b",
     SUN: "yellow.200",
     MOON: "blue.200",
+    RED: "#cf4861",
   },
   LIGHT: {
     name: "LIGHT-BROWN",
@@ -36,5 +37,6 @@ export const ColorThemes = {
     BG_COLOR: "white",
     SUN: "#777672",
     MOON: "#777672",
+    RED: "#f2778e",
   },
 };

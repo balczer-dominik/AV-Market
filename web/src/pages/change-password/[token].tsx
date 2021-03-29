@@ -3,7 +3,7 @@ import { InputField } from "@components/InputField";
 import { Layout } from "@components/Layout";
 import { RegularButton } from "@components/RegularButton";
 import { useResetPasswordMutation } from "@generated/graphql";
-import { createUrqlClient } from "@utils/createUrqlClient";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import {
   CHANGE_PASSWORD_LABEL,
   CHANGE_PASSWORD_SUCCESS,
@@ -13,10 +13,10 @@ import {
   PASSWORD_PLACEHOLDER,
   REGISTER_PASSWORD_HINT,
   SEND_LABEL,
-} from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+} from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { toErrorMap } from "@utils/toErrorMap";
-import { useBetterToast } from "@utils/useBetterToast";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
 import { ChangePasswordValidator } from "@utils/validators";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";

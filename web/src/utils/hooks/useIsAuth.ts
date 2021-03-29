@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useMeQuery } from "@generated/graphql";
-import { ERROR_GENERIC, ERROR_NOT_AUTHORIZED } from "@utils/strings";
-import { useBetterToast } from "@utils/useBetterToast";
+import { ERROR_GENERIC, ERROR_NOT_AUTHORIZED } from "src/resources/strings";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
 
 export const useIsAuth = () => {
   const [{ data, fetching }] = useMeQuery();

@@ -12,17 +12,17 @@ import {
 } from "@chakra-ui/react";
 import { DropzoneThumb } from "@components/DropzoneThumb";
 import { AdSnippetFragment } from "@generated/graphql";
-import { formatDate } from "@utils/formatDate";
+import { formatDate } from "@utils/formatters/formatDate";
 import {
   formatAdLink,
   formatAdSrc,
   formatProfileLink,
-} from "@utils/formatLinks";
-import { formatLocation } from "@utils/formatLocation";
-import { formatPhone } from "@utils/formatPhoneNumber";
-import { formatPrice } from "@utils/formatPrice";
-import { FEATURED_LABEL, LAST_UPDATE_AT } from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+} from "@utils/formatters/formatLinks";
+import { formatLocation } from "@utils/formatters/formatLocation";
+import { formatPhone } from "@utils/formatters/formatPhoneNumber";
+import { formatPrice } from "@utils/formatters/formatPrice";
+import { FEATURED_LABEL, LAST_UPDATE_AT } from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import NextLink from "next/link";
 import React, { useContext } from "react";
 import { BsImageFill } from "react-icons/bs";

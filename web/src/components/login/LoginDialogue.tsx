@@ -6,8 +6,8 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { LOGIN_LABEL } from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { LOGIN_LABEL } from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import React, { useContext, useRef, useState } from "react";
 import { ForgotPasswordForm } from "./ForgotPasswordForm";
 import { LoginForm } from "./LoginForm";

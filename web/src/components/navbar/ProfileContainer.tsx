@@ -13,7 +13,7 @@ import { isMobile } from "react-device-detect";
 import { FaUser } from "react-icons/fa";
 import { useMeQuery } from "@generated/graphql";
 import { isServer } from "@utils/isServer";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { ProfileDropDown } from "@components/ProfileDropDown";
 import { ProfileItems } from "@components/ProfileItems";
 

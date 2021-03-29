@@ -1,4 +1,22 @@
 import { Box, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import { AdControls } from "@components/ad/AdControls";
+import { AdDetail } from "@components/AdDetail";
+import { AdRecent } from "@components/AdRecent";
+import { Breadcrumbs } from "@components/Breadcrumbs";
+import { Layout } from "@components/Layout";
+import { Categories, MainCategory } from "@components/MenuRoutes";
+import { formatDate } from "@utils/formatters/formatDate";
+import { formatImageGallery } from "@utils/formatters/formatImageGallery";
+import {
+  formatBrowseCategory,
+  formatBrowseSubCategory,
+  formatProfileLink,
+} from "@utils/formatters/formatLinks";
+import { formatLocation } from "@utils/formatters/formatLocation";
+import { formatPrice } from "@utils/formatters/formatPrice";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
+import { useGetAdFromUrl } from "@utils/hooks/useGetAdFromUrl";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import { withUrqlClient } from "next-urql";
 import React, { useContext } from "react";
 import { BiDetail } from "react-icons/bi";
@@ -8,34 +26,15 @@ import { GiShinyEntrance } from "react-icons/gi";
 import { ImLocation, ImPriceTag } from "react-icons/im";
 import ReactImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-import { AdDetail } from "@components/AdDetail";
-import { AdRecent } from "@components/AdRecent";
-import { Breadcrumbs } from "@components/Breadcrumbs";
-import { Layout } from "@components/Layout";
-import { Categories, MainCategory } from "@components/MenuRoutes";
-import { createUrqlClient } from "@utils/createUrqlClient";
-import { formatDate } from "@utils/formatDate";
-import { formatImageGallery } from "@utils/formatImageGallery";
-import {
-  formatBrowseCategory,
-  formatBrowseSubCategory,
-  formatProfileLink,
-} from "@utils/formatLinks";
-import { formatLocation } from "@utils/formatLocation";
-import { formatPrice } from "@utils/formatPrice";
 import {
   HOME_PAGE,
   LOADING_TITLE,
   NO_IMAGES,
   OTHER_ADS_LABEL,
   SEARCH_AD_PAGE_TITLE,
-} from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
-import { useGetAdFromUrl } from "@utils/useGetAdFromUrl";
+} from "src/resources/strings";
 
-interface ViewAdProps {}
-
-const ViewAd: React.FC<ViewAdProps> = ({}) => {
+const ViewAd: React.FC<{}> = () => {
   const {
     theme: { BACK_COLOR_LIGHTER, FRONT_COLOR },
   } = useContext(ThemeContext);
@@ -73,6 +72,7 @@ const ViewAd: React.FC<ViewAdProps> = ({}) => {
       {ad ? (
         <Box>
           <Breadcrumbs items={breadItems()} />
+          <AdControls adId={ad.id} ownerId={ad.owner.id} />
           <Flex mt={4} flexDir={{ base: "column", md: "row" }}>
             <Box w={{ base: "100%", md: "400px" }} alignSelf="start">
               {ad.images.length !== 0 ? (

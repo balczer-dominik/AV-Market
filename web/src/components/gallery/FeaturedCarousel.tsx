@@ -10,10 +10,10 @@ import {
 } from "@chakra-ui/react";
 import { Spinner } from "@components/Spinner";
 import { Ad } from "@generated/graphql";
-import { formatAdLink, formatAdSrc } from "@utils/formatLinks";
-import { formatPrice } from "@utils/formatPrice";
-import { FEATURED_LABEL } from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { formatAdLink, formatAdSrc } from "@utils/formatters/formatLinks";
+import { formatPrice } from "@utils/formatters/formatPrice";
+import { FEATURED_LABEL } from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import NextLink from "next/link";
 import React, { useContext } from "react";
 import { BsImageFill } from "react-icons/bs";

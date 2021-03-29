@@ -15,10 +15,10 @@ import {
   formatAdsLink,
   formatAdSrc,
   formatProfileLink,
-} from "@utils/formatLinks";
-import { formatPrice } from "@utils/formatPrice";
-import { NO_OTHER_RECENT_ADS, OTHERS_LABEL } from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+} from "@utils/formatters/formatLinks";
+import { formatPrice } from "@utils/formatters/formatPrice";
+import { NO_OTHER_RECENT_ADS, OTHERS_LABEL } from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import NextLink from "next/link";
 import React, { useContext } from "react";
 import { BsImageFill } from "react-icons/bs";

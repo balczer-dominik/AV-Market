@@ -1,7 +1,7 @@
 import { Box, Heading } from "@chakra-ui/react";
 import React from "react";
 import { useMePreviewQuery } from "@generated/graphql";
-import { FINALIZE_LABEL } from "@utils/strings";
+import { FINALIZE_LABEL } from "src/resources/strings";
 import { AdListing } from "@components/AdListing";
 
 interface PostPreviewProps {

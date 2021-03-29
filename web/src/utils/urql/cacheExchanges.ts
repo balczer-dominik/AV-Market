@@ -7,7 +7,7 @@ import {
   RegisterMutation,
   UploadAvatarMutation,
 } from "@generated/graphql";
-import { betterUpdateQuery } from "@utils/betterUpdateQuery";
+import { betterUpdateQuery } from "@utils/urql/betterUpdateQuery";
 
 export const cacheExchanges: CacheExchangeOpts = {
   updates: {

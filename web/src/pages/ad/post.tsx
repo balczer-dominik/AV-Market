@@ -6,7 +6,7 @@ import { PostDetailsForm } from "@components/PostDetailsForm";
 import { PostPreview } from "@components/PostPreview";
 import { RegularButton } from "@components/RegularButton";
 import { usePostMutation } from "@generated/graphql";
-import { createUrqlClient } from "@utils/createUrqlClient";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import {
   BACK_BUTTON,
   BASIC_DETAILS_LABEL as BASIC_DETAILS_LABEL,
@@ -18,10 +18,10 @@ import {
   POST_AD_TITLE,
   SUBMIT_BUTTON,
   UPLOAD_IMAGE_LABEL,
-} from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+} from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { toErrorMap } from "@utils/toErrorMap";
-import { useIsAuth } from "@utils/useIsAuth";
+import { useIsAuth } from "@utils/hooks/useIsAuth";
 import { PostValidator } from "@utils/validators";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";

@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { CategoryDropDown } from "@components/CategoryDropDown";
 import { Categories, MainCategory } from "@components/MenuRoutes";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import React, { useContext } from "react";
 import { isMobile } from "react-device-detect";
 import { IoIosArrowDown } from "react-icons/io";

@@ -8,9 +8,9 @@ import {
   PASSWORD_PLACEHOLDER,
   USERNAME_OR_EMAIL_LABEL,
   WELCOME_USER,
-} from "@utils/strings";
+} from "src/resources/strings";
 import { toErrorMap } from "@utils/toErrorMap";
-import { useBetterToast } from "@utils/useBetterToast";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
 import { Form, Formik } from "formik";
 import router from "next/router";
 import React from "react";
@@ -51,7 +51,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
 
         if (user) {
           toast("success", LOGIN_SUCCESS_LABEL, WELCOME_USER + user.username);
-
+          localStorage.setItem("userId", user.id.toString());
           onClose();
           router.reload();
         }

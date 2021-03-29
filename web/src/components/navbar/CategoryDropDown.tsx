@@ -2,8 +2,8 @@ import { CloseIcon } from "@chakra-ui/icons";
 import { Box, Flex, Icon, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useContext } from "react";
-import { formatBrowseCategory } from "@utils/formatLinks";
-import { ThemeContext } from "@utils/ThemeProvider";
+import { formatBrowseCategory } from "@utils/formatters/formatLinks";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { Category } from "@components/MenuRoutes";
 
 interface SubcategoryProps {

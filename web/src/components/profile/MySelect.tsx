@@ -1,6 +1,6 @@
 import { FormControl, Select, SelectProps } from "@chakra-ui/react";
 import React from "react";
-import { NEW_COUNTY_LABEL, counties } from "@utils/strings";
+import { NEW_COUNTY_LABEL, counties } from "src/resources/strings";
 
 interface MySelectProps extends SelectProps {}
 

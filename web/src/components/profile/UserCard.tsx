@@ -15,16 +15,15 @@ import React, { useContext } from "react";
 import { FaEdit, FaHeart, FaTruck, FaUser } from "react-icons/fa";
 import { ImPriceTags } from "react-icons/im";
 import { RiChat3Fill } from "react-icons/ri";
-import { useMeIdQuery } from "../../generated/graphql";
-import { formatAdsLink, formatAvatarLink } from "@utils/formatLinks";
-import { isServer } from "@utils/isServer";
+import { formatAdsLink, formatAvatarLink } from "@utils/formatters/formatLinks";
 import {
   LEAVE_FEEDBACK_LABEL,
   PROFILE_EDIT_LABEL,
   SEND_MESSAGE_LABEL,
-} from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+} from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { RegularButton } from "../RegularButton";
+import { useMeId } from "@utils/hooks/useMeId";
 
 interface UserCardProps {
   userId: number;
@@ -64,10 +63,10 @@ export const UserCard: React.FC<UserCardProps> = ({
   fetching,
 }) => {
   const {
-    theme: { FRONT_COLOR_LIGHTEST, BACK_COLOR_LIGHTEST },
+    theme: { FRONT_COLOR_LIGHTEST, BACK_COLOR_LIGHTEST, WHITE },
   } = useContext(ThemeContext);
-  const [{ data, fetching: meFetching }] = useMeIdQuery({ pause: isServer() });
-  const meId = data ? (data.me ? data.me.id : null) : null;
+
+  const meId = useMeId();
 
   return (
     <Box width={{ base: "full", md: "30%" }}>
@@ -126,7 +125,7 @@ export const UserCard: React.FC<UserCardProps> = ({
                 <Icon as={FaTruck} h={8} w={8} />
                 <Text fontSize="xl">{deliveryCount}</Text>
               </HStack>
-              {meId !== userId && !meFetching ? (
+              {meId !== userId ? (
                 <RegularButton w="full">
                   <HStack justify="space-between" w="full">
                     <Icon as={RiChat3Fill} w={6} h={6} />
@@ -134,7 +133,7 @@ export const UserCard: React.FC<UserCardProps> = ({
                   </HStack>
                 </RegularButton>
               ) : null}
-              {meId !== userId && !meFetching ? (
+              {meId !== userId ? (
                 <RegularButton w="full">
                   <HStack justify="space-between" w="full">
                     <Icon as={FaHeart} w={6} h={6} />
@@ -142,15 +141,13 @@ export const UserCard: React.FC<UserCardProps> = ({
                   </HStack>
                 </RegularButton>
               ) : null}
-              {meId === userId && !meFetching ? (
-                <NextLink href="/profile/edit" passHref>
-                  <RegularButton w="full">
-                    <HStack justify="space-between" w="full">
-                      <Icon as={FaEdit} w={6} h={6} />
-                      <Text>{PROFILE_EDIT_LABEL}</Text>
-                    </HStack>
-                  </RegularButton>
-                </NextLink>
+              {meId === userId ? (
+                <RegularButton w="full" variant="solid" href="/profile/edit">
+                  <HStack justify="space-between" w="full">
+                    <Icon as={FaEdit} color={WHITE} w={6} h={6} />
+                    <Text>{PROFILE_EDIT_LABEL}</Text>
+                  </HStack>
+                </RegularButton>
               ) : null}
             </VStack>
           </>

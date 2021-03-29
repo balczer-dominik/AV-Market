@@ -1,5 +1,12 @@
 import { Box, Text } from "@chakra-ui/react";
-import { formatPhone } from "@utils/formatPhoneNumber";
+import { formatPhone } from "@utils/formatters/formatPhoneNumber";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
+import { toErrorMap } from "@utils/toErrorMap";
+import { ChangeContactsValidator } from "@utils/validators";
+import { Form, Formik } from "formik";
+import React from "react";
+import { FaFacebookMessenger, FaPhone } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 import {
   CHANGE_CONTACTS_SUCCESS,
   CHANGE_EMAIL_PLACEHOLDER,
@@ -13,20 +20,13 @@ import {
   NEW_EMAIL_LABEL,
   NEW_MESSENGER_LABEL,
   NEW_PHONE_LABEL,
-} from "@utils/strings";
-import { toErrorMap } from "@utils/toErrorMap";
-import { useBetterToast } from "@utils/useBetterToast";
-import { ChangeContactsValidator } from "@utils/validators";
-import { Form, Formik } from "formik";
-import React from "react";
-import { FaFacebookMessenger, FaPhone } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+} from "src/resources/strings";
 import {
   useChangeContactsMutation,
   useMeContactsQuery,
-} from "../../generated/graphql";
-import { InputField } from "../InputField";
-import { RegularButton } from "../RegularButton";
+} from "@generated/graphql";
+import { InputField } from "@components/InputField";
+import { RegularButton } from "@components/RegularButton";
 
 interface ChangeContactsFormProps {}
 

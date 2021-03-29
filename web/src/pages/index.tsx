@@ -4,22 +4,22 @@ import { FeaturedCarousel } from "@components/FeaturedCarousel";
 import { Layout } from "@components/Layout";
 import { RegularButton } from "@components/RegularButton";
 import { useAdsQuery } from "@generated/graphql";
-import { createUrqlClient } from "@utils/createUrqlClient";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import {
   ADVERTISE_LABEL,
   BROWSE_ADS_LABEL,
   POST_LABEL,
   RECENT_ADS,
   SHOP_LABEL,
-} from "@utils/strings";
-import { ThemeContext } from "@utils/ThemeProvider";
+} from "src/resources/strings";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { withUrqlClient } from "next-urql";
 import React, { useContext } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import NextLink from "next/link";
 import { BsImageFill } from "react-icons/bs";
-import { formatPrice } from "@utils/formatPrice";
-import { formatAdLink, formatAdSrc } from "@utils/formatLinks";
+import { formatPrice } from "@utils/formatters/formatPrice";
+import { formatAdLink, formatAdSrc } from "@utils/formatters/formatLinks";
 
 const Index = () => {
   const {
@@ -55,19 +55,23 @@ const Index = () => {
       >
         <VStack align="start" spacing={4} w={{ base: "full", md: "320px" }}>
           <Heading size="xl">{SHOP_LABEL}</Heading>
-          <NextLink href="/ad/search" passHref>
-            <RegularButton w={{ base: "full", md: "320px" }} h="60px">
-              <Text fontSize="xl">{BROWSE_ADS_LABEL}</Text>
-            </RegularButton>
-          </NextLink>
+          <RegularButton
+            w={{ base: "full", md: "320px" }}
+            h="60px"
+            href="/ad/search"
+          >
+            <Text fontSize="xl">{BROWSE_ADS_LABEL}</Text>
+          </RegularButton>
         </VStack>
         <VStack align="start" spacing={4} w={{ base: "full", md: "320px" }}>
           <Heading size="xl">{ADVERTISE_LABEL}</Heading>
-          <NextLink href="/ad/post" passHref>
-            <RegularButton w={{ base: "full", md: "320px" }} h="60px">
-              <Text fontSize="xl">{POST_LABEL}</Text>
-            </RegularButton>
-          </NextLink>
+          <RegularButton
+            w={{ base: "full", md: "320px" }}
+            h="60px"
+            href="/ad/post"
+          >
+            <Text fontSize="xl">{POST_LABEL}</Text>
+          </RegularButton>
         </VStack>
       </Stack>
       <FeaturedCarousel ads={ads?.filter((_, i) => i < 5)} />
