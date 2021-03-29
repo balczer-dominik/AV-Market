@@ -14,11 +14,12 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Field, useField } from "formik";
-import React, { InputHTMLAttributes, useContext } from "react";
+import React, { InputHTMLAttributes, useContext, useRef } from "react";
 import { IconType } from "react-icons";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { HIDE_PASSWORD, SHOW_PASSWORD } from "src/resources/strings";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
+import { BsTypeUnderline } from "react-icons/bs";
 
 type FieldType = "regular" | "password" | "number" | "textarea" | "select";
 
@@ -30,7 +31,10 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   hint?: string[];
   ref?: React.MutableRefObject<undefined>;
   select?: string[];
+  values?: string[];
   bgColor?: string;
+  onChange?: () => void;
+  setFieldValue?: (field: string, value: any, shouldValidate?: boolean) => void;
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -42,6 +46,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   ref,
   select,
   bgColor,
+  values,
   ...props
 }) => {
   const {
@@ -55,6 +60,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   } = useContext(ThemeContext);
   const [field, { error }] = useField(props);
   const { isOpen: showPassword, onToggle: togglePassword } = useDisclosure();
+
   return (
     <FormControl
       isInvalid={!!error}
@@ -86,9 +92,9 @@ export const InputField: React.FC<InputFieldProps> = ({
               borderWidth={"0.15rem"}
               _hover={{ borderColor: FRONT_COLOR_LIGHTEST }}
             >
-              {select.map((v) => (
-                <option value={v}>{v}</option>
-              ))}
+              {values
+                ? select.map((v, i) => <option value={values[i]}>{v}</option>)
+                : select.map((v) => <option value={v}>{v}</option>)}
             </Field>
           ) : type === "textarea" ? (
             <Textarea

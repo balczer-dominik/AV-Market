@@ -3,9 +3,11 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  HStack,
   Link,
   Text,
 } from "@chakra-ui/react";
+import { Spinner } from "@components/Spinner";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import NextLink from "next/link";
 import React, { useContext } from "react";
@@ -40,11 +42,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
           </BreadcrumbItem>
         ))
       ) : (
-        <BreadcrumbItem>
-          <NextLink href={"/"} passHref>
-            <BreadcrumbLink as={Link}>nincs item</BreadcrumbLink>
-          </NextLink>
-        </BreadcrumbItem>
+        <Spinner height="40px" />
       )}
     </Breadcrumb>
   );

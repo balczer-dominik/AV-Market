@@ -1,0 +1,8 @@
+mutation EditAd($adId: Int!, $options: PostInput!) {
+  editAd(adId: $adId, options: $options) {
+    errors {
+      field
+      message
+    }
+  }
+}

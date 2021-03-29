@@ -27,9 +27,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({
 }) => {
   const {
     theme: {
-      FRONT_COLOR_LIGHTER,
       FRONT_COLOR_LIGHTEST,
-      BACK_COLOR_LIGHTEST,
       FRONT_COLOR_LIGHTER_ALT,
       BACK_COLOR_LIGHTEST_ALT,
       WHITE,

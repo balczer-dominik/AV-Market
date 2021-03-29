@@ -66,11 +66,15 @@ export const CHANGE_AVATAR_SUCCESS = "Sikeresen megváltoztattad az avatarod.";
 export const CHANGE_LOCATION_SUCCESS =
   "Sikeresen megváltoztattad a helységedet.";
 export const ERROR_GENERIC = "Hiba";
-export const ERROR_NOT_AUTHORIZED =
+export const ERROR_NOT_AUTHENTICATED =
   "A kért oldal megtekintéséhez jelentkezzen be.";
-export const ACCESS_DENIED = "A kért oldal megtekintéséhez nincsen engedélye.";
+export const ERROR_NOT_AUTHORIZED =
+  "A kért oldal megtekintéséhez nincsen engedélye.";
 export const FORGOT_PASSWORD_EMAIL_SENT =
   "A megadott e-mail címre elküldtük a jelszó visszaállításához szükséges linket.";
+export const SUCCESS = "Siker";
+export const EDIT_AD_SUCCESS = "Sikeresen módosította az apróhirdetést.";
+export const DELETE_AD_SUCCESS = "Sikeresen törölte az apróhirdetést.";
 
 //Register validation
 export const INCORRECT_EMAIL_FORMAT = "Helytelen e-mail formátum.";
@@ -193,7 +197,7 @@ export const DELETE_LABEL = "Törlés";
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";
 export const CHOOSE_SUBCATEGORY_LABEL = "Alkategória kiválasztása";
-export const BASIC_DETAILS_LABEL = "Alap adatok megadása";
+export const BASIC_DETAILS_LABEL = "Alap adatok";
 export const UPLOAD_IMAGE_LABEL = "Képek feltöltése";
 export const FINALIZE_LABEL = "Véglegesítés";
 export const TITLE_LABEL = "Cím";

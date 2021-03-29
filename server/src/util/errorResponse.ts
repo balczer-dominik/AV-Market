@@ -1,5 +1,3 @@
-import { UserResponse } from "./type-graphql/UserResponse";
-
 type Field =
   | "username"
   | "password"
@@ -8,9 +6,10 @@ type Field =
   | "avatar"
   | "oldPassword"
   | "newPassword"
-  | "id";
+  | "id"
+  | "ad";
 
-export const errorResponse = (field: Field, message: string): UserResponse => {
+export const errorResponse = (field: Field, message: string) => {
   return {
     errors: [{ field, message }],
   };

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useMeQuery } from "@generated/graphql";
-import { ERROR_GENERIC, ERROR_NOT_AUTHORIZED } from "src/resources/strings";
+import { ERROR_GENERIC, ERROR_NOT_AUTHENTICATED } from "src/resources/strings";
 import { useBetterToast } from "@utils/hooks/useBetterToast";
 
 export const useIsAuth = () => {
@@ -12,7 +12,7 @@ export const useIsAuth = () => {
   useEffect(() => {
     if (!fetching && !data?.me) {
       router.push("/");
-      toast("error", ERROR_GENERIC, ERROR_NOT_AUTHORIZED);
+      toast("error", ERROR_GENERIC, ERROR_NOT_AUTHENTICATED);
       return;
     }
   }, [fetching, data, router]);

@@ -22,6 +22,7 @@ export const INCORRECT_PHONE_LENGTH = "Helytelen telefonszám hossz.";
 //Other validation
 export const INVALID_TOKEN = "Érvénytelen vagy lejárt link.";
 export const USER_NO_LONGER_EXISTS = "A felhasználói fiók érvénytelen.";
+export const UNAUTHORIZED = "A kért művelethez nincsen jogosultsága.";
 
 //Ad types
 export type Wear =

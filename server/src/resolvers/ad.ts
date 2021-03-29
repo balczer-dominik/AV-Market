@@ -16,7 +16,12 @@ import { Ad } from "../entities/Ad";
 import { AdImage } from "../entities/AdImage";
 import { User } from "../entities/User";
 import { isAuth } from "../middleware/authMiddleware";
-import { AD_NOT_FOUND, MainCategory, Wear } from "../resource/strings";
+import {
+  AD_NOT_FOUND,
+  MainCategory,
+  UNAUTHORIZED,
+  Wear,
+} from "../resource/strings";
 import { MyContext } from "../types";
 import { errorResponse } from "../util/errorResponse";
 import { AdResponse } from "../util/type-graphql/AdResponse";
@@ -229,5 +234,66 @@ export class AdResolver {
     }
 
     return { ad };
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => AdResponse)
+  async editAd(
+    @Arg("adId", () => Int) adId: number,
+    @Arg("options", () => PostInput)
+    { category, price, desc, subCategory, title, wear }: PostInput,
+    @Ctx() { req }: MyContext
+  ) {
+    //Fetching
+    const ad = await Ad.findOne(adId);
+    if (!ad) {
+      return errorResponse("ad", AD_NOT_FOUND);
+    }
+
+    //Authorization
+    if (req.session.userId !== ad.ownerId) {
+      return errorResponse("ad", UNAUTHORIZED);
+    }
+
+    //Validation
+    const errors = validatePost(title, price);
+    if (errors) {
+      return { errors };
+    }
+
+    //Updating
+    ad.category = category ?? ad.category;
+    ad.subCategory = subCategory ?? ad.subCategory;
+    ad.title = title ?? ad.title;
+    ad.price = price ?? ad.price;
+    ad.desc = desc ?? "";
+    ad.wear = wear ?? ad.wear;
+    ad.save();
+
+    return { ad };
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => Boolean)
+  async deleteAd(
+    @Arg("adId", () => Int) adId: number,
+    @Ctx() { req }: MyContext
+  ) {
+    //Fetching
+    const ad = await Ad.findOne(adId);
+    if (!ad) {
+      return false;
+    }
+
+    //Authorization
+    if (req.session.userId !== ad.ownerId) {
+      return false;
+    }
+
+    AdImage.delete({ adId: ad.id });
+
+    ad.remove();
+
+    return true;
   }
 }

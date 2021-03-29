@@ -152,6 +152,8 @@ export type PaginatedUsers = {
 export type Mutation = {
   __typename?: 'Mutation';
   post: AdResponse;
+  editAd: AdResponse;
+  deleteAd: Scalars['Boolean'];
   register: UserResponse;
   login: UserResponse;
   forgotPassword?: Maybe<FieldError>;
@@ -168,6 +170,17 @@ export type Mutation = {
 
 export type MutationPostArgs = {
   options: PostInput;
+};
+
+
+export type MutationEditAdArgs = {
+  options: PostInput;
+  adId: Scalars['Int'];
+};
+
+
+export type MutationDeleteAdArgs = {
+  adId: Scalars['Int'];
 };
 
 
@@ -381,6 +394,33 @@ export type ChangePasswordMutation = (
   { __typename?: 'Mutation' }
   & { changePassword: (
     { __typename?: 'UserResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>> }
+  ) }
+);
+
+export type DeleteAdMutationVariables = Exact<{
+  adId: Scalars['Int'];
+}>;
+
+
+export type DeleteAdMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteAd'>
+);
+
+export type EditAdMutationVariables = Exact<{
+  adId: Scalars['Int'];
+  options: PostInput;
+}>;
+
+
+export type EditAdMutation = (
+  { __typename?: 'Mutation' }
+  & { editAd: (
+    { __typename?: 'AdResponse' }
     & { errors?: Maybe<Array<(
       { __typename?: 'FieldError' }
       & Pick<FieldError, 'field' | 'message'>
@@ -840,6 +880,29 @@ export const ChangePasswordDocument = gql`
 
 export function useChangePasswordMutation() {
   return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
+};
+export const DeleteAdDocument = gql`
+    mutation DeleteAd($adId: Int!) {
+  deleteAd(adId: $adId)
+}
+    `;
+
+export function useDeleteAdMutation() {
+  return Urql.useMutation<DeleteAdMutation, DeleteAdMutationVariables>(DeleteAdDocument);
+};
+export const EditAdDocument = gql`
+    mutation EditAd($adId: Int!, $options: PostInput!) {
+  editAd(adId: $adId, options: $options) {
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
+
+export function useEditAdMutation() {
+  return Urql.useMutation<EditAdMutation, EditAdMutationVariables>(EditAdDocument);
 };
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($username: String!) {
