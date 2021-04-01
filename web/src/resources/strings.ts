@@ -201,6 +201,8 @@ export const EDIT_LABEL = "Szerkesztés";
 export const DELETE_LABEL = "Törlés";
 export const HANDLE_IMAGES = "Fényképek kezelése";
 export const MESSAGES_LABEL = "Privát üzenetek";
+export const GIVING_FEEDBACK_LABEL = "értékelése";
+export const USER_NOT_FOUND = "A felhasználó nem található.";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";
@@ -262,3 +264,12 @@ export const counties: string[] = [
 export const LAST_UPDATE_AT = "Utoljára frissítve";
 export const SENT_IN_BY = "Beküldte";
 export const HOME_PAGE = "Főoldal";
+
+//Karma
+export const SATISFIED_BUTTON_LABEL = "Elégedett voltam";
+export const UNSATISFIED_BUTTON_LABEL = "Nem voltam elégedett";
+export const WERE_YOU_SATISFIED = "Elégedett volt a felhasználóval?";
+export const FEEDBACK_AD_LABEL = "Melyik terméket vásárolta meg?";
+export const USER_HAS_NO_ADS = "A felhasználónak nincsenek apróhirdetései.";
+export const COMMENT_LABEL = "További megjegyzés hagyása";
+export const LEAVE_FEEDBACK_SUCCESS = "Sikeresen elküldte az értékelést.";

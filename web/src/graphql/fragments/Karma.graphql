@@ -1,0 +1,6 @@
+fragment Karma on User {
+  karma {
+    satisfied
+    unsatisfied
+  }
+}

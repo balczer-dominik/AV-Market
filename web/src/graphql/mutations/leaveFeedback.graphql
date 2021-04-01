@@ -1,0 +1,8 @@
+mutation LeaveFeedback($options: FeedbackInput!) {
+  leaveFeedback(options: $options) {
+    errors {
+      field
+      message
+    }
+  }
+}

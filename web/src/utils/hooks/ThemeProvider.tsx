@@ -6,6 +6,7 @@ export type Theme = {
   FRONT_COLOR: string;
   FRONT_COLOR_ALT: string;
   FRONT_COLOR_DARKER: string;
+  FRONT_COLOR_DARKER_ALT: string;
   FRONT_COLOR_LIGHTER: string;
   FRONT_COLOR_LIGHTER_ALT: string;
   FRONT_COLOR_LIGHTEST: string;

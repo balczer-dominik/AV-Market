@@ -1,4 +1,9 @@
-import { User } from "../entities/User";
+import { GraphQLUpload } from "apollo-server-express";
+import argon2 from "argon2";
+import { createWriteStream } from "fs";
+import { GraphQLScalarType } from "graphql";
+import node_geocoder from "node-geocoder";
+import randomstring from "randomstring";
 import {
   Arg,
   Ctx,
@@ -11,12 +16,13 @@ import {
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { UserResponse } from "../util/type-graphql/UserResponse";
-import { UsernamePasswordInput } from "../util/type-graphql/UsernamePasswordInput";
-import { MyContext } from "../types";
-import { validateRegister } from "../validators/validateRegister";
-import argon2 from "argon2";
 import { getConnection } from "typeorm";
+import { v4 } from "uuid";
+import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from "../constants";
+import { Ad } from "../entities/Ad";
+import { Feedback } from "../entities/Feedback";
+import { User } from "../entities/User";
+import { isAuth } from "../middleware/authMiddleware";
 import {
   INCORRECT_PASSWORD,
   INVALID_TOKEN,
@@ -26,30 +32,41 @@ import {
   USER_NOT_FOUND,
   USER_NO_LONGER_EXISTS,
 } from "../resource/strings";
-import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX } from "../constants";
-import { v4 } from "uuid";
-import { sendEmail } from "../util/sendMail";
+import { MyContext } from "../types";
 import { changePasswordEmail } from "../util/changePasswordEmail";
-import { FieldError } from "../util/type-graphql/FieldError";
-import { isAuth } from "../middleware/authMiddleware";
-import { Upload } from "../util/type-graphql/Upload";
-import { GraphQLUpload } from "apollo-server-express";
-import { GraphQLScalarType } from "graphql";
-import { createWriteStream } from "fs";
-import randomstring from "randomstring";
-import { validatePassword } from "../validators/validatePassword";
 import { errorResponse } from "../util/errorResponse";
+import { sendEmail } from "../util/sendMail";
 import { ContactsInput } from "../util/type-graphql/ContactsInput";
-import { validateContacts } from "../validators/validateContacts";
-import { Ad } from "../entities/Ad";
+import { FieldError } from "../util/type-graphql/FieldError";
+import { KarmaResponse } from "../util/type-graphql/KarmaResponse";
 import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
-import node_geocoder from "node-geocoder";
+import { Upload } from "../util/type-graphql/Upload";
+import { UsernamePasswordInput } from "../util/type-graphql/UsernamePasswordInput";
+import { UserResponse } from "../util/type-graphql/UserResponse";
+import { validateContacts } from "../validators/validateContacts";
+import { validatePassword } from "../validators/validatePassword";
+import { validateRegister } from "../validators/validateRegister";
 
 @Resolver(User)
 export class UserResolver {
   @FieldResolver(() => Int)
   async adCount(@Root() user: User): Promise<number> {
     return (await Ad.find({ where: { ownerId: user.id } })).length;
+  }
+
+  @FieldResolver(() => KarmaResponse)
+  async karma(@Root() user: User): Promise<KarmaResponse> {
+    const feedbacks = await Feedback.find({ where: { recipientId: user.id } });
+
+    return {
+      satisfied: feedbacks.filter((f) => f.satisfied).length,
+      unsatisfied: feedbacks.filter((f) => !f.satisfied).length,
+    };
+  }
+
+  @FieldResolver(() => [Ad])
+  async ads(@Root() user: User): Promise<Ad[]> {
+    return await Ad.find({ where: { ownerId: user.id } });
   }
 
   @FieldResolver(() => [Ad])

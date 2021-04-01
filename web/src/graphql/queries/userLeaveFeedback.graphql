@@ -1,0 +1,11 @@
+query UserLeaveFeedback($id: Int!) {
+  user(id: $id) {
+    ...RegularUser
+    ...Karma
+    banned
+    ads {
+      id
+      title
+    }
+  }
+}

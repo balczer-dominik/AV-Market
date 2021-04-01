@@ -31,10 +31,9 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   hint?: string[];
   ref?: React.MutableRefObject<undefined>;
   select?: string[];
-  values?: string[];
+  values?: any[];
   bgColor?: string;
   onChange?: () => void;
-  setFieldValue?: (field: string, value: any, shouldValidate?: boolean) => void;
 };
 
 export const InputField: React.FC<InputFieldProps> = ({

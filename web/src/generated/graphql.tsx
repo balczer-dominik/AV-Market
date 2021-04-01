@@ -20,6 +20,7 @@ export type Query = {
   __typename?: 'Query';
   ads: PaginatedAds;
   ad: AdResponse;
+  feedbacks: PaginatedFeedbacks;
   hello: Scalars['String'];
   userAds: PaginatedAds;
   me?: Maybe<User>;
@@ -39,6 +40,15 @@ export type QueryAdsArgs = {
 
 export type QueryAdArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryFeedbacksArgs = {
+  satisified?: Maybe<Scalars['Boolean']>;
+  cursor?: Maybe<Scalars['String']>;
+  recipientId?: Maybe<Scalars['Int']>;
+  authorId?: Maybe<Scalars['Int']>;
+  first?: Maybe<Scalars['Int']>;
 };
 
 
@@ -80,8 +90,16 @@ export type User = {
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   adCount: Scalars['Int'];
+  karma: KarmaResponse;
+  ads: Array<Ad>;
   recent: Array<Ad>;
   coords?: Maybe<Array<Scalars['Float']>>;
+};
+
+export type KarmaResponse = {
+  __typename?: 'KarmaResponse';
+  satisfied: Scalars['Int'];
+  unsatisfied: Scalars['Int'];
 };
 
 export type Ad = {
@@ -96,6 +114,7 @@ export type Ad = {
   owner: User;
   ownerId: Scalars['Float'];
   featured: Scalars['Boolean'];
+  archieved: Scalars['Boolean'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   thumbnail?: Maybe<Scalars['String']>;
@@ -143,6 +162,27 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+export type PaginatedFeedbacks = {
+  __typename?: 'PaginatedFeedbacks';
+  feedbacks: Array<Feedback>;
+  hasMore: Scalars['Boolean'];
+};
+
+export type Feedback = {
+  __typename?: 'Feedback';
+  id: Scalars['Float'];
+  author: User;
+  recipient: User;
+  ad: Ad;
+  authorId: Scalars['Float'];
+  recipientId: Scalars['Float'];
+  adId: Scalars['Float'];
+  satisfied: Scalars['Boolean'];
+  comment?: Maybe<Scalars['String']>;
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
 export type PaginatedUsers = {
   __typename?: 'PaginatedUsers';
   users: Array<User>;
@@ -156,6 +196,8 @@ export type Mutation = {
   deleteAd: Scalars['Boolean'];
   deleteAdImage: Scalars['Boolean'];
   uploadAdImages: Array<Scalars['String']>;
+  leaveFeedback: FeedbackResponse;
+  deleteFeedback?: Maybe<FieldError>;
   register: UserResponse;
   login: UserResponse;
   forgotPassword?: Maybe<FieldError>;
@@ -194,6 +236,16 @@ export type MutationDeleteAdImageArgs = {
 export type MutationUploadAdImagesArgs = {
   adId: Scalars['Int'];
   images: Array<Scalars['Upload']>;
+};
+
+
+export type MutationLeaveFeedbackArgs = {
+  options: FeedbackInput;
+};
+
+
+export type MutationDeleteFeedbackArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -261,6 +313,19 @@ export type PostInput = {
 };
 
 
+export type FeedbackResponse = {
+  __typename?: 'FeedbackResponse';
+  errors?: Maybe<Array<FieldError>>;
+  feedback?: Maybe<Feedback>;
+};
+
+export type FeedbackInput = {
+  recipientId: Scalars['Float'];
+  adId: Scalars['Float'];
+  satisfied: Scalars['Boolean'];
+  comment?: Maybe<Scalars['String']>;
+};
+
 export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
@@ -313,6 +378,14 @@ export type AdSnippetFragment = (
 export type CategoriesFragment = (
   { __typename?: 'Ad' }
   & Pick<Ad, 'category' | 'subCategory'>
+);
+
+export type KarmaFragment = (
+  { __typename?: 'User' }
+  & { karma: (
+    { __typename?: 'KarmaResponse' }
+    & Pick<KarmaResponse, 'satisfied' | 'unsatisfied'>
+  ) }
 );
 
 export type RegularErrorFragment = (
@@ -462,6 +535,22 @@ export type ForgotPasswordMutation = (
     { __typename?: 'FieldError' }
     & Pick<FieldError, 'field' | 'message'>
   )> }
+);
+
+export type LeaveFeedbackMutationVariables = Exact<{
+  options: FeedbackInput;
+}>;
+
+
+export type LeaveFeedbackMutation = (
+  { __typename?: 'Mutation' }
+  & { leaveFeedback: (
+    { __typename?: 'FeedbackResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>> }
+  ) }
 );
 
 export type LoginMutationVariables = Exact<{
@@ -725,6 +814,25 @@ export type UserQuery = (
   ) }
 );
 
+export type UserLeaveFeedbackQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type UserLeaveFeedbackQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'User' }
+    & Pick<User, 'banned'>
+    & { ads: Array<(
+      { __typename?: 'Ad' }
+      & Pick<Ad, 'id' | 'title'>
+    )> }
+    & RegularUserFragment
+    & KarmaFragment
+  ) }
+);
+
 export type UserAdsQueryVariables = Exact<{
   userId: Scalars['Int'];
   limit?: Maybe<Scalars['Int']>;
@@ -833,6 +941,14 @@ export const AdSnippetFragmentDoc = gql`
 }
     ${AdDetailsFragmentDoc}
 ${AdOwnerFragmentDoc}`;
+export const KarmaFragmentDoc = gql`
+    fragment Karma on User {
+  karma {
+    satisfied
+    unsatisfied
+  }
+}
+    `;
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
   field
@@ -958,6 +1074,20 @@ export const ForgotPasswordDocument = gql`
 
 export function useForgotPasswordMutation() {
   return Urql.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument);
+};
+export const LeaveFeedbackDocument = gql`
+    mutation LeaveFeedback($options: FeedbackInput!) {
+  leaveFeedback(options: $options) {
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
+
+export function useLeaveFeedbackMutation() {
+  return Urql.useMutation<LeaveFeedbackMutation, LeaveFeedbackMutationVariables>(LeaveFeedbackDocument);
 };
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
@@ -1206,6 +1336,24 @@ ${UserRecentFragmentDoc}`;
 
 export function useUserQuery(options: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
+};
+export const UserLeaveFeedbackDocument = gql`
+    query UserLeaveFeedback($id: Int!) {
+  user(id: $id) {
+    ...RegularUser
+    ...Karma
+    banned
+    ads {
+      id
+      title
+    }
+  }
+}
+    ${RegularUserFragmentDoc}
+${KarmaFragmentDoc}`;
+
+export function useUserLeaveFeedbackQuery(options: Omit<Urql.UseQueryArgs<UserLeaveFeedbackQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<UserLeaveFeedbackQuery>({ query: UserLeaveFeedbackDocument, ...options });
 };
 export const UserAdsDocument = gql`
     query UserAds($userId: Int!, $limit: Int, $offset: Int) {
