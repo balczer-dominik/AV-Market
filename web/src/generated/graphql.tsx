@@ -155,6 +155,7 @@ export type Mutation = {
   editAd: AdResponse;
   deleteAd: Scalars['Boolean'];
   deleteAdImage: Scalars['Boolean'];
+  uploadAdImages: Array<Scalars['String']>;
   register: UserResponse;
   login: UserResponse;
   forgotPassword?: Maybe<FieldError>;
@@ -187,6 +188,12 @@ export type MutationDeleteAdArgs = {
 
 export type MutationDeleteAdImageArgs = {
   src: Scalars['String'];
+};
+
+
+export type MutationUploadAdImagesArgs = {
+  adId: Scalars['Int'];
+  images: Array<Scalars['Upload']>;
 };
 
 
@@ -542,6 +549,17 @@ export type UnbanUserMutationVariables = Exact<{
 export type UnbanUserMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'unbanUser'>
+);
+
+export type UploadAdImagesMutationVariables = Exact<{
+  adId: Scalars['Int'];
+  images: Array<Scalars['Upload']> | Scalars['Upload'];
+}>;
+
+
+export type UploadAdImagesMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'uploadAdImages'>
 );
 
 export type UploadAvatarMutationVariables = Exact<{
@@ -1013,6 +1031,15 @@ export const UnbanUserDocument = gql`
 
 export function useUnbanUserMutation() {
   return Urql.useMutation<UnbanUserMutation, UnbanUserMutationVariables>(UnbanUserDocument);
+};
+export const UploadAdImagesDocument = gql`
+    mutation UploadAdImages($adId: Int!, $images: [Upload!]!) {
+  uploadAdImages(adId: $adId, images: $images)
+}
+    `;
+
+export function useUploadAdImagesMutation() {
+  return Urql.useMutation<UploadAdImagesMutation, UploadAdImagesMutationVariables>(UploadAdImagesDocument);
 };
 export const UploadAvatarDocument = gql`
     mutation UploadAvatar($avatar: Upload!) {

@@ -1,5 +1,7 @@
-import { createWriteStream } from "fs";
+import { createWriteStream, unlink } from "fs";
 import randomstring from "randomstring";
+import { Upload } from "../util/type-graphql/Upload";
+import { GraphQLUpload } from "apollo-server-express";
 import {
   Arg,
   Ctx,
@@ -290,7 +292,16 @@ export class AdResolver {
       return false;
     }
 
-    AdImage.delete({ adId: ad.id });
+    const images = await AdImage.find({ adId: ad.id });
+
+    if (images) {
+      images.forEach(async (image) => {
+        unlink(__dirname + `/../../../web/public/ad/${image}.png`, (err) => {
+          console.log(err);
+        });
+        image.remove();
+      });
+    }
 
     ad.remove();
 
@@ -320,8 +331,58 @@ export class AdResolver {
       return false;
     }
 
-    AdImage.delete({ src });
+    unlink(__dirname + `/../../../web/public/ad/${src}.png`, (err) => {
+      if (err) console.log(err);
+    });
+
+    image.remove();
 
     return true;
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => [String])
+  async uploadAdImages(
+    @Arg("images", () => [GraphQLUpload])
+    images: [Upload],
+    @Arg("adId", () => Int) adId: number,
+    @Ctx() { req }: MyContext
+  ) {
+    const ad = await Ad.findOne(adId);
+
+    if (!ad) {
+      return [];
+    }
+
+    if (ad.ownerId !== req.session.userId) {
+      return [];
+    }
+
+    let result: String[] = [];
+
+    images.forEach(async (image) => {
+      const filename = randomstring.generate(30);
+      result.push(filename);
+      const { createReadStream } = await image;
+      await new Promise(
+        async (resolve, reject) =>
+          await createReadStream()
+            .pipe(
+              createWriteStream(
+                __dirname + `/../../../web/public/ad/${filename}.png`
+              )
+            )
+            .on("finish", async () => {
+              await AdImage.insert({ ad: ad, adId: ad.id, src: filename });
+              resolve(true);
+            })
+            .on("error", (err) => {
+              console.log(err);
+              reject(false);
+            })
+      );
+    });
+
+    return result;
   }
 }

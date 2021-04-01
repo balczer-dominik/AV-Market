@@ -1,0 +1,3 @@
+mutation UploadAdImages($adId: Int!, $images: [Upload!]!) {
+  uploadAdImages(adId: $adId, images: $images)
+}

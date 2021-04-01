@@ -20,13 +20,13 @@ export const DropzoneUploader: React.FC<DropzoneUploaderProps> = ({
   const {
     theme: { FRONT_COLOR },
   } = useContext(ThemeContext);
-  const handleDrop = useCallback((acceptedFiles) => {
+  const handleDrop = (acceptedFiles) => {
     setter(fieldName, images.concat(acceptedFiles));
-  }, []);
+  };
 
   return (
     <Box m={2}>
-      <Dropzone onDrop={handleDrop}>
+      <Dropzone onDrop={handleDrop} accept="image/jpeg, image/png">
         {({ getRootProps, getInputProps }) => (
           <Flex
             justify="center"
