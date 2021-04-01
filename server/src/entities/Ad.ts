@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { AdImage } from "./AdImage";
+import { Feedback } from "./Feedback";
 
 @ObjectType()
 @Entity()
@@ -54,9 +55,16 @@ export class Ad extends BaseEntity {
   @OneToMany(() => AdImage, (adImage) => adImage.ad)
   images: AdImage[];
 
+  @OneToMany(() => Feedback, (feedback) => feedback.ad)
+  feedbacks: Feedback[];
+
   @Field()
   @Column({ default: false })
   featured: boolean;
+
+  @Field()
+  @Column({ default: false })
+  archieved: boolean;
 
   @Field(() => String)
   @CreateDateColumn()

@@ -10,6 +10,7 @@ import {
 } from "type-graphql";
 import { getConnection } from "typeorm";
 import { isAdmin } from "../middleware/authMiddleware";
+import { Ad } from "../entities/Ad";
 
 @Resolver(User)
 export class UserAdministrationResolver {
@@ -41,6 +42,7 @@ export class UserAdministrationResolver {
   @Mutation(() => Boolean)
   async banUser(@Arg("id", () => Int) id: number) {
     await User.update(id, { banned: true });
+    await Ad.update({ ownerId: id }, { archieved: true });
     return true;
   }
 

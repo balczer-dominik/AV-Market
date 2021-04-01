@@ -126,7 +126,7 @@ export const UserCard: React.FC<UserCardProps> = ({
                 <Text fontSize="xl">{deliveryCount}</Text>
               </HStack>
               {meId !== userId ? (
-                <RegularButton w="full">
+                <RegularButton w="full" href={`/feedback/${userId}`}>
                   <HStack justify="space-between" w="full">
                     <Icon as={RiChat3Fill} w={6} h={6} />
                     <Text>{SEND_MESSAGE_LABEL}</Text>

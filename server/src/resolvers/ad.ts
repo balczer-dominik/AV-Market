@@ -127,6 +127,8 @@ export class AdResolver {
       });
     }
 
+    console.log(ad);
+
     return { ad };
   }
 

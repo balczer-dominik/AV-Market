@@ -78,6 +78,8 @@ export const DELETE_AD_SUCCESS = "Sikeresen törölte az apróhirdetést.";
 export const DELETE_IMAGE_SUCCESS = "Sikeresen törölte a fényképet.";
 export const IMAGE_UPLOAD_FAIL = "Hiba történt a képek feltöltése során.";
 export const IMAGE_UPLOAD_SUCCESS = "Sikeresen feltöltötte a képeket.";
+export const FEEDBACK_SUGGESTION_LABEL =
+  "Megvásárolta a terméket? Értékelje az eladót!";
 
 //Register validation
 export const INCORRECT_EMAIL_FORMAT = "Helytelen e-mail formátum.";
@@ -198,6 +200,7 @@ export const THIS_AD_IS_YOURS = "Ez a hirdetés a tied.";
 export const EDIT_LABEL = "Szerkesztés";
 export const DELETE_LABEL = "Törlés";
 export const HANDLE_IMAGES = "Fényképek kezelése";
+export const MESSAGES_LABEL = "Privát üzenetek";
 
 //Post ad
 export const CHOOSE_CATEGORY_LABEL = "Kategória kiválasztása";

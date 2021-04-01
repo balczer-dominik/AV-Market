@@ -1,12 +1,4 @@
-import {
-  Heading,
-  SimpleGrid,
-  Image,
-  Flex,
-  Icon,
-  IconButton,
-  Box,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, Icon, Image, SimpleGrid } from "@chakra-ui/react";
 import { DropzoneUploader } from "@components/post/DropzoneUploader";
 import { RegularButton } from "@components/RegularButton";
 import {
@@ -25,7 +17,7 @@ import {
 import { formatAdSrc } from "@utils/formatters/formatLinks";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { useBetterToast } from "@utils/hooks/useBetterToast";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 
 interface EditAdImagesProps {

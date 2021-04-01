@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { AdControls } from "@components/ad/AdControls";
+import { FeedbackSuggestion } from "@components/ad/FeedbackSuggestion";
 import { AdDetail } from "@components/AdDetail";
 import { AdRecent } from "@components/AdRecent";
 import { Breadcrumbs } from "@components/Breadcrumbs";
@@ -121,6 +122,7 @@ const ViewAd: React.FC<{}> = () => {
                 <AdDetail icon={BiDetail} text={ad.desc} />
               </Box>
             </Flex>
+            <FeedbackSuggestion ownerId={ad.owner.id} />
             <AdRecent
               owner={ad.owner.username}
               label={OTHER_ADS_LABEL}

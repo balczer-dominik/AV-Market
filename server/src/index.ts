@@ -9,8 +9,10 @@ import { createConnection } from "typeorm";
 import { COOKIE_NAME, __prod__ } from "./constants";
 import { Ad } from "./entities/Ad";
 import { AdImage } from "./entities/AdImage";
+import { Feedback } from "./entities/Feedback";
 import { User } from "./entities/User";
 import { AdResolver } from "./resolvers/ad";
+import { FeedbackResolver } from "./resolvers/feedback";
 import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/user";
 import { UserAdministrationResolver } from "./resolvers/userAdministration";
@@ -25,7 +27,7 @@ const main = async () => {
     password: "postgres",
     logging: true,
     synchronize: !__prod__,
-    entities: [User, Ad, AdImage],
+    entities: [User, Ad, AdImage, Feedback],
   });
 
   //Express
@@ -72,6 +74,7 @@ const main = async () => {
         UserResolver,
         UserAdministrationResolver,
         AdResolver,
+        FeedbackResolver,
       ],
       validate: false,
     }),

@@ -19,6 +19,7 @@ import React, { useContext, useEffect } from "react";
 import { BiLogIn } from "react-icons/bi";
 import { FaUserPlus } from "react-icons/fa";
 import { LOGIN_LABEL, REGISTER_LABEL } from "src/resources/strings";
+import { MessagesButton } from "./MessagesButton";
 
 export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   const {
@@ -60,6 +61,7 @@ export const ProfileSection: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
             flexDir={{ base: "column", md: "row" }}
           >
             <ThemeSwitcher />
+            <MessagesButton />
             <PostAdButton />
             <ProfileContainer />
           </Flex>

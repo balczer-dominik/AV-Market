@@ -45,6 +45,14 @@ export const PRICE_TOO_LOW = "Az ár túl alacsony.";
 export const PRICE_TOO_HIGH = "Az ár túl magas.";
 export const TITLE_TOO_SHORT = "A címnek legalább 5 karakterből kell állnia.";
 export const TITLE_TOO_LONG = "A cím legfeljebb 60 karakterből állhat.";
+export const AD_ARCHIEVED = "A hirdetés archiválva van.";
 
 //Ad misc.
 export const AD_NOT_FOUND = "Hirdetés nem található.";
+
+//Error
+export const ERROR_GENERIC = "Iseretlen hiba történt. Próbálkozzon később.";
+export const FEEDBACK_NOT_FOUND = "Értékelés nem található.";
+export const AD_NOT_OWNED_BY_SPECIFIED_USER =
+  "Az adott hirdetés nem ehhez a felhasználóhoz tartozik.";
+export const ERROR_CANNOT_RATE_SELF = "Nem értékelheted saját magadat.";

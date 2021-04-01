@@ -1,5 +1,6 @@
-import { Heading, HStack, Icon, Text } from "@chakra-ui/react";
+import { Heading, HStack, Text } from "@chakra-ui/react";
 import { RegularButton } from "@components/RegularButton";
+import { useDeleteAdMutation } from "@generated/graphql";
 import {
   DELETE_AD_SUCCESS,
   DELETE_LABEL,
@@ -8,12 +9,11 @@ import {
   THIS_AD_IS_YOURS,
 } from "@resources/strings";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
+import { useBetterToast } from "@utils/hooks/useBetterToast";
 import { useMeId } from "@utils/hooks/useMeId";
+import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { useDeleteAdMutation } from "@generated/graphql";
-import { useRouter } from "next/router";
-import { useBetterToast } from "@utils/hooks/useBetterToast";
 
 interface AdControlsProps {
   adId: number;

@@ -3,7 +3,6 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  HStack,
   Link,
   Text,
 } from "@chakra-ui/react";
@@ -29,12 +28,13 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
     <Breadcrumb separator={<ChevronRightIcon color={FRONT_COLOR} />}>
       {items ? (
         items.map(({ href, label }, i) => (
-          <BreadcrumbItem isCurrentPage={i === items.length - 1}>
+          <BreadcrumbItem isCurrentPage={i === items.length - 1} maxW="100%">
             <NextLink href={href} passHref>
               <BreadcrumbLink
                 as={Link}
                 fontWeight="bold"
                 style={{ textDecoration: "none" }}
+                maxW="100%"
               >
                 <Text isTruncated>{label}</Text>
               </BreadcrumbLink>
