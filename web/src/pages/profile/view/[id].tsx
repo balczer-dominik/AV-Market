@@ -9,6 +9,7 @@ import { LOADING_TITLE, USERS_RECENT_ADS_LABEL } from "src/resources/strings";
 import { useGetUserFromId } from "@utils/hooks/useGetUserFromId";
 import { withUrqlClient } from "next-urql";
 import React from "react";
+import { UserRatings } from "@components/profile/UserRatings";
 
 interface ViewProfileProps {}
 
@@ -28,8 +29,8 @@ const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
             userId={user.id}
             username={user.username}
             avatarSrc={user.avatar}
-            karmaP={34}
-            karmaN={3}
+            karmaP={user.karma.satisfied}
+            karmaN={user.karma.unsatisfied}
             adCount={user.adCount}
             deliveryCount={5}
             fetching={fetching}
@@ -53,7 +54,7 @@ const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
               label={USERS_RECENT_ADS_LABEL}
               recent={user.recent}
             />
-            {/* <UserRatings /> */}
+            <UserRatings userId={user.id} />
           </VStack>
         </Flex>
       ) : (

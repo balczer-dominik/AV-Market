@@ -1,12 +1,15 @@
 import { Flex, FormLabel, Heading, Icon, Link, Text } from "@chakra-ui/react";
+import { InputField } from "@components/InputField";
 import { Layout } from "@components/Layout";
+import { RegularButton } from "@components/RegularButton";
+import { Spinner } from "@components/Spinner";
 import {
   useLeaveFeedbackMutation,
   useUserLeaveFeedbackQuery,
 } from "@generated/graphql";
 import {
-  AD_NOT_FOUND,
   COMMENT_LABEL,
+  ERROR_CANNOT_RATE_SELF,
   FEEDBACK_AD_LABEL,
   GIVING_FEEDBACK_LABEL,
   LEAVE_FEEDBACK_LABEL,
@@ -19,22 +22,19 @@ import {
   WERE_YOU_SATISFIED,
 } from "@resources/strings";
 import { formatAdLink, formatProfileLink } from "@utils/formatters/formatLinks";
-import { useGetIdFromUrl } from "@utils/hooks/useGetIdFromUrl";
-import { createUrqlClient } from "@utils/urql/createUrqlClient";
-import { withUrqlClient } from "next-urql";
-import React, { useContext } from "react";
-import NextLink from "next/link";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
-import { Spinner } from "@components/Spinner";
-import { BiErrorCircle } from "react-icons/bi";
-import { Form, Formik } from "formik";
-import { FaHeart, FaHeartBroken } from "react-icons/fa";
-import { InputField } from "@components/InputField";
-import { ImPriceTag } from "react-icons/im";
-import { RegularButton } from "@components/RegularButton";
-import { toErrorMap } from "@utils/toErrorMap";
 import { useBetterToast } from "@utils/hooks/useBetterToast";
+import { useGetIdFromUrl } from "@utils/hooks/useGetIdFromUrl";
+import { useMeId } from "@utils/hooks/useMeId";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
+import { Form, Formik } from "formik";
+import { withUrqlClient } from "next-urql";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import { BiErrorCircle } from "react-icons/bi";
+import { FaHeart, FaHeartBroken } from "react-icons/fa";
+import { ImPriceTag } from "react-icons/im";
 
 interface LeaveFeedbackProps {}
 
@@ -57,6 +57,7 @@ const LeaveFeedback: React.FC<LeaveFeedbackProps> = ({}) => {
   } = useContext(ThemeContext);
   const toast = useBetterToast();
   const router = useRouter();
+  const meId = useMeId();
 
   const user = data ? data.user : null;
 
@@ -69,6 +70,11 @@ const LeaveFeedback: React.FC<LeaveFeedbackProps> = ({}) => {
           <Flex flexDir="column" justify="center" align="center" height="500px">
             <Icon as={BiErrorCircle} h={50} w={50} />
             <Heading size="md">{USER_HAS_NO_ADS}</Heading>
+          </Flex>
+        ) : recipientId === meId ? (
+          <Flex flexDir="column" justify="center" align="center" height="500px">
+            <Icon as={BiErrorCircle} h={50} w={50} />
+            <Heading size="md">{ERROR_CANNOT_RATE_SELF}</Heading>
           </Flex>
         ) : (
           <>
@@ -93,7 +99,12 @@ const LeaveFeedback: React.FC<LeaveFeedbackProps> = ({}) => {
               onSubmit={async ({ adId, satisfied, comment }) => {
                 const errors = (
                   await leaveFeedback({
-                    options: { adId, recipientId, satisfied, comment },
+                    options: {
+                      adId: typeof adId === "string" ? parseInt(adId) : adId,
+                      recipientId,
+                      satisfied,
+                      comment,
+                    },
                   })
                 ).data.leaveFeedback.errors;
 

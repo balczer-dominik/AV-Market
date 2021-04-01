@@ -87,7 +87,13 @@ export const RegularButton: React.FC<SubmitButtonProps> = ({
   if (href) {
     return (
       <NextLink href={href} passHref>
-        <Link style={{ textDecoration: "none" }}>{button}</Link>
+        <Link
+          style={{ textDecoration: "none" }}
+          w={w ?? "unset"}
+          h={h ?? "2.5rem"}
+        >
+          {button}
+        </Link>
       </NextLink>
     );
   }

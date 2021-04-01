@@ -16,6 +16,7 @@ import { isServer } from "@utils/isServer";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { ProfileDropDown } from "@components/ProfileDropDown";
 import { ProfileItems } from "@components/ProfileItems";
+import { formatAvatarLink } from "@utils/formatters/formatLinks";
 
 interface ProfileContainerProps {}
 
@@ -53,7 +54,8 @@ export const ProfileContainer: React.FC<ProfileContainerProps> = ({}) => {
               borderStyle="solid"
               h={10}
               w={10}
-              src={`/avatar/${data ? data.me.avatar : "undefined"}.png`}
+              src={formatAvatarLink(data?.me.avatar)}
+              objectFit="cover"
               fallback={
                 <Flex
                   align={"center"}

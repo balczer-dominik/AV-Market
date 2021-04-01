@@ -701,6 +701,33 @@ export type AdsQuery = (
   ) }
 );
 
+export type KarmaQueryVariables = Exact<{
+  recipientId?: Maybe<Scalars['Int']>;
+  satisfied?: Maybe<Scalars['Boolean']>;
+  cursor?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type KarmaQuery = (
+  { __typename?: 'Query' }
+  & { feedbacks: (
+    { __typename?: 'PaginatedFeedbacks' }
+    & Pick<PaginatedFeedbacks, 'hasMore'>
+    & { feedbacks: Array<(
+      { __typename?: 'Feedback' }
+      & Pick<Feedback, 'id' | 'comment' | 'satisfied' | 'createdAt'>
+      & { ad: (
+        { __typename?: 'Ad' }
+        & Pick<Ad, 'id' | 'title' | 'thumbnail'>
+      ), author: (
+        { __typename?: 'User' }
+        & RegularUserFragment
+      ) }
+    )> }
+  ) }
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -811,6 +838,7 @@ export type UserQuery = (
     & RegularUserFragment
     & UserContactsFragment
     & UserLocationFragment
+    & KarmaFragment
   ) }
 );
 
@@ -1219,6 +1247,36 @@ export const AdsDocument = gql`
 export function useAdsQuery(options: Omit<Urql.UseQueryArgs<AdsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AdsQuery>({ query: AdsDocument, ...options });
 };
+export const KarmaDocument = gql`
+    query Karma($recipientId: Int, $satisfied: Boolean, $cursor: String, $first: Int) {
+  feedbacks(
+    recipientId: $recipientId
+    satisified: $satisfied
+    cursor: $cursor
+    first: $first
+  ) {
+    feedbacks {
+      id
+      ad {
+        id
+        title
+        thumbnail
+      }
+      author {
+        ...RegularUser
+      }
+      comment
+      satisfied
+      createdAt
+    }
+    hasMore
+  }
+}
+    ${RegularUserFragmentDoc}`;
+
+export function useKarmaQuery(options: Omit<Urql.UseQueryArgs<KarmaQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<KarmaQuery>({ query: KarmaDocument, ...options });
+};
 export const MeDocument = gql`
     query Me {
   me {
@@ -1323,6 +1381,7 @@ export const UserDocument = gql`
     ...RegularUser
     ...UserContacts
     ...UserLocation
+    ...Karma
     adCount
     recent {
       ...UserRecent
@@ -1332,6 +1391,7 @@ export const UserDocument = gql`
     ${RegularUserFragmentDoc}
 ${UserContactsFragmentDoc}
 ${UserLocationFragmentDoc}
+${KarmaFragmentDoc}
 ${UserRecentFragmentDoc}`;
 
 export function useUserQuery(options: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'> = {}) {

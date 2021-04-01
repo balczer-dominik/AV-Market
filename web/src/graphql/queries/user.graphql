@@ -3,6 +3,7 @@ query User($id: Int!) {
     ...RegularUser
     ...UserContacts
     ...UserLocation
+    ...Karma
     adCount
     recent {
       ...UserRecent

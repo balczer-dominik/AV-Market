@@ -1,0 +1,29 @@
+query Karma(
+  $recipientId: Int
+  $satisfied: Boolean
+  $cursor: String
+  $first: Int
+) {
+  feedbacks(
+    recipientId: $recipientId
+    satisified: $satisfied
+    cursor: $cursor
+    first: $first
+  ) {
+    feedbacks {
+      id
+      ad {
+        id
+        title
+        thumbnail
+      }
+      author {
+        ...RegularUser
+      }
+      comment
+      satisfied
+      createdAt
+    }
+    hasMore
+  }
+}

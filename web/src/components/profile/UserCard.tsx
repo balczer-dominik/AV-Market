@@ -100,10 +100,11 @@ export const UserCard: React.FC<UserCardProps> = ({
               </Heading>
               <HStack justify="space-between" w="100%">
                 <Icon as={FaHeart} h={8} w={8} />
-                <Text fontSize="xl">{`${(
-                  (karmaP / (karmaP + karmaN)) *
-                  100
-                ).toFixed()}% (${karmaP}/${karmaN})`}</Text>
+                <Text fontSize="xl">{`${
+                  karmaP + karmaN === 0
+                    ? "-"
+                    : ((karmaP / (karmaP + karmaN)) * 100).toFixed()
+                }% (${karmaP}/${karmaN})`}</Text>
               </HStack>
               <Box w="100%">
                 <NextLink href={formatAdsLink(userId)} passHref>
@@ -126,7 +127,7 @@ export const UserCard: React.FC<UserCardProps> = ({
                 <Text fontSize="xl">{deliveryCount}</Text>
               </HStack>
               {meId !== userId ? (
-                <RegularButton w="full" href={`/feedback/${userId}`}>
+                <RegularButton w="full">
                   <HStack justify="space-between" w="full">
                     <Icon as={RiChat3Fill} w={6} h={6} />
                     <Text>{SEND_MESSAGE_LABEL}</Text>
@@ -134,7 +135,7 @@ export const UserCard: React.FC<UserCardProps> = ({
                 </RegularButton>
               ) : null}
               {meId !== userId ? (
-                <RegularButton w="full">
+                <RegularButton w="full" href={`/feedback/${userId}`}>
                   <HStack justify="space-between" w="full">
                     <Icon as={FaHeart} w={6} h={6} />
                     <Text>{LEAVE_FEEDBACK_LABEL}</Text>

@@ -1,10 +1,13 @@
+import { User } from "../entities/User";
 import {
   Arg,
   Ctx,
+  FieldResolver,
   Int,
   Mutation,
   Query,
   Resolver,
+  Root,
   UseMiddleware,
 } from "type-graphql";
 import { FindConditions, LessThan } from "typeorm";
@@ -29,6 +32,21 @@ import { PaginatedFeedbacks } from "../util/type-graphql/PaginatedFeedback";
 
 @Resolver(Feedback)
 export class FeedbackResolver {
+  @FieldResolver(() => User)
+  async author(@Root() feedback: Feedback) {
+    return await User.findOne(feedback.authorId);
+  }
+
+  @FieldResolver(() => User)
+  async recipient(@Root() feedback: Feedback) {
+    return await User.findOne(feedback.recipientId);
+  }
+
+  @FieldResolver(() => User)
+  async ad(@Root() feedback: Feedback) {
+    return await Ad.findOne(feedback.adId);
+  }
+
   @Query(() => PaginatedFeedbacks)
   async feedbacks(
     @Arg("first", () => Int, { defaultValue: 8 }) first: number,

@@ -273,3 +273,6 @@ export const FEEDBACK_AD_LABEL = "Melyik terméket vásárolta meg?";
 export const USER_HAS_NO_ADS = "A felhasználónak nincsenek apróhirdetései.";
 export const COMMENT_LABEL = "További megjegyzés hagyása";
 export const LEAVE_FEEDBACK_SUCCESS = "Sikeresen elküldte az értékelést.";
+export const ERROR_CANNOT_RATE_SELF = "Nem értékelheted saját magadat.";
+export const FEEDBACKS_LABEL = "Értékelések";
+export const USERS_FEEDBACK_LABEL = "felhasználó értékelése";
