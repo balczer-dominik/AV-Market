@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-server": "^2.22.2",
     "apollo-server-express": "^2.20.0",
     "argon2": "^0.27.1",
     "connect-redis": "^5.1.0",
@@ -28,6 +29,7 @@
     "pg": "^8.5.1",
     "randomstring": "^1.1.5",
     "reflect-metadata": "^0.1.13",
+    "subscriptions-transport-ws": "^0.9.18",
     "type-graphql": "^1.1.1",
     "typeorm": "^0.2.31"
   },

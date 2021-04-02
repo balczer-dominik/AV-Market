@@ -1,4 +1,13 @@
 import { Heading, SimpleGrid, Stack } from "@chakra-ui/react";
+import { ChangeAvatarForm } from "@components/ChangeAvatarForm";
+import { ChangeContactsForm } from "@components/ChangeContactsForm";
+import { ChangeLocationForm } from "@components/ChangeLocationForm";
+import { ChangePasswordForm } from "@components/ChangePasswordForm";
+import { Layout } from "@components/Layout";
+import { ProfileEditSection } from "@components/ProfileEditSection";
+import { useMeQuery } from "@generated/graphql";
+import { useIsAuth } from "@utils/hooks/useIsAuth";
+import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import { withUrqlClient } from "next-urql";
 import React from "react";
 import {
@@ -7,14 +16,6 @@ import {
   FaMailBulk,
   FaRegUserCircle,
 } from "react-icons/fa";
-import { Layout } from "@components/Layout";
-import { ChangeAvatarForm } from "@components/ChangeAvatarForm";
-import { ChangeContactsForm } from "@components/ChangeContactsForm";
-import { ChangeLocationForm } from "@components/ChangeLocationForm";
-import { ChangePasswordForm } from "@components/ChangePasswordForm";
-import { ProfileEditSection } from "@components/ProfileEditSection";
-import { useMeQuery } from "@generated/graphql";
-import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import {
   CHANGE_AVATAR_LABEL,
   CHANGE_CONTACTS_LABEL,
@@ -22,7 +23,6 @@ import {
   CHANGE_PASSWORD_LABEL,
   EDIT_PROFILE_LABEL,
 } from "src/resources/strings";
-import { useIsAuth } from "@utils/useIsAuth";
 
 const Edit: React.FC<{}> = ({}) => {
   useIsAuth();

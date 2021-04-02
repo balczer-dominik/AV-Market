@@ -3,17 +3,22 @@ import connectRedis from "connect-redis";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
+import { execute, subscribe } from "graphql";
+import { createServer } from "http";
 import Redis from "ioredis";
+import { SubscriptionServer } from "subscriptions-transport-ws";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import { COOKIE_NAME, __prod__ } from "./constants";
 import { Ad } from "./entities/Ad";
 import { AdImage } from "./entities/AdImage";
 import { Feedback } from "./entities/Feedback";
+import { Message } from "./entities/Message";
 import { User } from "./entities/User";
 import { AdResolver } from "./resolvers/ad";
 import { FeedbackResolver } from "./resolvers/feedback";
 import { HelloResolver } from "./resolvers/hello";
+import { MessageResolver } from "./resolvers/message";
 import { UserResolver } from "./resolvers/user";
 import { UserAdministrationResolver } from "./resolvers/userAdministration";
 import { registerAdSortingEnums } from "./util/type-graphql/AdSortingOptions";
@@ -27,7 +32,7 @@ const main = async () => {
     password: "postgres",
     logging: true,
     synchronize: !__prod__,
-    entities: [User, Ad, AdImage, Feedback],
+    entities: [User, Ad, AdImage, Feedback, Message],
   });
 
   //Express
@@ -40,45 +45,50 @@ const main = async () => {
   );
 
   //Redis
-  const RedisStore = connectRedis(session);
-  const redis = new Redis();
+  const RedisStore = connectRedis(session); //Store
+  const redis = new Redis(); //Client
 
   //Session
-  app.use(
-    session({
-      name: COOKIE_NAME,
-      store: new RedisStore({
-        client: redis,
-        disableTouch: true,
-      }),
-      cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
-        httpOnly: true,
-        sameSite: "lax",
-        secure: __prod__,
-      },
-      secret: "55555555555fffffffffff",
-      resave: false,
-      saveUninitialized: false,
-    })
-  );
+  const sessionMiddleware = session({
+    name: COOKIE_NAME,
+    store: new RedisStore({
+      client: redis,
+      disableTouch: true,
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: __prod__,
+    },
+    secret: "55555555555fffffffffff",
+    resave: false,
+    saveUninitialized: false,
+  });
+
+  app.use(sessionMiddleware);
 
   //ENUMs
   registerAdSortingEnums();
 
+  //Schema
+  const schema = await buildSchema({
+    resolvers: [
+      HelloResolver,
+      UserResolver,
+      UserAdministrationResolver,
+      AdResolver,
+      FeedbackResolver,
+      MessageResolver,
+    ],
+    validate: false,
+  });
+
   //Apollo
   const apolloServer = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [
-        HelloResolver,
-        UserResolver,
-        UserAdministrationResolver,
-        AdResolver,
-        FeedbackResolver,
-      ],
-      validate: false,
-    }),
-    context: ({ req, res }) => ({
+    schema: schema,
+    context: ({ req, res, connection }) => ({
+      connection,
       req,
       res,
       redis,
@@ -88,6 +98,27 @@ const main = async () => {
   apolloServer.applyMiddleware({
     app,
     cors: false,
+  });
+
+  //Subscriptions
+  const wsServer = createServer(app);
+  wsServer.listen(4000, () => {
+    new SubscriptionServer(
+      {
+        execute,
+        subscribe,
+        schema,
+        onConnect: (_: any, thisContext: any) => {
+          return new Promise((res) =>
+            sessionMiddleware(thisContext.upgradeReq, {} as any, () => {
+              res({ req: thisContext.upgradeReq });
+            })
+          );
+        },
+      },
+      { server: wsServer }
+    );
+    console.log("WS Server started on localhost:4000");
   });
 
   // mockData.forEach(
@@ -149,9 +180,9 @@ const main = async () => {
   //   }
   // );
 
-  app.listen(4000, () => {
-    console.log("Server started on localhost:4000");
-  });
+  // app.listen(4000, () => {
+  //   console.log("Server started on localhost:4000");
+  // });
 };
 
 main();

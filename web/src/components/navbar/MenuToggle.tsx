@@ -23,6 +23,7 @@ export const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => {
           aria-label="Collapse navbar"
           as={SmallCloseIcon}
           color={FRONT_COLOR}
+          bgColor="unset"
         >
           Collapse
         </IconButton>
@@ -31,6 +32,7 @@ export const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => {
           aria-label="Expand navbar"
           as={HamburgerIcon}
           color={FRONT_COLOR}
+          bgColor="unset"
         >
           Expand
         </IconButton>

@@ -10,6 +10,7 @@ import {
 } from "typeorm";
 import { Ad } from "./Ad";
 import { Feedback } from "./Feedback";
+import { Message } from "./Message";
 
 @ObjectType()
 @Entity()
@@ -61,6 +62,12 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Feedback, (feedback) => feedback.recipient)
   karma: Feedback[];
+
+  @OneToMany(() => Message, (message) => message.author)
+  sentMessages: Feedback[];
+
+  @OneToMany(() => Message, (message) => message.recipient)
+  receivedMessages: Feedback[];
 
   @Field(() => String)
   @CreateDateColumn()

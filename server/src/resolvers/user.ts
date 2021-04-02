@@ -51,16 +51,21 @@ import { validateRegister } from "../validators/validateRegister";
 export class UserResolver {
   @FieldResolver(() => Int)
   async adCount(@Root() user: User): Promise<number> {
-    return (await Ad.find({ where: { ownerId: user.id } })).length;
+    return await Ad.count({ where: { ownerId: user.id } });
   }
 
   @FieldResolver(() => KarmaResponse)
   async karma(@Root() user: User): Promise<KarmaResponse> {
-    const feedbacks = await Feedback.find({ where: { recipientId: user.id } });
+    const satisfied = await Feedback.count({
+      where: { recipientId: user.id, satisfied: true },
+    });
+    const unsatisfied = await Feedback.count({
+      where: { recipientId: user.id, satisfied: false },
+    });
 
     return {
-      satisfied: feedbacks.filter((f) => f.satisfied).length,
-      unsatisfied: feedbacks.filter((f) => !f.satisfied).length,
+      satisfied,
+      unsatisfied,
     };
   }
 
@@ -196,6 +201,7 @@ export class UserResolver {
     }
 
     req.session.userId = user.id;
+    console.log(req.session);
 
     return {
       user,

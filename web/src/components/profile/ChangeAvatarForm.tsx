@@ -46,7 +46,12 @@ export const ChangeAvatarForm: React.FC<ChangeAvatarFormProps> = ({}) => {
           {data ? (
             <Box my={3}>
               <Text mb={1}>{CURRENT_AVATAR_LABEL}</Text>
-              <Image src={`/avatar/${data.me.avatar}.png`} w={100} h={100} />
+              <Image
+                src={`/avatar/${data.me.avatar}.png`}
+                w={100}
+                h={100}
+                objectFit="cover"
+              />
             </Box>
           ) : null}
           <RegularButton spinner={isSubmitting}>
