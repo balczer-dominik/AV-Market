@@ -5,17 +5,19 @@ import {
   FieldResolver,
   Int,
   Mutation,
+  PubSub,
   Query,
   Resolver,
   Root,
   Subscription,
   UseMiddleware,
-  PubSub,
 } from "type-graphql";
+import { FindConditions, getConnection, LessThan } from "typeorm";
 import { Message } from "../entities/Message";
 import { User } from "../entities/User";
 import { isAuth } from "../middleware/authMiddleware";
 import { MyContext } from "../types";
+import { MessagesResponse } from "../util/type-graphql/MessagesResponse";
 
 @Resolver(Message)
 export class MessageResolver {
@@ -54,22 +56,74 @@ export class MessageResolver {
     return { ...partial, ...generated };
   }
 
-  //TODO: pagination
   @UseMiddleware(isAuth)
   @Query(() => [Message])
-  async recentMessages(@Ctx() { req }: MyContext): Promise<Message[]> {
+  async recentMessages(
+    @Ctx() { req }: MyContext,
+    @Arg("first", () => Int, { defaultValue: 10 }) first: number,
+    @Arg("cursor", () => String, { nullable: true }) cursor?: string
+  ): Promise<Message[]> {
     const recipientId = req.session.userId!;
 
-    const test = Message.createQueryBuilder()
-      .where('"Message"."recipientId" = :recipientId', { recipientId })
-      .distinctOn(['"Message"."authorId"'])
-      .orderBy('"Message"."authorId"')
-      .addOrderBy('"Message"."createdAt"', "DESC")
-      //   .addSelect('MAX("Message"."createdAt")', "latest")
-      //   .addGroupBy('"Message"."authorId"')
-      .getMany();
+    const query = await getConnection()
+      .createQueryBuilder()
+      .select("*")
+      .from((subQuery) => {
+        return subQuery
+          .select("*")
+          .from(Message, "Message")
+          .where('"Message"."recipientId" = :recipientId', { recipientId })
+          .distinctOn(['"Message"."authorId"'])
+          .orderBy('"Message"."authorId"')
+          .addOrderBy('"Message"."createdAt"', "DESC");
+      }, "grouped");
 
-    return test;
+    if (cursor) {
+      query.where('grouped."createdAt" < :cursor', {
+        cursor: new Date(parseInt(cursor)),
+      });
+    }
+
+    const messages: Message[] = await query.take(first).getRawMany();
+
+    return messages;
+  }
+
+  @UseMiddleware(isAuth)
+  @Query(() => MessagesResponse)
+  async messages(
+    @Ctx() { req }: MyContext,
+    @Arg("partnerId", () => Int) partnerId: number,
+    @Arg("first", () => Int, { defaultValue: 20 }) first: number,
+    @Arg("cursor", () => String, { nullable: true }) cursor?: string
+  ): Promise<MessagesResponse> {
+    const ownId = req.session.userId!;
+
+    const author = await User.findOne(partnerId);
+    if (!author) {
+      return { messages: [], author };
+    }
+
+    const query = Message.createQueryBuilder()
+      .where(
+        '"Message"."authorId" = :partnerId AND "Message"."recipientId" = :ownId',
+        { ownId, partnerId }
+      )
+      .orWhere(
+        '"Message"."authorId" = :ownId AND "Message"."recipientId" = :partnerId',
+        { ownId, partnerId }
+      )
+      .orderBy('"Message"."createdAt"', "DESC");
+
+    if (cursor) {
+      query.andWhere('"Message"."createdAt" < :cursor', {
+        cursor: new Date(parseInt(cursor)),
+      });
+    }
+
+    const messages = await query.take(first).getMany();
+
+    return { messages, author };
   }
 
   @Subscription(() => Message, {
@@ -77,11 +131,7 @@ export class MessageResolver {
     filter: ({ context: { req }, payload }) =>
       req.session.userId === payload.recipientId,
   })
-  async messageNotification(
-    @Root() message: Message,
-    @Ctx() context: MyContext
-  ): Promise<Message> {
-    console.log(context);
+  async messageNotification(@Root() message: Message): Promise<Message> {
     return message;
   }
 }
