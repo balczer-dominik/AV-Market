@@ -1,13 +1,14 @@
-import { ObjectType, Field } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import {
-  Entity,
   BaseEntity,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
   Column,
+  CreateDateColumn,
+  Entity,
   ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
+import { Conversation } from "./Conversation";
 import { User } from "./User";
 
 @ObjectType()
@@ -19,11 +20,11 @@ export class Message extends BaseEntity {
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.sentMessages)
-  author!: User;
+  author: User;
 
-  @Field(() => User)
-  @ManyToOne(() => User, (user) => user.receivedMessages)
-  recipient!: User;
+  @Field(() => Conversation)
+  @ManyToOne(() => Conversation, (conversation) => conversation.messages)
+  conversation: Conversation;
 
   @Field()
   @Column()
@@ -31,7 +32,7 @@ export class Message extends BaseEntity {
 
   @Field()
   @Column()
-  recipientId!: number;
+  conversationId!: number;
 
   @Field()
   @Column()

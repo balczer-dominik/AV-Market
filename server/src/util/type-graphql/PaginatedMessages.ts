@@ -1,12 +1,11 @@
 import { Message } from "../../entities/Message";
-import { User } from "../../entities/User";
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
-export class MessagesResponse {
+export class PaginatedMessages {
   @Field(() => [Message])
   messages: Message[];
 
-  @Field(() => User, { nullable: true })
-  author?: User;
+  @Field(() => Boolean, { defaultValue: false })
+  hasMore?: boolean;
 }

@@ -4,11 +4,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { Ad } from "./Ad";
+import { Conversation } from "./Conversation";
 import { Feedback } from "./Feedback";
 import { Message } from "./Message";
 
@@ -63,11 +65,11 @@ export class User extends BaseEntity {
   @OneToMany(() => Feedback, (feedback) => feedback.recipient)
   karma: Feedback[];
 
-  @OneToMany(() => Message, (message) => message.author)
-  sentMessages: Feedback[];
+  @ManyToMany(() => Conversation, (conversation) => conversation.participants)
+  conversations: Conversation[];
 
-  @OneToMany(() => Message, (message) => message.recipient)
-  receivedMessages: Feedback[];
+  @OneToMany(() => Message, (message) => message.author)
+  sentMessages: Message[];
 
   @Field(() => String)
   @CreateDateColumn()

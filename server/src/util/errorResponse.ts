@@ -8,7 +8,8 @@ type Field =
   | "newPassword"
   | "id"
   | "ad"
-  | "feedback";
+  | "feedback"
+  | "message";
 
 export const errorResponse = (field: Field, message: string) => {
   return {

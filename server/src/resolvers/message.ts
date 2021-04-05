@@ -1,11 +1,10 @@
-import { PubSubEngine } from "graphql-subscriptions";
 import {
   Arg,
   Ctx,
-  FieldResolver,
   Int,
   Mutation,
   PubSub,
+  PubSubEngine,
   Query,
   Resolver,
   Root,
@@ -13,47 +12,114 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { FindConditions, getConnection, LessThan } from "typeorm";
+import { Conversation } from "../entities/Conversation";
 import { Message } from "../entities/Message";
 import { User } from "../entities/User";
 import { isAuth } from "../middleware/authMiddleware";
+import {
+  ERROR_WRONG_PARAMTERES,
+  UNAUTHORIZED,
+  USER_NOT_FOUND,
+} from "../resource/strings";
 import { MyContext } from "../types";
-import { MessagesResponse } from "../util/type-graphql/MessagesResponse";
+import { errorResponse } from "../util/errorResponse";
+import { ConversationResponse } from "../util/type-graphql/ConversationResponse";
+import { PaginatedMessages } from "../util/type-graphql/PaginatedMessages";
 
 @Resolver(Message)
 export class MessageResolver {
-  @FieldResolver(() => User, { nullable: true })
-  async author(@Root() message: Message): Promise<User | undefined> {
-    const author = await User.findOne(message.authorId);
-    return author;
-  }
-
-  @FieldResolver(() => User, { nullable: true })
-  async recipient(@Root() message: Message): Promise<User | undefined> {
-    const recipient = await User.findOne(message.recipientId);
-    return recipient;
-  }
-
   @UseMiddleware(isAuth)
-  @Mutation(() => Message)
+  @Mutation(() => ConversationResponse)
   async sendMessage(
-    @Arg("recipientId", () => Int) recipientId: number,
-    @Arg("content") content: string,
     @Ctx() { req }: MyContext,
-    @PubSub() pubsub: PubSubEngine
-  ): Promise<Partial<Message>> {
-    const authorId = req.session.userId!;
+    @Arg("content", () => String) content: string,
+    @PubSub() pubsub: PubSubEngine,
+    @Arg("partnerUsername", () => String, { nullable: true })
+    partnerUsername?: string,
+    @Arg("conversationId", () => Int, { nullable: true })
+    convoId?: number
+  ): Promise<ConversationResponse> {
+    const ownId = req.session.userId!;
+    let conversationId = convoId;
 
-    const partial: Partial<Message> = {
-      authorId,
-      recipientId,
-      content,
-    };
+    //Check if we got both or neither partner and conversationId (only one can and must be supplied at one)
+    if (
+      (partnerUsername && conversationId) ||
+      (!partnerUsername && !conversationId)
+    ) {
+      console.log("both");
+      return errorResponse("message", ERROR_WRONG_PARAMTERES);
+    }
 
-    const generated: Message = (await Message.insert(partial)).raw[0];
+    //User supplied partnerId
+    if (partnerUsername) {
+      //We check if the partner exists
+      const partner = await User.findOne({
+        where: { username: partnerUsername },
+      });
+      if (!partner) {
+        return errorResponse("message", USER_NOT_FOUND);
+      }
 
-    pubsub.publish("message", { ...partial, ...generated });
+      //Get their conversation
+      const result = await getConnection()
+        .createQueryBuilder()
+        .select(`"conversationId"`)
+        .addSelect(`COUNT(*) as matches`)
+        .from((subQuery) => {
+          return subQuery
+            .select("*")
+            .from(Conversation, `Conversation`)
+            .leftJoin(`Conversation.participants`, "participants")
+            .where("participants.id = :ownId", { ownId })
+            .orWhere("participants.id = :partnerId", { partnerId: partner.id });
+        }, "subQuery")
+        .having(`COUNT(*) = :match`, { match: 2 })
+        .groupBy('"subQuery"."conversationId"')
+        .getRawOne();
 
-    return { ...partial, ...generated };
+      conversationId = result ? result.conversationId : null;
+
+      //If it doesn't exist, we create one
+      if (!conversationId) {
+        const user = await User.findOne(ownId);
+        const newConvo = new Conversation();
+        newConvo.participants = [user!, partner];
+        conversationId = (await newConvo.save()).id;
+      }
+    }
+    //User supplied the conversationId
+    else {
+      //We check if he is in the conversation (or if it even exists)
+      const authorized = await getConnection()
+        .createQueryBuilder()
+        .select("*")
+        .from(Conversation, `Conversation`)
+        .leftJoin(`Conversation.participants`, "participants")
+        .where("participants.id = :ownId", { ownId })
+        .andWhere("Conversation.id = :conversationId", { conversationId })
+        .getRawOne();
+      console.log(authorized);
+      if (!authorized) {
+        return errorResponse("message", UNAUTHORIZED);
+      }
+    }
+
+    const message = new Message();
+    message.content = content;
+    message.authorId = ownId;
+    message.conversationId = conversationId!;
+
+    const saved = await message.save();
+
+    pubsub.publish("message", saved);
+
+    const conversation = await Conversation.findOne({
+      relations: ["participants", "messages"],
+      where: { id: conversationId },
+    });
+
+    return { conversation };
   }
 
   @UseMiddleware(isAuth)
@@ -63,67 +129,115 @@ export class MessageResolver {
     @Arg("first", () => Int, { defaultValue: 10 }) first: number,
     @Arg("cursor", () => String, { nullable: true }) cursor?: string
   ): Promise<Message[]> {
-    const recipientId = req.session.userId!;
+    const ownId = req.session.userId!;
 
+    //Get their conversation
     const query = await getConnection()
       .createQueryBuilder()
       .select("*")
-      .from((subQuery) => {
-        return subQuery
+      .from((qb) => {
+        return qb
           .select("*")
-          .from(Message, "Message")
-          .where('"Message"."recipientId" = :recipientId', { recipientId })
-          .distinctOn(['"Message"."authorId"'])
-          .orderBy('"Message"."authorId"')
-          .addOrderBy('"Message"."createdAt"', "DESC");
-      }, "grouped");
+          .addSelect(
+            'MAX("subQuery"."createdAt") over (partition by "subQuery"."conversationId")',
+            "newest"
+          )
+          .from((subQuery) => {
+            return subQuery
+              .select(`Conversation.id`, "conversationId")
+              .addSelect(`messages.id`, "messageId")
+              .addSelect(`messages.createdAt`, "createdAt")
+              .from(Conversation, `Conversation`)
+              .leftJoin(`Conversation.messages`, "messages")
+              .leftJoin(`Conversation.participants`, "participants")
+              .where("participants.id = :ownId", { ownId });
+          }, "subQuery");
+      }, "partitionQuery")
+      .where(`"partitionQuery"."createdAt" = "partitionQuery"."newest"`)
+      .orderBy(`"partitionQuery"."newest"`, "DESC");
 
     if (cursor) {
-      query.where('grouped."createdAt" < :cursor', {
+      query.andWhere(`"partitionQuery"."newest" < :cursor`, {
         cursor: new Date(parseInt(cursor)),
       });
     }
 
-    const messages: Message[] = await query.take(first).getRawMany();
+    const raw = await query.take(first).getRawMany();
+    const messages = await Message.findByIds(raw.map((r) => r.messageId));
 
     return messages;
   }
 
+  //Might not use it
   @UseMiddleware(isAuth)
-  @Query(() => MessagesResponse)
+  @Query(() => Conversation, { nullable: true })
+  async conversation(
+    @Ctx() { req }: MyContext,
+    @Arg("conversationId", () => Int) conversationId: number
+  ): Promise<Conversation | undefined> {
+    const userId = req.session.userId!;
+
+    const conversation = await Conversation.findOne(conversationId, {
+      relations: ["participants", "messages"],
+    });
+
+    //Authorization
+    if (!conversation) {
+      return undefined;
+    }
+
+    if (!conversation.participants.map((p) => p.id).includes(userId)) {
+      return undefined;
+    }
+
+    conversation.messages = conversation.messages.reverse();
+
+    return conversation;
+  }
+
+  //Might not use it
+  @UseMiddleware(isAuth)
+  @Query(() => PaginatedMessages, { nullable: true })
   async messages(
     @Ctx() { req }: MyContext,
-    @Arg("partnerId", () => Int) partnerId: number,
+    @Arg("conversationId", () => Int) conversationId: number,
     @Arg("first", () => Int, { defaultValue: 20 }) first: number,
     @Arg("cursor", () => String, { nullable: true }) cursor?: string
-  ): Promise<MessagesResponse> {
-    const ownId = req.session.userId!;
+  ): Promise<PaginatedMessages> {
+    const userId = req.session.userId!;
+    const limitPlusOne = first + 1;
 
-    const author = await User.findOne(partnerId);
-    if (!author) {
-      return { messages: [], author };
+    const conversation = await Conversation.findOne(conversationId, {
+      relations: ["participants"],
+    });
+
+    //Authorization
+    if (!conversation) {
+      return { messages: [] };
     }
 
-    const query = Message.createQueryBuilder()
-      .where(
-        '"Message"."authorId" = :partnerId AND "Message"."recipientId" = :ownId',
-        { ownId, partnerId }
-      )
-      .orWhere(
-        '"Message"."authorId" = :ownId AND "Message"."recipientId" = :partnerId',
-        { ownId, partnerId }
-      )
-      .orderBy('"Message"."createdAt"', "DESC");
+    if (!conversation.participants.map((p) => p.id).includes(userId)) {
+      return { messages: [] };
+    }
+
+    const conditions: FindConditions<Message> = {
+      conversationId,
+    };
 
     if (cursor) {
-      query.andWhere('"Message"."createdAt" < :cursor', {
-        cursor: new Date(parseInt(cursor)),
-      });
+      conditions.createdAt = LessThan(new Date(parseInt(cursor)));
     }
 
-    const messages = await query.take(first).getMany();
+    const messages = await Message.find({
+      where: conditions,
+      take: limitPlusOne,
+      order: { createdAt: "DESC" },
+    });
 
-    return { messages, author };
+    return {
+      messages: messages.slice(0, first),
+      hasMore: messages.length === limitPlusOne,
+    };
   }
 
   @Subscription(() => Message, {
