@@ -1,7 +1,6 @@
 import { Response } from "express";
 import { Session, SessionData } from "express-session";
 import { Redis } from "ioredis";
-import { ExecutionParams } from "subscriptions-transport-ws";
 import { Message } from "./entities/Message";
 
 export type MyContext = {
@@ -10,7 +9,6 @@ export type MyContext = {
   };
   redis: Redis;
   res: Response;
-  connection: ExecutionParams<any> | undefined;
 };
 
 export type MessagePayload = {
