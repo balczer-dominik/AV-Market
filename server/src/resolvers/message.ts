@@ -1,6 +1,7 @@
 import {
   Arg,
   Ctx,
+  FieldResolver,
   Int,
   Mutation,
   PubSub,
@@ -21,15 +22,20 @@ import {
   UNAUTHORIZED,
   USER_NOT_FOUND,
 } from "../resource/strings";
-import { MyContext } from "../types";
+import { MessagePayload, MyContext } from "../types";
 import { errorResponse } from "../util/errorResponse";
-import { ConversationResponse } from "../util/type-graphql/ConversationResponse";
+import { MessageResponse } from "../util/type-graphql/MessageResponse";
 import { PaginatedMessages } from "../util/type-graphql/PaginatedMessages";
 
 @Resolver(Message)
 export class MessageResolver {
+  @FieldResolver(() => User)
+  async author(@Root() message: Message) {
+    return await User.findOne(message.authorId);
+  }
+
   @UseMiddleware(isAuth)
-  @Mutation(() => ConversationResponse)
+  @Mutation(() => MessageResponse)
   async sendMessage(
     @Ctx() { req }: MyContext,
     @Arg("content", () => String) content: string,
@@ -38,7 +44,7 @@ export class MessageResolver {
     partnerUsername?: string,
     @Arg("conversationId", () => Int, { nullable: true })
     convoId?: number
-  ): Promise<ConversationResponse> {
+  ): Promise<MessageResponse> {
     const ownId = req.session.userId!;
     let conversationId = convoId;
 
@@ -109,17 +115,21 @@ export class MessageResolver {
     message.content = content;
     message.authorId = ownId;
     message.conversationId = conversationId!;
-
-    const saved = await message.save();
-
-    pubsub.publish("message", saved);
+    await message.save();
 
     const conversation = await Conversation.findOne({
       relations: ["participants", "messages"],
       where: { id: conversationId },
     });
 
-    return { conversation };
+    pubsub.publish("message", {
+      message,
+      recipientIds: conversation!.participants
+        .filter((p) => p.id !== ownId)
+        .map((r) => r.id),
+    } as MessagePayload);
+
+    return { message };
   }
 
   @UseMiddleware(isAuth)
@@ -243,9 +253,9 @@ export class MessageResolver {
   @Subscription(() => Message, {
     topics: "message",
     filter: ({ context: { req }, payload }) =>
-      req.session.userId === payload.recipientId,
+      payload.recipientIds.includes(req.session.userId),
   })
-  async messageNotification(@Root() message: Message): Promise<Message> {
-    return message;
+  async messageNotification(@Root() payload: MessagePayload): Promise<Message> {
+    return payload.message;
   }
 }

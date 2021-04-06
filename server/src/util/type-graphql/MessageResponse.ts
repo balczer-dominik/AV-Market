@@ -1,11 +1,11 @@
 import { Field, ObjectType } from "type-graphql";
-import { Conversation } from "../../entities/Conversation";
+import { Message } from "../../entities/Message";
 import { FieldError } from "./FieldError";
 
 @ObjectType()
-export class ConversationResponse {
-  @Field(() => Conversation, { nullable: true })
-  conversation?: Conversation;
+export class MessageResponse {
+  @Field(() => Message, { nullable: true })
+  message?: Message;
 
   @Field(() => [FieldError], { nullable: true })
   errors?: FieldError[];
