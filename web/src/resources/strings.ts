@@ -276,3 +276,14 @@ export const LEAVE_FEEDBACK_SUCCESS = "Sikeresen elküldte az értékelést.";
 export const ERROR_CANNOT_RATE_SELF = "Nem értékelheted saját magadat.";
 export const FEEDBACKS_LABEL = "Értékelések";
 export const USERS_FEEDBACK_LABEL = "felhasználó értékelése";
+
+//Messages
+export const PRIVATE_MESSAGES_LABEL = "Privát üzenetek";
+export const START_CONVERSATION_LABEL = "Beszélgetés indítása";
+export const TO_LABEL = "Címzett";
+export const MESSAGE_LABEL = "Üzenet";
+export const SEARCH_CONVERSATION_PLACEHOLDER =
+  "Keresés a beszélgetések között...";
+export const USER_DETAILS_LABEL = "Részletek";
+export const NO_USER_CONVERSATION_TITLE = "Nyisson meg egy beszélgetést...";
+export const CHAT_PLACEHOLDER = "Küldjön egy üzenetet...";

@@ -20,8 +20,10 @@ export type Query = {
   __typename?: 'Query';
   ads: PaginatedAds;
   ad: AdResponse;
+  recentConversations?: Maybe<PaginatedConversations>;
   feedbacks: PaginatedFeedbacks;
   hello: Scalars['String'];
+  messages?: Maybe<PaginatedMessages>;
   userAds: PaginatedAds;
   me?: Maybe<User>;
   user: User;
@@ -43,12 +45,26 @@ export type QueryAdArgs = {
 };
 
 
+export type QueryRecentConversationsArgs = {
+  partnerUsernameFilter?: Maybe<Scalars['String']>;
+  cursor?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+};
+
+
 export type QueryFeedbacksArgs = {
   satisified?: Maybe<Scalars['Boolean']>;
   cursor?: Maybe<Scalars['String']>;
   recipientId?: Maybe<Scalars['Int']>;
   authorId?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryMessagesArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  conversationId: Scalars['Int'];
 };
 
 
@@ -162,6 +178,36 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+export type PaginatedConversations = {
+  __typename?: 'PaginatedConversations';
+  conversations: Array<Conversation>;
+  hasMore?: Maybe<Scalars['Boolean']>;
+};
+
+export type Conversation = {
+  __typename?: 'Conversation';
+  id: Scalars['Float'];
+  participants: Array<User>;
+  messages?: Maybe<Array<Message>>;
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+  latest: Message;
+  partner: User;
+};
+
+export type Message = {
+  __typename?: 'Message';
+  id: Scalars['Float'];
+  author: User;
+  conversation: Conversation;
+  authorId: Scalars['Float'];
+  conversationId: Scalars['Float'];
+  content: Scalars['String'];
+  read?: Maybe<Scalars['Boolean']>;
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
 export type PaginatedFeedbacks = {
   __typename?: 'PaginatedFeedbacks';
   feedbacks: Array<Feedback>;
@@ -183,6 +229,13 @@ export type Feedback = {
   updatedAt: Scalars['String'];
 };
 
+export type PaginatedMessages = {
+  __typename?: 'PaginatedMessages';
+  messages: Array<Message>;
+  partner?: Maybe<User>;
+  hasMore?: Maybe<Scalars['Boolean']>;
+};
+
 export type PaginatedUsers = {
   __typename?: 'PaginatedUsers';
   users: Array<User>;
@@ -198,6 +251,8 @@ export type Mutation = {
   uploadAdImages: Array<Scalars['String']>;
   leaveFeedback: FeedbackResponse;
   deleteFeedback?: Maybe<FieldError>;
+  sendMessage: MessageResponse;
+  readMessages: Scalars['Boolean'];
   register: UserResponse;
   login: UserResponse;
   forgotPassword?: Maybe<FieldError>;
@@ -246,6 +301,18 @@ export type MutationLeaveFeedbackArgs = {
 
 export type MutationDeleteFeedbackArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationSendMessageArgs = {
+  conversationId?: Maybe<Scalars['Int']>;
+  partnerUsername?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
+};
+
+
+export type MutationReadMessagesArgs = {
+  conversationId: Scalars['Int'];
 };
 
 
@@ -326,6 +393,12 @@ export type FeedbackInput = {
   comment?: Maybe<Scalars['String']>;
 };
 
+export type MessageResponse = {
+  __typename?: 'MessageResponse';
+  message?: Maybe<Message>;
+  errors?: Maybe<Array<FieldError>>;
+};
+
 export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
@@ -342,6 +415,11 @@ export type ContactsInput = {
   email?: Maybe<Scalars['String']>;
   messenger?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  messageNotification: Message;
 };
 
 export type AdDetailsFragment = (
@@ -386,6 +464,11 @@ export type KarmaFragment = (
     { __typename?: 'KarmaResponse' }
     & Pick<KarmaResponse, 'satisfied' | 'unsatisfied'>
   ) }
+);
+
+export type RecentMessageFragment = (
+  { __typename?: 'Message' }
+  & Pick<Message, 'id' | 'authorId' | 'content' | 'read' | 'createdAt'>
 );
 
 export type RegularErrorFragment = (
@@ -630,6 +713,31 @@ export type ResetPasswordMutation = (
   ) }
 );
 
+export type SendMessageMutationVariables = Exact<{
+  partnerUsername?: Maybe<Scalars['String']>;
+  conversationId?: Maybe<Scalars['Int']>;
+  content: Scalars['String'];
+}>;
+
+
+export type SendMessageMutation = (
+  { __typename?: 'Mutation' }
+  & { sendMessage: (
+    { __typename?: 'MessageResponse' }
+    & { message?: Maybe<(
+      { __typename?: 'Message' }
+      & Pick<Message, 'id' | 'createdAt' | 'content'>
+      & { author: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'avatar'>
+      ) }
+    )>, errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & RegularErrorFragment
+    )>> }
+  ) }
+);
+
 export type UnbanUserMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -821,6 +929,58 @@ export type MePreviewQuery = (
   )> }
 );
 
+export type MessagesQueryVariables = Exact<{
+  cursor?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  conversationId: Scalars['Int'];
+}>;
+
+
+export type MessagesQuery = (
+  { __typename?: 'Query' }
+  & { messages?: Maybe<(
+    { __typename?: 'PaginatedMessages' }
+    & Pick<PaginatedMessages, 'hasMore'>
+    & { messages: Array<(
+      { __typename?: 'Message' }
+      & Pick<Message, 'id' | 'conversationId' | 'content' | 'createdAt'>
+      & { author: (
+        { __typename?: 'User' }
+        & RegularUserFragment
+      ) }
+    )>, partner?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'username'>
+    )> }
+  )> }
+);
+
+export type RecentConversationsQueryVariables = Exact<{
+  cursor?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  partnerUsernameFilter?: Maybe<Scalars['String']>;
+}>;
+
+
+export type RecentConversationsQuery = (
+  { __typename?: 'Query' }
+  & { recentConversations?: Maybe<(
+    { __typename?: 'PaginatedConversations' }
+    & Pick<PaginatedConversations, 'hasMore'>
+    & { conversations: Array<(
+      { __typename?: 'Conversation' }
+      & Pick<Conversation, 'id'>
+      & { latest: (
+        { __typename?: 'Message' }
+        & RecentMessageFragment
+      ), partner: (
+        { __typename?: 'User' }
+        & RegularUserFragment
+      ) }
+    )> }
+  )> }
+);
+
 export type UserQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -975,6 +1135,15 @@ export const KarmaFragmentDoc = gql`
     satisfied
     unsatisfied
   }
+}
+    `;
+export const RecentMessageFragmentDoc = gql`
+    fragment RecentMessage on Message {
+  id
+  authorId
+  content
+  read
+  createdAt
 }
     `;
 export const RegularErrorFragmentDoc = gql`
@@ -1181,6 +1350,32 @@ export const ResetPasswordDocument = gql`
 export function useResetPasswordMutation() {
   return Urql.useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument);
 };
+export const SendMessageDocument = gql`
+    mutation SendMessage($partnerUsername: String, $conversationId: Int, $content: String!) {
+  sendMessage(
+    partnerUsername: $partnerUsername
+    conversationId: $conversationId
+    content: $content
+  ) {
+    message {
+      id
+      author {
+        id
+        avatar
+      }
+      createdAt
+      content
+    }
+    errors {
+      ...RegularError
+    }
+  }
+}
+    ${RegularErrorFragmentDoc}`;
+
+export function useSendMessageMutation() {
+  return Urql.useMutation<SendMessageMutation, SendMessageMutationVariables>(SendMessageDocument);
+};
 export const UnbanUserDocument = gql`
     mutation unbanUser($id: Int!) {
   unbanUser(id: $id)
@@ -1374,6 +1569,54 @@ ${UserLocationFragmentDoc}`;
 
 export function useMePreviewQuery(options: Omit<Urql.UseQueryArgs<MePreviewQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MePreviewQuery>({ query: MePreviewDocument, ...options });
+};
+export const MessagesDocument = gql`
+    query Messages($cursor: String, $first: Int, $conversationId: Int!) {
+  messages(cursor: $cursor, first: $first, conversationId: $conversationId) {
+    messages {
+      id
+      author {
+        ...RegularUser
+      }
+      conversationId
+      content
+      createdAt
+    }
+    hasMore
+    partner {
+      username
+    }
+  }
+}
+    ${RegularUserFragmentDoc}`;
+
+export function useMessagesQuery(options: Omit<Urql.UseQueryArgs<MessagesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MessagesQuery>({ query: MessagesDocument, ...options });
+};
+export const RecentConversationsDocument = gql`
+    query RecentConversations($cursor: String, $first: Int, $partnerUsernameFilter: String) {
+  recentConversations(
+    cursor: $cursor
+    first: $first
+    partnerUsernameFilter: $partnerUsernameFilter
+  ) {
+    conversations {
+      id
+      latest {
+        ...RecentMessage
+      }
+      partner {
+        ...RegularUser
+      }
+    }
+    hasMore
+  }
+}
+    ${RecentMessageFragmentDoc}
+${RegularUserFragmentDoc}`;
+
+export function useRecentConversationsQuery(options: Omit<Urql.UseQueryArgs<RecentConversationsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RecentConversationsQuery>({ query: RecentConversationsDocument, ...options });
 };
 export const UserDocument = gql`
     query User($id: Int!) {

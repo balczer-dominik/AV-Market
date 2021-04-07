@@ -4,7 +4,13 @@ import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import Head from "next/head";
 import React, { useContext } from "react";
 
-export type LayoutVariant = "small" | "regular";
+export type LayoutVariant = "small" | "regular" | "full";
+
+const variantValues = {
+  small: "400px",
+  regular: "850px",
+  full: "full",
+};
 
 interface LayoutProps {
   variant?: LayoutVariant;
@@ -28,13 +34,13 @@ export const Layout: React.FC<LayoutProps> = ({
       `}</style>
       <NavBar />
       <Box
-        maxWidth={variant === "regular" ? "850px" : "400px"}
+        maxWidth={variantValues[variant]}
         w="100%"
         mx="auto"
-        px={4}
-        mt={8}
+        px={variant === "full" ? 0 : 4}
+        mt={variant === "full" ? 0 : 8}
         alignContent="center"
-        pb={4}
+        pb={variant === "full" ? 0 : 4}
       >
         <Head>
           <title>{title} - AV Market</title>

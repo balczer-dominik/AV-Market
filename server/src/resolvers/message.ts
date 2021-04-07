@@ -53,7 +53,6 @@ export class MessageResolver {
       (partnerUsername && conversationId) ||
       (!partnerUsername && !conversationId)
     ) {
-      console.log("both");
       return errorResponse("message", ERROR_WRONG_PARAMTERES);
     }
 
@@ -109,7 +108,6 @@ export class MessageResolver {
         .where("participants.id = :ownId", { ownId })
         .andWhere("Conversation.id = :conversationId", { conversationId })
         .getRawOne();
-      console.log(authorized);
       if (!authorized) {
         return errorResponse("message", UNAUTHORIZED);
       }
@@ -154,8 +152,6 @@ export class MessageResolver {
       .andWhere("messages.read = false")
       .andWhere("Conversation.id = :conversationId", { conversationId })
       .getRawMany();
-
-    console.log(conversation);
 
     //Authorization
     if (conversation.length === 0) {
@@ -210,6 +206,7 @@ export class MessageResolver {
 
     return {
       messages: messages.slice(0, first),
+      partner: conversation.participants.filter((p) => p.id !== userId)[0],
       hasMore: messages.length === limitPlusOne,
     };
   }

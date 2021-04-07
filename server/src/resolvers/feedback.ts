@@ -133,8 +133,6 @@ export class FeedbackResolver {
       return errorResponse("feedback", ERROR_GENERIC);
     }
 
-    console.log(generated);
-
     return {
       feedback: { comment, ...generated, adId, recipientId, satisfied },
     };

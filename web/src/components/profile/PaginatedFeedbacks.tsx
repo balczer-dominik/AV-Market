@@ -3,7 +3,7 @@ import { RegularButton } from "@components/RegularButton";
 import { Repeat } from "@components/Repeat";
 import { Spinner } from "@components/Spinner";
 import { useKarmaQuery } from "@generated/graphql";
-import { LOAD_MORE_BUTTON, USERS_FEEDBACK_LABEL } from "@resources/strings";
+import { LOAD_MORE_BUTTON } from "@resources/strings";
 import { formatDate } from "@utils/formatters/formatDate";
 import {
   formatAdLink,

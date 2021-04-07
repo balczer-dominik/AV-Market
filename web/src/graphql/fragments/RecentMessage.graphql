@@ -1,0 +1,7 @@
+fragment RecentMessage on Message {
+  id
+  authorId
+  content
+  read
+  createdAt
+}

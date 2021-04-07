@@ -13,13 +13,12 @@ import {
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
+import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { Field, useField } from "formik";
-import React, { InputHTMLAttributes, useContext, useRef } from "react";
+import React, { InputHTMLAttributes, useContext } from "react";
 import { IconType } from "react-icons";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { HIDE_PASSWORD, SHOW_PASSWORD } from "src/resources/strings";
-import { ThemeContext } from "@utils/hooks/ThemeProvider";
-import { BsTypeUnderline } from "react-icons/bs";
 
 type FieldType = "regular" | "password" | "number" | "textarea" | "select";
 

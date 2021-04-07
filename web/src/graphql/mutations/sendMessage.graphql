@@ -1,0 +1,24 @@
+mutation SendMessage(
+  $partnerUsername: String
+  $conversationId: Int
+  $content: String!
+) {
+  sendMessage(
+    partnerUsername: $partnerUsername
+    conversationId: $conversationId
+    content: $content
+  ) {
+    message {
+      id
+      author {
+        id
+        avatar
+      }
+      createdAt
+      content
+    }
+    errors {
+      ...RegularError
+    }
+  }
+}

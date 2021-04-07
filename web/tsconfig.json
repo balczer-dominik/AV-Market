@@ -31,7 +31,8 @@
         "src/components/gallery/*",
         "src/components/navbar/*",
         "src/components/post/*",
-        "src/components/profile/*"
+        "src/components/profile/*",
+        "src/components/messages/*"
       ],
       "@generated/*": ["src/generated/*"],
       "@resources/*": ["src/resources/*"],

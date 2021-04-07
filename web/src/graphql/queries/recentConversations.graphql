@@ -1,0 +1,22 @@
+query RecentConversations(
+  $cursor: String
+  $first: Int
+  $partnerUsernameFilter: String
+) {
+  recentConversations(
+    cursor: $cursor
+    first: $first
+    partnerUsernameFilter: $partnerUsernameFilter
+  ) {
+    conversations {
+      id
+      latest {
+        ...RecentMessage
+      }
+      partner {
+        ...RegularUser
+      }
+    }
+    hasMore
+  }
+}

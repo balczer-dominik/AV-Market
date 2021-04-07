@@ -1,0 +1,17 @@
+query Messages($cursor: String, $first: Int, $conversationId: Int!) {
+  messages(cursor: $cursor, first: $first, conversationId: $conversationId) {
+    messages {
+      id
+      author {
+        ...RegularUser
+      }
+      conversationId
+      content
+      createdAt
+    }
+    hasMore
+    partner {
+      username
+    }
+  }
+}
