@@ -64,7 +64,7 @@ export class MessageResolver {
         where: { username: partnerUsername },
       });
       if (!partner) {
-        return errorResponse("message", USER_NOT_FOUND);
+        return errorResponse("partnerUsername", USER_NOT_FOUND);
       }
 
       //Get their conversation
@@ -85,6 +85,10 @@ export class MessageResolver {
         .getRawOne();
 
       conversationId = result ? result.conversationId : null;
+
+      // if(conversationId){
+      //   return errorResponse("partnerUsername", CONVERSATION_ALREADY_EXISTS)
+      // }
 
       //If it doesn't exist, we create one
       if (!conversationId) {
@@ -133,76 +137,36 @@ export class MessageResolver {
   }
 
   @UseMiddleware(isAuth)
-  @Query(() => [Message])
-  async recentMessages(
-    @Ctx() { req }: MyContext,
-    @Arg("first", () => Int, { defaultValue: 10 }) first: number,
-    @Arg("cursor", () => String, { nullable: true }) cursor?: string
-  ): Promise<Message[]> {
-    const ownId = req.session.userId!;
-
-    //Get their conversation
-    const query = await getConnection()
-      .createQueryBuilder()
-      .select("*")
-      .from((qb) => {
-        return qb
-          .select("*")
-          .addSelect(
-            'MAX("subQuery"."createdAt") over (partition by "subQuery"."conversationId")',
-            "newest"
-          )
-          .from((subQuery) => {
-            return subQuery
-              .select(`Conversation.id`, "conversationId")
-              .addSelect(`messages.id`, "messageId")
-              .addSelect(`messages.createdAt`, "createdAt")
-              .from(Conversation, `Conversation`)
-              .leftJoin(`Conversation.messages`, "messages")
-              .leftJoin(`Conversation.participants`, "participants")
-              .where("participants.id = :ownId", { ownId });
-          }, "subQuery");
-      }, "partitionQuery")
-      .where(`"partitionQuery"."createdAt" = "partitionQuery"."newest"`)
-      .orderBy(`"partitionQuery"."newest"`, "DESC");
-
-    if (cursor) {
-      query.andWhere(`"partitionQuery"."newest" < :cursor`, {
-        cursor: new Date(parseInt(cursor)),
-      });
-    }
-
-    const raw = await query.take(first).getRawMany();
-    const messages = await Message.findByIds(raw.map((r) => r.messageId));
-
-    return messages;
-  }
-
-  //Might not use it
-  @UseMiddleware(isAuth)
-  @Query(() => Conversation, { nullable: true })
-  async conversation(
+  @Mutation(() => Boolean)
+  async readMessages(
     @Ctx() { req }: MyContext,
     @Arg("conversationId", () => Int) conversationId: number
-  ): Promise<Conversation | undefined> {
-    const userId = req.session.userId!;
+  ): Promise<Boolean> {
+    const userId = req.session.userId;
 
-    const conversation = await Conversation.findOne(conversationId, {
-      relations: ["participants", "messages"],
-    });
+    const conversation = await getConnection()
+      .createQueryBuilder()
+      .select("*")
+      .from(Conversation, `Conversation`)
+      .leftJoin(`Conversation.participants`, "participants")
+      .leftJoin(`Conversation.messages`, "messages")
+      .where("participants.id = :userId", { userId })
+      .andWhere("messages.read = false")
+      .andWhere("Conversation.id = :conversationId", { conversationId })
+      .getRawMany();
+
+    console.log(conversation);
 
     //Authorization
-    if (!conversation) {
-      return undefined;
+    if (conversation.length === 0) {
+      return false;
     }
 
-    if (!conversation.participants.map((p) => p.id).includes(userId)) {
-      return undefined;
-    }
+    const messages = await Message.findByIds(conversation.map((m) => m.id));
+    messages.forEach((m) => (m.read = true));
+    await Message.save(messages);
 
-    conversation.messages = conversation.messages.reverse();
-
-    return conversation;
+    return true;
   }
 
   //Might not use it

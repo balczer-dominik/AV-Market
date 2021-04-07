@@ -9,7 +9,8 @@ type Field =
   | "id"
   | "ad"
   | "feedback"
-  | "message";
+  | "message"
+  | "partnerUsername";
 
 export const errorResponse = (field: Field, message: string) => {
   return {

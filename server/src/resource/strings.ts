@@ -57,3 +57,5 @@ export const AD_NOT_OWNED_BY_SPECIFIED_USER =
   "Az adott hirdetés nem ehhez a felhasználóhoz tartozik.";
 export const ERROR_CANNOT_RATE_SELF = "Nem értékelheted saját magadat.";
 export const ERROR_WRONG_PARAMTERES = "Nem megfelelő paraméterezés.";
+export const CONVERSATION_ALREADY_EXISTS =
+  "A megadott felhasználóval már létezik beszélgetés.";
