@@ -1,0 +1,11 @@
+subscription MessageNotification {
+  messageNotification {
+    id
+    author {
+      ...RegularUser
+    }
+    conversationId
+    content
+    createdAt
+  }
+}

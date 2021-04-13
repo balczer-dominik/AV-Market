@@ -10,19 +10,20 @@ import {
 } from "@resources/strings";
 import { toErrorMap } from "@utils/toErrorMap";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import { FaUser } from "react-icons/fa";
+import { MessagesContext } from "./MessagesProvider";
 
 interface NewConversationFormProps {
   onClose: () => void;
-  handleNewConversation: () => void;
 }
 
 export const NewConversationForm: React.FC<NewConversationFormProps> = ({
   onClose,
-  handleNewConversation,
 }) => {
   const [, sendMessage] = useSendMessageMutation();
+
+  const { dispatch } = useContext(MessagesContext);
 
   return (
     <Formik
@@ -41,7 +42,7 @@ export const NewConversationForm: React.FC<NewConversationFormProps> = ({
         }
 
         if (message) {
-          handleNewConversation();
+          dispatch({ type: "startNewConversation" });
           onClose();
         }
       }}

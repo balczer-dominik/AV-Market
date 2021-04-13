@@ -8,31 +8,23 @@ import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import React, { useContext } from "react";
 import { FaUser } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
+import { MessagesContext } from "./MessagesProvider";
 
 interface ConversationTitlebarProps {
-  state: {
-    show: string;
-    conversationId: any;
-  };
-  setState: React.Dispatch<
-    React.SetStateAction<{
-      show: string;
-      conversationId: any;
-    }>
-  >;
   partner: string;
-  setMessages: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 export const ConversationTitlebar: React.FC<ConversationTitlebarProps> = ({
   partner,
-  state,
-  setState,
-  setMessages,
 }) => {
+  //Color context
   const {
     theme: { BACK_COLOR_LIGHTEST },
   } = useContext(ThemeContext);
+
+  //Messages context
+  const { dispatch } = useContext(MessagesContext);
+
   return (
     <HStack
       justify={{ base: "space-between", md: "center" }}
@@ -43,8 +35,7 @@ export const ConversationTitlebar: React.FC<ConversationTitlebarProps> = ({
         style={{ textDecoration: "none" }}
         display={{ base: "flex", md: "none" }}
         onClick={() => {
-          setState({ ...state, conversationId: 0, show: "recent" });
-          setMessages([]);
+          dispatch({ type: "closeConversation" });
         }}
       >
         <HStack>
@@ -58,7 +49,7 @@ export const ConversationTitlebar: React.FC<ConversationTitlebarProps> = ({
       <Link
         style={{ textDecoration: "none" }}
         display={{ base: "flex", md: "none" }}
-        onClick={() => setState({ ...state, show: "info" })}
+        onClick={() => dispatch({ type: "showInfo" })}
       >
         <HStack>
           <Text>{USER_DETAILS_LABEL}</Text>

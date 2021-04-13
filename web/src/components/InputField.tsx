@@ -97,6 +97,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           ) : type === "textarea" ? (
             <Textarea
               bgColor={bgColor ?? BG_COLOR}
+              color={ACCENT_COLOR}
               ref={ref}
               id={field.name}
               borderColor={FRONT_COLOR_LIGHTER}

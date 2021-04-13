@@ -1,0 +1,3 @@
+mutation ReadConversation($conversationId: Int!) {
+  readConversation(conversationId: $conversationId)
+}

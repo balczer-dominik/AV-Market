@@ -287,3 +287,4 @@ export const SEARCH_CONVERSATION_PLACEHOLDER =
 export const USER_DETAILS_LABEL = "Részletek";
 export const NO_USER_CONVERSATION_TITLE = "Nyisson meg egy beszélgetést...";
 export const CHAT_PLACEHOLDER = "Küldjön egy üzenetet...";
+export const RECENT_YOUR_MESSAGE_LABEL = "Te: ";

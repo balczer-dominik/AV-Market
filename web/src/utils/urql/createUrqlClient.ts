@@ -1,7 +1,12 @@
 import { cacheExchange } from "@urql/exchange-graphcache";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
-import { dedupExchange } from "urql";
+import { dedupExchange, subscriptionExchange } from "urql";
 import { cacheExchanges } from "@utils/urql/cacheExchanges";
+import { SubscriptionClient } from "subscriptions-transport-ws";
+
+const subscriptionClient = process.browser
+  ? new SubscriptionClient("ws://localhost:4000/grapqhl", { reconnect: true })
+  : null;
 
 export const createUrqlClient = (ssrExchange: any) => {
   return {
@@ -14,6 +19,11 @@ export const createUrqlClient = (ssrExchange: any) => {
       ssrExchange,
       multipartFetchExchange,
       cacheExchange(cacheExchanges),
+      subscriptionExchange({
+        forwardSubscription(operation) {
+          return subscriptionClient.request(operation);
+        },
+      }),
     ],
   };
 };

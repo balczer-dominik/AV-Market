@@ -249,6 +249,7 @@ export type Mutation = {
   deleteAd: Scalars['Boolean'];
   deleteAdImage: Scalars['Boolean'];
   uploadAdImages: Array<Scalars['String']>;
+  readConversation: Scalars['Boolean'];
   leaveFeedback: FeedbackResponse;
   deleteFeedback?: Maybe<FieldError>;
   sendMessage: MessageResponse;
@@ -291,6 +292,11 @@ export type MutationDeleteAdImageArgs = {
 export type MutationUploadAdImagesArgs = {
   adId: Scalars['Int'];
   images: Array<Scalars['Upload']>;
+};
+
+
+export type MutationReadConversationArgs = {
+  conversationId: Scalars['Int'];
 };
 
 
@@ -683,6 +689,16 @@ export type PostMutation = (
   ) }
 );
 
+export type ReadConversationMutationVariables = Exact<{
+  conversationId: Scalars['Int'];
+}>;
+
+
+export type ReadConversationMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'readConversation'>
+);
+
 export type RegisterMutationVariables = Exact<{
   options: UsernamePasswordInput;
 }>;
@@ -1061,6 +1077,21 @@ export type GetUsersQuery = (
   ) }
 );
 
+export type MessageNotificationSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MessageNotificationSubscription = (
+  { __typename?: 'Subscription' }
+  & { messageNotification: (
+    { __typename?: 'Message' }
+    & Pick<Message, 'id' | 'conversationId' | 'content' | 'createdAt'>
+    & { author: (
+      { __typename?: 'User' }
+      & RegularUserFragment
+    ) }
+  ) }
+);
+
 export const AdRecentFragmentDoc = gql`
     fragment AdRecent on Ad {
   recent {
@@ -1324,6 +1355,15 @@ export const PostDocument = gql`
 
 export function usePostMutation() {
   return Urql.useMutation<PostMutation, PostMutationVariables>(PostDocument);
+};
+export const ReadConversationDocument = gql`
+    mutation ReadConversation($conversationId: Int!) {
+  readConversation(conversationId: $conversationId)
+}
+    `;
+
+export function useReadConversationMutation() {
+  return Urql.useMutation<ReadConversationMutation, ReadConversationMutationVariables>(ReadConversationDocument);
 };
 export const RegisterDocument = gql`
     mutation Register($options: UsernamePasswordInput!) {
@@ -1692,4 +1732,21 @@ export const GetUsersDocument = gql`
 
 export function useGetUsersQuery(options: Omit<Urql.UseQueryArgs<GetUsersQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetUsersQuery>({ query: GetUsersDocument, ...options });
+};
+export const MessageNotificationDocument = gql`
+    subscription MessageNotification {
+  messageNotification {
+    id
+    author {
+      ...RegularUser
+    }
+    conversationId
+    content
+    createdAt
+  }
+}
+    ${RegularUserFragmentDoc}`;
+
+export function useMessageNotificationSubscription<TData = MessageNotificationSubscription>(options: Omit<Urql.UseSubscriptionArgs<MessageNotificationSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<MessageNotificationSubscription, TData>) {
+  return Urql.useSubscription<MessageNotificationSubscription, TData, MessageNotificationSubscriptionVariables>({ query: MessageNotificationDocument, ...options }, handler);
 };

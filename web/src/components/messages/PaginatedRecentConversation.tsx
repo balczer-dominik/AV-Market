@@ -2,42 +2,31 @@ import { Box, Flex } from "@chakra-ui/react";
 import { RegularButton } from "@components/RegularButton";
 import { Spinner } from "@components/Spinner";
 import { useRecentConversationsQuery } from "@generated/graphql";
-import React from "react";
+import React, { useContext } from "react";
 import { LOAD_MORE_BUTTON } from "src/resources/strings";
+import { MessagesContext } from "./MessagesProvider";
 import { RecentConversation } from "./RecentConversation";
 
 interface PaginatedRecentConversationProps {
   cursor?: string;
   isLastPage: Boolean;
-  onLoadMore: (cursor: string) => void;
-  state: {
-    show: string;
-    conversationId: any;
-    filter: string;
-    pageVariables: string[];
-  };
-  setState: React.Dispatch<
-    React.SetStateAction<{
-      show: string;
-      conversationId: any;
-      filter: string;
-      pageVariables: string[];
-    }>
-  >;
 }
 
 export const PaginatedRecentConversation: React.FC<PaginatedRecentConversationProps> = ({
   cursor,
   isLastPage,
-  onLoadMore,
-  state,
-  setState,
 }) => {
+  //Messages context
+  const {
+    state: { filter },
+    dispatch,
+  } = useContext(MessagesContext);
+
   //Query
   const [{ data, fetching }] = useRecentConversationsQuery({
     variables: {
       cursor,
-      partnerUsernameFilter: state.filter,
+      partnerUsernameFilter: filter,
     },
     pause: cursor === undefined,
   });
@@ -47,26 +36,23 @@ export const PaginatedRecentConversation: React.FC<PaginatedRecentConversationPr
 
   const handleLoadMore = () => {
     const last = conversations[conversations.length - 1];
-    onLoadMore(last.latest.createdAt);
-  };
-
-  const switchConversations = (conversationId: number) => {
-    setState({ ...state, conversationId, show: "conversation" });
+    dispatch({
+      type: "loadMoreConversations",
+      payload: { cursor: last.latest.createdAt },
+    });
   };
 
   return (
     <>
       {fetching ? (
-        <Box my={2} h="full">
+        <Box my={2} h="full" w="full">
           <Spinner height="full" />
         </Box>
       ) : conversations ? (
         conversations.map((conversation, i) => (
           <>
             <RecentConversation
-              active={conversation.id === state.conversationId}
               conversation={conversation}
-              switchConversation={switchConversations}
               isLast={i === conversations.length - 1 && isLastPage}
             />
             {i === conversations.length - 1 && isLastPage ? (

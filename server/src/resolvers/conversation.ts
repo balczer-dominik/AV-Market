@@ -1,17 +1,18 @@
-import { User } from "../entities/User";
 import {
   Arg,
   Ctx,
   FieldResolver,
   Int,
+  Mutation,
   Query,
   Resolver,
   Root,
   UseMiddleware,
 } from "type-graphql";
-import { getConnection } from "typeorm";
+import { getConnection, Not } from "typeorm";
 import { Conversation } from "../entities/Conversation";
 import { Message } from "../entities/Message";
+import { User } from "../entities/User";
 import { isAuth } from "../middleware/authMiddleware";
 import { MyContext } from "../types";
 import { PaginatedConversations } from "../util/type-graphql/PaginatedConversations";
@@ -116,5 +117,21 @@ export class ConversationResolver {
       conversations: conversations.slice(0, first),
       hasMore: conversations.length === limitPlusOne,
     };
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => Boolean)
+  async readConversation(
+    @Arg("conversationId", () => Int) conversationId: number,
+    @Ctx() { req }: MyContext
+  ): Promise<Boolean> {
+    const userId = req.session.userId;
+
+    await Message.update(
+      { conversationId, authorId: Not(userId!) },
+      { read: true }
+    );
+
+    return true;
   }
 }

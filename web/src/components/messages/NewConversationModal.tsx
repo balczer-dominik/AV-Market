@@ -14,17 +14,17 @@ import { NewConversationForm } from "./NewConversationForm";
 interface NewConversationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  handleNewConversation: () => void;
 }
 
 export const NewConversationModal: React.FC<NewConversationModalProps> = ({
   isOpen,
   onClose,
-  handleNewConversation,
 }) => {
+  //Color context
   const {
     theme: { BG_COLOR, ACCENT_COLOR, BACK_COLOR },
   } = useContext(ThemeContext);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -38,10 +38,7 @@ export const NewConversationModal: React.FC<NewConversationModalProps> = ({
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
-          <NewConversationForm
-            onClose={onClose}
-            handleNewConversation={handleNewConversation}
-          />
+          <NewConversationForm onClose={onClose} />
         </ModalBody>
       </ModalContent>
     </Modal>

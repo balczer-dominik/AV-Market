@@ -1,26 +1,25 @@
 import { Box } from "@chakra-ui/layout";
-import React from "react";
+import React, { useContext } from "react";
+import { MessagesContext } from "./MessagesProvider";
 
-interface PartnerInfoProps {
-  state: {
-    show: string;
-    conversationId: any;
-  };
-}
-
-export const PartnerInfo: React.FC<PartnerInfoProps> = ({ state }) => {
+export const PartnerInfo: React.FC<{}> = ({}) => {
+  const {
+    state: { show },
+    dispatch,
+  } = useContext(MessagesContext);
   return (
     <Box
       w={{ base: "full", md: "400px" }}
       p={4}
       align="flex-start"
       display={{
-        base: state.show === "info" ? "flex" : "none",
+        base: show === "info" ? "flex" : "none",
         md: "flex",
       }}
       h="full"
+      onClick={() => dispatch({ type: "closeInfo" })}
     >
-      PartnerInfo
+      WIP
     </Box>
   );
 };

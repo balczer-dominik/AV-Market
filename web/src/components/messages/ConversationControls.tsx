@@ -12,18 +12,10 @@ import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { Form, Formik } from "formik";
 import React, { useContext } from "react";
 import { MdChatBubble } from "react-icons/md";
+import { MessagesContext } from "./MessagesProvider";
 
-interface ConversationControlsProps {
-  messages: any[];
-  setMessages: React.Dispatch<React.SetStateAction<any[]>>;
-  conversationId: number;
-}
-
-export const ConversationControls: React.FC<ConversationControlsProps> = ({
-  messages,
-  setMessages,
-  conversationId,
-}) => {
+export const ConversationControls: React.FC<{}> = ({}) => {
+  //Color context
   const {
     theme: {
       BACK_COLOR_LIGHTEST,
@@ -33,13 +25,23 @@ export const ConversationControls: React.FC<ConversationControlsProps> = ({
     },
   } = useContext(ThemeContext);
 
+  //Messages context
+  const {
+    state: { conversationId },
+    dispatch,
+  } = useContext(MessagesContext);
+
   const [, sendMessage] = useSendMessageMutation();
 
   return (
     <Box p={2} bgColor={BACK_COLOR_LIGHTEST} mb={{ base: -2, md: 0 }}>
       <Formik
         initialValues={{ content: "" }}
-        onSubmit={async ({ content }) => {
+        onSubmit={async ({ content }, { setValues }) => {
+          if (content === "") {
+            return;
+          }
+
           const { data, error } = await sendMessage({
             content,
             conversationId,
@@ -50,7 +52,11 @@ export const ConversationControls: React.FC<ConversationControlsProps> = ({
           }
 
           if (data.sendMessage.message) {
-            setMessages([data.sendMessage.message, ...messages]);
+            setValues({ content: "" });
+            dispatch({
+              type: "newMessage",
+              payload: { message: data.sendMessage.message },
+            });
           }
         }}
       >
@@ -73,7 +79,10 @@ export const ConversationControls: React.FC<ConversationControlsProps> = ({
                   placeholder={CHAT_PLACEHOLDER}
                 />
               </InputGroup>
-              <RegularButton spinner={isSubmitting}>
+              <RegularButton
+                disabled={values.content === ""}
+                spinner={isSubmitting}
+              >
                 {SUBMIT_BUTTON}
               </RegularButton>
             </HStack>
