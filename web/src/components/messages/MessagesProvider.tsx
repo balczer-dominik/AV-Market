@@ -32,7 +32,7 @@ type MessageActionTypes =
   | "readConversation";
 
 const initialState: MessagesState = {
-  show: "info",
+  show: "recent",
   conversationId: undefined,
   filter: "",
   conversationCursors: [null],
@@ -53,7 +53,11 @@ const reducer = (
     case "newMessageNotification":
       const conversationCursors =
         state.filter.length > 0 ? state.conversationCursors : [null];
-      return { ...state, conversationCursors };
+      return {
+        ...state,
+        conversationCursors,
+        localMessages: [payload, ...state.localMessages],
+      };
 
     case "closeConversation":
       return {
