@@ -1,5 +1,4 @@
 fragment UserLocation on User {
-  county
-  city
+  ...UserAddress
   coords
 }

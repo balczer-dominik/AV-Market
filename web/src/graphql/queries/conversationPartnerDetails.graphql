@@ -1,0 +1,10 @@
+query ConversationPartnerDetails($conversationId: Int!) {
+  conversation(conversationId: $conversationId) {
+    partner {
+      ...RegularUser
+      ...UserContacts
+      ...UserAddress
+      ...Karma
+    }
+  }
+}

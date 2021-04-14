@@ -1,0 +1,4 @@
+fragment UserAddress on User {
+  county
+  city
+}

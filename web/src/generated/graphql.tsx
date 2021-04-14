@@ -504,6 +504,11 @@ export type RegularUserResponseFragment = (
   )> }
 );
 
+export type UserAddressFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'county' | 'city'>
+);
+
 export type UserContactsFragment = (
   { __typename?: 'User' }
   & Pick<User, 'email' | 'messenger' | 'phone'>
@@ -511,7 +516,8 @@ export type UserContactsFragment = (
 
 export type UserLocationFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'county' | 'city' | 'coords'>
+  & Pick<User, 'coords'>
+  & UserAddressFragment
 );
 
 export type UserRecentFragment = (
@@ -847,6 +853,25 @@ export type ConversationPartnerQuery = (
   )> }
 );
 
+export type ConversationPartnerDetailsQueryVariables = Exact<{
+  conversationId: Scalars['Int'];
+}>;
+
+
+export type ConversationPartnerDetailsQuery = (
+  { __typename?: 'Query' }
+  & { conversation?: Maybe<(
+    { __typename?: 'Conversation' }
+    & { partner: (
+      { __typename?: 'User' }
+      & RegularUserFragment
+      & UserContactsFragment
+      & UserAddressFragment
+      & KarmaFragment
+    ) }
+  )> }
+);
+
 export type KarmaQueryVariables = Exact<{
   recipientId?: Maybe<Scalars['Int']>;
   satisfied?: Maybe<Scalars['Boolean']>;
@@ -1156,13 +1181,18 @@ export const UserContactsFragmentDoc = gql`
   phone
 }
     `;
-export const UserLocationFragmentDoc = gql`
-    fragment UserLocation on User {
+export const UserAddressFragmentDoc = gql`
+    fragment UserAddress on User {
   county
   city
-  coords
 }
     `;
+export const UserLocationFragmentDoc = gql`
+    fragment UserLocation on User {
+  ...UserAddress
+  coords
+}
+    ${UserAddressFragmentDoc}`;
 export const AdOwnerFragmentDoc = gql`
     fragment AdOwner on Ad {
   owner {
@@ -1516,6 +1546,25 @@ export const ConversationPartnerDocument = gql`
 
 export function useConversationPartnerQuery(options: Omit<Urql.UseQueryArgs<ConversationPartnerQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ConversationPartnerQuery>({ query: ConversationPartnerDocument, ...options });
+};
+export const ConversationPartnerDetailsDocument = gql`
+    query ConversationPartnerDetails($conversationId: Int!) {
+  conversation(conversationId: $conversationId) {
+    partner {
+      ...RegularUser
+      ...UserContacts
+      ...UserAddress
+      ...Karma
+    }
+  }
+}
+    ${RegularUserFragmentDoc}
+${UserContactsFragmentDoc}
+${UserAddressFragmentDoc}
+${KarmaFragmentDoc}`;
+
+export function useConversationPartnerDetailsQuery(options: Omit<Urql.UseQueryArgs<ConversationPartnerDetailsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ConversationPartnerDetailsQuery>({ query: ConversationPartnerDetailsDocument, ...options });
 };
 export const KarmaDocument = gql`
     query Karma($recipientId: Int, $satisfied: Boolean, $cursor: String, $first: Int) {
