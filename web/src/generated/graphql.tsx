@@ -21,6 +21,7 @@ export type Query = {
   ads: PaginatedAds;
   ad: AdResponse;
   recentConversations?: Maybe<PaginatedConversations>;
+  conversation?: Maybe<Conversation>;
   feedbacks: PaginatedFeedbacks;
   hello: Scalars['String'];
   messages?: Maybe<PaginatedMessages>;
@@ -49,6 +50,11 @@ export type QueryRecentConversationsArgs = {
   partnerUsernameFilter?: Maybe<Scalars['String']>;
   cursor?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryConversationArgs = {
+  conversationId: Scalars['Int'];
 };
 
 
@@ -825,6 +831,22 @@ export type AdsQuery = (
   ) }
 );
 
+export type ConversationPartnerQueryVariables = Exact<{
+  conversationId: Scalars['Int'];
+}>;
+
+
+export type ConversationPartnerQuery = (
+  { __typename?: 'Query' }
+  & { conversation?: Maybe<(
+    { __typename?: 'Conversation' }
+    & { partner: (
+      { __typename?: 'User' }
+      & RegularUserFragment
+    ) }
+  )> }
+);
+
 export type KarmaQueryVariables = Exact<{
   recipientId?: Maybe<Scalars['Int']>;
   satisfied?: Maybe<Scalars['Boolean']>;
@@ -1481,6 +1503,19 @@ export const AdsDocument = gql`
 
 export function useAdsQuery(options: Omit<Urql.UseQueryArgs<AdsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AdsQuery>({ query: AdsDocument, ...options });
+};
+export const ConversationPartnerDocument = gql`
+    query ConversationPartner($conversationId: Int!) {
+  conversation(conversationId: $conversationId) {
+    partner {
+      ...RegularUser
+    }
+  }
+}
+    ${RegularUserFragmentDoc}`;
+
+export function useConversationPartnerQuery(options: Omit<Urql.UseQueryArgs<ConversationPartnerQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ConversationPartnerQuery>({ query: ConversationPartnerDocument, ...options });
 };
 export const KarmaDocument = gql`
     query Karma($recipientId: Int, $satisfied: Boolean, $cursor: String, $first: Int) {

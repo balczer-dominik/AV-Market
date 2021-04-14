@@ -48,6 +48,8 @@ export const RecentConversations: React.FC<{}> = ({}) => {
         </Box>
         <ConversationFilter />
         <VStack overflowY="auto" overflowX="visible" w="full" h="full">
+          <PaginatedRecentConversation isLastPage={false} cursor={undefined} />
+
           {conversationCursors.map((cursor, i) => (
             <PaginatedRecentConversation
               isLastPage={i === conversationCursors.length - 1}

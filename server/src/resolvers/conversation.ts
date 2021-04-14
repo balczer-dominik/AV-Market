@@ -134,4 +134,28 @@ export class ConversationResolver {
 
     return true;
   }
+
+  @UseMiddleware(isAuth)
+  @Query(() => Conversation, { nullable: true })
+  async conversation(
+    @Arg("conversationId", () => Int) conversationId: number,
+    @Ctx() { req }: MyContext
+  ): Promise<Conversation | undefined> {
+    const ownId = req.session.userId;
+
+    const result = await getConnection()
+      .createQueryBuilder()
+      .select("*")
+      .from(Conversation, `Conversation`)
+      .leftJoin(`Conversation.participants`, "participants")
+      .where("participants.id = :ownId", { ownId })
+      .andWhere("Conversation.id = :conversationId", { conversationId })
+      .getRawOne();
+
+    if (!result) {
+      return undefined;
+    }
+
+    return Conversation.findOne(result.conversationId);
+  }
 }

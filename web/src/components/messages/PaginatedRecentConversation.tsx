@@ -18,7 +18,7 @@ export const PaginatedRecentConversation: React.FC<PaginatedRecentConversationPr
 }) => {
   //Messages context
   const {
-    state: { filter },
+    state: { filter, localConversations },
     dispatch,
   } = useContext(MessagesContext);
 
@@ -31,7 +31,14 @@ export const PaginatedRecentConversation: React.FC<PaginatedRecentConversationPr
     pause: cursor === undefined,
   });
 
-  const conversations = data ? data.recentConversations.conversations : null;
+  const isLocal = typeof cursor === "undefined";
+
+  const conversations = isLocal
+    ? localConversations
+    : data
+    ? data.recentConversations.conversations
+    : null;
+
   const hasMore = data ? data.recentConversations.hasMore : false;
 
   const handleLoadMore = () => {
@@ -51,23 +58,30 @@ export const PaginatedRecentConversation: React.FC<PaginatedRecentConversationPr
       ) : conversations ? (
         conversations.map((conversation, i) => (
           <>
-            <RecentConversation
-              conversation={conversation}
-              isLast={i === conversations.length - 1 && isLastPage}
-            />
-            {i === conversations.length - 1 && isLastPage ? (
-              <Flex justify="center" w="full">
-                {hasMore ? (
-                  <RegularButton onClick={handleLoadMore}>
-                    {LOAD_MORE_BUTTON}
-                  </RegularButton>
+            {!isLocal &&
+            localConversations
+              .map((c) => c.id)
+              .includes(conversation.id) ? null : (
+              <>
+                <RecentConversation
+                  conversation={conversation}
+                  isLast={i === conversations.length - 1 && isLastPage}
+                />
+                {i === conversations.length - 1 && isLastPage ? (
+                  <Flex justify="center" w="full">
+                    {hasMore ? (
+                      <RegularButton onClick={handleLoadMore}>
+                        {LOAD_MORE_BUTTON}
+                      </RegularButton>
+                    ) : null}
+                  </Flex>
                 ) : null}
-              </Flex>
-            ) : null}
+              </>
+            )}
           </>
         ))
       ) : (
-        <>Nincs</>
+        <>Nincs több...</>
       )}
     </>
   );
