@@ -35,7 +35,7 @@ type MessageActionTypes =
   | "readConversation";
 
 const initialState: MessagesState = {
-  show: "info",
+  show: "recent",
   conversationId: undefined,
   filter: "",
   conversationCursors: [null],
@@ -55,6 +55,7 @@ const reducer = (
 ): MessagesState => {
   switch (type) {
     case "newMessageNotification":
+
       const filteredNMN = state.localConversations.filter(
         (c) => c.id !== payload.conversationId
       );
@@ -68,6 +69,7 @@ const reducer = (
       };
       return {
         ...state,
+        localMessages: [payload, ...state.localMessages],
         localConversations: [newConversationNMN, ...filteredNMN],
       };
     case "closeConversation":
