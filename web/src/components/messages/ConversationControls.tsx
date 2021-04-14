@@ -10,7 +10,7 @@ import { useSendMessageMutation } from "@generated/graphql";
 import { CHAT_PLACEHOLDER, SUBMIT_BUTTON } from "@resources/strings";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { Form, Formik } from "formik";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { MdChatBubble } from "react-icons/md";
 import { MessagesContext } from "./MessagesProvider";
 
@@ -32,6 +32,15 @@ export const ConversationControls: React.FC<{}> = ({}) => {
   } = useContext(MessagesContext);
 
   const [, sendMessage] = useSendMessageMutation();
+
+  const inputRef: React.LegacyRef<HTMLInputElement> = useRef();
+
+  useEffect(() => {
+    if (!conversationId) {
+      return;
+    }
+    inputRef.current.focus();
+  }, [conversationId]);
 
   return (
     <Box p={2} bgColor={BACK_COLOR_LIGHTEST} mb={{ base: -2, md: 0 }}>
@@ -71,6 +80,7 @@ export const ConversationControls: React.FC<{}> = ({}) => {
                   <MdChatBubble />
                 </InputLeftElement>
                 <Input
+                  ref={inputRef}
                   value={values.content}
                   onChange={(event) => {
                     setValues({ content: event.target.value });

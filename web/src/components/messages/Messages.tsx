@@ -1,4 +1,5 @@
 import { HStack } from "@chakra-ui/layout";
+import { useIsAuth } from "@utils/hooks/useIsAuth";
 import React from "react";
 import { Conversation } from "./Conversation";
 import { MessagesProvider } from "./MessagesProvider";
@@ -6,6 +7,7 @@ import { PartnerInfo } from "./PartnerInfo";
 import { RecentConversations } from "./RecentConversations";
 
 export const Messages: React.FC<{}> = ({}) => {
+  useIsAuth();
   return (
     <MessagesProvider>
       <HStack
