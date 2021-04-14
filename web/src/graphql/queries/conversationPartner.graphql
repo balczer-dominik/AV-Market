@@ -1,0 +1,7 @@
+query ConversationPartner($conversationId: Int!) {
+  conversation(conversationId: $conversationId) {
+    partner {
+      ...RegularUser
+    }
+  }
+}

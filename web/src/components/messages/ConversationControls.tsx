@@ -55,7 +55,10 @@ export const ConversationControls: React.FC<{}> = ({}) => {
             setValues({ content: "" });
             dispatch({
               type: "newMessage",
-              payload: { message: data.sendMessage.message },
+              payload: {
+                message: data.sendMessage.message,
+                conversationId,
+              },
             });
           }
         }}

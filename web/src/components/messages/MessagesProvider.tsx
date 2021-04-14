@@ -1,6 +1,8 @@
 import {
   useMessageNotificationSubscription,
   useReadConversationMutation,
+  Message,
+  Conversation,
 } from "@generated/graphql";
 import React, { useEffect, useReducer } from "react";
 
@@ -10,7 +12,8 @@ type MessagesState = {
   filter: string;
   conversationCursors: string[];
   messageCursors: string[];
-  localMessages: any[];
+  localConversations: Partial<Conversation>[];
+  localMessages: Partial<Message>[];
 };
 
 type Action = {
@@ -37,6 +40,7 @@ const initialState: MessagesState = {
   filter: "",
   conversationCursors: [null],
   messageCursors: [null],
+  localConversations: [],
   localMessages: [],
 };
 
@@ -51,10 +55,21 @@ const reducer = (
 ): MessagesState => {
   switch (type) {
     case "newMessageNotification":
-      const conversationCursors =
-        state.filter.length > 0 ? state.conversationCursors : [null];
-      return { ...state, conversationCursors };
-
+      const filteredNMN = state.localConversations.filter(
+        (c) => c.id !== payload.conversationId
+      );
+      const newConversationNMN = {
+        id: payload.conversationId,
+        latest: {
+          ...payload,
+          read: state.conversationId === payload.conversationId,
+        },
+        partner: { ...payload.author },
+      };
+      return {
+        ...state,
+        localConversations: [newConversationNMN, ...filteredNMN],
+      };
     case "closeConversation":
       return {
         ...state,
@@ -70,15 +85,31 @@ const reducer = (
       return { ...state, show: "conversation" };
 
     case "newMessage":
+      console.log(state.localConversations);
+      const filteredNM = state.localConversations.filter(
+        (c) => c.id !== payload.conversationId
+      );
+      console.log(payload);
+      const newConversationNM = {
+        id: payload.conversationId,
+        latest: {
+          ...payload.message,
+          read: false,
+          authorId: payload.message.author.id,
+        },
+        partner: undefined,
+      };
       return {
         ...state,
         localMessages: [payload.message, ...state.localMessages],
+        localConversations: [newConversationNM, ...filteredNM],
       };
 
     case "setFilter":
       return {
         ...state,
         conversationCursors: [null],
+        localConversations: [],
         filter: payload.filter,
       };
 
