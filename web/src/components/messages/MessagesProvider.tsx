@@ -55,7 +55,6 @@ const reducer = (
 ): MessagesState => {
   switch (type) {
     case "newMessageNotification":
-
       const filteredNMN = state.localConversations.filter(
         (c) => c.id !== payload.conversationId
       );
@@ -67,9 +66,13 @@ const reducer = (
         },
         partner: { ...payload.author },
       };
+      const localMessagesNMN =
+        state.conversationId === payload.conversationId
+          ? [payload, ...state.localMessages]
+          : state.localMessages;
       return {
         ...state,
-        localMessages: [payload, ...state.localMessages],
+        localMessages: [...localMessagesNMN],
         localConversations: [newConversationNMN, ...filteredNMN],
       };
     case "closeConversation":
@@ -87,11 +90,9 @@ const reducer = (
       return { ...state, show: "conversation" };
 
     case "newMessage":
-      console.log(state.localConversations);
       const filteredNM = state.localConversations.filter(
         (c) => c.id !== payload.conversationId
       );
-      console.log(payload);
       const newConversationNM = {
         id: payload.conversationId,
         latest: {
