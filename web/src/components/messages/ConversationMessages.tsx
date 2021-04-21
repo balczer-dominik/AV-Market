@@ -18,21 +18,17 @@ export const ConversationMessages: React.FC<ConversationMessagesProps> = ({
   return (
     <VStack
       py={4}
-      flexDir="column-reverse"
+      flexDir="column"
       justify="start"
       maxH="full"
       h="full"
       overflow="auto"
     >
-      <Box ref={bottomRef} />
-
-      <PaginatedMessages cursor={undefined} isLastPage={false} />
       {messageCursors.map((c, i) => (
-        <PaginatedMessages
-          cursor={c}
-          isLastPage={i === messageCursors.length - 1}
-        />
+        <PaginatedMessages cursor={c} isLastPage={i === 0} />
       ))}
+      <PaginatedMessages cursor={undefined} isLastPage={false} />
+      <Box ref={bottomRef} />
     </VStack>
   );
 };

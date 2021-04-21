@@ -205,7 +205,7 @@ export class MessageResolver {
     });
 
     return {
-      messages: messages.slice(0, first),
+      messages: messages.slice(0, first).reverse(),
       partner: conversation.participants.filter((p) => p.id !== userId)[0],
       hasMore: messages.length === limitPlusOne,
     };

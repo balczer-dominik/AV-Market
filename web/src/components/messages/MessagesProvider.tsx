@@ -68,7 +68,7 @@ const reducer = (
       };
       const localMessagesNMN =
         state.conversationId === payload.conversationId
-          ? [payload, ...state.localMessages]
+          ? [...state.localMessages, payload]
           : state.localMessages;
       return {
         ...state,
@@ -104,7 +104,7 @@ const reducer = (
       };
       return {
         ...state,
-        localMessages: [payload.message, ...state.localMessages],
+        localMessages: [...state.localMessages, payload.message],
         localConversations: [newConversationNM, ...filteredNM],
       };
 
@@ -138,7 +138,7 @@ const reducer = (
     case "loadMoreMessages":
       return {
         ...state,
-        messageCursors: [...state.messageCursors, payload.cursor],
+        messageCursors: [payload.cursor, ...state.messageCursors],
       };
 
     case "readConversation":

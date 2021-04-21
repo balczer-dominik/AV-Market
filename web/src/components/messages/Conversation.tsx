@@ -24,7 +24,7 @@ export const Conversation: React.FC<{}> = ({}) => {
   const bottomRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     bottomRef.current.scrollIntoView();
-  }, [localMessages]);
+  }, [localMessages, conversationId]);
 
   const title = data
     ? data.messages.partner

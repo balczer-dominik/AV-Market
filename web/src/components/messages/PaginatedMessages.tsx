@@ -64,7 +64,7 @@ export const PaginatedMessages: React.FC<PaginatedMessagesProps> = ({
     dispatch({
       type: "loadMoreMessages",
       payload: {
-        cursor: fetchedMessages[fetchedMessages.length - 1].createdAt,
+        cursor: fetchedMessages[0].createdAt,
       },
     });
   };
@@ -73,6 +73,11 @@ export const PaginatedMessages: React.FC<PaginatedMessagesProps> = ({
     <>
       {fetchedMessages.map((m, i) => (
         <>
+          {i === 0 && isLastPage && hasMore ? (
+            <Link p={4} onClick={() => handleLoadMore()}>
+              {LOAD_MORE_BUTTON}
+            </Link>
+          ) : null}
           <Flex
             justify="space-between"
             maxW="90%"
@@ -114,11 +119,6 @@ export const PaginatedMessages: React.FC<PaginatedMessagesProps> = ({
               </Tooltip>
             </Flex>
           </Flex>
-          {i === fetchedMessages.length - 1 && isLastPage && hasMore ? (
-            <Link p={4} onClick={() => handleLoadMore()}>
-              {LOAD_MORE_BUTTON}
-            </Link>
-          ) : null}
         </>
       ))}
     </>
