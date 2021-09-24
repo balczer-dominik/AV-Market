@@ -1,3 +1,5 @@
+import { FieldError } from "./type-graphql/FieldError";
+
 type Field =
   | "username"
   | "password"
@@ -12,7 +14,7 @@ type Field =
   | "message"
   | "partnerUsername";
 
-export const errorResponse = (field: Field, message: string) => {
+export const errorResponse = (field: Field, message: string): {errors: [FieldError]} => {
   return {
     errors: [{ field, message }],
   };

@@ -1,12 +1,9 @@
 import { Feedback } from "../../entities/Feedback";
 import { ObjectType, Field } from "type-graphql";
-import { FieldError } from "./FieldError";
+import { Response } from "./Response";
 
 @ObjectType()
-export class FeedbackResponse {
-  @Field(() => [FieldError], { nullable: true })
-  errors?: FieldError[];
-
+export class FeedbackResponse extends Response {
   @Field(() => Feedback, { nullable: true })
   feedback?: Feedback;
 }

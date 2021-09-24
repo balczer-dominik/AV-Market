@@ -1,12 +1,9 @@
 import { Ad } from "../../entities/Ad";
 import { Field, ObjectType } from "type-graphql";
-import { FieldError } from "./FieldError";
+import { Response } from "./Response";
 
 @ObjectType()
-export class AdResponse {
-  @Field(() => [FieldError], { nullable: true })
-  errors?: FieldError[];
-
+export class AdResponse extends Response {
   @Field(() => Ad, { nullable: true })
   ad?: Ad;
 }
