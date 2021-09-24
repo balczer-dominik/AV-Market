@@ -29,7 +29,7 @@ export const PostPreview: React.FC<PostPreviewProps> = ({
         {FINALIZE_LABEL}
       </Heading>
 
-      {!fetching && data.me ? (
+      {!fetching && data?.me ? (
         <AdListing
           ad={{
             owner: data.me,
