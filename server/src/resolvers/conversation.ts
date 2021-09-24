@@ -21,8 +21,8 @@ import { PaginatedConversations } from "../util/type-graphql/PaginatedConversati
 export class ConversationResolver {
   @UseMiddleware(isAuth)
   @FieldResolver(() => Message)
-  async latest(@Root() conversation: Conversation) {
-    return await Message.findOne({
+  latest(@Root() conversation: Conversation): Promise<Message | undefined> {
+    return Message.findOne({
       where: { conversationId: conversation.id },
       order: { createdAt: "DESC" },
     });
@@ -59,7 +59,7 @@ export class ConversationResolver {
     const limitPlusOne = first + 1;
     const userId = req.session.userId!;
 
-    const query = await getConnection()
+    const query = getConnection()
       .createQueryBuilder()
       .select('"candidateId"', "id")
       .from((qb) => {
@@ -124,7 +124,7 @@ export class ConversationResolver {
   async readConversation(
     @Arg("conversationId", () => Int) conversationId: number,
     @Ctx() { req }: MyContext
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     const userId = req.session.userId;
 
     await Message.update(

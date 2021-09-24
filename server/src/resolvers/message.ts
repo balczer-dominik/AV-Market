@@ -85,10 +85,6 @@ export class MessageResolver {
 
       conversationId = result ? result.conversationId : null;
 
-      // if(conversationId){
-      //   return errorResponse("partnerUsername", CONVERSATION_ALREADY_EXISTS)
-      // }
-
       //If it doesn't exist, we create one
       if (!conversationId) {
         const user = await User.findOne(ownId);
@@ -139,7 +135,7 @@ export class MessageResolver {
   async readMessages(
     @Ctx() { req }: MyContext,
     @Arg("conversationId", () => Int) conversationId: number
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     const userId = req.session.userId;
 
     const conversation = await getConnection()

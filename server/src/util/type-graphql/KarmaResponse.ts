@@ -4,6 +4,7 @@ import { Field, Int, ObjectType } from "type-graphql";
 export class KarmaResponse {
   @Field(() => Int)
   satisfied: number;
+  
   @Field(() => Int)
   unsatisfied: number;
 }

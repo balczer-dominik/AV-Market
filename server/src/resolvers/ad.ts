@@ -38,25 +38,25 @@ import { Feedback } from "../entities/Feedback";
 export class AdResolver {
   //Tulajdonos
   @FieldResolver(() => User)
-  async owner(@Root() ad: Ad) {
-    return await User.findOne(ad.ownerId);
+  owner(@Root() ad: Ad): Promise<User | undefined> {
+    return User.findOne(ad.ownerId);
   }
 
   @FieldResolver(() => String, { nullable: true })
-  async thumbnail(@Root() ad: Ad) {
+  async thumbnail(@Root() ad: Ad): Promise<string> {
     return (await AdImage.find({ where: { adId: ad.id } }))[0]?.src;
   }
 
   @FieldResolver(() => [String], { nullable: true })
-  async images(@Root() ad: Ad) {
+  async images(@Root() ad: Ad): Promise<string[]>  {
     return (await AdImage.find({ where: { adId: ad.id } }))?.map(
       (ai) => ai.src
     );
   }
 
   @FieldResolver(() => [Ad])
-  async recent(@Root() ad: Ad) {
-    const ads = await Ad.find({
+  recent(@Root() ad: Ad): Promise<Ad[]> {
+    return Ad.find({
       where: {
         ownerId: ad.ownerId,
         id: Not(ad.id),
@@ -67,7 +67,6 @@ export class AdResolver {
       },
       take: 5,
     });
-    return ads;
   }
 
   //Hirdetés feladás
@@ -108,9 +107,9 @@ export class AdResolver {
       images.forEach(async (image) => {
         const { createReadStream } = await image;
         const filename = randomstring.generate(30);
-        new Promise(
-          async (resolve, reject) =>
-            await createReadStream()
+        await new Promise(
+          (resolve, reject) =>
+            createReadStream()
               .pipe(
                 createWriteStream(
                   __dirname + `/../../../web/public/ad/${filename}.png`
@@ -246,7 +245,7 @@ export class AdResolver {
     @Arg("options", () => PostInput)
     { category, price, desc, subCategory, title, wear }: PostInput,
     @Ctx() { req }: MyContext
-  ) {
+  ): Promise<AdResponse> {
     //Fetching
     const ad = await Ad.findOne(adId);
     if (!ad) {
@@ -281,7 +280,7 @@ export class AdResolver {
   async deleteAd(
     @Arg("adId", () => Int) adId: number,
     @Ctx() { req }: MyContext
-  ) {
+  ): Promise<boolean> {
     //Fetching
     const ad = await Ad.findOne(adId);
     if (!ad) {
@@ -294,7 +293,7 @@ export class AdResolver {
     }
 
     const images = await AdImage.find({ adId: ad.id });
-    await Feedback.delete({adId: ad.id});
+    await Feedback.delete({ adId: ad.id });
 
     if (images) {
       images.forEach(async (image) => {
@@ -315,7 +314,7 @@ export class AdResolver {
   async deleteAdImage(
     @Arg("src", () => String) src: string,
     @Ctx() { req }: MyContext
-  ) {
+  ): Promise<boolean> {
     //Fetching
     const image = await AdImage.findOne({ where: { src } });
     if (!image) {
@@ -349,7 +348,7 @@ export class AdResolver {
     images: [Upload],
     @Arg("adId", () => Int) adId: number,
     @Ctx() { req }: MyContext
-  ) {
+  ): Promise<string[]> {
     const ad = await Ad.findOne(adId);
 
     if (!ad) {
@@ -367,8 +366,8 @@ export class AdResolver {
       result.push(filename);
       const { createReadStream } = await image;
       await new Promise(
-        async (resolve, reject) =>
-          await createReadStream()
+        (resolve, reject) =>
+          createReadStream()
             .pipe(
               createWriteStream(
                 __dirname + `/../../../web/public/ad/${filename}.png`

@@ -50,8 +50,8 @@ import { validateRegister } from "../validators/validateRegister";
 @Resolver(User)
 export class UserResolver {
   @FieldResolver(() => Int)
-  async adCount(@Root() user: User): Promise<number> {
-    return await Ad.count({ where: { ownerId: user.id } });
+  adCount(@Root() user: User): Promise<number> {
+    return Ad.count({ where: { ownerId: user.id } });
   }
 
   @FieldResolver(() => KarmaResponse)
@@ -70,8 +70,8 @@ export class UserResolver {
   }
 
   @FieldResolver(() => [Ad])
-  async ads(@Root() user: User): Promise<Ad[]> {
-    return await Ad.find({ where: { ownerId: user.id } });
+  ads(@Root() user: User): Promise<Ad[]> {
+    return Ad.find({ where: { ownerId: user.id } });
   }
 
   @FieldResolver(() => [Ad])

@@ -26,25 +26,26 @@ import {
 import { MyContext } from "../types";
 import { errorResponse } from "../util/errorResponse";
 import { FeedbackInput } from "../util/type-graphql/FeedbackInput";
-import { FeedbackResponse } from "../util/type-graphql/FeedbackResponse";
 import { FieldError } from "../util/type-graphql/FieldError";
 import { PaginatedFeedbacks } from "../util/type-graphql/PaginatedFeedback";
+import Response from "../util/type-graphql/Response";
+import { FeedbackResponse } from "src/util/type-graphql/FeedbackResponse";
 
 @Resolver(Feedback)
 export class FeedbackResolver {
   @FieldResolver(() => User)
-  async author(@Root() feedback: Feedback) {
-    return await User.findOne(feedback.authorId);
+  author(@Root() feedback: Feedback): Promise<User | undefined> {
+    return User.findOne(feedback.authorId);
   }
 
   @FieldResolver(() => User)
-  async recipient(@Root() feedback: Feedback) {
-    return await User.findOne(feedback.recipientId);
+  recipient(@Root() feedback: Feedback): Promise<User | undefined> {
+    return User.findOne(feedback.recipientId);
   }
 
   @FieldResolver(() => User)
-  async ad(@Root() feedback: Feedback) {
-    return await Ad.findOne(feedback.adId);
+  ad(@Root() feedback: Feedback): Promise<Ad | undefined> {
+    return Ad.findOne(feedback.adId);
   }
 
   @Query(() => PaginatedFeedbacks)
@@ -134,7 +135,7 @@ export class FeedbackResolver {
     }
 
     return {
-      feedback: { comment, ...generated, adId, recipientId, satisfied },
+      feedback: { ...generated, comment, adId, recipientId, satisfied },
     };
   }
 
@@ -143,7 +144,7 @@ export class FeedbackResolver {
   async deleteFeedback(
     @Arg("id", () => Int) id: number,
     @Ctx() { req }: MyContext
-  ) {
+  ): Promise<{errors: [FieldError]} | null> {
     const feedback = await Feedback.findOne(id);
 
     if (!feedback) {
