@@ -26,7 +26,7 @@ export const PaginatedMessages: React.FC<PaginatedMessagesProps> = ({
 
   const isLocal = typeof cursor === "undefined";
 
-  const [{ data }] = useMessagesQuery({
+  const [{ data },fetch] = useMessagesQuery({
     variables: { cursor, conversationId },
     pause: !!isLocal,
   });
@@ -85,6 +85,7 @@ export const PaginatedMessages: React.FC<PaginatedMessagesProps> = ({
             flexDir={userId === m.author.id ? "row-reverse" : "row"}
             my={2}
             key={m.id}
+            onClick={() => fetch({})}
           >
             <Image
               h={10}
