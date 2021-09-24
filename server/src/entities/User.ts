@@ -1,15 +1,7 @@
 import { Field, ObjectType } from "type-graphql";
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToMany,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, ManyToMany, OneToMany } from "typeorm";
 import { Ad } from "./Ad";
+import { BaseEntity } from "./BaseEntity";
 import { Conversation } from "./Conversation";
 import { Feedback } from "./Feedback";
 import { Message } from "./Message";
@@ -17,10 +9,6 @@ import { Message } from "./Message";
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
-  @Field()
-  @PrimaryGeneratedColumn()
-  id!: number;
-
   @Field()
   @Column({ unique: true })
   username!: string;
@@ -70,12 +58,4 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Message, (message) => message.author)
   sentMessages: Message[];
-
-  @Field(() => String)
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Field(() => String)
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

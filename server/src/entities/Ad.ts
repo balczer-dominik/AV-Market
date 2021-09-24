@@ -1,25 +1,13 @@
-import { ObjectType, Field } from "type-graphql";
-import {
-  Entity,
-  BaseEntity,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  Column,
-  ManyToOne,
-  OneToMany,
-} from "typeorm";
-import { User } from "./User";
+import { Field, ObjectType } from "type-graphql";
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { AdImage } from "./AdImage";
 import { Feedback } from "./Feedback";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
 export class Ad extends BaseEntity {
-  @Field()
-  @PrimaryGeneratedColumn()
-  id!: number;
-
   @Field()
   @Column()
   title!: string;
@@ -65,12 +53,4 @@ export class Ad extends BaseEntity {
   @Field()
   @Column({ default: false })
   archieved: boolean;
-
-  @Field(() => String)
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Field(() => String)
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

@@ -4,3 +4,4 @@ av_logo_brown.png
 web/public/**/
 server/src/util/env.ts
 web/src/utils/env.ts
+server/AV-Market.code-workspace

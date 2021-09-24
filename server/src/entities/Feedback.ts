@@ -1,23 +1,12 @@
 import { Field, ObjectType } from "type-graphql";
-import {
-  Entity,
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, ManyToOne } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { Ad } from "./Ad";
 import { User } from "./User";
 
 @ObjectType()
 @Entity()
 export class Feedback extends BaseEntity {
-  @Field()
-  @PrimaryGeneratedColumn()
-  id!: number;
-
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.feedbacks)
   author!: User;
@@ -49,12 +38,4 @@ export class Feedback extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true, default: null })
   comment?: string;
-
-  @Field(() => String)
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Field(() => String)
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

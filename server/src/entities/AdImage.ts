@@ -1,22 +1,11 @@
 import { Field, ObjectType } from "type-graphql";
-import {
-  Entity,
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, ManyToOne } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { Ad } from "./Ad";
 
 @ObjectType()
 @Entity()
 export class AdImage extends BaseEntity {
-  @Field()
-  @PrimaryGeneratedColumn()
-  id!: number;
-
   @Field()
   @Column()
   src!: string;
@@ -28,12 +17,4 @@ export class AdImage extends BaseEntity {
   @Field()
   @Column()
   adId!: number;
-
-  @Field(() => String)
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Field(() => String)
-  @UpdateDateColumn()
-  updatedAt: Date;
 }
