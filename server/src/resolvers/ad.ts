@@ -32,6 +32,7 @@ import { AdSortingOptions } from "../util/type-graphql/AdSortingOptions";
 import { PaginatedAds } from "../util/type-graphql/PaginatedAds";
 import { PostInput } from "../util/type-graphql/PostInput";
 import { validatePost } from "../validators/validatePost";
+import { Feedback } from "../entities/Feedback";
 
 @Resolver(Ad)
 export class AdResolver {
@@ -293,6 +294,7 @@ export class AdResolver {
     }
 
     const images = await AdImage.find({ adId: ad.id });
+    await Feedback.delete({adId: ad.id});
 
     if (images) {
       images.forEach(async (image) => {
@@ -358,7 +360,7 @@ export class AdResolver {
       return [];
     }
 
-    let result: String[] = [];
+    let result: string[] = [];
 
     images.forEach(async (image) => {
       const filename = randomstring.generate(30);
