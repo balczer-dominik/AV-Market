@@ -10,13 +10,13 @@ import {
 export class BaseEntity extends BaseEntityORM {
   @Field()
   @PrimaryGeneratedColumn()
-  protected id!: number;
+  id!: number;
 
   @Field(() => String)
   @CreateDateColumn()
-  protected createdAt: Date;
+  createdAt: Date;
 
   @Field(() => String)
   @UpdateDateColumn()
-  protected updatedAt: Date;
+  updatedAt: Date;
 }
