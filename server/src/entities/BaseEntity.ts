@@ -1,4 +1,4 @@
-import { Field } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import {
   BaseEntity as BaseEntityORM,
   CreateDateColumn,
@@ -6,16 +6,17 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
+@ObjectType()
 export class BaseEntity extends BaseEntityORM {
   @Field()
   @PrimaryGeneratedColumn()
-  id!: number;
+  protected id!: number;
 
   @Field(() => String)
   @CreateDateColumn()
-  createdAt: Date;
+  protected createdAt: Date;
 
   @Field(() => String)
   @UpdateDateColumn()
-  updatedAt: Date;
+  protected updatedAt: Date;
 }
