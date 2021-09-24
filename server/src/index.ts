@@ -19,7 +19,6 @@ import { User } from "./entities/User";
 import { AdResolver } from "./resolvers/ad";
 import { ConversationResolver } from "./resolvers/conversation";
 import { FeedbackResolver } from "./resolvers/feedback";
-import { HelloResolver } from "./resolvers/hello";
 import { MessageResolver } from "./resolvers/message";
 import { UserResolver } from "./resolvers/user";
 import { UserAdministrationResolver } from "./resolvers/userAdministration";
@@ -76,7 +75,6 @@ const main = async () => {
   //Schema
   const schema = await buildSchema({
     resolvers: [
-      HelloResolver,
       UserResolver,
       UserAdministrationResolver,
       AdResolver,
@@ -106,7 +104,7 @@ const main = async () => {
   //Subscriptions
   const wsServer = createServer(app);
   wsServer.listen(4000, () => {
-    new SubscriptionServer(
+    const server = new SubscriptionServer(
       {
         execute,
         subscribe,
@@ -123,69 +121,6 @@ const main = async () => {
     );
     console.log("WS Server started on localhost:4000");
   });
-
-  // mockData.forEach(
-  //   async ({
-  //     id,
-  //     banned,
-  //     county,
-  //     createdAt,
-  //     updatedAt,
-  //     email,
-  //     messenger,
-  //     password,
-  //     phone,
-  //     username,
-  //   }) => {
-  //     const hashed = await argon2.hash(password);
-  //     User.insert({
-  //       id,
-  //       createdAt: new Date(parseInt(createdAt)),
-  //       updatedAt: new Date(parseInt(updatedAt)),
-  //       avatar: undefined,
-  //       banned,
-  //       city: undefined,
-  //       county,
-  //       email,
-  //       messenger: messenger ?? undefined,
-  //       password: hashed,
-  //       phone: phone ?? undefined,
-  //       username,
-  //     });
-  //   }
-  // );
-
-  // mockData.forEach(
-  //   ({
-  //     wear,
-  //     updatedAt,
-  //     createdAt,
-  //     title,
-  //     subCategory,
-  //     price,
-  //     ownerId,
-  //     featured,
-  //     desc,
-  //     category,
-  //   }) => {
-  //     Ad.insert({
-  //       wear,
-  //       createdAt: new Date(parseInt(createdAt)),
-  //       updatedAt: new Date(parseInt(updatedAt)),
-  //       title,
-  //       subCategory,
-  //       price,
-  //       ownerId,
-  //       featured,
-  //       desc: undefined,
-  //       category,
-  //     });
-  //   }
-  // );
-
-  // app.listen(4000, () => {
-  //   console.log("Server started on localhost:4000");
-  // });
 };
 
 main();
