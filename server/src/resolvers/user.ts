@@ -76,7 +76,7 @@ export class UserResolver {
 
   @FieldResolver(() => [Ad])
   async recent(@Root() user: User) {
-    const ads = await Ad.find({
+    return Ad.find({
       where: {
         ownerId: user.id,
       },
@@ -86,7 +86,6 @@ export class UserResolver {
       },
       take: 5,
     });
-    return ads;
   }
 
   @Query(() => PaginatedAds)
@@ -302,15 +301,15 @@ export class UserResolver {
     const filename = randomstring.generate(30);
 
     return new Promise(
-      async (resolve, reject) =>
-        await createReadStream()
+      (resolve, reject) =>
+        createReadStream()
           .pipe(
             createWriteStream(
               __dirname + `/../../../web/public/avatar/${filename}.png`
             )
           )
           .on("finish", () => {
-            User.update(req.session!.userId!, { avatar: filename });
+            User.update(req.session.userId!, { avatar: filename });
             resolve(true);
           })
           .on("error", (err) => {
@@ -394,6 +393,6 @@ export class UserResolver {
   async user(
     @Arg("id", () => Int, { nullable: true }) id: number
   ): Promise<User | undefined> {
-    return await User.findOne(id);
+    return User.findOne(id);
   }
 }

@@ -28,7 +28,6 @@ import { errorResponse } from "../util/errorResponse";
 import { FeedbackInput } from "../util/type-graphql/FeedbackInput";
 import { FieldError } from "../util/type-graphql/FieldError";
 import { PaginatedFeedbacks } from "../util/type-graphql/PaginatedFeedback";
-import Response from "../util/type-graphql/Response";
 import { FeedbackResponse } from "src/util/type-graphql/FeedbackResponse";
 
 @Resolver(Feedback)

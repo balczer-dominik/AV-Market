@@ -62,8 +62,8 @@ export class ConversationResolver {
     const query = getConnection()
       .createQueryBuilder()
       .select('"candidateId"', "id")
-      .from((qb) => {
-        return qb
+      .from((qbm) => {
+        return qbm
           .select("*")
           .addSelect(
             'MAX("createdAt") over (partition by messages."conversationId")',
@@ -71,16 +71,16 @@ export class ConversationResolver {
           )
           .from(Message, "messages")
           .innerJoin(
-            (qb) => {
-              return qb
+            (qbco) => {
+              return qbco
                 .select('"innerQuery"."conversationId"', "candidateId")
                 .addSelect('"innerQuery"."partnerId"', "partnerId")
                 .addSelect("participants.id", "ownId")
                 .from(Conversation, "cOwn")
                 .innerJoin("cOwn.participants", "participants")
                 .innerJoinAndSelect(
-                  (qb) => {
-                    return qb
+                  (qbci) => {
+                    return qbci
                       .select("cPartner.id", "conversationId")
                       .addSelect("participants.id", "partnerId")
                       .from(Conversation, "cPartner")

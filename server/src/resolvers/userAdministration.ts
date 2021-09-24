@@ -40,7 +40,7 @@ export class UserAdministrationResolver {
   //Felhasználó tiltása
   @UseMiddleware(isAdmin)
   @Mutation(() => Boolean)
-  async banUser(@Arg("id", () => Int) id: number) {
+  async banUser(@Arg("id", () => Int) id: number): Promise<boolean> {
     await User.update(id, { banned: true });
     await Ad.update({ ownerId: id }, { archieved: true });
     return true;
@@ -49,7 +49,7 @@ export class UserAdministrationResolver {
   //Tiltás feloldása
   @UseMiddleware(isAdmin)
   @Mutation(() => Boolean)
-  async unbanUser(@Arg("id", () => Int) id: number) {
+  async unbanUser(@Arg("id", () => Int) id: number): Promise<boolean> {
     await User.update(id, { banned: false });
     return true;
   }

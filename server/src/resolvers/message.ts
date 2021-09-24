@@ -30,8 +30,8 @@ import { PaginatedMessages } from "../util/type-graphql/PaginatedMessages";
 @Resolver(Message)
 export class MessageResolver {
   @FieldResolver(() => User)
-  async author(@Root() message: Message) {
-    return await User.findOne(message.authorId);
+  author(@Root() message: Message) {
+    return User.findOne(message.authorId);
   }
 
   @UseMiddleware(isAuth)
