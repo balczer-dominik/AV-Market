@@ -20,6 +20,7 @@ import { Message } from "./entities/Message";
 import { User } from "./entities/User";
 import { AdResolver } from "./resolvers/ad";
 import { ConversationResolver } from "./resolvers/conversation";
+import { DeliveryResolver } from "./resolvers/delivery";
 import { FeedbackResolver } from "./resolvers/feedback";
 import { MessageResolver } from "./resolvers/message";
 import { UserResolver } from "./resolvers/user";
@@ -84,6 +85,7 @@ const main = async () => {
       FeedbackResolver,
       MessageResolver,
       ConversationResolver,
+      DeliveryResolver,
     ],
     validate: false,
   });
