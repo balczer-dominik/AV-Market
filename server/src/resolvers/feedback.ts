@@ -28,7 +28,7 @@ import { errorResponse } from "../util/errorResponse";
 import { FeedbackInput } from "../util/type-graphql/FeedbackInput";
 import { FieldError } from "../util/type-graphql/FieldError";
 import { PaginatedFeedbacks } from "../util/type-graphql/PaginatedFeedback";
-import { FeedbackResponse } from "src/util/type-graphql/FeedbackResponse";
+import { FeedbackResponse } from "../util/type-graphql/FeedbackResponse";
 
 @Resolver(Feedback)
 export class FeedbackResolver {
@@ -143,7 +143,7 @@ export class FeedbackResolver {
   async deleteFeedback(
     @Arg("id", () => Int) id: number,
     @Ctx() { req }: MyContext
-  ): Promise<{errors: [FieldError]} | null> {
+  ): Promise<{ errors: [FieldError] } | null> {
     const feedback = await Feedback.findOne(id);
 
     if (!feedback) {

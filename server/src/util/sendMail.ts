@@ -1,6 +1,6 @@
 "use strict";
 import nodemailer from "nodemailer";
-import { mailerPass, mailerUser } from "./env";
+import { MAILER_PASS, MAILER_USER } from "./env";
 
 // async..await is not allowed in global scope, must use a wrapper
 export async function sendEmail(to: string, html: string) {
@@ -22,8 +22,8 @@ export async function sendEmail(to: string, html: string) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: mailerUser, // generated ethereal user
-      pass: mailerPass, // generated ethereal password
+      user: MAILER_USER, // generated ethereal user
+      pass: MAILER_PASS, // generated ethereal password
     },
     logger: true,
   });
