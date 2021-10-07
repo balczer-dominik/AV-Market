@@ -2,9 +2,7 @@ import { GraphQLUpload } from "apollo-server-express";
 import argon2 from "argon2";
 import { createWriteStream } from "fs";
 import { GraphQLScalarType } from "graphql";
-import node_geocoder from "node-geocoder";
 import randomstring from "randomstring";
-import { GEOCODER_APIKEY } from "../util/env";
 import {
   Arg,
   Ctx,
@@ -327,7 +325,7 @@ export class UserResolver {
   @UseMiddleware(isAuth)
   @Mutation(() => UserResponse)
   async changeLocation(
-    @Ctx() { req }: MyContext,
+    @Ctx() { req, geocoder }: MyContext,
     @Arg("county", { nullable: true }) newCounty?: string,
     @Arg("city", { nullable: true }) newCity?: string
   ): Promise<UserResponse> {
@@ -337,16 +335,11 @@ export class UserResolver {
       return { user };
     }
 
-    const geoCoder = node_geocoder({
-      provider: "mapquest",
-      apiKey: GEOCODER_APIKEY,
-    });
-
     user.city = newCity ?? user.city;
     user.county = newCounty ?? user.county;
 
     const location = (
-      await geoCoder.geocode(`${user.county ?? ""}, ${user.city ?? ""}`)
+      await geocoder.geocode(`${user.county ?? ""}, ${user.city ?? ""}`)
     )[0];
 
     user.longitude = location.longitude;

@@ -6,6 +6,7 @@ import session from "express-session";
 import { execute, subscribe } from "graphql";
 import { createServer } from "http";
 import Redis from "ioredis";
+import node_geocoder from "node-geocoder";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
@@ -23,6 +24,7 @@ import { FeedbackResolver } from "./resolvers/feedback";
 import { MessageResolver } from "./resolvers/message";
 import { UserResolver } from "./resolvers/user";
 import { UserAdministrationResolver } from "./resolvers/userAdministration";
+import { GEOCODER_APIKEY } from "./util/env";
 import { registerAdSortingEnums } from "./util/type-graphql/AdSortingOptions";
 
 const main = async () => {
@@ -86,6 +88,12 @@ const main = async () => {
     validate: false,
   });
 
+  //Geocoder
+  const geocoder = node_geocoder({
+    provider: "mapquest",
+    apiKey: GEOCODER_APIKEY,
+  });
+
   //Apollo
   const apolloServer = new ApolloServer({
     schema: schema,
@@ -94,6 +102,7 @@ const main = async () => {
       req,
       res,
       redis,
+      geocoder,
     }),
   });
 

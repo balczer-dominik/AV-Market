@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { Session, SessionData } from "express-session";
 import { Redis } from "ioredis";
+import node_geocoder from "node-geocoder";
 import { Message } from "./entities/Message";
 
 export type MyContext = {
@@ -9,6 +10,7 @@ export type MyContext = {
   };
   redis: Redis;
   res: Response;
+  geocoder: node_geocoder.Geocoder;
 };
 
 export type MessagePayload = {

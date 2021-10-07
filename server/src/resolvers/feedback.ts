@@ -143,7 +143,7 @@ export class FeedbackResolver {
   async deleteFeedback(
     @Arg("id", () => Int) id: number,
     @Ctx() { req }: MyContext
-  ): Promise<{ errors: [FieldError] } | null> {
+  ): Promise<{ errors: FieldError[] } | null> {
     const feedback = await Feedback.findOne(id);
 
     if (!feedback) {
