@@ -4,11 +4,11 @@ import { createWriteStream } from "fs";
 import { GraphQLScalarType } from "graphql";
 import node_geocoder from "node-geocoder";
 import randomstring from "randomstring";
+import { GEOCODER_APIKEY } from "../util/env";
 import {
   Arg,
   Ctx,
   FieldResolver,
-  Float,
   Int,
   Mutation,
   Query,
@@ -112,24 +112,6 @@ export class UserResolver {
       ads: ads.slice(0, limit),
       hasMore: ads.length === limitPlusOne,
     };
-  }
-
-  @FieldResolver(() => [Float, Float], { nullable: true })
-  async coords(@Root() user: User) {
-    if (!user.city && !user.county) {
-      return;
-    }
-
-    const test = node_geocoder({
-      provider: "mapquest",
-      apiKey: "TmNcUU4EbYFwGNcAAAdaR7AWR7Fd4mCI",
-    });
-
-    const res = (
-      await test.geocode(`${user.county ?? ""}, ${user.city ?? ""}`)
-    )[0];
-
-    return [res.longitude, res.latitude];
   }
 
   @Mutation(() => UserResponse)
@@ -300,22 +282,21 @@ export class UserResolver {
 
     const filename = randomstring.generate(30);
 
-    return new Promise(
-      (resolve, reject) =>
-        createReadStream()
-          .pipe(
-            createWriteStream(
-              __dirname + `/../../../web/public/avatar/${filename}.png`
-            )
+    return new Promise((resolve, reject) =>
+      createReadStream()
+        .pipe(
+          createWriteStream(
+            __dirname + `/../../../web/public/avatar/${filename}.png`
           )
-          .on("finish", () => {
-            User.update(req.session.userId!, { avatar: filename });
-            resolve(true);
-          })
-          .on("error", (err) => {
-            console.log(err);
-            reject(false);
-          })
+        )
+        .on("finish", () => {
+          User.update(req.session.userId!, { avatar: filename });
+          resolve(true);
+        })
+        .on("error", (err) => {
+          console.log(err);
+          reject(false);
+        })
     );
   }
 
@@ -350,16 +331,28 @@ export class UserResolver {
     @Arg("county", { nullable: true }) newCounty?: string,
     @Arg("city", { nullable: true }) newCity?: string
   ): Promise<UserResponse> {
-    if (newCounty) {
-      await User.update(req.session.userId!, { county: newCounty });
-    }
-    if (newCity) {
-      await User.update(req.session.userId!, { city: newCity });
-    }
-
     const user = await User.findOne(req.session.userId);
 
-    return { user };
+    if ((!newCity && !newCounty) || !user) {
+      return { user };
+    }
+
+    const geoCoder = node_geocoder({
+      provider: "mapquest",
+      apiKey: GEOCODER_APIKEY,
+    });
+
+    user.city = newCity ?? user.city;
+    user.county = newCounty ?? user.county;
+
+    const location = (
+      await geoCoder.geocode(`${user.county ?? ""}, ${user.city ?? ""}`)
+    )[0];
+
+    user.longitude = location.longitude;
+    user.latitude = location.latitude;
+
+    return { user: await user.save() };
   }
 
   @UseMiddleware(isAuth)

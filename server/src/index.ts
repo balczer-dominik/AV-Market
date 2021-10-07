@@ -13,6 +13,7 @@ import { COOKIE_NAME, __prod__ } from "./constants";
 import { Ad } from "./entities/Ad";
 import { AdImage } from "./entities/AdImage";
 import { Conversation } from "./entities/Conversation";
+import { Delivery } from "./entities/Delivery";
 import { Feedback } from "./entities/Feedback";
 import { Message } from "./entities/Message";
 import { User } from "./entities/User";
@@ -33,7 +34,7 @@ const main = async () => {
     password: "postgres",
     logging: true,
     synchronize: !__prod__,
-    entities: [User, Ad, AdImage, Feedback, Message, Conversation],
+    entities: [User, Ad, AdImage, Feedback, Message, Conversation, Delivery],
   });
 
   //Express
