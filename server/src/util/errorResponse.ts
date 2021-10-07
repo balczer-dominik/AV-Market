@@ -12,9 +12,17 @@ type Field =
   | "ad"
   | "feedback"
   | "message"
-  | "partnerUsername";
+  | "partnerUsername"
+  | "buyer"
+  | "seller"
+  | "driver"
+  | "time"
+  | "location";
 
-export const errorResponse = (field: Field, message: string): {errors: [FieldError]} => {
+export const errorResponse = (
+  field: Field,
+  message: string
+): { errors: [FieldError] } => {
   return {
     errors: [{ field, message }],
   };

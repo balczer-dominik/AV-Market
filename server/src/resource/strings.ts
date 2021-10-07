@@ -19,6 +19,17 @@ export const USER_BANNED = "Ez a felhasználó le van tiltva.";
 export const INCORRECT_PHONE_FORMAT = "Helytelen telefonszám formátum.";
 export const INCORRECT_PHONE_LENGTH = "Helytelen telefonszám hossz.";
 
+//Delivery validation
+export const BUYER_DOESNT_EXIST = "Nem vagy bejelentkezve.";
+export const SELLER_DOESNT_EXIST = "Eladó nem található.";
+export const DRIVER_DOESNT_EXIST = "Fuvarozó nem található.";
+export const AD_DOESNT_EXIST = "Hirdetés nem található.";
+export const AD_DOESNT_BELONG_TO_SELLER = UNKNOWN_ERROR_SERVER;
+export const INVALID_TIME = "A megadott időpont érvénytelen.";
+export const INVALID_LOCATION = "Érvénytelen geolokáció.";
+export const USER_DOESNT_DELIVER =
+  "A megadott felhasználó nem vállal fuvarozást.";
+
 //Other validation
 export const INVALID_TOKEN = "Érvénytelen vagy lejárt link.";
 export const USER_NO_LONGER_EXISTS = "A felhasználói fiók érvénytelen.";

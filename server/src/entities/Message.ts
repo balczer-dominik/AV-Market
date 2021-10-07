@@ -1,6 +1,6 @@
 import { Field, ObjectType } from "type-graphql";
 import { Column, Entity, ManyToOne } from "typeorm";
-import { BaseEntity } from "./BaseEntity";
+import { BaseEntity } from "../util/type-graphql/BaseEntity";
 import { Conversation } from "./Conversation";
 import { User } from "./User";
 

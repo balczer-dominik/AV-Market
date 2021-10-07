@@ -1,6 +1,7 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, Float, ObjectType } from "type-graphql";
 import { Column, Entity, ManyToOne } from "typeorm";
-import { BaseEntity } from "./BaseEntity";
+import { BaseEntity } from "../util/type-graphql/BaseEntity";
+import { Ad } from "./Ad";
 import { User } from "./User";
 
 @ObjectType()
@@ -13,7 +14,7 @@ export class Delivery extends BaseEntity {
   seller: User;
 
   @Field()
-  @Column({ nullable: false })
+  @Column()
   sellerId: number;
 
   @Field(() => User)
@@ -21,7 +22,7 @@ export class Delivery extends BaseEntity {
   buyer: User;
 
   @Field()
-  @Column({ nullable: false })
+  @Column()
   buyerId: number;
 
   @Field(() => User)
@@ -29,22 +30,46 @@ export class Delivery extends BaseEntity {
   driver: User;
 
   @Field()
-  @Column({ nullable: false })
+  @Column()
   driverId: number;
 
   //Approvals
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ default: null })
   sellerApproval?: boolean;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ default: null })
   driverApproval?: boolean;
 
+  @Field({ nullable: true })
+  @Column({ default: null })
+  buyerApproval?: boolean;
+
   //Details
 
+  @Field(() => Ad)
+  @ManyToOne(() => Ad, (ad) => ad.deliveries)
+  ad: Ad;
+
   @Field()
-  @Column({ nullable: false })
-  location: string;
+  @Column()
+  adId: number;
+
+  @Field(() => Float)
+  @Column()
+  longitude: number;
+
+  @Field(() => Float)
+  @Column()
+  latitude: number;
+
+  @Field()
+  @Column({ nullable: true })
+  notes?: string;
+
+  @Field()
+  @Column()
+  time: Date;
 }

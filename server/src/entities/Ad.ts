@@ -1,7 +1,8 @@
 import { Field, ObjectType } from "type-graphql";
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
-import { BaseEntity } from "./BaseEntity";
+import { BaseEntity } from "../util/type-graphql/BaseEntity";
 import { AdImage } from "./AdImage";
+import { Delivery } from "./Delivery";
 import { Feedback } from "./Feedback";
 import { User } from "./User";
 
@@ -18,7 +19,7 @@ export class Ad extends BaseEntity {
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  desc: string;
+  desc?: string;
 
   @Field()
   @Column()
@@ -45,6 +46,9 @@ export class Ad extends BaseEntity {
 
   @OneToMany(() => Feedback, (feedback) => feedback.ad)
   feedbacks: Feedback[];
+
+  @OneToMany(() => Delivery, (delivery) => delivery.ad)
+  deliveries: Delivery[];
 
   @Field()
   @Column({ default: false })

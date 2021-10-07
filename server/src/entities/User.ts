@@ -1,7 +1,7 @@
 import { Field, Float, ObjectType } from "type-graphql";
 import { Column, Entity, ManyToMany, OneToMany } from "typeorm";
 import { Ad } from "./Ad";
-import { BaseEntity } from "./BaseEntity";
+import { BaseEntity } from "../util/type-graphql/BaseEntity";
 import { Conversation } from "./Conversation";
 import { Delivery } from "./Delivery";
 import { Feedback } from "./Feedback";
