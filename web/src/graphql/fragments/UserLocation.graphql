@@ -1,4 +1,5 @@
 fragment UserLocation on User {
   ...UserAddress
-  coords
+  longitude
+  latitude
 }

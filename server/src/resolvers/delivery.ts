@@ -21,6 +21,22 @@ import { validateDelivery } from "../validators/validateDelivery";
 @Resolver(Delivery)
 export class DeliveryResolver {
   @UseMiddleware(isAuth)
+  @Mutation(() => Boolean)
+  async toggleDelivers(
+    @Ctx() { req }: MyContext,
+    @Arg("to", () => Boolean) to: boolean
+  ): Promise<boolean> {
+    const user = await User.findOne(req.session.userId);
+    if (!user!.latitude && to) {
+      return false;
+    }
+    return User.update(req.session.userId!, { delivers: to }).then(
+      (_) => true,
+      (_) => false
+    );
+  }
+
+  @UseMiddleware(isAuth)
   @Query(() => Delivery, { nullable: true })
   delivery(
     @Ctx() { req }: MyContext,
@@ -72,11 +88,14 @@ export class DeliveryResolver {
       )
       .groupBy("user.id")
       .where("user.delivers = TRUE")
+      .andWhere("user.id != :ownId")
       .orderBy("distance", "ASC")
+      .take(20)
       .setParameters({
         longitude:
           ((buyer.longitude ?? 0) + (seller.longitude ?? 0)) / divideBy,
         latitude: ((buyer.latitude ?? 0) + (seller.latitude ?? 0)) / divideBy,
+        ownId: buyer.id,
       })
       .getRawMany();
 

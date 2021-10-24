@@ -44,9 +44,8 @@ const ViewProfile: React.FC<ViewProfileProps> = ({}) => {
               county={user.county}
             />
             <LocationMap
-              coordinates={
-                user.coords ? [user.coords[0], user.coords[1]] : null
-              }
+              longitude={user.longitude}
+              latitude={user.latitude}
             />
             <AdRecent
               owner={user.username}

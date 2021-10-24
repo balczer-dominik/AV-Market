@@ -3,8 +3,10 @@ export const SHOW_PASSWORD = "Jelszó mutatása";
 export const HIDE_PASSWORD = "Jelszó elrejtése";
 export const USERNAME_LABEL_REQUIRED = "Felhasználónév*";
 export const USERNAME_LABEL = "Felhasználónév";
+export const USERNAME_PLACEHOLDER = "felhasználónév";
 export const EMAIL_LABEL_REQUIRED = "E-mail cím*";
 export const EMAIL_LABEL = "E-mail cím";
+export const EMAIL_PLACEHOLDER = "pelda@gmail.com";
 export const PASSWORD_LABEL = "Jelszó";
 export const PASSWORD_LABEL_REQUIRED = "Jelszó*";
 export const CONFIRM_PASSWORD_LABEL = "Jelszó ismét*";
@@ -43,10 +45,17 @@ export const CURRENT_PHONE_LABEL = "Jelenlegi telefonszám: ";
 export const DATA_NOT_SUPPLIED = "Nincs megadva.";
 export const NEW_MESSENGER_LABEL = "Új messenger";
 export const NEW_PHONE_LABEL = "Új telefonszám";
-export const CHANGE_EMAIL_PLACEHOLDER = "teszt.elek@teszt.hu";
+export const CHANGE_EMAIL_PLACEHOLDER = EMAIL_PLACEHOLDER;
 export const CHANGE_MESSENGER_PLACEHOLDER = "Teszt Elek";
-export const CHANGE_PHONE_PLACEHOLDER = "301234567";
+export const CHANGE_PHONE_PLACEHOLDER = "30 123 4567";
 export const SEND_LABEL = "Küldés";
+export const DELIVERY = "Szállítás";
+export const USER_DELIVERS = "A szállítás jelenleg be van kapcsolva.";
+export const USER_DOESNT_DELIVER = "A szállítás jelenleg ki van kapcsolva.";
+export const TURN_ON_DELIVER = "Szállítani szeretnék";
+export const TURN_OFF_DELIVER = "Nem szeretnék szállítani";
+export const DELIVER_TURN_OFF_SUCCESS = "Sikeresen kikapcsolta a szállítást.";
+export const DELIVE_TURN_ON_SUCCESS = "Sikeresen bekapcsolta a szállítást.";
 
 //Toast
 export const REGISTER_SUCCESS_LABEL = "Sikeres regisztráció";
@@ -80,6 +89,18 @@ export const IMAGE_UPLOAD_FAIL = "Hiba történt a képek feltöltése során.";
 export const IMAGE_UPLOAD_SUCCESS = "Sikeresen feltöltötte a képeket.";
 export const FEEDBACK_SUGGESTION_LABEL =
   "Megvásárolta a terméket? Értékelje az eladót!";
+export const DELIVERY_SUGGESTION_LABEL =
+  "Szeretné megvásárolni a terméket de nem tudja megoldani az elszállítását?";
+export const DELIVERY_SUGGESTION_BUTTON_LABEL = "Közeli szállítók";
+export const SUBMIT_DELIVERY_TITLE = "Szállítási kérelem küldése";
+export const NEARBY_DRIVERS_LABEL = "Közeli szállítók";
+export const DISTANCE = "Távolság a találkozási ponttól: ";
+export const NO_DISTANCE = "A szállító közel van.";
+export const CHOOSE_DRIVER_LABEL = "Őt választom";
+export const DELIVERY_TIME = "Időpont";
+export const NOTES_LABEL = "Megjegyzés";
+export const DELIVERY_SUBMIT_SUCCESS = "Szállítási kérelem elküldése sikeres.";
+export const DATE_CANNOT_BE_IN_PAST = "Helytelen dátum";
 
 //Register validation
 export const INCORRECT_EMAIL_FORMAT = "Helytelen e-mail formátum.";

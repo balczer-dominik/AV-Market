@@ -1,0 +1,5 @@
+query MeDelivers {
+  me {
+    delivers
+  }
+}

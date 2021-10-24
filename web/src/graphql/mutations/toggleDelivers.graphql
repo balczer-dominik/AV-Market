@@ -1,0 +1,3 @@
+mutation ToggleDelivers($to: Boolean!) {
+  toggleDelivers(to: $to)
+}

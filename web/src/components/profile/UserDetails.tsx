@@ -14,20 +14,19 @@ import {
 } from "src/resources/strings";
 
 interface UserDetailsProps {
-  county?: string;
   city?: string;
-  phone?: string;
-  messenger?: string;
+  county?: string;
   email: string;
-  coords?: [number, number];
+  messenger?: string;
+  phone?: string;
 }
 
 export const UserDetails: React.FC<UserDetailsProps> = ({
-  phone,
-  messenger,
-  email,
   city,
   county,
+  email,
+  messenger,
+  phone,
 }) => {
   const {
     theme: {

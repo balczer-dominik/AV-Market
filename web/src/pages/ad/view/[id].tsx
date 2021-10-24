@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { AdControls } from "@components/ad/AdControls";
+import { AdSuggestionBox } from "@components/ad/AdSuggestionBox";
 import { FeedbackSuggestion } from "@components/ad/FeedbackSuggestion";
 import { AdDetail } from "@components/AdDetail";
 import { AdRecent } from "@components/AdRecent";
@@ -18,19 +19,25 @@ import { formatLocation } from "@utils/formatters/formatLocation";
 import { formatPrice } from "@utils/formatters/formatPrice";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { useGetAdFromUrl } from "@utils/hooks/useGetAdFromUrl";
+import { useMeId } from "@utils/hooks/useMeId";
 import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import { withUrqlClient } from "next-urql";
 import React, { useContext } from "react";
 import { BiDetail, BiErrorCircle } from "react-icons/bi";
 import { BsImageFill } from "react-icons/bs";
-import { FaUser } from "react-icons/fa";
-import { GiShinyEntrance } from "react-icons/gi";
+import { FaHeart, FaUser } from "react-icons/fa";
+import { GiShinyEntrance, GiTruck } from "react-icons/gi";
 import { ImLocation, ImPriceTag } from "react-icons/im";
+import { RiTruckFill } from "react-icons/ri";
 import ReactImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import {
   AD_NOT_FOUND,
+  DELIVERY_SUGGESTION_BUTTON_LABEL,
+  DELIVERY_SUGGESTION_LABEL,
+  FEEDBACK_SUGGESTION_LABEL,
   HOME_PAGE,
+  LEAVE_FEEDBACK_LABEL,
   LOADING_TITLE,
   NO_IMAGES,
   OTHER_ADS_LABEL,
@@ -42,6 +49,7 @@ const ViewAd: React.FC<{}> = () => {
     theme: { BACK_COLOR_LIGHTER, FRONT_COLOR },
   } = useContext(ThemeContext);
   const { fetching, ad } = useGetAdFromUrl();
+  const meId = useMeId();
 
   const breadItems = () => [
     {
@@ -122,7 +130,22 @@ const ViewAd: React.FC<{}> = () => {
                 <AdDetail icon={BiDetail} text={ad.desc} />
               </Box>
             </Flex>
-            <FeedbackSuggestion ownerId={ad.owner.id} />
+            {meId == ad.owner.id ? null : (
+              <>
+                <AdSuggestionBox
+                  label={DELIVERY_SUGGESTION_LABEL}
+                  href={`/delivery/${ad.id}`}
+                  buttonLabel={DELIVERY_SUGGESTION_BUTTON_LABEL}
+                  ButtonIcon={RiTruckFill}
+                />
+                <AdSuggestionBox
+                  label={FEEDBACK_SUGGESTION_LABEL}
+                  href={`/feedback/${ad.owner.id}`}
+                  buttonLabel={LEAVE_FEEDBACK_LABEL}
+                  ButtonIcon={FaHeart}
+                />
+              </>
+            )}
             <AdRecent
               owner={ad.owner.username}
               label={OTHER_ADS_LABEL}

@@ -12,6 +12,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
   /** The `Upload` scalar type represents a file upload. */
   Upload: any;
 };
@@ -22,8 +24,13 @@ export type Query = {
   ad: AdResponse;
   recentConversations?: Maybe<PaginatedConversations>;
   conversation?: Maybe<Conversation>;
+  delivery?: Maybe<Delivery>;
+  nearbyDrivers?: Maybe<Array<NearbyDriver>>;
+  sentDeliveryRequests: Array<Delivery>;
+  incomingDeliveryRequests: Array<Delivery>;
+  incomingDriverRequests: Array<Delivery>;
+  deliveryHistory: Array<Delivery>;
   feedbacks: PaginatedFeedbacks;
-  hello: Scalars['String'];
   messages?: Maybe<PaginatedMessages>;
   userAds: PaginatedAds;
   me?: Maybe<User>;
@@ -55,6 +62,36 @@ export type QueryRecentConversationsArgs = {
 
 export type QueryConversationArgs = {
   conversationId: Scalars['Int'];
+};
+
+
+export type QueryDeliveryArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryNearbyDriversArgs = {
+  sellerId: Scalars['Int'];
+};
+
+
+export type QuerySentDeliveryRequestsArgs = {
+  page: Scalars['Int'];
+};
+
+
+export type QueryIncomingDeliveryRequestsArgs = {
+  page: Scalars['Int'];
+};
+
+
+export type QueryIncomingDriverRequestsArgs = {
+  page: Scalars['Int'];
+};
+
+
+export type QueryDeliveryHistoryArgs = {
+  page: Scalars['Int'];
 };
 
 
@@ -101,21 +138,23 @@ export type PaginatedAds = {
 export type User = {
   __typename?: 'User';
   id: Scalars['Float'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
   username: Scalars['String'];
   email: Scalars['String'];
   avatar?: Maybe<Scalars['String']>;
   county?: Maybe<Scalars['String']>;
   city?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
   messenger?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   banned: Scalars['Boolean'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
+  delivers: Scalars['Boolean'];
   adCount: Scalars['Int'];
   karma: KarmaResponse;
   ads: Array<Ad>;
   recent: Array<Ad>;
-  coords?: Maybe<Array<Scalars['Float']>>;
 };
 
 export type KarmaResponse = {
@@ -127,6 +166,8 @@ export type KarmaResponse = {
 export type Ad = {
   __typename?: 'Ad';
   id: Scalars['Float'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
   title: Scalars['String'];
   price: Scalars['Float'];
   desc?: Maybe<Scalars['String']>;
@@ -137,8 +178,6 @@ export type Ad = {
   ownerId: Scalars['Float'];
   featured: Scalars['Boolean'];
   archieved: Scalars['Boolean'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
   thumbnail?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Scalars['String']>>;
   recent: Array<Ad>;
@@ -193,10 +232,10 @@ export type PaginatedConversations = {
 export type Conversation = {
   __typename?: 'Conversation';
   id: Scalars['Float'];
-  participants: Array<User>;
-  messages?: Maybe<Array<Message>>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  participants: Array<User>;
+  messages?: Maybe<Array<Message>>;
   latest: Message;
   partner: User;
 };
@@ -204,14 +243,60 @@ export type Conversation = {
 export type Message = {
   __typename?: 'Message';
   id: Scalars['Float'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
   author: User;
   conversation: Conversation;
   authorId: Scalars['Float'];
   conversationId: Scalars['Float'];
   content: Scalars['String'];
   read?: Maybe<Scalars['Boolean']>;
+};
+
+export type Delivery = {
+  __typename?: 'Delivery';
+  id: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  seller: User;
+  sellerId: Scalars['Float'];
+  buyer: User;
+  buyerId: Scalars['Float'];
+  driver: User;
+  driverId: Scalars['Float'];
+  sellerApproval?: Maybe<Scalars['Boolean']>;
+  driverApproval?: Maybe<Scalars['Boolean']>;
+  buyerApproval?: Maybe<Scalars['Boolean']>;
+  ad: Ad;
+  adId: Scalars['Float'];
+  longitude: Scalars['Float'];
+  latitude: Scalars['Float'];
+  notes: Scalars['String'];
+  time: Scalars['DateTime'];
+};
+
+
+export type NearbyDriver = {
+  __typename?: 'NearbyDriver';
+  id: Scalars['Float'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+  username: Scalars['String'];
+  email: Scalars['String'];
+  avatar?: Maybe<Scalars['String']>;
+  county?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  messenger?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  banned: Scalars['Boolean'];
+  delivers: Scalars['Boolean'];
+  adCount: Scalars['Int'];
+  karma: KarmaResponse;
+  ads: Array<Ad>;
+  recent: Array<Ad>;
+  distance?: Maybe<Scalars['Float']>;
 };
 
 export type PaginatedFeedbacks = {
@@ -223,6 +308,8 @@ export type PaginatedFeedbacks = {
 export type Feedback = {
   __typename?: 'Feedback';
   id: Scalars['Float'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
   author: User;
   recipient: User;
   ad: Ad;
@@ -231,8 +318,6 @@ export type Feedback = {
   adId: Scalars['Float'];
   satisfied: Scalars['Boolean'];
   comment?: Maybe<Scalars['String']>;
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
 };
 
 export type PaginatedMessages = {
@@ -256,6 +341,11 @@ export type Mutation = {
   deleteAdImage: Scalars['Boolean'];
   uploadAdImages: Array<Scalars['String']>;
   readConversation: Scalars['Boolean'];
+  toggleDelivers: Scalars['Boolean'];
+  submitDeliveryRequest: DeliveryResponse;
+  approveDeliveryBySeller: Scalars['Boolean'];
+  approveDeliveryByDriver: Scalars['Boolean'];
+  finalizeDelivery: Scalars['Boolean'];
   leaveFeedback: FeedbackResponse;
   deleteFeedback?: Maybe<FieldError>;
   sendMessage: MessageResponse;
@@ -303,6 +393,31 @@ export type MutationUploadAdImagesArgs = {
 
 export type MutationReadConversationArgs = {
   conversationId: Scalars['Int'];
+};
+
+
+export type MutationToggleDeliversArgs = {
+  to: Scalars['Boolean'];
+};
+
+
+export type MutationSubmitDeliveryRequestArgs = {
+  input: DeliveryInput;
+};
+
+
+export type MutationApproveDeliveryBySellerArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationApproveDeliveryByDriverArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationFinalizeDeliveryArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -392,6 +507,22 @@ export type PostInput = {
 };
 
 
+export type DeliveryResponse = {
+  __typename?: 'DeliveryResponse';
+  errors?: Maybe<Array<FieldError>>;
+  delivery?: Maybe<Delivery>;
+};
+
+export type DeliveryInput = {
+  sellerId: Scalars['Float'];
+  driverId: Scalars['Float'];
+  adId: Scalars['Float'];
+  time: Scalars['String'];
+  longitude: Scalars['Float'];
+  latitude: Scalars['Float'];
+  notes: Scalars['String'];
+};
+
 export type FeedbackResponse = {
   __typename?: 'FeedbackResponse';
   errors?: Maybe<Array<FieldError>>;
@@ -407,8 +538,8 @@ export type FeedbackInput = {
 
 export type MessageResponse = {
   __typename?: 'MessageResponse';
-  message?: Maybe<Message>;
   errors?: Maybe<Array<FieldError>>;
+  message?: Maybe<Message>;
 };
 
 export type UserResponse = {
@@ -516,7 +647,7 @@ export type UserContactsFragment = (
 
 export type UserLocationFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'coords'>
+  & Pick<User, 'longitude' | 'latitude'>
   & UserAddressFragment
 );
 
@@ -766,6 +897,35 @@ export type SendMessageMutation = (
   ) }
 );
 
+export type SubmitDeliveryRequestMutationVariables = Exact<{
+  input: DeliveryInput;
+}>;
+
+
+export type SubmitDeliveryRequestMutation = (
+  { __typename?: 'Mutation' }
+  & { submitDeliveryRequest: (
+    { __typename?: 'DeliveryResponse' }
+    & { delivery?: Maybe<(
+      { __typename?: 'Delivery' }
+      & Pick<Delivery, 'id'>
+    )>, errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>> }
+  ) }
+);
+
+export type ToggleDeliversMutationVariables = Exact<{
+  to: Scalars['Boolean'];
+}>;
+
+
+export type ToggleDeliversMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'toggleDelivers'>
+);
+
 export type UnbanUserMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -812,6 +972,27 @@ export type AdQuery = (
       & AdDetailsFragment
       & AdOwnerFragment
       & AdRecentFragment
+    )> }
+  ) }
+);
+
+export type AdPreviewQueryVariables = Exact<{
+  adId: Scalars['Int'];
+}>;
+
+
+export type AdPreviewQuery = (
+  { __typename?: 'Query' }
+  & { ad: (
+    { __typename?: 'AdResponse' }
+    & { ad?: Maybe<(
+      { __typename?: 'Ad' }
+      & Pick<Ad, 'id' | 'title' | 'price' | 'createdAt' | 'updatedAt' | 'thumbnail'>
+      & { owner: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'username'>
+        & UserLocationFragment
+      ) }
     )> }
   ) }
 );
@@ -932,6 +1113,17 @@ export type MeContactsQuery = (
   )> }
 );
 
+export type MeDeliversQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeDeliversQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'delivers'>
+  )> }
+);
+
 export type MeEmailQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1016,6 +1208,19 @@ export type MessagesQuery = (
       & Pick<User, 'username'>
     )> }
   )> }
+);
+
+export type NearbyDriversQueryVariables = Exact<{
+  sellerId: Scalars['Int'];
+}>;
+
+
+export type NearbyDriversQuery = (
+  { __typename?: 'Query' }
+  & { nearbyDrivers?: Maybe<Array<(
+    { __typename?: 'NearbyDriver' }
+    & Pick<NearbyDriver, 'id' | 'username' | 'avatar' | 'city' | 'county' | 'longitude' | 'latitude' | 'distance'>
+  )>> }
 );
 
 export type RecentConversationsQueryVariables = Exact<{
@@ -1190,7 +1395,8 @@ export const UserAddressFragmentDoc = gql`
 export const UserLocationFragmentDoc = gql`
     fragment UserLocation on User {
   ...UserAddress
-  coords
+  longitude
+  latitude
 }
     ${UserAddressFragmentDoc}`;
 export const AdOwnerFragmentDoc = gql`
@@ -1468,6 +1674,32 @@ export const SendMessageDocument = gql`
 export function useSendMessageMutation() {
   return Urql.useMutation<SendMessageMutation, SendMessageMutationVariables>(SendMessageDocument);
 };
+export const SubmitDeliveryRequestDocument = gql`
+    mutation SubmitDeliveryRequest($input: DeliveryInput!) {
+  submitDeliveryRequest(input: $input) {
+    delivery {
+      id
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
+
+export function useSubmitDeliveryRequestMutation() {
+  return Urql.useMutation<SubmitDeliveryRequestMutation, SubmitDeliveryRequestMutationVariables>(SubmitDeliveryRequestDocument);
+};
+export const ToggleDeliversDocument = gql`
+    mutation ToggleDelivers($to: Boolean!) {
+  toggleDelivers(to: $to)
+}
+    `;
+
+export function useToggleDeliversMutation() {
+  return Urql.useMutation<ToggleDeliversMutation, ToggleDeliversMutationVariables>(ToggleDeliversDocument);
+};
 export const UnbanUserDocument = gql`
     mutation unbanUser($id: Int!) {
   unbanUser(id: $id)
@@ -1513,6 +1745,29 @@ ${AdRecentFragmentDoc}`;
 
 export function useAdQuery(options: Omit<Urql.UseQueryArgs<AdQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AdQuery>({ query: AdDocument, ...options });
+};
+export const AdPreviewDocument = gql`
+    query AdPreview($adId: Int!) {
+  ad(id: $adId) {
+    ad {
+      id
+      title
+      price
+      createdAt
+      updatedAt
+      thumbnail
+      owner {
+        id
+        username
+        ...UserLocation
+      }
+    }
+  }
+}
+    ${UserLocationFragmentDoc}`;
+
+export function useAdPreviewQuery(options: Omit<Urql.UseQueryArgs<AdPreviewQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AdPreviewQuery>({ query: AdPreviewDocument, ...options });
 };
 export const AdsDocument = gql`
     query Ads($first: Int, $dateCursor: String, $priceCursor: String, $search: AdSearch!, $sortBy: AdSortingOptions!) {
@@ -1629,6 +1884,17 @@ export const MeContactsDocument = gql`
 export function useMeContactsQuery(options: Omit<Urql.UseQueryArgs<MeContactsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeContactsQuery>({ query: MeContactsDocument, ...options });
 };
+export const MeDeliversDocument = gql`
+    query MeDelivers {
+  me {
+    delivers
+  }
+}
+    `;
+
+export function useMeDeliversQuery(options: Omit<Urql.UseQueryArgs<MeDeliversQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MeDeliversQuery>({ query: MeDeliversDocument, ...options });
+};
 export const MeEmailDocument = gql`
     query MeEmail {
   me {
@@ -1716,6 +1982,24 @@ export const MessagesDocument = gql`
 
 export function useMessagesQuery(options: Omit<Urql.UseQueryArgs<MessagesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MessagesQuery>({ query: MessagesDocument, ...options });
+};
+export const NearbyDriversDocument = gql`
+    query NearbyDrivers($sellerId: Int!) {
+  nearbyDrivers(sellerId: $sellerId) {
+    id
+    username
+    avatar
+    city
+    county
+    longitude
+    latitude
+    distance
+  }
+}
+    `;
+
+export function useNearbyDriversQuery(options: Omit<Urql.UseQueryArgs<NearbyDriversQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<NearbyDriversQuery>({ query: NearbyDriversDocument, ...options });
 };
 export const RecentConversationsDocument = gql`
     query RecentConversations($cursor: String, $first: Int, $partnerUsernameFilter: String) {

@@ -85,7 +85,7 @@ export const PaginatedAds: React.FC<PaginatedAdsProps> = ({
   return (
     <>
       {fetching ? (
-        <Repeat n={10}>
+        <Repeat n={3}>
           <Box my={2} w="full">
             <Spinner height="153px" />
           </Box>

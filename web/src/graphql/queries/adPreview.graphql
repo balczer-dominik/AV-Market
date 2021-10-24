@@ -1,0 +1,17 @@
+query AdPreview($adId: Int!) {
+  ad(id: $adId) {
+    ad {
+      id
+      title
+      price
+      createdAt
+      updatedAt
+      thumbnail
+      owner {
+        id
+        username
+        ...UserLocation
+      }
+    }
+  }
+}

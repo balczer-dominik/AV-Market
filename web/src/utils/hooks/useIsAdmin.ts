@@ -19,7 +19,7 @@ export const useIsAdmin = () => {
       toast("error", ERROR_GENERIC, ERROR_NOT_AUTHENTICATED);
     }
 
-    if (!fetching && data?.me && data.me.id !== 15) {
+    if (!fetching && data?.me && data.me.id !== 1) {
       router.push("/");
       toast("error", ERROR_GENERIC, ERROR_NOT_AUTHORIZED);
     }

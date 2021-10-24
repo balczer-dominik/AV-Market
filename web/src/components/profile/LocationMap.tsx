@@ -6,10 +6,11 @@ import { LOCATION_LABEL, NO_LOCATION_PROVIDED } from "src/resources/strings";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
 
 interface LocationMapProps {
-  coordinates?: [number, number];
+  longitude?: number;
+  latitude?: number;
 }
 
-export const LocationMap: React.FC<LocationMapProps> = ({ coordinates }) => {
+export const LocationMap: React.FC<LocationMapProps> = ({ longitude, latitude }) => {
   const {
     theme: {
       FRONT_COLOR_LIGHTER_ALT,
@@ -30,11 +31,11 @@ export const LocationMap: React.FC<LocationMapProps> = ({ coordinates }) => {
         >
           {LOCATION_LABEL}
         </Heading>
-        {coordinates ? (
+        {longitude && latitude ? (
           <Box w="full" minH="300px" maxH="300px" h="300px" mb={4}>
             <Map
               style="mapbox://styles/mapbox/streets-v9"
-              center={[coordinates[0], coordinates[1]]}
+              center={[longitude, latitude]}
             ></Map>
           </Box>
         ) : (

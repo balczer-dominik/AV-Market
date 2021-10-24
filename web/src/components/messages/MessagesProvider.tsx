@@ -66,6 +66,7 @@ const reducer = (
         },
         partner: { ...payload.author },
       };
+
       const localMessagesNMN =
         state.conversationId === payload.conversationId
           ? [...state.localMessages, payload]
@@ -162,6 +163,9 @@ export const MessagesProvider: React.FC<{}> = ({ children }) => {
   useEffect(() => {
     if (latestNotification) {
       dispatch({ type: "newMessageNotification", payload: latestNotification });
+      if (state.conversationId === latestNotification.conversationId) {
+        readConversation({ conversationId: state.conversationId });
+      }
     }
   }, [latestNotification]);
 

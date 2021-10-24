@@ -1,0 +1,12 @@
+query NearbyDrivers($sellerId: Int!) {
+  nearbyDrivers(sellerId: $sellerId) {
+    id
+    username
+    avatar
+    city
+    county
+    longitude
+    latitude
+    distance
+  }
+}

@@ -3,6 +3,7 @@ import { ChangeAvatarForm } from "@components/ChangeAvatarForm";
 import { ChangeContactsForm } from "@components/ChangeContactsForm";
 import { ChangeLocationForm } from "@components/ChangeLocationForm";
 import { ChangePasswordForm } from "@components/ChangePasswordForm";
+import { ToggleDeliveryForm } from "@components/profile/ToggleDeliveryForm";
 import { Layout } from "@components/Layout";
 import { ProfileEditSection } from "@components/ProfileEditSection";
 import { useMeQuery } from "@generated/graphql";
@@ -16,11 +17,13 @@ import {
   FaMailBulk,
   FaRegUserCircle,
 } from "react-icons/fa";
+import { RiTruckFill } from "react-icons/ri";
 import {
   CHANGE_AVATAR_LABEL,
   CHANGE_CONTACTS_LABEL,
   CHANGE_LOCATION_LABEL,
   CHANGE_PASSWORD_LABEL,
+  DELIVERY,
   EDIT_PROFILE_LABEL,
 } from "src/resources/strings";
 
@@ -58,6 +61,9 @@ const Edit: React.FC<{}> = ({}) => {
               icon={FaLocationArrow}
             >
               <ChangeLocationForm />
+            </ProfileEditSection>
+            <ProfileEditSection title={DELIVERY} icon={RiTruckFill}>
+              <ToggleDeliveryForm />
             </ProfileEditSection>
           </SimpleGrid>
         </Stack>

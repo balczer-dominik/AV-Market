@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import {
+  DATE_CANNOT_BE_IN_PAST,
   FIELD_REQUIRED,
   INCORRECT_EMAIL_FORMAT,
   INCORRECT_PHONE_FORMAT,
@@ -81,4 +82,8 @@ export const PostValidator = Yup.object().shape({
 export const SearchAdValidation = Yup.object().shape({
   priceLower: priceValidation,
   priceUpper: priceValidation,
+});
+
+export const DeliveryRequestValidation = Yup.object().shape({
+  time: Yup.date().required().min(new Date(), DATE_CANNOT_BE_IN_PAST),
 });

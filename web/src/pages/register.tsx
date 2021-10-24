@@ -7,6 +7,7 @@ import { createUrqlClient } from "@utils/urql/createUrqlClient";
 import {
   CONFIRM_PASSWORD_LABEL,
   EMAIL_LABEL_REQUIRED,
+  EMAIL_PLACEHOLDER,
   PASSWORD_HINT,
   PASSWORD_LABEL_REQUIRED,
   PASSWORD_PLACEHOLDER,
@@ -18,6 +19,7 @@ import {
   REGISTER_USERNAME_HINT,
   REQUIRED_FIELDS_HINT,
   USERNAME_LABEL_REQUIRED,
+  USERNAME_PLACEHOLDER,
 } from "src/resources/strings";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import { toErrorMap } from "@utils/toErrorMap";
@@ -80,14 +82,15 @@ export const register: React.FC<registerProps> = ({}) => {
 
               <InputField
                 name="username"
-                placeholder={REGISTER_USERNAME_HINT}
+                placeholder={USERNAME_PLACEHOLDER}
+                hint={[REGISTER_USERNAME_HINT]}
                 label={USERNAME_LABEL_REQUIRED}
                 icon={FaUser}
               />
 
               <InputField
                 name="email"
-                placeholder="pelda@gmail.com"
+                placeholder={EMAIL_PLACEHOLDER}
                 label={EMAIL_LABEL_REQUIRED}
                 icon={MdEmail}
               />
@@ -108,7 +111,11 @@ export const register: React.FC<registerProps> = ({}) => {
                 icon={RiLockPasswordFill}
               />
 
-              <RegularButton mt={4} spinner={isSubmitting}>
+              <RegularButton
+                mt={4}
+                spinner={isSubmitting}
+                disabled={isSubmitting}
+              >
                 {REGISTER_BUTTON_LABEL}
               </RegularButton>
             </Form>

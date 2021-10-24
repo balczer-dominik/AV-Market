@@ -61,7 +61,7 @@ export const ChangeLocationForm: React.FC<ChangeLocationFormProps> = ({}) => {
                 (data.me.city ?? "")}
             </Text>
           ) : null}
-          <RegularButton spinner={isSubmitting}>
+          <RegularButton spinner={isSubmitting} mt={4}>
             {CONFIRM_CHANGE_LABEL}
           </RegularButton>
         </Form>

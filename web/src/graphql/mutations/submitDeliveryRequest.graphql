@@ -1,0 +1,11 @@
+mutation SubmitDeliveryRequest($input: DeliveryInput!) {
+  submitDeliveryRequest(input: $input) {
+    delivery {
+      id
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
