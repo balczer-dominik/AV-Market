@@ -101,6 +101,19 @@ export const DELIVERY_TIME = "Időpont";
 export const NOTES_LABEL = "Megjegyzés";
 export const DELIVERY_SUBMIT_SUCCESS = "Szállítási kérelem elküldése sikeres.";
 export const DATE_CANNOT_BE_IN_PAST = "Helytelen dátum";
+export const DELIVERY_DASHBOARD_TITLE = "Szállítások";
+export const INCOMING_REQUESTS = "Bejövő szállítási kérelmek";
+export const UPCOMING_DELIVERIES = "Folyamatban levő szállítások";
+export const DELIVERY_HISTORY = "Szállítási előzmények";
+export const ACCEPT_DELIVERY_REQUEST = "Kérelem elfogadása";
+export const FINALIZE_DELIVERY = "Szállítás véglegesítése";
+export const DECLINE_DELIVERY_REQUEST = "Kérelem visszautasítása";
+export const DELETE_DELIVERY = "Szállítás lemondása";
+export const NO_RESULTS = "Nincsen találat.";
+export const APPROVE_DELIVERY_SUCCESS = "Szállítás sikeresen jóváhagyva.";
+export const DECLINE_DELIVERY_SUCCESS = "Szállítás sikeresen lemondva.";
+export const APPROVE_DELIVERY_FAILURE = "Szállítás jóváhagyása nem sikerült.";
+export const DECLINE_DELIVERY_FAILURE = "Szállítás lemondása nem sikerült.";
 
 //Register validation
 export const INCORRECT_EMAIL_FORMAT = "Helytelen e-mail formátum.";

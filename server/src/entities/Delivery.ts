@@ -57,14 +57,6 @@ export class Delivery extends BaseEntity {
   @Column()
   adId: number;
 
-  @Field(() => Float)
-  @Column()
-  longitude: number;
-
-  @Field(() => Float)
-  @Column()
-  latitude: number;
-
   @Field()
   @Column({ nullable: true })
   notes?: string;

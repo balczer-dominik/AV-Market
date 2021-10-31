@@ -1,4 +1,4 @@
-import { isAuth } from "../middleware/authMiddleware";
+import { MyContext } from "src/types";
 import {
   Arg,
   Ctx,
@@ -8,13 +8,13 @@ import {
   Resolver,
   UseMiddleware,
 } from "type-graphql";
-import { Delivery } from "../entities/Delivery";
-import { User } from "../entities/User";
-import { MyContext } from "src/types";
-import { Brackets, getConnection, Not } from "typeorm";
-import { NearbyDriver } from "../entities/NearbyDriver";
-import { DeliveryInput } from "../util/type-graphql/DeliveryInput";
+import { Any, Brackets, getConnection, Not } from "typeorm";
 import { Ad } from "../entities/Ad";
+import { Delivery } from "../entities/Delivery";
+import { NearbyDriver } from "../entities/NearbyDriver";
+import { User } from "../entities/User";
+import { isAuth } from "../middleware/authMiddleware";
+import { DeliveryInput } from "../util/type-graphql/DeliveryInput";
 import { DeliveryResponse as SubmitDeliveryResponse } from "../util/type-graphql/DeliveryResponse";
 import { validateDelivery } from "../validators/validateDelivery";
 
@@ -163,59 +163,69 @@ export class DeliveryResolver {
 
   @UseMiddleware(isAuth)
   @Query(() => [Delivery])
-  sentDeliveryRequests(
-    @Ctx() { req }: MyContext,
-    @Arg("page", () => Int) page: number
-  ): Promise<Delivery[]> {
-    return Delivery.find({
-      where: {
-        buyerId: req.session.userId,
-        buyerApproval: null,
-        sellerApproval: Not(false),
-        driverApproval: Not(false),
-      },
-      order: { updatedAt: "DESC" },
-      skip: (page - 1) * 10,
-      take: 10,
-    });
+  incomingRequests(@Ctx() { req }: MyContext): Promise<Delivery[]> {
+    return Delivery.createQueryBuilder()
+      .where(
+        new Brackets((qb) =>
+          qb
+            .where('"sellerId" = :userid')
+            .andWhere('"sellerApproval" IS NULL')
+            .andWhere('"driverApproval" IS NOT FALSE')
+        )
+      )
+      .orWhere(
+        new Brackets((qb) =>
+          qb
+            .where('"driverId" = :userid')
+            .andWhere('"driverApproval" IS NULL')
+            .andWhere('"sellerApproval" IS NOT FALSE')
+        )
+      )
+      .leftJoinAndSelect("Delivery.seller", "seller")
+      .leftJoinAndSelect("Delivery.driver", "driver")
+      .leftJoinAndSelect("Delivery.buyer", "buyer")
+      .leftJoinAndSelect("Delivery.ad", "ad")
+      .setParameter("userid", req.session.userId)
+      .getMany();
   }
 
   @UseMiddleware(isAuth)
   @Query(() => [Delivery])
-  incomingDeliveryRequests(
-    @Ctx() { req }: MyContext,
-    @Arg("page", () => Int) page: number
-  ): Promise<Delivery[]> {
-    return Delivery.find({
-      where: {
-        sellerId: req.session.userId,
-        buyerApproval: null,
-        sellerApproval: Not(false),
-        driverApproval: Not(false),
-      },
-      order: { updatedAt: "DESC" },
-      skip: (page - 1) * 10,
-      take: 10,
-    });
-  }
-
-  @UseMiddleware(isAuth)
-  @Query(() => [Delivery])
-  incomingDriverRequests(
-    @Ctx() { req }: MyContext,
-    @Arg("page", () => Int) page: number
-  ): Promise<Delivery[]> {
-    return Delivery.find({
-      where: {
-        driverId: req.session.userId,
-        buyerApproval: null,
-        sellerApproval: Not(false),
-        driverApproval: Not(false),
-      },
-      order: { updatedAt: "DESC" },
-      skip: (page - 1) * 10,
-      take: 10,
-    });
+  ongoingDeliveries(@Ctx() { req }: MyContext): Promise<Delivery[]> {
+    return Delivery.createQueryBuilder()
+      .where(
+        new Brackets((qb) =>
+          qb
+            .where('"sellerId" = :userid')
+            .andWhere('"sellerApproval" = true')
+            .andWhere('"buyerApproval" IS NULL')
+            .andWhere('"driverApproval" IS NOT FALSE')
+        )
+      )
+      .orWhere(
+        new Brackets((qb) =>
+          qb
+            .where('"driverId" = :userid')
+            .andWhere('"driverApproval" = true')
+            .andWhere('"buyerApproval" IS NULL')
+            .andWhere('"sellerApproval" IS NOT FALSE')
+        )
+      )
+      .orWhere(
+        new Brackets((qb) =>
+          qb
+            .where('"buyerId" = :userid')
+            .andWhere('"driverApproval" IS NOT FALSE')
+            .andWhere('"buyerApproval" IS NOT FALSE')
+            .andWhere('"sellerApproval" IS NOT FALSE')
+        )
+      )
+      .leftJoinAndSelect("Delivery.seller", "seller")
+      .leftJoinAndSelect("Delivery.driver", "driver")
+      .leftJoinAndSelect("Delivery.buyer", "buyer")
+      .leftJoinAndSelect("Delivery.ad", "ad")
+      .setParameter("userid", req.session.userId)
+      .getMany();
   }
 
   @UseMiddleware(isAuth)
@@ -241,6 +251,10 @@ export class DeliveryResolver {
             .orWhere('"driverId" = :userid')
         )
       )
+      .leftJoinAndSelect("Delivery.seller", "seller")
+      .leftJoinAndSelect("Delivery.driver", "driver")
+      .leftJoinAndSelect("Delivery.buyer", "buyer")
+      .leftJoinAndSelect("Delivery.ad", "ad")
       .skip((page - 1) * 10)
       .take(10)
       .setParameter("userid", req.session.userId)
@@ -258,9 +272,9 @@ export class DeliveryResolver {
     if (
       !delivery ||
       delivery.sellerId !== req.session.userId ||
-      delivery.sellerApproval === false ||
       delivery.buyerApproval !== null ||
-      delivery.driverApproval === false
+      delivery.driverApproval === false ||
+      delivery.sellerApproval !== null
     ) {
       return false;
     }
@@ -282,9 +296,9 @@ export class DeliveryResolver {
     if (
       !delivery ||
       delivery.driverId !== req.session.userId ||
-      delivery.sellerApproval === false ||
       delivery.buyerApproval !== null ||
-      delivery.driverApproval === false
+      delivery.sellerApproval === false ||
+      delivery.driverApproval !== null
     ) {
       return false;
     }
@@ -293,6 +307,53 @@ export class DeliveryResolver {
     delivery.save();
 
     return true;
+  }
+
+  @UseMiddleware(isAuth)
+  @Mutation(() => Boolean)
+  async declineDelivery(
+    @Ctx() { req }: MyContext,
+    @Arg("id", () => Int) id: number
+  ): Promise<boolean> {
+    const delivery = await Delivery.findOne(id, {
+      relations: ["buyer", "seller", "driver"],
+    });
+    const userId = req.session.userId;
+
+    if (!delivery) {
+      return false;
+    }
+
+    if (
+      delivery.seller.id == userId &&
+      delivery.driverApproval !== false &&
+      delivery.buyerApproval === null &&
+      delivery.sellerApproval === null
+    ) {
+      delivery.sellerApproval = false;
+      delivery.save();
+      return true;
+    } else if (
+      delivery.driver.id == userId &&
+      delivery.sellerApproval !== false &&
+      delivery.buyerApproval === null &&
+      delivery.driverApproval === null
+    ) {
+      delivery.driverApproval = false;
+      delivery.save();
+      return true;
+    } else if (
+      delivery.buyer.id == userId &&
+      delivery.driverApproval === true &&
+      delivery.buyerApproval === null &&
+      delivery.sellerApproval === true
+    ) {
+      delivery.buyerApproval = false;
+      delivery.save();
+      return true;
+    }
+
+    return false;
   }
 
   @UseMiddleware(isAuth)
@@ -306,8 +367,8 @@ export class DeliveryResolver {
     if (
       !delivery ||
       delivery.buyerId !== req.session.userId ||
-      delivery.sellerApproval !== true ||
       delivery.buyerApproval !== null ||
+      delivery.sellerApproval !== true ||
       delivery.driverApproval !== true
     ) {
       return false;

@@ -6,7 +6,6 @@ import {
   Icon,
   Image,
   Link,
-  Tag,
   Text,
   Tooltip,
 } from "@chakra-ui/react";
@@ -20,8 +19,6 @@ import {
 } from "@utils/formatters/formatLinks";
 import { formatLocation } from "@utils/formatters/formatLocation";
 import { formatPhone } from "@utils/formatters/formatPhoneNumber";
-import { formatPrice } from "@utils/formatters/formatPrice";
-import { FEATURED_LABEL, LAST_UPDATE_AT } from "src/resources/strings";
 import { ThemeContext } from "@utils/hooks/ThemeProvider";
 import NextLink from "next/link";
 import React, { useContext } from "react";
@@ -29,6 +26,8 @@ import { BsImageFill } from "react-icons/bs";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { MdMail } from "react-icons/md";
 import { RiPhoneFill } from "react-icons/ri";
+import { FEATURED_LABEL, LAST_UPDATE_AT } from "src/resources/strings";
+import { PriceTag } from "./PriceTag";
 
 interface AdListingProps {
   ad: Partial<AdSnippetFragment>;
@@ -169,9 +168,7 @@ export const AdListing: React.FC<AdListingProps> = ({
             </Tooltip>
           </Box>
           <Flex justify="space-between" align="center">
-            <Tag bgColor={FRONT_COLOR_ALT} w="fit-content" color={WHITE}>
-              {formatPrice(price)}
-            </Tag>
+            <PriceTag price={price} />
             <Box display={{ base: "none", md: "block" }}>
               <Tooltip label={email}>
                 <span>

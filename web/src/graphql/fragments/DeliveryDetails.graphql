@@ -1,0 +1,33 @@
+fragment DeliveryDetails on Delivery {
+  seller {
+    id
+    username
+    avatar
+    city
+    county
+  }
+  buyer {
+    id
+    username
+    avatar
+    city
+    county
+  }
+  driver {
+    id
+    username
+    avatar
+  }
+  ad {
+    id
+    title
+    thumbnail
+    price
+  }
+  id
+  driverApproval
+  sellerApproval
+  buyerApproval
+  notes
+  time
+}

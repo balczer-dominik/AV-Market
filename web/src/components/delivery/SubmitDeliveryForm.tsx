@@ -14,6 +14,7 @@ import { useBetterToast } from "@utils/hooks/useBetterToast";
 import { toErrorMap } from "@utils/toErrorMap";
 import { DeliveryRequestValidation } from "@utils/validators";
 import { Form, Formik } from "formik";
+import { useRouter } from "next/router";
 import React, { useContext } from "react";
 
 interface SubmitDeliveryFormProps {
@@ -29,9 +30,10 @@ export const SubmitDeliveryForm: React.FC<SubmitDeliveryFormProps> = ({
 }) => {
   const [, submitDelivery] = useSubmitDeliveryRequestMutation();
   const {
-    theme: { FRONT_COLOR, FRONT_COLOR_DARKER, WHITE, RED },
+    theme: { FRONT_COLOR, FRONT_COLOR_DARKER, RED },
   } = useContext(ThemeContext);
   const toast = useBetterToast();
+  const router = useRouter();
 
   return (
     <Formik
@@ -56,7 +58,7 @@ export const SubmitDeliveryForm: React.FC<SubmitDeliveryFormProps> = ({
           toast("error", DATE_CANNOT_BE_IN_PAST);
         } else {
           toast("success", DELIVERY_SUBMIT_SUCCESS);
-          //TODO:redirect
+          router.push("/delivery/dashboard");
         }
       }}
       validationSchema={DeliveryRequestValidation}

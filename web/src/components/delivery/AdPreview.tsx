@@ -17,6 +17,7 @@ import { formatLocation } from "@utils/formatters/formatLocation";
 import { PRICE_LABEL } from "@resources/strings";
 import { formatPrice } from "@utils/formatters/formatPrice";
 import { RegularButton } from "@components/RegularButton";
+import { PriceTag } from "@components/ad/PriceTag";
 
 interface AdPreviewProps {
   ad:
@@ -80,9 +81,7 @@ export const AdPreview: React.FC<AdPreviewProps> = ({ ad }) => {
             </Text>
           </Flex>
         </Flex>
-        <Heading size="md">
-          {PRICE_LABEL}: {formatPrice(ad.price)}
-        </Heading>
+        <PriceTag price={ad.price} />
       </VStack>
     </HStack>
   ) : null;

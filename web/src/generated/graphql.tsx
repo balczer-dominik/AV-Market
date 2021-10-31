@@ -28,7 +28,8 @@ export type Query = {
   nearbyDrivers?: Maybe<Array<NearbyDriver>>;
   sentDeliveryRequests: Array<Delivery>;
   incomingDeliveryRequests: Array<Delivery>;
-  incomingDriverRequests: Array<Delivery>;
+  incomingRequests: Array<Delivery>;
+  ongoingDeliveries: Array<Delivery>;
   deliveryHistory: Array<Delivery>;
   feedbacks: PaginatedFeedbacks;
   messages?: Maybe<PaginatedMessages>;
@@ -81,11 +82,6 @@ export type QuerySentDeliveryRequestsArgs = {
 
 
 export type QueryIncomingDeliveryRequestsArgs = {
-  page: Scalars['Int'];
-};
-
-
-export type QueryIncomingDriverRequestsArgs = {
   page: Scalars['Int'];
 };
 
@@ -269,8 +265,6 @@ export type Delivery = {
   buyerApproval?: Maybe<Scalars['Boolean']>;
   ad: Ad;
   adId: Scalars['Float'];
-  longitude: Scalars['Float'];
-  latitude: Scalars['Float'];
   notes: Scalars['String'];
   time: Scalars['DateTime'];
 };
@@ -345,6 +339,7 @@ export type Mutation = {
   submitDeliveryRequest: DeliveryResponse;
   approveDeliveryBySeller: Scalars['Boolean'];
   approveDeliveryByDriver: Scalars['Boolean'];
+  declineDelivery: Scalars['Boolean'];
   finalizeDelivery: Scalars['Boolean'];
   leaveFeedback: FeedbackResponse;
   deleteFeedback?: Maybe<FieldError>;
@@ -412,6 +407,11 @@ export type MutationApproveDeliveryBySellerArgs = {
 
 
 export type MutationApproveDeliveryByDriverArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeclineDeliveryArgs = {
   id: Scalars['Int'];
 };
 
@@ -601,6 +601,24 @@ export type CategoriesFragment = (
   & Pick<Ad, 'category' | 'subCategory'>
 );
 
+export type DeliveryDetailsFragment = (
+  { __typename?: 'Delivery' }
+  & Pick<Delivery, 'id' | 'driverApproval' | 'sellerApproval' | 'buyerApproval' | 'notes' | 'time'>
+  & { seller: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'username' | 'avatar' | 'city' | 'county'>
+  ), buyer: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'username' | 'avatar' | 'city' | 'county'>
+  ), driver: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'username' | 'avatar'>
+  ), ad: (
+    { __typename?: 'Ad' }
+    & Pick<Ad, 'id' | 'title' | 'thumbnail' | 'price'>
+  ) }
+);
+
 export type KarmaFragment = (
   { __typename?: 'User' }
   & { karma: (
@@ -654,6 +672,26 @@ export type UserLocationFragment = (
 export type UserRecentFragment = (
   { __typename?: 'Ad' }
   & Pick<Ad, 'id' | 'title' | 'price' | 'thumbnail'>
+);
+
+export type ApproveDeliveryByDriverMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ApproveDeliveryByDriverMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'approveDeliveryByDriver'>
+);
+
+export type ApproveDeliveryBySellerMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ApproveDeliveryBySellerMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'approveDeliveryBySeller'>
 );
 
 export type BanUserMutationVariables = Exact<{
@@ -719,6 +757,16 @@ export type ChangePasswordMutation = (
   ) }
 );
 
+export type DeclineDeliveryMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeclineDeliveryMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'declineDelivery'>
+);
+
 export type DeleteAdMutationVariables = Exact<{
   adId: Scalars['Int'];
 }>;
@@ -754,6 +802,16 @@ export type EditAdMutation = (
       & Pick<FieldError, 'field' | 'message'>
     )>> }
   ) }
+);
+
+export type FinalizeDeliveryMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type FinalizeDeliveryMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'finalizeDelivery'>
 );
 
 export type ForgotPasswordMutationVariables = Exact<{
@@ -1053,6 +1111,30 @@ export type ConversationPartnerDetailsQuery = (
   )> }
 );
 
+export type DeliveryHistoryQueryVariables = Exact<{
+  page: Scalars['Int'];
+}>;
+
+
+export type DeliveryHistoryQuery = (
+  { __typename?: 'Query' }
+  & { deliveryHistory: Array<(
+    { __typename?: 'Delivery' }
+    & DeliveryDetailsFragment
+  )> }
+);
+
+export type IncomingRequestsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IncomingRequestsQuery = (
+  { __typename?: 'Query' }
+  & { incomingRequests: Array<(
+    { __typename?: 'Delivery' }
+    & DeliveryDetailsFragment
+  )> }
+);
+
 export type KarmaQueryVariables = Exact<{
   recipientId?: Maybe<Scalars['Int']>;
   satisfied?: Maybe<Scalars['Boolean']>;
@@ -1221,6 +1303,17 @@ export type NearbyDriversQuery = (
     { __typename?: 'NearbyDriver' }
     & Pick<NearbyDriver, 'id' | 'username' | 'avatar' | 'city' | 'county' | 'longitude' | 'latitude' | 'distance'>
   )>> }
+);
+
+export type OngoingDeliveriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OngoingDeliveriesQuery = (
+  { __typename?: 'Query' }
+  & { ongoingDeliveries: Array<(
+    { __typename?: 'Delivery' }
+    & DeliveryDetailsFragment
+  )> }
 );
 
 export type RecentConversationsQueryVariables = Exact<{
@@ -1418,6 +1511,41 @@ export const AdSnippetFragmentDoc = gql`
 }
     ${AdDetailsFragmentDoc}
 ${AdOwnerFragmentDoc}`;
+export const DeliveryDetailsFragmentDoc = gql`
+    fragment DeliveryDetails on Delivery {
+  seller {
+    id
+    username
+    avatar
+    city
+    county
+  }
+  buyer {
+    id
+    username
+    avatar
+    city
+    county
+  }
+  driver {
+    id
+    username
+    avatar
+  }
+  ad {
+    id
+    title
+    thumbnail
+    price
+  }
+  id
+  driverApproval
+  sellerApproval
+  buyerApproval
+  notes
+  time
+}
+    `;
 export const KarmaFragmentDoc = gql`
     fragment Karma on User {
   karma {
@@ -1460,6 +1588,24 @@ export const UserRecentFragmentDoc = gql`
   thumbnail
 }
     `;
+export const ApproveDeliveryByDriverDocument = gql`
+    mutation ApproveDeliveryByDriver($id: Int!) {
+  approveDeliveryByDriver(id: $id)
+}
+    `;
+
+export function useApproveDeliveryByDriverMutation() {
+  return Urql.useMutation<ApproveDeliveryByDriverMutation, ApproveDeliveryByDriverMutationVariables>(ApproveDeliveryByDriverDocument);
+};
+export const ApproveDeliveryBySellerDocument = gql`
+    mutation ApproveDeliveryBySeller($id: Int!) {
+  approveDeliveryBySeller(id: $id)
+}
+    `;
+
+export function useApproveDeliveryBySellerMutation() {
+  return Urql.useMutation<ApproveDeliveryBySellerMutation, ApproveDeliveryBySellerMutationVariables>(ApproveDeliveryBySellerDocument);
+};
 export const BanUserDocument = gql`
     mutation banUser($id: Int!) {
   banUser(id: $id)
@@ -1517,6 +1663,15 @@ export const ChangePasswordDocument = gql`
 export function useChangePasswordMutation() {
   return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
 };
+export const DeclineDeliveryDocument = gql`
+    mutation DeclineDelivery($id: Int!) {
+  declineDelivery(id: $id)
+}
+    `;
+
+export function useDeclineDeliveryMutation() {
+  return Urql.useMutation<DeclineDeliveryMutation, DeclineDeliveryMutationVariables>(DeclineDeliveryDocument);
+};
 export const DeleteAdDocument = gql`
     mutation DeleteAd($adId: Int!) {
   deleteAd(adId: $adId)
@@ -1548,6 +1703,15 @@ export const EditAdDocument = gql`
 
 export function useEditAdMutation() {
   return Urql.useMutation<EditAdMutation, EditAdMutationVariables>(EditAdDocument);
+};
+export const FinalizeDeliveryDocument = gql`
+    mutation FinalizeDelivery($id: Int!) {
+  finalizeDelivery(id: $id)
+}
+    `;
+
+export function useFinalizeDeliveryMutation() {
+  return Urql.useMutation<FinalizeDeliveryMutation, FinalizeDeliveryMutationVariables>(FinalizeDeliveryDocument);
 };
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($username: String!) {
@@ -1821,6 +1985,28 @@ ${KarmaFragmentDoc}`;
 export function useConversationPartnerDetailsQuery(options: Omit<Urql.UseQueryArgs<ConversationPartnerDetailsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ConversationPartnerDetailsQuery>({ query: ConversationPartnerDetailsDocument, ...options });
 };
+export const DeliveryHistoryDocument = gql`
+    query DeliveryHistory($page: Int!) {
+  deliveryHistory(page: $page) {
+    ...DeliveryDetails
+  }
+}
+    ${DeliveryDetailsFragmentDoc}`;
+
+export function useDeliveryHistoryQuery(options: Omit<Urql.UseQueryArgs<DeliveryHistoryQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<DeliveryHistoryQuery>({ query: DeliveryHistoryDocument, ...options });
+};
+export const IncomingRequestsDocument = gql`
+    query IncomingRequests {
+  incomingRequests {
+    ...DeliveryDetails
+  }
+}
+    ${DeliveryDetailsFragmentDoc}`;
+
+export function useIncomingRequestsQuery(options: Omit<Urql.UseQueryArgs<IncomingRequestsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<IncomingRequestsQuery>({ query: IncomingRequestsDocument, ...options });
+};
 export const KarmaDocument = gql`
     query Karma($recipientId: Int, $satisfied: Boolean, $cursor: String, $first: Int) {
   feedbacks(
@@ -2000,6 +2186,17 @@ export const NearbyDriversDocument = gql`
 
 export function useNearbyDriversQuery(options: Omit<Urql.UseQueryArgs<NearbyDriversQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<NearbyDriversQuery>({ query: NearbyDriversDocument, ...options });
+};
+export const OngoingDeliveriesDocument = gql`
+    query OngoingDeliveries {
+  ongoingDeliveries {
+    ...DeliveryDetails
+  }
+}
+    ${DeliveryDetailsFragmentDoc}`;
+
+export function useOngoingDeliveriesQuery(options: Omit<Urql.UseQueryArgs<OngoingDeliveriesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<OngoingDeliveriesQuery>({ query: OngoingDeliveriesDocument, ...options });
 };
 export const RecentConversationsDocument = gql`
     query RecentConversations($cursor: String, $first: Int, $partnerUsernameFilter: String) {

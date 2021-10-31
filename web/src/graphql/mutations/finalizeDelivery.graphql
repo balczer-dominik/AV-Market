@@ -1,0 +1,3 @@
+mutation FinalizeDelivery($id: Int!) {
+  finalizeDelivery(id: $id)
+}

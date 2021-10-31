@@ -1,0 +1,3 @@
+mutation DeclineDelivery($id: Int!) {
+  declineDelivery(id: $id)
+}
